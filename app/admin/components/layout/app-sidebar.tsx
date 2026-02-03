@@ -1,0 +1,127 @@
+'use client';
+
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { ChevronLeft, ChevronRight, Home, Mail, Newspaper, LogOut } from 'lucide-react';
+import { useUserStore } from '@/store/use-user';
+import { useRouter } from 'next/navigation';
+
+const adminNavItems = [
+  { href: '/admin/dashboard', icon: Home, label: 'Dashboard' },
+  { href: '/admin/dashboard/inquiries', icon: Mail, label: 'Inquiries' },
+  { href: '/admin/dashboard/news', icon: Newspaper, label: 'News' },
+];
+
+interface NavItemProps {
+  href: string;
+  icon: React.ElementType;
+  label: string;
+  isCollapsed: boolean;
+  onClick?: () => void;
+}
+
+const NavItem = ({ href, icon: Icon, label, isCollapsed, onClick }: NavItemProps) => {
+  const pathname = usePathname();
+  const isActive = pathname === href;
+
+  return (
+    <Link
+      href={href}
+      onClick={onClick}
+      className={cn(
+        'flex items-center gap-3 rounded-md px-3 py-2 font-medium transition-colors',
+        isActive
+          ? 'bg-red-600 text-white'
+          : 'text-gray-700 hover:bg-gray-200',
+        isCollapsed && 'justify-center px-2'
+      )}
+    >
+      <Icon className="h-5 w-5 flex-shrink-0" />
+      {!isCollapsed && <span>{label}</span>}
+    </Link>
+  );
+};
+
+export default function AppSidebar() {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const { logout } = useUserStore();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await logout();
+    router.push('/login');
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsCollapsed(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return (
+    <div
+      className={cn(
+        'flex flex-col h-screen border-r bg-white transition-all duration-300',
+        isCollapsed ? 'w-16' : 'w-64'
+      )}
+    >
+      {/* Header */}
+      <div className="flex h-14 items-center px-4 border-b">
+        {!isCollapsed && (
+          <Link href="/admin/dashboard" className="font-bold text-lg text-red-600">
+            AAM Admin
+          </Link>
+        )}
+        <Button
+          variant="ghost"
+          size="icon"
+          className={cn('ml-auto', isCollapsed && 'mx-auto')}
+          onClick={() => setIsCollapsed(!isCollapsed)}
+        >
+          {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+        </Button>
+      </div>
+
+      {/* Navigation */}
+      <nav className="flex-1 flex flex-col gap-1 p-2 overflow-y-auto">
+        {adminNavItems.map((item) => (
+          <NavItem
+            key={item.href}
+            href={item.href}
+            icon={item.icon}
+            label={item.label}
+            isCollapsed={isCollapsed}
+          />
+        ))}
+      </nav>
+
+      {/* Footer */}
+      <div className="border-t p-2">
+        <button
+          onClick={handleLogout}
+          className={cn(
+            'flex items-center gap-3 rounded-md px-3 py-2 w-full font-medium text-gray-700 hover:bg-red-100 hover:text-red-600 transition-colors',
+            isCollapsed && 'justify-center px-2'
+          )}
+        >
+          <LogOut className="h-5 w-5 flex-shrink-0" />
+          {!isCollapsed && <span>Logout</span>}
+        </button>
+        {!isCollapsed && (
+          <Link
+            href="/"
+            className="flex items-center gap-3 rounded-md px-3 py-2 mt-1 text-sm text-gray-500 hover:text-gray-700"
+          >
+            &larr; Back to Site
+          </Link>
+        )}
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,201 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Loader2, RefreshCw, Search, Trash, Eye } from 'lucide-react';
+import { fetchInquiries, updateInquiry, deleteInquiry } from '@/lib/actions/inquiry-actions';
+import { Inquiry } from '@/types';
+import { formatDate } from '@/lib/utils';
+import InquiryModal from '../../components/inquiry-modal';
+
+const statusColors: Record<string, string> = {
+  pending: 'bg-yellow-100 text-yellow-800',
+  responded: 'bg-green-100 text-green-800',
+  closed: 'bg-gray-100 text-gray-800',
+};
+
+export default function InquiriesPage() {
+  const [inquiries, setInquiries] = useState<Inquiry[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedInquiry, setSelectedInquiry] = useState<Inquiry | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const loadInquiries = async () => {
+    setLoading(true);
+    setError(false);
+    try {
+      const res = await fetchInquiries();
+      if ('error' in res) {
+        setError(true);
+      } else {
+        setInquiries(res);
+      }
+    } catch (err) {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadInquiries();
+  }, []);
+
+  const handleView = (inquiry: Inquiry) => {
+    setSelectedInquiry(inquiry);
+    setModalOpen(true);
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this inquiry?')) return;
+
+    try {
+      const res = await deleteInquiry(id);
+      if (!('error' in res)) {
+        setInquiries(inquiries.filter((i) => i.id !== id));
+      }
+    } catch (err) {
+      console.error('Delete error:', err);
+    }
+  };
+
+  const filteredInquiries = inquiries.filter((inquiry) => {
+    const search = searchTerm.toLowerCase();
+    return (
+      inquiry.name?.toLowerCase().includes(search) ||
+      inquiry.email?.toLowerCase().includes(search) ||
+      inquiry.subject?.toLowerCase().includes(search) ||
+      inquiry.status?.toLowerCase().includes(search)
+    );
+  });
+
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <h1 className="text-2xl font-bold">Inquiry Management</h1>
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          <div className="relative flex-1 sm:flex-none sm:min-w-[300px]">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Input
+              placeholder="Search inquiries..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10"
+            />
+          </div>
+          <Button variant="outline" size="icon" onClick={loadInquiries} disabled={loading}>
+            <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+          </Button>
+        </div>
+      </div>
+
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-600 rounded-lg p-4">
+          <p>Error fetching inquiries. Please try again.</p>
+          <Button variant="outline" className="mt-2" onClick={loadInquiries}>
+            Retry
+          </Button>
+        </div>
+      )}
+
+      {loading && (
+        <div className="flex justify-center items-center h-64">
+          <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+        </div>
+      )}
+
+      {!loading && !error && inquiries.length === 0 && (
+        <div className="text-center py-12 bg-gray-50 rounded-lg">
+          <Mail className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+          <h3 className="text-lg font-medium">No inquiries yet</h3>
+          <p className="text-sm text-gray-500 mt-2">
+            When people submit contact forms, they will appear here
+          </p>
+        </div>
+      )}
+
+      {!loading && !error && inquiries.length > 0 && (
+        <div className="bg-white rounded-lg border overflow-hidden">
+          <table className="w-full">
+            <thead>
+              <tr className="bg-gray-50 border-b">
+                <th className="text-left p-4 font-medium">Name</th>
+                <th className="text-left p-4 font-medium hidden md:table-cell">Subject</th>
+                <th className="text-left p-4 font-medium hidden lg:table-cell">Date</th>
+                <th className="text-left p-4 font-medium">Status</th>
+                <th className="text-right p-4 font-medium">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredInquiries.map((inquiry) => (
+                <tr key={inquiry.id} className="border-b hover:bg-gray-50">
+                  <td className="p-4">
+                    <div>
+                      <p className="font-medium">{inquiry.name}</p>
+                      <p className="text-sm text-gray-500 truncate max-w-[200px]">{inquiry.email}</p>
+                    </div>
+                  </td>
+                  <td className="p-4 hidden md:table-cell">
+                    <p className="truncate max-w-[200px]">{inquiry.subject || 'No subject'}</p>
+                  </td>
+                  <td className="p-4 hidden lg:table-cell">
+                    {inquiry.created_at ? formatDate(inquiry.created_at) : 'N/A'}
+                  </td>
+                  <td className="p-4">
+                    <Badge className={statusColors[inquiry.status] || 'bg-gray-100'}>
+                      {inquiry.status.charAt(0).toUpperCase() + inquiry.status.slice(1)}
+                    </Badge>
+                  </td>
+                  <td className="p-4 text-right">
+                    <div className="flex justify-end gap-2">
+                      <Button variant="outline" size="sm" onClick={() => handleView(inquiry)}>
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleDelete(inquiry.id)}
+                        className="text-red-600 hover:bg-red-50"
+                      >
+                        <Trash className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {filteredInquiries.length === 0 && searchTerm && !loading && (
+        <div className="text-center py-8 bg-gray-50 rounded-lg">
+          <p>No inquiries found matching &quot;{searchTerm}&quot;</p>
+          <Button variant="outline" className="mt-4" onClick={() => setSearchTerm('')}>
+            Clear Search
+          </Button>
+        </div>
+      )}
+
+      <InquiryModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        inquiry={selectedInquiry}
+        onUpdate={loadInquiries}
+      />
+    </div>
+  );
+}
+
+function Mail(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <rect width="20" height="16" x="2" y="4" rx="2" />
+      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+    </svg>
+  );
+}
