@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Footer() {
   return (
@@ -24,40 +25,13 @@ export default function Footer() {
           {/* Center Logo Section */}
           <div className="text-center flex flex-col items-center justify-center">
             <h3 className="text-lg font-bold tracking-wider mb-6">ABOLISH ABORTION MICHIGAN</h3>
-            {/* Logo */}
-            <div className="w-32 h-32 flex items-center justify-center">
-              <div className="relative">
-                {/* Triangle with Lighthouse */}
-                <svg viewBox="0 0 100 100" className="w-28 h-28" fill="none" stroke="currentColor">
-                  {/* Outer triangle */}
-                  <polygon
-                    points="50,5 95,90 5,90"
-                    strokeWidth="2"
-                    className="stroke-gray-600"
-                    fill="none"
-                  />
-                  {/* Lighthouse */}
-                  <g className="fill-white stroke-white" strokeWidth="1">
-                    {/* Light rays */}
-                    <line x1="50" y1="25" x2="35" y2="20" strokeWidth="1.5" />
-                    <line x1="50" y1="25" x2="65" y2="20" strokeWidth="1.5" />
-                    <line x1="50" y1="25" x2="50" y2="15" strokeWidth="1.5" />
-                    <line x1="50" y1="25" x2="40" y2="15" strokeWidth="1.5" />
-                    <line x1="50" y1="25" x2="60" y2="15" strokeWidth="1.5" />
-                    {/* Lighthouse top */}
-                    <rect x="45" y="25" width="10" height="8" fill="white" />
-                    {/* Lighthouse body */}
-                    <polygon points="43,33 57,33 55,70 45,70" fill="white" />
-                    {/* Lighthouse stripes */}
-                    <line x1="44" y1="42" x2="56" y2="42" className="stroke-gray-800" strokeWidth="2" />
-                    <line x1="44.5" y1="52" x2="55.5" y2="52" className="stroke-gray-800" strokeWidth="2" />
-                    <line x1="45" y1="62" x2="55" y2="62" className="stroke-gray-800" strokeWidth="2" />
-                    {/* Base rocks */}
-                    <ellipse cx="50" cy="75" rx="18" ry="6" fill="white" />
-                  </g>
-                </svg>
-              </div>
-            </div>
+            <Image
+              src="/images/aa-logo.png"
+              alt="Abolish Abortion Michigan Logo"
+              width={120}
+              height={120}
+              className="invert"
+            />
           </div>
 
           {/* MISSION Section */}

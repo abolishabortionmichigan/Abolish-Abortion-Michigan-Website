@@ -4,7 +4,7 @@ import CTABanner from '@/components/CTABanner';
 
 export const metadata: Metadata = {
   title: 'No Exceptions - Abolish Abortion Michigan',
-  description: 'Abortion is murder, always and everywhere. There are no circumstances that justify the killing of an innocent child.',
+  description: 'Abortion is murder, always and everywhere. We demand no exceptions - no compromise on the dehumanization of the preborn.',
 };
 
 export default function NoExceptionsPage() {
@@ -15,53 +15,79 @@ export default function NoExceptionsPage() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <p className="text-red-500 font-semibold mb-4">WHAT WE BELIEVE</p>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">NO EXCEPTIONS</h1>
-          <p className="text-xl text-gray-300 italic">&ldquo;Abortion is murder. Always and everywhere murder.&rdquo;</p>
+          <p className="text-xl text-gray-300">ABORTION IS MURDER | ALWAYS &amp; EVERYWHERE MURDER</p>
         </div>
       </section>
 
       {/* Content */}
       <section className="bg-white py-16">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="prose prose-lg max-w-none">
-            <h2 className="text-2xl font-bold text-red-600 mb-6">Murder Without Exception</h2>
+          <div className="prose prose-lg max-w-none space-y-6">
+            <h2 className="text-2xl font-bold text-red-600 mb-6">Murder Is Never Acceptable</h2>
+
+            <blockquote className="border-l-4 border-red-600 pl-6 my-8 italic">
+              <p>And neither is any law that creates exceptions for it</p>
+            </blockquote>
 
             <p>
-              Abortion must be completely abolished without any exceptions. If abortion constitutes murder, then no circumstances—including rape, fetal disability, or maternal danger—should permit it.
+              For the same reasons that we demand abortion&apos;s immediate abolition, we demand abortion&apos;s total abolition. That means no exceptions. No exceptions which allow for murdering babies because of the circumstances in which they were conceived. No exceptions that allow for murdering babies because they have a disease or disorder. No exceptions whatsoever. If abortion is murder, and we all know it is, it must be abolished entirely.
             </p>
 
             <p>
-              Compromising on child sacrifice fundamentally weakens moral arguments against abortion. As British abolitionist Elizabeth Heyrick wrote regarding concessions on slavery: &ldquo;The abolitionists have lost, rather than gained ground by it.&rdquo;
+              Not only are exceptions morally repugnant, they are devastating to the cause pragmatically. To compromise on an issue like child sacrifice is to fatally weaken the foundation of the moral argument. Elizabeth Heyrick, a British abolitionist of slavery had this to say on the matter:
             </p>
 
-            <h3 className="text-xl font-bold mt-8 mb-4">Children Conceived in Rape</h3>
+            <blockquote className="border-l-4 border-red-600 pl-6 my-8 italic">
+              <p>
+                On this great questions, the spirit of accommodation and conciliation has been a spirit of delusion. The abolitionists have lost, rather than gained ground by it; their cause has been weakened, instead of strengthened. The great interests of truth and justice are betrayed, rather than supported, by all softening qualifying concessions. Every iota which is yielded of their rightful claims, impairs the conviction of their rectitude, and, consequently, weakens their success.
+              </p>
+              <cite className="text-gray-600 not-italic">&mdash; Elizabeth Heyrick</cite>
+            </blockquote>
 
             <p>
-              Children conceived in rape represent society&apos;s most vulnerable members. Laws allowing abortion in such cases create &ldquo;iniquitous decrees&rdquo; that prey upon the defenseless. The child is innocent regardless of the circumstances of conception.
+              In plain English, Heyrick is explaining that compromising with an evil such as slavery undermined the power of the anti-slavery argument. If slavery was truly manstealing, assault, rape, murder, etc., then those who oppose it would be demanding its immediate abolition. To compromise with and allow exceptions for a capital crime would be double-minded wickedness. To make concessions with an evil such as slavery or abortion as if issues of murder and dehumanization were like any other political back-and-forth is to weaken the power that truth and justice hold over the discussion.
             </p>
 
-            <h3 className="text-xl font-bold mt-8 mb-4">Disability Exceptions</h3>
+            <h3 className="text-xl font-bold mt-8 mb-4">The Child Conceived in Rape</h3>
 
             <p>
-              Disability-based abortion exceptions are evil, absurd, and heartless toward both preborn and disabled individuals. Every human being has inherent worth and dignity regardless of physical or mental abilities.
+              Abolitionism could be described as upholding justice for the fatherless. No one is more fatherless than the child conceived in rape. This is probably the most vulnerable group of human beings on the planet. A law which allows for abortion in this situation is a thoroughly iniquitous decree which makes the fatherless prey (See Isaiah 1:16-17; 10:1-2). The law must prohibit the execution of the child for the crime of his or her father.
             </p>
 
-            <h3 className="text-xl font-bold mt-8 mb-4">Maternal Health</h3>
+            <h3 className="text-xl font-bold mt-8 mb-4">The Child With a Disability</h3>
 
             <p>
-              Even when mothers face danger, intentional abortion is not justified. We advocate for early delivery when necessary while maintaining that doctors should be healers, not killers. There is always an ethical path that does not require the intentional killing of the child.
+              Regarding physical or genetic abnormalities, the fact that a child might have a shorter or more difficult life does not justify the right to murder them. This exception for abortion is so facially evil, absurd, and heartless toward the preborn child as well as born people with disabilities that it&apos;s hard to believe anyone makes it.
+            </p>
+
+            <h3 className="text-xl font-bold mt-8 mb-4">The Child Whose Mother Is In Danger</h3>
+
+            <p>
+              Regarding situations where the life of the mother is in jeopardy, there is no circumstance where the baby must be intentionally murdered. There are cases where the child must be delivered early, and in those cases, the child may have a lower probability of survival than a child born at full-term, but intentional murder must not be allowed as an option. Doctors must be healers, not killers.
             </p>
 
             <div className="bg-gray-100 p-6 rounded-lg my-8">
-              <h3 className="text-xl font-bold mb-4">Our Position</h3>
               <p>
-                We seek to demonstrate mercy and establish justice for preborn individuals through gospel proclamation, community outreach, and non-violent agitation to end abortion in Michigan and globally. No exceptions. No compromise.
+                Never compromise on dehumanization. Demand equal justice and protection for all human beings, meaning abortion&apos;s total and immediate abolition. To have a spirit of compromise, or accommodation and conciliation as Heyrick put it, is to fight against abortion without the power of truth and justice. God forbid we ever do so.
               </p>
             </div>
 
-            <blockquote className="border-l-4 border-red-600 pl-6 my-8 italic">
-              <p>&ldquo;You shall not murder.&rdquo;</p>
-              <cite className="text-gray-600 not-italic">— Exodus 20:13</cite>
-            </blockquote>
+            <p>
+              Click the button below to read about the fourth distinction between abolitionists and pro-lifers: Abolitionists support nullification and interposition while pro-lifers submit unconditionally to tyrants.
+            </p>
+
+            <div className="my-10">
+              <Link
+                href="/what-we-believe/ignore-roe"
+                className="inline-block px-8 py-4 bg-red-600 text-white font-bold text-sm tracking-wide hover:bg-red-700 transition-colors no-underline"
+              >
+                Read More &#10148; WE ARE NULLIFICATIONISTS
+              </Link>
+            </div>
+
+            <p className="text-sm text-gray-400 italic">
+              This content was originally published by Free the States, and is used by permission. Abolish Abortion Michigan is not formally affiliated with Free the States, but shares its abolitionist mission and principles.
+            </p>
           </div>
 
           {/* Navigation */}

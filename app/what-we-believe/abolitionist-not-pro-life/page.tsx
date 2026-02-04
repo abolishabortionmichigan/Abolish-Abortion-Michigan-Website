@@ -15,70 +15,108 @@ export default function AbolitionistNotProLifePage() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <p className="text-red-500 font-semibold mb-4">WHAT WE BELIEVE</p>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">ABOLITIONIST, NOT PRO-LIFE</h1>
-          <p className="text-xl text-gray-300 italic">&ldquo;We refuse to go with the multitude to do evil.&rdquo;</p>
+          <p className="text-xl text-gray-300 italic">Being pro-life is not the same as seeking to abolish abortion</p>
         </div>
       </section>
 
       {/* Content */}
       <section className="bg-white py-16">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="prose prose-lg max-w-none">
-            <h2 className="text-2xl font-bold text-red-600 mb-6">Being Pro-Life Is Not The Same As Seeking To Abolish Abortion</h2>
+          <div className="prose prose-lg max-w-none space-y-6">
+            <h2 className="text-2xl font-bold text-red-600 mb-6">We Are Abolitionists</h2>
 
-            <h3 className="text-xl font-bold mt-8 mb-4">We Are Abolitionists</h3>
+            <blockquote className="border-l-4 border-red-600 pl-6 my-8 italic">
+              <p>We refuse to go with the multitude to do evil.</p>
+            </blockquote>
 
             <p>
-              While both abolitionists and pro-lifers oppose abortion, we differ fundamentally in our approach. Abolitionists view abortion as murder requiring immediate criminalization, not mere regulation. The pro-life political establishment has not opposed abortion in a manner consistent with its being murder.
+              We, as an abolitionist organization, agree with the pro-life position that abortion is bad, but further, we believe abortion is murder and ought to be treated as such. While many who call themselves pro-life agree with us that abortion is murder, abortion has not been opposed by the pro-life political establishment in a manner consistent with its being murder. The manner in which abortion has been opposed by pro-life lobbyists and politicians has not only been inadequate and largely unfruitful, but cannot be fruitful for it betrays the very foundations of the case against Roe v Wade.
             </p>
 
             <p>
-              For decades, the pro-life strategy has sought compromise and accepted court rulings permitting abortion as settled law. Christian opposition has been inadequate because leaders deferred to secular pro-life strategists rather than applying Scripture to anti-abortion arguments.
+              For 46 years, the pro-life movement has opposed abortion by seeking to compromise with it. Pro-life strategists have accepted Roe as the &ldquo;law of the land&rdquo; and have focused on trying to regulate the murder of children in the womb to the greatest degree the courts will allow. Secularly minded pro-life strategists, who set themselves up as the political &ldquo;experts,&rdquo; have left the word of God on the sideline and fought abortion with worldly wisdom. Tragically, most pastors and Christian leaders have blithely and without looking at pro-life arguments and strategies in light of scripture deferred to the pro-life establishment&apos;s counsel. The Christian opposition to abortion has thus been woefully inadequate.
             </p>
 
             <p>
-              Abolitionists bring the Gospel of the Kingdom of Jesus Christ into conflict with the culture of death. We oppose both pro-abortion arguments and enabling legislation while confronting church apathy.
+              The need for a reformation of the way Christians fight abortion was met in 2011 when the Abolitionist Movement in America was reignited. We are a part of that movement. Thus, we want to be very clear in defining what we mean by abolitionist and why we distinguish ourselves as abolitionists rather than pro-lifers.
             </p>
 
-            <h3 className="text-xl font-bold mt-8 mb-4">Core Abolitionist Positions</h3>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/settle-tree.jpg"
+              alt="Abolitionist movement"
+              className="w-full my-8 rounded-lg"
+            />
 
-            <ul className="list-disc pl-6 space-y-2">
-              <li>No exceptions or compromises on abortion</li>
-              <li>Total and immediate criminalization, not regulation</li>
-              <li>Rejecting incremental approaches (heartbeat bills, pain-capable bills)</li>
-              <li>Moral persuasion and assistance to reduce abortions while pursuing complete abolition</li>
-              <li>Application of consistent biblical Christianity</li>
-            </ul>
+            <h3 className="text-xl font-bold mt-8 mb-4">The Gospel and the Culture of Death</h3>
 
-            <p className="mt-6">
-              Incremental legislation undermines the abolitionist message by normalizing abortion under certain conditions. A law that bans abortion after twenty weeks implicitly permits it before that point.
+            <p>
+              As abolitionists we are attempting to bring the Gospel of the Kingdom of Jesus Christ into conflict with the culture of death. We bring the Gospel into conflict with wicked and foolish pro-abortion arguments. We bring the Gospel into conflict with the evil laws which sanction and regulate abortion. Most importantly, we bring the Gospel into conflict with the apathy of the Church. That&apos;s the most important part because it is when the Church takes its rightful place in the battle to abolish abortion that abortion will be abolished.
+            </p>
+
+            <p>
+              The abolitionist, as a Christian, seeks to lead people to Christ and rescue as many babies as possible from being taken away to death. We proclaim the Gospel, beseech mothers and fathers to repent of abortion, Christians to repent of abortion apathy, and the culture at large to repent of legalizing child-sacrifice and reject abortion as the evil of our age.
+            </p>
+
+            <h3 className="text-xl font-bold mt-8 mb-4">No Compromise</h3>
+
+            <p>
+              Regarding legislation, abolitionists do not believe that compromise is an effective way to fight child sacrifice. Abolitionists don&apos;t believe we should make exceptions for abortion while arguing that abortion is evil. The abolitionist does not believe in encouraging the entrenched ageism and dehumanization of humans in the womb by putting forward bills that protect some humans at the expense of others based on their age or stage of development. The abolitionist calls for the total and immediate criminalization of abortion as murder and never attempts to simply regulate or reduce abortion by treating it as healthcare.
+            </p>
+
+            <p>
+              Knowing that abortion is not likely to be abolished overnight, the abolitionist consistently calls for total and immediate abolition while working diligently to reduce the number of abortions by practicing moral suasion and assistance for as long as it takes and until total abolition is accomplished.
             </p>
 
             <div className="bg-gray-100 p-6 rounded-lg my-8">
-              <h3 className="text-xl font-bold mb-4">Our Mission</h3>
-              <p className="mb-4">
-                Abolitionists in Michigan are devoted to showing mercy and establishing justice for our preborn neighbors being led to the slaughter.
-              </p>
+              <h3 className="text-xl font-bold mb-4">The Problem with Incrementalism</h3>
               <p>
-                We are committed to non-violent agitation, gospel proclamation, preaching, and community outreach to bring an end to abortion in Michigan and throughout the world.
+                Abolitionists believe that we will never abolish abortion by calling for compromise; that we will never end abortion by allowing it all along the way to its &ldquo;incremental abolition.&rdquo; The abolitionist does not think that you can write laws to &ldquo;protect babies because they feel pain,&rdquo; then write laws to &ldquo;protect babies because they have beating hearts,&rdquo; then write laws to &ldquo;protect babies because they are human.&rdquo; By writing such laws, pro-life legislators train the culture to believe that abortion is permissible up to the point of pain or the possession of a beating heart instead of instructing the culture to abolish abortion because it is the murder of a human being created in the image of God.
               </p>
             </div>
 
-            <blockquote className="border-l-4 border-red-600 pl-6 my-8 italic">
-              <p>&ldquo;You shall love your neighbor as yourself.&rdquo;</p>
-              <cite className="text-gray-600 not-italic">— Mark 12:31</cite>
-            </blockquote>
+            <h3 className="text-xl font-bold mt-8 mb-4">Two Examples</h3>
+
+            <p>
+              Free the States&apos; James Silberman met with the office of Ohio State Senator Andrew Brenner in April 2019. James explained to Brenner&apos;s aide the importance of introducing and passing a bill that nullifies Roe and treats abortion like murder from the moment of conception. At the end of James&apos; presentation, Brenner&apos;s aide said, &ldquo;This was very interesting, but it&apos;s Senator Brenner personal religious conviction that life begins at a heartbeat.&rdquo; Where did Senator Brenner learn that unbiblical, unscientific, dehumanizing nonsense? He learned it from the Heartbeat Bill which had just passed in Ohio a few months earlier.
+            </p>
+
+            <p>
+              Free the States&apos; Russell Hunter was ministering outside an abortion facility in Norman, OK in 2016. A young mother who Russell was pleading with not to have the abortion told him, &ldquo;It&apos;s okay. My baby won&apos;t even feel any pain.&rdquo; Where did she learn that it&apos;s acceptable to murder your baby as long as he or she doesn&apos;t feel pain? From the pro-life movement and the Pain-Capable Unborn Child Protection Act which highlights pain as the reason abortion should be illegal.
+            </p>
+
+            <h3 className="text-xl font-bold mt-8 mb-4">Criminalization and the Gospel</h3>
+
+            <p>
+              Abolitionists are not trying to make abortion safer for women, more rare, or a little less legal. Abolitionists are seeking to criminalize abortion because it is murder and the laws against murder should be applied equally to all people. At the same time we preach the Gospel of Jesus Christ declaring that there is forgiveness for the sin of abortion, and all repentant post-abortive mothers and fathers can be redeemed and restored in knowing Jesus Christ as Lord. This truth does not mean that there should be no punishment for choosing to murder your child, however. There is no conflict between preaching the Gospel and establishing justice in the courts (Isaiah 1:16-17; Amos 5:15; Luke 11:42).
+            </p>
 
             <blockquote className="border-l-4 border-red-600 pl-6 my-8 italic">
-              <p>&ldquo;Learn to do good; seek justice, correct oppression; bring justice to the fatherless, plead the widow&apos;s cause.&rdquo;</p>
-              <cite className="text-gray-600 not-italic">— Isaiah 1:17</cite>
+              <p>
+                Simply put, abolitionism is nothing more or less than the practice of consistent biblical Christianity in a culture that practices child sacrifice. In our context, with abortion being the evil of our age, abolitionism is about the abolition of abortion in the name of, by the power of, and for the glory of Jesus Christ. We invite you to examine our views in the light of scripture and reason them out with us.
+              </p>
             </blockquote>
+
+            <p>
+              The following pages in our &ldquo;What We Believe&rdquo; section further detail the distinctions between abolitionism and pro-lifeism. Please read and consider them. Click the button below to learn about the first distinction: Abolitionists are explicitly Biblical while pro-lifers are explicitly secular.
+            </p>
+
+            <div className="my-10">
+              <Link
+                href="/what-we-believe/biblical-not-secular"
+                className="inline-block px-8 py-4 bg-red-600 text-white font-bold text-sm tracking-wide hover:bg-red-700 transition-colors no-underline"
+              >
+                Read More &#10148; WE ARE BIBLICAL
+              </Link>
+            </div>
+
+            <p className="text-sm text-gray-400 italic">
+              This content was originally published by Free the States, and is used by permission. Abolish Abortion Michigan is not formally affiliated with Free the States, but shares its abolitionist mission and principles.
+            </p>
           </div>
 
           {/* Navigation */}
-          <div className="mt-12 pt-8 border-t border-gray-200 flex justify-between">
-            <Link href="/what-we-believe" className="text-red-600 font-semibold hover:underline">
-              &larr; Back to What We Believe
-            </Link>
+          <div className="mt-12 pt-8 border-t border-gray-200 flex justify-end">
             <Link href="/what-we-believe/biblical-not-secular" className="text-red-600 font-semibold hover:underline">
               Biblical, Not Secular &rarr;
             </Link>
