@@ -11,11 +11,14 @@ export default function IgnoreRoePage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-[#1a1a1a] text-white py-16 md:py-24">
+      <section className="bg-[#1a1a1a] text-white py-24 md:py-32">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <p className="text-red-500 font-semibold mb-4">WHAT WE BELIEVE</p>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">IGNORE ROE</h1>
-          <p className="text-xl text-gray-300">The Supreme Court is not the supreme law of the land</p>
+          <h1 className="text-4xl md:text-6xl mb-6">
+            <span className="font-light">Ignore</span>{' '}
+            <span className="font-black">ROE</span>
+          </h1>
+          <div className="w-12 h-[3px] bg-red-600 mx-auto mb-6" />
+          <p className="text-sm md:text-base tracking-[0.3em] uppercase text-gray-300">The Supreme Court is not the supreme law of the land</p>
         </div>
       </section>
 
@@ -23,11 +26,12 @@ export default function IgnoreRoePage() {
       <section className="bg-white py-16">
         <div className="max-w-4xl mx-auto px-4">
           <div className="prose prose-lg max-w-none space-y-6">
-            <h2 className="text-2xl font-bold text-red-600 mb-6">Defy Tyrants</h2>
-
-            <blockquote className="border-l-4 border-red-600 pl-6 my-8 italic">
-              <p>Through Nullification and Interposition</p>
-            </blockquote>
+            <h2 className="text-3xl md:text-4xl mb-2">
+              <span className="font-light">Defy</span>{' '}
+              <span className="font-black">TYRANTS</span>
+            </h2>
+            <p className="text-sm tracking-[0.2em] uppercase font-semibold text-gray-800 mt-0 mb-2">Through Nullification and Interposition</p>
+            <div className="w-12 h-[3px] bg-red-600 mb-8" />
 
             <p>
               As abolitionists, we believe that no government possesses the rightful authority to legalize child sacrifice. The moment Supreme Court Justice Harry Blackmun delivered the majority decision in Roe v Wade, the decision was legally null and void and should&apos;ve been treated as such. By complying with the Supreme Court&apos;s order to allow mass murder for 46 years, the states have made themselves complicit in the shedding of innocent blood.

@@ -11,11 +11,14 @@ export default function AbolitionistNotProLifePage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-[#1a1a1a] text-white py-16 md:py-24">
+      <section className="bg-[#1a1a1a] text-white py-24 md:py-32">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <p className="text-red-500 font-semibold mb-4">WHAT WE BELIEVE</p>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">ABOLITIONIST, NOT PRO-LIFE</h1>
-          <p className="text-xl text-gray-300 italic">Being pro-life is not the same as seeking to abolish abortion</p>
+          <h1 className="text-4xl md:text-6xl mb-6">
+            <span className="font-light">Abolitionist,</span>{' '}
+            <span className="font-black">NOT PRO-LIFE</span>
+          </h1>
+          <div className="w-12 h-[3px] bg-red-600 mx-auto mb-6" />
+          <p className="text-sm md:text-base tracking-[0.3em] uppercase text-gray-300">Being pro-life is not the same as seeking to abolish abortion</p>
         </div>
       </section>
 
@@ -23,11 +26,12 @@ export default function AbolitionistNotProLifePage() {
       <section className="bg-white py-16">
         <div className="max-w-4xl mx-auto px-4">
           <div className="prose prose-lg max-w-none space-y-6">
-            <h2 className="text-2xl font-bold text-red-600 mb-6">We Are Abolitionists</h2>
-
-            <blockquote className="border-l-4 border-red-600 pl-6 my-8 italic">
-              <p>We refuse to go with the multitude to do evil.</p>
-            </blockquote>
+            <h2 className="text-3xl md:text-4xl mb-2">
+              <span className="font-light">We Are</span>{' '}
+              <span className="font-black">ABOLITIONISTS</span>
+            </h2>
+            <p className="text-sm tracking-[0.2em] uppercase font-semibold text-gray-800 mt-0 mb-2">We refuse to go with the multitude to do evil.</p>
+            <div className="w-12 h-[3px] bg-red-600 mb-8" />
 
             <p>
               We, as an abolitionist organization, agree with the pro-life position that abortion is bad, but further, we believe abortion is murder and ought to be treated as such. While many who call themselves pro-life agree with us that abortion is murder, abortion has not been opposed by the pro-life political establishment in a manner consistent with its being murder. The manner in which abortion has been opposed by pro-life lobbyists and politicians has not only been inadequate and largely unfruitful, but cannot be fruitful for it betrays the very foundations of the case against Roe v Wade.
