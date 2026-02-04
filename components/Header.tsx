@@ -6,7 +6,6 @@ import MobileNav from './MobileNav';
 
 const navItems = [
   { label: 'HOME', href: '/' },
-  { label: 'CONTACT', href: '/contact' },
   { label: 'WHO WE ARE', href: '/who-we-are' },
   {
     label: 'WHAT WE BELIEVE',
@@ -27,8 +26,8 @@ const navItems = [
     dropdown: [
       { label: 'Overview', href: '/the-gospel' },
       { label: 'The Gospel', href: '/the-gospel/gospel' },
-      { label: 'The Kingdom of God', href: '/the-gospel/kingdom-of-god' },
-      { label: 'The Great Commission', href: '/the-gospel/great-commission' },
+      { label: 'Abolitionism & the Kingdom of God', href: '/the-gospel/kingdom-of-god' },
+      { label: 'Abolitionism & the Great Commission', href: '/the-gospel/great-commission' },
       { label: 'Message of Reconciliation', href: '/the-gospel/message-of-reconciliation' },
       { label: 'The Answer to Abortion', href: '/the-gospel/answer-to-abortion' },
       { label: 'The Incarnation', href: '/the-gospel/incarnation' },
@@ -39,20 +38,22 @@ const navItems = [
     label: 'ABOLITION BILLS',
     href: '/abolition-bills',
     dropdown: [
+      { label: 'Abolition Bills', href: '/abolition-bills' },
+      { label: 'Components of an Abolition Bill', href: '/abolition-bills/components' },
       { label: 'HB 4671', href: '/abolition-bills#hb4671' },
       { label: 'Current Legislation', href: '/abolition-bills#current' },
     ],
   },
-  { label: 'NEWS', href: '/news' },
   {
-    label: 'MEDIA',
-    href: '/media',
+    label: 'NEWS/EDUCATION',
+    href: '/news',
     dropdown: [
-      { label: 'Photos', href: '/media#photos' },
-      { label: 'Videos', href: '/media#videos' },
+      { label: 'News', href: '/news' },
+      { label: 'FAQ', href: '/faq' },
+      { label: 'Media', href: '/media' },
     ],
   },
-  { label: 'FAQ', href: '/faq' },
+  { label: 'CONTACT US', href: '/contact' },
 ];
 
 export default function Header() {
@@ -61,28 +62,35 @@ export default function Header() {
   return (
     <header className="bg-[#1a1a1a] text-white sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-14">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="flex items-center">
-              <span className="text-2xl font-bold tracking-tight">
-                <span className="text-red-600">A</span>
-                <span className="text-xs align-top">+</span>
-              </span>
-              <div className="ml-2 text-xs leading-tight">
-                <div className="font-bold">ABOLISH ABORTION</div>
-                <div className="font-bold">MICHIGAN</div>
+          <Link href="/" className="flex items-center gap-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/aa-logo.png"
+              alt="AA Logo"
+              className="h-9 w-auto invert"
+            />
+            <div className="leading-tight">
+              <div className="text-sm font-bold tracking-widest">ABOLISH ABORTION</div>
+              <div className="text-sm font-bold tracking-widest flex items-center gap-2">
+                MICHIGAN
+                <span className="inline-flex flex-col gap-[2px]">
+                  <span className="block w-8 h-[2px] bg-white" />
+                  <span className="block w-8 h-[2px] bg-white" />
+                  <span className="block w-8 h-[2px] bg-white" />
+                </span>
               </div>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-1">
+          <nav className="hidden lg:flex items-center">
             {navItems.map((item) => (
               <div key={item.label} className="relative dropdown">
                 <Link
                   href={item.href}
-                  className="px-3 py-2 text-xs font-semibold hover:text-red-500 transition-colors flex items-center"
+                  className="px-3 py-4 text-[11px] font-semibold hover:text-red-500 transition-colors flex items-center tracking-wide whitespace-nowrap"
                 >
                   {item.label}
                   {item.dropdown && (
@@ -92,7 +100,7 @@ export default function Header() {
                   )}
                 </Link>
                 {item.dropdown && (
-                  <div className="dropdown-content absolute left-0 top-full bg-[#1a1a1a] min-w-[200px] py-2 shadow-lg">
+                  <div className="dropdown-content absolute left-0 top-full bg-[#1a1a1a] min-w-[220px] py-2 shadow-lg border-t border-red-600">
                     {item.dropdown.map((subItem) => (
                       <Link
                         key={subItem.label}
@@ -108,7 +116,7 @@ export default function Header() {
             ))}
             <Link
               href="/donate"
-              className="ml-2 px-4 py-2 bg-red-600 text-white text-xs font-bold hover:bg-red-700 transition-colors"
+              className="ml-2 px-6 py-4 bg-red-700 text-white text-xs font-bold hover:bg-red-800 transition-colors tracking-wide"
             >
               DONATE
             </Link>
@@ -116,7 +124,7 @@ export default function Header() {
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden p-2"
+            className="lg:hidden p-2 ml-auto"
             onClick={() => setMobileMenuOpen(true)}
             aria-label="Open menu"
           >

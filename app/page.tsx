@@ -12,10 +12,12 @@ export default function HomePage() {
       <section className="relative bg-[#1a1a1a] text-white py-20 md:py-32">
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-black/60" />
         <div className="relative max-w-7xl mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Abolish Abortion
-            <span className="block text-red-600">Michigan</span>
-          </h1>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/aa-logo.png"
+            alt="Abolish Abortion Michigan"
+            className="h-32 md:h-44 w-auto mx-auto mb-6 invert"
+          />
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8">
             We are dedicated to the immediate and total abolition of human abortion in the state of Michigan.
             Not regulation. Not reduction. <span className="text-red-500 font-semibold">Abolition.</span>
@@ -107,23 +109,23 @@ export default function HomePage() {
               <h3 className="text-xl font-bold mb-4 text-red-600">Key Principles</h3>
               <ul className="space-y-4">
                 <li className="flex items-start">
-                  <span className="text-red-600 mr-3">&#10003;</span>
+                  <svg className="w-5 h-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
                   <span>Human life begins at conception</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-red-600 mr-3">&#10003;</span>
+                  <svg className="w-5 h-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
                   <span>All human beings deserve equal protection under the law</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-red-600 mr-3">&#10003;</span>
+                  <svg className="w-5 h-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
                   <span>Abortion is murder and must be treated as such</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-red-600 mr-3">&#10003;</span>
+                  <svg className="w-5 h-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
                   <span>No exceptions—all children deserve protection</span>
                 </li>
                 <li className="flex items-start">
-                  <span className="text-red-600 mr-3">&#10003;</span>
+                  <svg className="w-5 h-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
                   <span>The Gospel offers forgiveness for all sins, including abortion</span>
                 </li>
               </ul>
@@ -162,7 +164,11 @@ export default function HomePage() {
           <h2 className="text-3xl font-bold text-center mb-12">Get Involved</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center p-6 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow">
-              <div className="text-4xl mb-4">&#x1F4DD;</div>
+              <div className="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-7 h-7 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
               <h3 className="text-xl font-bold mb-3">Sign the Petition</h3>
               <p className="text-gray-600 mb-4">
                 Add your name to the growing list of Michiganders calling for the abolition of abortion.
@@ -172,7 +178,11 @@ export default function HomePage() {
               </Link>
             </div>
             <div className="text-center p-6 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow">
-              <div className="text-4xl mb-4">&#x1F4E2;</div>
+              <div className="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-7 h-7 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                </svg>
+              </div>
               <h3 className="text-xl font-bold mb-3">Spread the Word</h3>
               <p className="text-gray-600 mb-4">
                 Share our message with your church, community, and elected officials.
@@ -182,7 +192,11 @@ export default function HomePage() {
               </Link>
             </div>
             <div className="text-center p-6 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow">
-              <div className="text-4xl mb-4">&#x1F4B5;</div>
+              <div className="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-7 h-7 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+              </div>
               <h3 className="text-xl font-bold mb-3">Donate</h3>
               <p className="text-gray-600 mb-4">
                 Support our efforts to abolish abortion in Michigan through your generous giving.
