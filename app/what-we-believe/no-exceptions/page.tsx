@@ -11,11 +11,14 @@ export default function NoExceptionsPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-[#1a1a1a] text-white py-16 md:py-24">
+      <section className="bg-[#1a1a1a] text-white py-24 md:py-32">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <p className="text-red-500 font-semibold mb-4">WHAT WE BELIEVE</p>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">NO EXCEPTIONS</h1>
-          <p className="text-xl text-gray-300">ABORTION IS MURDER | ALWAYS &amp; EVERYWHERE MURDER</p>
+          <h1 className="text-4xl md:text-6xl mb-6">
+            <span className="font-light">No</span>{' '}
+            <span className="font-black">EXCEPTIONS</span>
+          </h1>
+          <div className="w-12 h-[3px] bg-red-600 mx-auto mb-6" />
+          <p className="text-sm md:text-base tracking-[0.3em] uppercase text-gray-300">Abortion is Murder | Always &amp; Everywhere Murder</p>
         </div>
       </section>
 
@@ -23,11 +26,12 @@ export default function NoExceptionsPage() {
       <section className="bg-white py-16">
         <div className="max-w-4xl mx-auto px-4">
           <div className="prose prose-lg max-w-none space-y-6">
-            <h2 className="text-2xl font-bold text-red-600 mb-6">Murder Is Never Acceptable</h2>
-
-            <blockquote className="border-l-4 border-red-600 pl-6 my-8 italic">
-              <p>And neither is any law that creates exceptions for it</p>
-            </blockquote>
+            <h2 className="text-3xl md:text-4xl mb-2">
+              <span className="font-light">Murder Is Never</span>{' '}
+              <span className="font-black">ACCEPTABLE</span>
+            </h2>
+            <p className="text-sm tracking-[0.2em] uppercase font-semibold text-gray-800 mt-0 mb-2">And neither is any law that creates exceptions for it</p>
+            <div className="w-12 h-[3px] bg-red-600 mb-8" />
 
             <p>
               For the same reasons that we demand abortion&apos;s immediate abolition, we demand abortion&apos;s total abolition. That means no exceptions. No exceptions which allow for murdering babies because of the circumstances in which they were conceived. No exceptions that allow for murdering babies because they have a disease or disorder. No exceptions whatsoever. If abortion is murder, and we all know it is, it must be abolished entirely.

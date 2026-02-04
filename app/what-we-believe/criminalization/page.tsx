@@ -11,11 +11,14 @@ export default function CriminalizationPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-[#1a1a1a] text-white py-16 md:py-24">
+      <section className="bg-[#1a1a1a] text-white py-24 md:py-32">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <p className="text-red-500 font-semibold mb-4">WHAT WE BELIEVE</p>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">CRIMINALIZING ABORTION</h1>
-          <p className="text-xl text-gray-300">Establishing justice for the preborn requires criminalization</p>
+          <h1 className="text-4xl md:text-6xl mb-6">
+            <span className="font-light">Criminalizing</span>{' '}
+            <span className="font-black">ABORTION</span>
+          </h1>
+          <div className="w-12 h-[3px] bg-red-600 mx-auto mb-6" />
+          <p className="text-sm md:text-base tracking-[0.3em] uppercase text-gray-300">Establishing justice for the preborn requires criminalization</p>
         </div>
       </section>
 
@@ -23,11 +26,12 @@ export default function CriminalizationPage() {
       <section className="bg-white py-16">
         <div className="max-w-4xl mx-auto px-4">
           <div className="prose prose-lg max-w-none space-y-6">
-            <h2 className="text-2xl font-bold text-red-600 mb-6">Abortion Is Murder</h2>
-
-            <blockquote className="border-l-4 border-red-600 pl-6 my-8 italic">
-              <p>And it ought to be treated as such</p>
-            </blockquote>
+            <h2 className="text-3xl md:text-4xl mb-2">
+              <span className="font-light">Abortion Is</span>{' '}
+              <span className="font-black">MURDER</span>
+            </h2>
+            <p className="text-sm tracking-[0.2em] uppercase font-semibold text-gray-800 mt-0 mb-2">And it ought to be treated as such</p>
+            <div className="w-12 h-[3px] bg-red-600 mb-8" />
 
             <p>
               If abortion is murder, and we all know that it is, then it ought to be treated as such. Pro-lifers, attempting to put forward legislation more palatable to the public, are committed to a strategy of giving automatic immunity to the parents who have their child murdered in all cases. Rather than making political calculations, abolitionists simply proclaim the truth that abortion is murder and must be abolished without shying away from any of the perceived consequences of that position. We demand justice through equal protection of the law for all image bearers of God. Equal justice and the abolition of abortion are thwarted by the pro-life movement&apos;s refusal to fully criminalize abortion.

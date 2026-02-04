@@ -11,11 +11,14 @@ export default function KingdomOfGodPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-[#1a1a1a] text-white py-16 md:py-24">
+      <section className="bg-[#1a1a1a] text-white py-24 md:py-32">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <p className="text-red-500 font-semibold mb-4">THE GOSPEL</p>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">ABOLITIONISM &amp; THE KINGDOM OF GOD</h1>
-          <p className="text-xl text-gray-300">His Kingdom is one that shall not be destroyed</p>
+          <h1 className="text-4xl md:text-6xl mb-6">
+            <span className="font-light">Abolitionism &amp;</span>{' '}
+            <span className="font-black">THE KINGDOM OF GOD</span>
+          </h1>
+          <div className="w-12 h-[3px] bg-red-600 mx-auto mb-6" />
+          <p className="text-sm md:text-base tracking-[0.3em] uppercase text-gray-300">His Kingdom is one that shall not be destroyed</p>
         </div>
       </section>
 
@@ -23,12 +26,12 @@ export default function KingdomOfGodPage() {
       <section className="bg-white py-16">
         <div className="max-w-4xl mx-auto px-4">
           <div className="prose prose-lg max-w-none space-y-6">
-            <h2 className="text-2xl font-bold text-red-600 mb-6">The Kingdom of God</h2>
-
-            <blockquote className="border-l-4 border-red-600 pl-6 my-8 italic">
-              <p>Is at hand; repent and believe the gospel.</p>
-              <cite className="text-gray-600 not-italic">&mdash; Mark 1:15</cite>
-            </blockquote>
+            <h2 className="text-3xl md:text-4xl mb-2">
+              <span className="font-light">The Kingdom of</span>{' '}
+              <span className="font-black">GOD</span>
+            </h2>
+            <p className="text-sm tracking-[0.2em] uppercase font-semibold text-gray-800 mt-0 mb-2">Is at hand; repent and believe the gospel. &mdash; Mark 1:15</p>
+            <div className="w-12 h-[3px] bg-red-600 mb-8" />
 
             <h3 className="text-xl font-bold mt-8 mb-4">Bringing about a Clash of Absolutes</h3>
 

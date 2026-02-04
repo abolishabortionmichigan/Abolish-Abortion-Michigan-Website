@@ -11,95 +11,89 @@ export default function IncarnationPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-[#1a1a1a] text-white py-16 md:py-24">
+      <section className="bg-[#1a1a1a] text-white py-24 md:py-32">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <p className="text-red-500 font-semibold mb-4">THE GOSPEL</p>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">THE INCARNATION</h1>
-          <p className="text-xl text-gray-300 italic">&ldquo;The Word became flesh and dwelt among us.&rdquo;</p>
+          <h1 className="text-4xl md:text-6xl mb-6">
+            <span className="font-light">The</span>{' '}
+            <span className="font-black">INCARNATION</span>
+          </h1>
+          <div className="w-12 h-[3px] bg-red-600 mx-auto mb-6" />
+          <p className="text-sm md:text-base tracking-[0.3em] uppercase text-gray-300">The Word Became Flesh and Dwelt among us</p>
         </div>
       </section>
 
       {/* Content */}
       <section className="bg-white py-16">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="prose prose-lg max-w-none">
-            <blockquote className="border-l-4 border-red-600 pl-6 my-8 italic bg-red-50 py-4 pr-4">
-              <p>&ldquo;The reason the Son of God appeared was to destroy the works of the devil.&rdquo;</p>
-              <cite className="text-gray-600 not-italic">— 1 John 3:8</cite>
-            </blockquote>
+          <div className="prose prose-lg max-w-none space-y-6">
+            <h2 className="text-3xl md:text-4xl mb-2">
+              <span className="font-light">The Son of God</span>{' '}
+              <span className="font-black">APPEARED</span>
+            </h2>
+            <p className="text-sm tracking-[0.2em] uppercase font-semibold text-gray-800 mt-0 mb-2">To Destroy the Works of the Devil</p>
+            <div className="w-12 h-[3px] bg-red-600 mb-8" />
 
-            <h2 className="text-2xl font-bold text-red-600 mb-6">The Word Became Flesh</h2>
-
-            <p>
-              Jesus Christ, the Son of God, entered the womb to redeem the world, to forgive sinners, reconcile humanity to God, and make all things new. The incarnation—God becoming man—is the foundation of our salvation and the basis for the dignity of all human life.
-            </p>
-
-            <h3 className="text-xl font-bold mt-8 mb-4">Christ in the Womb</h3>
-
-            <p>
-              The Creator of the cosmos came down among us and began His earthly existence as a human zygote no larger than a single cell. Christ experienced prenatal development like all humans—growing from conception through every stage of life in Mary&apos;s womb.
-            </p>
-
-            <p>
-              This profound truth demonstrates that human life is sacred from its very beginning. If the Son of God Himself passed through every stage of human development, how can we say that any stage is less than fully human?
-            </p>
-
-            <div className="bg-gray-50 p-6 rounded-lg my-8">
-              <p className="text-lg">
-                &ldquo;Since therefore the children share in flesh and blood, he himself likewise partook of the same things, that through death he might destroy the one who has the power of death, that is, the devil.&rdquo;
-              </p>
-              <p className="text-gray-600 mt-2">— Hebrews 2:14</p>
+            <div className="my-8 aspect-video">
+              <iframe
+                src="https://www.youtube.com/embed/4tL4Whq9NN0"
+                title="The Incarnation"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full rounded-lg"
+              />
             </div>
 
-            <h3 className="text-xl font-bold mt-8 mb-4">Christ&apos;s Solidarity with Humanity</h3>
-
             <p>
-              The incarnation demonstrates Christ&apos;s complete solidarity with humanity. He became like us in all things—except sin—in order that He might live as we live, suffer as we suffer, and ultimately die in our place.
+              Jesus Christ, the Son of God, entered the womb to redeem the world, to forgive sinners, reconcile humanity to God, and make all things new.
             </p>
 
-            <h3 className="text-xl font-bold mt-8 mb-4">The Purpose of the Incarnation</h3>
+            <div className="flex flex-col md:flex-row gap-8 my-8 items-start">
+              <div className="md:w-2/3 space-y-6">
+                <p className="mt-0">
+                  Jesus Christ, the only begotten Son of God, did not enter our world through a birth canal. He did not begin his earthly existence in a manger in Bethlehem. He began his human life in the womb of a young, unmarried woman who was not planning to be with child.
+                </p>
 
-            <p>
-              Christ came for many redemptive purposes:
-            </p>
+                <p>
+                  The Creator of the cosmos came down among us and began His earthly existence as a human zygote no larger than a single cell. The Light of the world entered the darkness of the womb and underwent every stage of prenatal biological development before being born into a hostile world that immediately sought His destructions.
+                </p>
 
-            <ul className="list-disc pl-6 space-y-2 my-6">
-              <li>To give light to those who sit in darkness (Luke 1:78-79)</li>
-              <li>To bring life and immortality to light through the Gospel (2 Timothy 1:10)</li>
-              <li>To free people from slavery to sin</li>
-              <li>To reconcile the world to God (2 Corinthians 5:18-21)</li>
-              <li>To abolish death (1 Corinthians 15:26)</li>
-              <li>To destroy the works of the devil (1 John 3:8)</li>
-            </ul>
-
-            <h3 className="text-xl font-bold mt-8 mb-4">The Incarnation and Abortion</h3>
-
-            <p>
-              The truth of the incarnation stands in direct conflict with all forms of child sacrifice. If the eternal Son of God took on human nature at conception, then every conceived child bears the image of God and possesses inherent dignity.
-            </p>
-
-            <p>
-              Abortion is not merely a political issue—it is an assault on the very image of God and a denial of the truth that Christ has sanctified every stage of human life by passing through it Himself.
-            </p>
-
-            <div className="bg-[#1a1a1a] text-white p-8 rounded-lg my-8">
-              <h3 className="text-xl font-bold mb-4">The Full Scope of Redemption</h3>
-              <p>
-                &ldquo;For in him all the fullness of God was pleased to dwell, and through him to reconcile to himself all things, whether on earth or in heaven, making peace by the blood of his cross&rdquo; (Colossians 1:19-20).
-              </p>
+                <p>
+                  He became like us in all things in order that He might live just as we lived and face the same dangers, temptations, and troubles we face as fleshly creatures living in a fallen world (Heb. 2:14-18; Col. 1:15-23).
+                </p>
+              </div>
+              <div className="md:w-1/3">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/incarnation-painting.jpeg"
+                  alt="The Incarnation"
+                  className="w-full rounded-lg"
+                />
+              </div>
             </div>
 
-            <blockquote className="border-l-4 border-red-600 pl-6 my-8 italic">
-              <p>&ldquo;And the Word became flesh and dwelt among us, and we have seen his glory, glory as of the only Son from the Father, full of grace and truth.&rdquo;</p>
-              <cite className="text-gray-600 not-italic">— John 1:14</cite>
-            </blockquote>
+            <p>
+              The Son of God appeared to give light to those who sit in darkness, bring life and immortality to light through the Gospel, set people free from their slavery to sin, reconcile the world to Himself, abolish death, destroy every work of darkness, and guide our feet into the way of peace. He revealed Himself as the Word of the Father, Ruler and King of all creation, head of the church and the living God, and Redeemer of sinful men (Luke 1:78-79; 2 Tim. 1:10; Heb. 8:12; Luke 4:18; 1 Cor. 15:26; 2 Cor. 5:18-21; 1 John 3:8; Rom. 3:23-24).
+            </p>
 
-            <div className="bg-gray-100 p-6 rounded-lg my-8">
-              <h3 className="text-xl font-bold mb-4">Our Response</h3>
-              <p>
-                In light of the incarnation, we are called to love our neighbors—including the smallest and most vulnerable. We seek justice for the preborn because Christ Himself was once a preborn child in Mary&apos;s womb.
-              </p>
+            <p>
+              The Incarnation of Christ stands in direct conflict with all forms of child sacrifice. Modern forms include chemical and surgical abortion, the use of abortifacient drugs and devices designed to make the womb inhospitable for human embryos, and all destructive methods associated with the dehumanizing practice of producing children outside the womb (IVF). Christ continues His work today as He leads His people to actively bring the Gospel of His Kingdom into conflict with the practice of human abortion.
+            </p>
+
+            <h3 className="text-xl font-bold mt-8 mb-4">Abortion and the Incarnation of Christ</h3>
+
+            <div className="my-8 aspect-video">
+              <iframe
+                src="https://www.youtube.com/embed/W9s9DgyLA28"
+                title="Abortion and the Incarnation of Christ"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full rounded-lg"
+              />
             </div>
+
+            <p className="text-sm text-gray-400 italic">
+              This content was originally published at Abolish Human Abortion. Abolish Abortion Michigan is not formally affiliated with Abolish Human Abortion, but shares its abolitionist principles.
+            </p>
           </div>
 
           {/* Navigation */}
