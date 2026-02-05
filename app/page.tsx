@@ -1,10 +1,14 @@
 import Link from 'next/link';
 import CTABanner from '@/components/CTABanner';
 import NewsCard from '@/components/NewsCard';
-import { newsArticles, statistics } from '@/lib/content';
+import { statistics } from '@/lib/content';
+import { getAllNewsArticles } from '@/lib/data/news-store';
 
-export default function HomePage() {
-  const latestNews = newsArticles.slice(0, 3);
+export const dynamic = 'force-dynamic';
+
+export default async function HomePage() {
+  const articles = await getAllNewsArticles(true);
+  const latestNews = articles.slice(0, 3);
 
   return (
     <>
@@ -149,7 +153,11 @@ export default function HomePage() {
                 key={article.slug}
                 title={article.title}
                 excerpt={article.excerpt}
-                date={article.date}
+                date={article.created_at ? new Date(article.created_at).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                }) : ''}
                 slug={article.slug}
                 image={article.image}
               />
