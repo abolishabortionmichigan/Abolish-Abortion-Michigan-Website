@@ -53,7 +53,7 @@ export default function AppSidebar() {
 
   const handleLogout = async () => {
     await logout();
-    router.push('/login');
+    router.push('/manage-7x9k');
   };
 
   useEffect(() => {

@@ -4,17 +4,26 @@ import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || '***REDACTED***';
+const ADMIN_ACCESS_CODE = process.env.ADMIN_ACCESS_CODE || 'x9Kp3mW7vR2n';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@abolishabortionmichigan.com';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Tv8#qL2xZm4!nR9p';
 
-// Demo admin user - in production, use a database
 const ADMIN_USERS = [
   {
     id: '1',
-    email: 'admin@abolishabortionmichigan.com',
-    password: 'admin123', // In production, use bcrypt hashed password
+    email: ADMIN_EMAIL,
+    password: ADMIN_PASSWORD,
     name: 'Admin',
     role: 'admin',
   },
 ];
+
+export async function verifyAccessCode(code: string) {
+  if (code === ADMIN_ACCESS_CODE) {
+    return { valid: true };
+  }
+  return { valid: false };
+}
 
 export async function getAuthToken() {
   const cookieStore = await cookies();
@@ -42,26 +51,22 @@ export async function removeAuthToken() {
 
 export async function loginUser(email: string, password: string) {
   try {
-    // Find user
     const user = ADMIN_USERS.find((u) => u.email === email);
 
     if (!user) {
       return { error: 'Invalid credentials' };
     }
 
-    // Check password (simple comparison for demo, use bcrypt in production)
     if (password !== user.password) {
       return { error: 'Invalid credentials' };
     }
 
-    // Generate JWT
     const token = jwt.sign(
       { userId: user.id, email: user.email, role: user.role },
       JWT_SECRET,
       { expiresIn: '3d' }
     );
 
-    // Set cookie
     await setAuthToken(token);
 
     return {
