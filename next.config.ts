@@ -5,7 +5,23 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**',
+        hostname: 'abolishabortionmichigan.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.abolishabortionmichigan.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.cloudinary.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.googleapis.com',
       },
     ],
   },

@@ -42,11 +42,39 @@ export async function signPetition(data: {
   state?: string;
   zipcode?: string;
   subscribed?: boolean;
+  website?: string;
 }): Promise<PetitionSignature | { error: string }> {
   try {
+    // Check honeypot field
+    if (data.website) {
+      // Silently pretend to succeed
+      return {
+        id: 'ok',
+        name: data.name,
+        email: data.email,
+        state: data.state || 'MI',
+        subscribed: data.subscribed || false,
+        signed_at: new Date().toISOString(),
+      } as PetitionSignature;
+    }
+
     // Validate required fields
     if (!data.name || !data.email) {
       return { error: 'Name and email are required' };
+    }
+
+    // Validate input lengths
+    if (data.name.length > 100) {
+      return { error: 'Name must be 100 characters or less' };
+    }
+    if (data.email.length > 254) {
+      return { error: 'Email must be 254 characters or less' };
+    }
+    if (data.city && data.city.length > 100) {
+      return { error: 'City must be 100 characters or less' };
+    }
+    if (data.zipcode && data.zipcode.length > 10) {
+      return { error: 'Zip code must be 10 characters or less' };
     }
 
     // Validate email format

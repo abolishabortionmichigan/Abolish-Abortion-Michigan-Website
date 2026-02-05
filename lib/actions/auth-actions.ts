@@ -1,25 +1,40 @@
 'use server';
 
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import { checkRateLimit } from '@/lib/rate-limit';
 
-const JWT_SECRET = process.env.JWT_SECRET || '***REDACTED***';
-const ADMIN_ACCESS_CODE = process.env.ADMIN_ACCESS_CODE || 'x9Kp3mW7vR2n';
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@abolishabortionmichigan.com';
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Tv8#qL2xZm4!nR9p';
+function getRequiredEnv(name: string): string {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`Missing required environment variable: ${name}. Set it in .env.local`);
+  }
+  return value;
+}
 
-const ADMIN_USERS = [
-  {
-    id: '1',
-    email: ADMIN_EMAIL,
-    password: ADMIN_PASSWORD,
-    name: 'Admin',
-    role: 'admin',
-  },
-];
+function getJwtSecret(): string {
+  const secret = getRequiredEnv('JWT_SECRET');
+  if (secret.length < 32) {
+    throw new Error('JWT_SECRET must be at least 32 characters long');
+  }
+  return secret;
+}
+
+async function getClientIp(): Promise<string> {
+  const hdrs = await headers();
+  return hdrs.get('x-forwarded-for')?.split(',')[0]?.trim() || hdrs.get('x-real-ip') || 'unknown';
+}
 
 export async function verifyAccessCode(code: string) {
-  if (code === ADMIN_ACCESS_CODE) {
+  const ip = await getClientIp();
+  const limit = checkRateLimit(`access:${ip}`);
+  if (!limit.allowed) {
+    return { valid: false, error: `Too many attempts. Try again in ${limit.retryAfterSeconds} seconds.` };
+  }
+
+  const accessCode = getRequiredEnv('ADMIN_ACCESS_CODE');
+  if (code === accessCode) {
     return { valid: true };
   }
   return { valid: false };
@@ -39,7 +54,7 @@ export async function setAuthToken(token: string) {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict',
-    maxAge: 60 * 60 * 24 * 3, // 3 days
+    maxAge: 60 * 60 * 8, // 8 hours
     path: '/',
   });
 }
@@ -51,20 +66,28 @@ export async function removeAuthToken() {
 
 export async function loginUser(email: string, password: string) {
   try {
-    const user = ADMIN_USERS.find((u) => u.email === email);
+    const ip = await getClientIp();
+    const limit = checkRateLimit(`login:${ip}`);
+    if (!limit.allowed) {
+      return { error: `Too many login attempts. Try again in ${limit.retryAfterSeconds} seconds.` };
+    }
 
-    if (!user) {
+    const adminEmail = getRequiredEnv('ADMIN_EMAIL');
+    const adminPasswordHash = getRequiredEnv('ADMIN_PASSWORD_HASH');
+
+    if (email !== adminEmail) {
       return { error: 'Invalid credentials' };
     }
 
-    if (password !== user.password) {
+    const isValidPassword = await bcrypt.compare(password, adminPasswordHash);
+    if (!isValidPassword) {
       return { error: 'Invalid credentials' };
     }
 
     const token = jwt.sign(
-      { userId: user.id, email: user.email, role: user.role },
-      JWT_SECRET,
-      { expiresIn: '3d' }
+      { userId: '1', email: adminEmail, role: 'admin' },
+      getJwtSecret(),
+      { expiresIn: '8h' }
     );
 
     await setAuthToken(token);
@@ -72,10 +95,10 @@ export async function loginUser(email: string, password: string) {
     return {
       token,
       user: {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
+        id: '1',
+        email: adminEmail,
+        name: 'Admin',
+        role: 'admin',
       },
     };
   } catch (error) {
@@ -86,7 +109,7 @@ export async function loginUser(email: string, password: string) {
 
 export async function verifyToken(token: string) {
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as {
+    const decoded = jwt.verify(token, getJwtSecret()) as {
       userId: string;
       email: string;
       role: string;
@@ -100,7 +123,7 @@ export async function verifyToken(token: string) {
         role: decoded.role,
       },
     };
-  } catch (error) {
+  } catch {
     return { authorized: false, error: 'Invalid token' };
   }
 }

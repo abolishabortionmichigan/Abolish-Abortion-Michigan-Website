@@ -70,11 +70,30 @@ export async function deleteInquiry(id: string) {
   }
 }
 
-export async function createInquiry(data: Omit<Inquiry, 'id' | 'status' | 'created_at' | 'updated_at'>) {
+export async function createInquiry(data: Omit<Inquiry, 'id' | 'status' | 'created_at' | 'updated_at'> & { website?: string }) {
   try {
+    // Check honeypot field
+    if (data.website) {
+      return { id: 'ok', name: data.name, email: data.email, message: data.message, subject: data.subject || '', status: 'new', created_at: new Date().toISOString() };
+    }
+
     // Validate required fields
     if (!data.name || !data.email || !data.message) {
       return { error: 'Name, email, and message are required' };
+    }
+
+    // Validate input lengths
+    if (data.name.length > 100) {
+      return { error: 'Name must be 100 characters or less' };
+    }
+    if (data.email.length > 254) {
+      return { error: 'Email must be 254 characters or less' };
+    }
+    if (data.subject && data.subject.length > 200) {
+      return { error: 'Subject must be 200 characters or less' };
+    }
+    if (data.message.length > 5000) {
+      return { error: 'Message must be 5000 characters or less' };
     }
 
     // Validate email format

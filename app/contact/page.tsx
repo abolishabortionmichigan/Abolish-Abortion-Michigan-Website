@@ -9,6 +9,7 @@ export default function ContactPage() {
     email: '',
     subject: '',
     message: '',
+    website: '', // honeypot field
   });
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
@@ -27,6 +28,7 @@ export default function ContactPage() {
           email: formData.email,
           subject: formData.subject || 'General Inquiry',
           message: formData.message,
+          website: formData.website,
         }),
       });
 
@@ -36,7 +38,7 @@ export default function ContactPage() {
       }
 
       setStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      setFormData({ name: '', email: '', subject: '', message: '', website: '' });
     } catch {
       setStatus('error');
     }
@@ -113,6 +115,19 @@ export default function ContactPage() {
             {/* Contact Form */}
             <div>
               <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Honeypot field - hidden from real users */}
+                <div className="absolute opacity-0 top-0 left-0 h-0 w-0 -z-10" aria-hidden="true">
+                  <label htmlFor="website">Website</label>
+                  <input
+                    type="text"
+                    id="website"
+                    name="website"
+                    value={formData.website}
+                    onChange={handleChange}
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                     Name *

@@ -1,30 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
-import jwt from 'jsonwebtoken';
 import {
   getAllInquiries,
   createInquiry,
 } from '@/lib/data/inquiry-store';
 import { sendInquiryConfirmationEmail, sendInquiryNotificationEmail } from '@/lib/email';
+import { getAuthToken, verifyToken } from '@/lib/actions/auth-actions';
 
-const JWT_SECRET = process.env.JWT_SECRET || '***REDACTED***';
-
-function verifyAuth(request: NextRequest) {
-  const authHeader = request.headers.get('authorization');
-  if (!authHeader?.startsWith('Bearer ')) {
-    return null;
+export async function GET() {
+  const token = await getAuthToken();
+  if (!token) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  try {
-    const token = authHeader.split(' ')[1];
-    return jwt.verify(token, JWT_SECRET) as { userId: string; email: string; role: string };
-  } catch {
-    return null;
-  }
-}
-
-export async function GET(request: NextRequest) {
-  const user = verifyAuth(request);
-  if (!user || user.role !== 'admin') {
+  const result = await verifyToken(token);
+  if (!result.authorized || result.user?.role !== 'admin') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -39,10 +28,30 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Name, email, and message are required' }, { status: 400 });
     }
 
+    // Validate input lengths
+    if (data.name.length > 100) {
+      return NextResponse.json({ error: 'Name must be 100 characters or less' }, { status: 400 });
+    }
+    if (data.email.length > 254) {
+      return NextResponse.json({ error: 'Email must be 254 characters or less' }, { status: 400 });
+    }
+    if (data.subject && data.subject.length > 200) {
+      return NextResponse.json({ error: 'Subject must be 200 characters or less' }, { status: 400 });
+    }
+    if (data.message.length > 5000) {
+      return NextResponse.json({ error: 'Message must be 5000 characters or less' }, { status: 400 });
+    }
+
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(data.email)) {
       return NextResponse.json({ error: 'Invalid email format' }, { status: 400 });
+    }
+
+    // Check honeypot field
+    if (data.website) {
+      // Silently accept but don't create the inquiry
+      return NextResponse.json({ id: 'ok', name: data.name, email: data.email, message: data.message, subject: data.subject || 'General Inquiry', status: 'new', created_at: new Date().toISOString() }, { status: 201 });
     }
 
     const newInquiry = await createInquiry({
