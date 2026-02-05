@@ -39,7 +39,7 @@ export default function GreatCommissionPage() {
                   A common objection from many within the institutional Protestant church today when confronted with our message of abolition is to &ldquo;keep the main thing the main thing.&rdquo; They often claim that the work of the church is to fulfill the Great Commission, plain and simple and not to muddle about with &ldquo;social justice&rdquo; causes. The result of such reasoning is an abundance of professedly &ldquo;pro-life&rdquo; churches that spend substantially more time and money running programs, paying the salaries of professional clergy, and maintaining landscaping, than they do exercising true religion (<a href="https://biblia.com/bible/esv/james/1/27" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Jas. 1:27</a>). With few exceptions the visible and professing church of Jesus Christ in America currently does little more than offer token expressions of opposition to the greatest and most dehumanizing evil of our age. A frequent justification of this abandonment of true religion is to hide behind the supposed &ldquo;work of the Great Commission.&rdquo; But a faithful examination of the Scriptures will confirm that just as faith without works is dead, so also is a &ldquo;Great Commission&rdquo; without the work of abolition.
                 </p>
               </div>
-              <div className="md:w-1/3">
+              <div className="max-w-xs mx-auto md:max-w-none md:w-1/3">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/images/obey-the-gospel.png"
@@ -110,7 +110,7 @@ export default function GreatCommissionPage() {
                   If we obey the greatest commandment and love God with all of our heart, soul, mind and strength (<a href="https://biblia.com/bible/esv/mark/12/30" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Mk. 12:30</a>), then what will be our response to the legal dismemberment of the most innocent bearers of God&apos;s image in our country, not once but 3500 times a day? Are you willing to fight as hard to abolish the legalized slaughter of human children in your country as you are to fight against alcohol consumption in your denomination? Are you willing to oppose the practice of human abortion with the same tenacity with which you oppose theological liberals? Are you willing to fight even harder than that? If you are willing to spend thousands of hours toiling to fight for a particular doctrine and ensconce it as a denominational standard, should you not be willing to spend hundreds of thousands of hours toiling to abolish a practice that violently and ruthlessly desecrates the image of the God you claim to love, serve, and worship?
                 </p>
               </div>
-              <div className="md:w-1/3">
+              <div className="max-w-xs mx-auto md:max-w-none md:w-1/3">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/images/2-thessalonians.png"
