@@ -57,7 +57,7 @@ export default async function NewsArticlePage({ params }: Props) {
       {/* Hero Section with Image */}
       <section className="relative bg-[#1a1a1a] text-white py-16 md:py-24">
         {article.image && (
-          <div className="absolute inset-0">
+          <div className="absolute inset-0 hidden md:block">
             <Image
               src={article.image}
               alt={article.title}
@@ -71,6 +71,18 @@ export default async function NewsArticlePage({ params }: Props) {
           <h1 className="text-3xl md:text-5xl font-bold">{article.title}</h1>
         </div>
       </section>
+
+      {/* Article Image (mobile) */}
+      {article.image && (
+        <div className="md:hidden relative w-full aspect-video bg-[#1a1a1a]">
+          <Image
+            src={article.image}
+            alt={article.title}
+            fill
+            className="object-contain"
+          />
+        </div>
+      )}
 
       {/* Article Content */}
       <section className="bg-white py-12">
