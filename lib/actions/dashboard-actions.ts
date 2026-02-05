@@ -21,9 +21,9 @@ export async function getDashboardStats(): Promise<DashboardStats | { error: str
       return { error: 'Authentication required' };
     }
 
-    const inquiries = getAllInquiries();
-    const newsArticles = getAllNewsArticles(false);
-    const signatureCount = getSignatureCount();
+    const inquiries = await getAllInquiries();
+    const newsArticles = await getAllNewsArticles(false);
+    const signatureCount = await getSignatureCount();
 
     const stats: DashboardStats = {
       totalInquiries: inquiries.length,

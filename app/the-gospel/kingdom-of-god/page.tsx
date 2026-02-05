@@ -44,9 +44,13 @@ export default function KingdomOfGodPage() {
             </p>
 
             <div className="flex flex-col md:flex-row gap-8 my-8 items-start">
-              <div className="md:w-2/3">
+              <div className="md:w-2/3 space-y-6">
                 <p className="mt-0">
                   We strive to provoke a clash of absolutes between the Gospel of Christ and the worldly wisdom of man. The goal of all abolitionist movements is the redemption of man from the dominion of man. At the root of all abolitionist movements you will find the presence and power of two interrelated propositions. The first is that human beings are created in the image of God and created to reflect that image. The second is that the Creator Himself became a man in order to rescue mankind from self-destruction, death, and eternal separation from God, from himself, and from his own kind.
+                </p>
+
+                <p>
+                  At the heart of all that we do as abolitionists, as the people of God, is the Gospel call and cry, &ldquo;Repent for the Kingdom of God is at Hand!&rdquo; What drives abolitionism is a desire to do justice, love mercy, and walk humbly with our God (<a href="https://biblia.com/bible/esv/micah/6/8" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Micah 6:8</a>). We seek to bring justice to the fatherless and help to the helpless (<a href="https://biblia.com/bible/esv/isaiah/1/16-17" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Isaiah 1:16-17</a>). Our desire is to consistently practice what the New Testament calls pure and undefiled religion: to look after the orphaned and widows in their affliction, and to keep ourselves unstained by the world (<a href="https://biblia.com/bible/esv/james/1/27" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">James 1:27</a>).
                 </p>
               </div>
               <div className="md:w-1/3">
@@ -58,10 +62,6 @@ export default function KingdomOfGodPage() {
                 />
               </div>
             </div>
-
-            <p>
-              At the heart of all that we do as abolitionists, as the people of God, is the Gospel call and cry, &ldquo;Repent for the Kingdom of God is at Hand!&rdquo; What drives abolitionism is a desire to do justice, love mercy, and walk humbly with our God (Micah 6:8). We seek to bring justice to the fatherless and help to the helpless (Isaiah 1: 16-17). Our desire is to consistently practice what the New Testament calls pure and undefiled religion: to look after the orphaned and widows in their affliction, and to keep ourselves unstained by the world (James 1:27).
-            </p>
 
             <h3 className="text-xl font-bold mt-8 mb-4">We are Gospel-Centered</h3>
 
@@ -87,7 +87,7 @@ export default function KingdomOfGodPage() {
             </blockquote>
 
             <p>
-              As Wilberforce believed that Christianity must be outwardly practiced and not just preached, we see our work as part of the general call upon all Christians to be salt and light in this depraved and darkened world. If Christians hold a belief to be true, such as the belief that all human beings are loved by God and possess inherent worth, we believe that Christians are obliged to act on such beliefs. We believe that Christians are called to not only &ldquo;abhor evil and hold fast to what is good&rdquo; (Romans 12:9) but also to expose it (Ephesians 5:11) and destroy the ungodly speculations which allow and encourage it (2 Corinthians 10:5).
+              As Wilberforce believed that Christianity must be outwardly practiced and not just preached, we see our work as part of the general call upon all Christians to be salt and light in this depraved and darkened world. If Christians hold a belief to be true, such as the belief that all human beings are loved by God and possess inherent worth, we believe that Christians are obliged to act on such beliefs. We believe that Christians are called to not only &ldquo;abhor evil and hold fast to what is good&rdquo; (<a href="https://biblia.com/bible/esv/romans/12/9" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Romans 12:9</a>) but also to expose it (<a href="https://biblia.com/bible/esv/ephesians/5/11" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Ephesians 5:11</a>) and destroy the ungodly speculations which allow and encourage it (<a href="https://biblia.com/bible/esv/2-corinthians/10/5" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">2 Corinthians 10:5</a>).
             </p>
 
             <p>
@@ -128,7 +128,7 @@ export default function KingdomOfGodPage() {
             </div>
 
             <p className="text-sm text-gray-400 italic">
-              This content was originally published at Abolish Human Abortion. Abolish Abortion Michigan is not formally affiliated with Abolish Human Abortion, but shares its abolitionist principles.
+              This content was originally published at <a href="https://abolishhumanabortion.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Abolish Human Abortion</a>. Abolish Abortion Michigan is not formally affiliated with <a href="https://abolishhumanabortion.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Abolish Human Abortion</a>, but shares its abolitionist principles.
             </p>
           </div>
 

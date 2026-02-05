@@ -54,11 +54,11 @@ export default function IgnoreRoePage() {
             </p>
 
             <p>
-              The Bible tells us to &ldquo;rescue those being led to slaughter&rdquo; (Prv 24:10), &ldquo;bring justice to the fatherless&rdquo; (Is 1:15), and love our neighbors as ourselves (Matt 22:39). You can do these things or you can submit to Supreme Court opinions stating that murdering certain humans should be legal, but you cannot do both.
+              The Bible tells us to &ldquo;rescue those being led to slaughter&rdquo; (<a href="https://biblia.com/bible/esv/proverbs/24/10" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Prv 24:10</a>), &ldquo;bring justice to the fatherless&rdquo; (<a href="https://biblia.com/bible/esv/isaiah/1/15" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Is 1:15</a>), and love our neighbors as ourselves (<a href="https://biblia.com/bible/esv/matthew/22/39" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Matt 22:39</a>). You can do these things or you can submit to Supreme Court opinions stating that murdering certain humans should be legal, but you cannot do both.
             </p>
 
             <p>
-              The 1973 Supreme Court knew just as well as today&apos;s abortion supporters of the scientific consensus that life begins at conception. Some admit the truth while others, like Roe author Justice Harry Blackmun, feign ignorance; but they all know of the preborn&apos;s humanity. Accordingly, the 14th amendment&apos;s equal protection clause provides the little human in the womb the same legal protections against murder as anyone else. State and federal governments have simply refused to enforce those protections because the Supreme Court opined that they shouldn&apos;t. Article VI of the Constitution specifies that only the Constitution and the laws made pursuant to it are legitimate laws. Roe is neither a law nor in any way pursuant to the Constitution. As former dean of Stanford Law John Hart Ely put it, &ldquo;[Roe v Wade] is not constitutional law and gives almost no sense of an obligation to try to be.&rdquo; What Ely is saying is that in Roe, Blackmun hardly tried to make his decision appear legitimate. The decision amounts to nothing more than simple tyranny; a transparent power grab by a branch of government determined to become the engine of societal upheaval.
+              The 1973 Supreme Court knew just as well as today&apos;s abortion supporters of the scientific consensus that life begins at conception. Some admit the truth while others, like Roe author Justice Harry Blackmun, feign ignorance; but they all know of the preborn&apos;s humanity. Accordingly, the 14th amendment&apos;s equal protection clause provides the little human in the womb the same legal protections against murder as anyone else. State and federal governments have simply refused to enforce those protections because the Supreme Court opined that they shouldn&apos;t. Article VI of the Constitution specifies that <a href="https://tenthamendmentcenter.com/the-supremacy-clause/" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">only the Constitution and the laws made pursuant to it are legitimate laws</a>. Roe is neither a law nor in any way pursuant to the Constitution. As former dean of Stanford Law John Hart Ely put it, &ldquo;[Roe v Wade] is not constitutional law and gives almost no sense of an obligation to try to be.&rdquo; What Ely is saying is that in Roe, Blackmun hardly tried to make his decision appear legitimate. The decision amounts to nothing more than simple tyranny; a transparent power grab by a branch of government determined to become the engine of societal upheaval.
             </p>
 
             <blockquote className="border-l-4 border-red-600 pl-6 my-8 italic">
@@ -98,7 +98,7 @@ export default function IgnoreRoePage() {
                 With Roe being morally execrable and legally null, state governors, legislators, and judges are morally and legally obligated to interpose &ndash; to put themselves between the tyrant and the victims who are being deprived of their God-given right to life.
               </p>
               <p className="mt-4">
-                State governments in Wisconsin, Michigan, Vermont, New York, and Massachusetts interposed on behalf of the victims of slavery by nullifying the federal Fugitive Slave Act of 1850 and the federal courts which demanded its enforcement. We are asking state governments to do the same today.
+                State governments in Wisconsin, Michigan, Vermont, New York, and Massachusetts interposed on behalf of the victims of slavery by <a href="https://freethestates.org/2019/03/are-nullifications-advocates-the-villains-of-american-history/" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">nullifying the federal Fugitive Slave Act of 1850</a> and the federal courts which demanded its enforcement. We are asking state governments to do the same today.
               </p>
             </div>
 
@@ -120,7 +120,7 @@ export default function IgnoreRoePage() {
             </div>
 
             <p className="text-sm text-gray-400 italic">
-              This content was originally published by Free the States, and is used by permission. Abolish Abortion Michigan is not formally affiliated with Free the States, but shares its abolitionist mission and principles.
+              This content was originally published by <a href="https://freethestates.org/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Free the States</a>, and is used by permission. Abolish Abortion Michigan is not formally affiliated with <a href="https://freethestates.org/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Free the States</a>, but shares its abolitionist mission and principles.
             </p>
           </div>
 

@@ -35,7 +35,7 @@ export async function PATCH(
     const { id } = await params;
     const data = await request.json();
 
-    const updated = updateInquiry(id, data);
+    const updated = await updateInquiry(id, data);
 
     if (!updated) {
       return NextResponse.json({ error: 'Inquiry not found' }, { status: 404 });
@@ -58,7 +58,7 @@ export async function DELETE(
 
   try {
     const { id } = await params;
-    const deleted = deleteInquiry(id);
+    const deleted = await deleteInquiry(id);
 
     if (!deleted) {
       return NextResponse.json({ error: 'Inquiry not found' }, { status: 404 });

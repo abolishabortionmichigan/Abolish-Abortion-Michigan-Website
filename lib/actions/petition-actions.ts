@@ -19,7 +19,7 @@ async function isAdmin(): Promise<boolean> {
 }
 
 export async function getPublicSignatureCount(): Promise<number> {
-  return getSignatureCount();
+  return await getSignatureCount();
 }
 
 export async function fetchSignatures() {
@@ -29,7 +29,7 @@ export async function fetchSignatures() {
       return { error: 'Authentication required' };
     }
 
-    return getAllSignatures();
+    return await getAllSignatures();
   } catch (error) {
     return { error: 'Failed to fetch signatures' };
   }
@@ -56,11 +56,11 @@ export async function signPetition(data: {
     }
 
     // Check if already signed
-    if (hasAlreadySigned(data.email)) {
+    if (await hasAlreadySigned(data.email)) {
       return { error: 'This email has already signed the petition' };
     }
 
-    const newSignature = createSignature({
+    const newSignature = await createSignature({
       name: data.name,
       email: data.email,
       city: data.city,
@@ -82,7 +82,7 @@ export async function deleteSignature(id: string) {
       return { error: 'Authentication required' };
     }
 
-    const deleted = deleteSignatureData(id);
+    const deleted = await deleteSignatureData(id);
 
     if (!deleted) {
       return { error: 'Signature not found' };

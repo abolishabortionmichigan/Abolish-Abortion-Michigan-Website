@@ -26,11 +26,11 @@ export async function fetchNewsArticles(publishedOnly = false) {
       const admin = await isAdmin();
       if (!admin) {
         // Return only published for non-admins
-        return getAllNewsArticles(true);
+        return await getAllNewsArticles(true);
       }
     }
 
-    return getAllNewsArticles(publishedOnly);
+    return await getAllNewsArticles(publishedOnly);
   } catch (error) {
     return { error: 'Failed to fetch news' };
   }
@@ -38,7 +38,7 @@ export async function fetchNewsArticles(publishedOnly = false) {
 
 export async function fetchNewsArticle(slug: string) {
   try {
-    const article = getNewsArticleBySlug(slug);
+    const article = await getNewsArticleBySlug(slug);
 
     if (!article) {
       return { error: 'Article not found' };
@@ -71,11 +71,11 @@ export async function createNewsArticle(data: Omit<NewsArticle, 'id' | 'created_
     }
 
     // Check for duplicate slug
-    if (slugExists(data.slug)) {
+    if (await slugExists(data.slug)) {
       return { error: 'Slug already exists' };
     }
 
-    const newArticle = createArticle({
+    const newArticle = await createArticle({
       title: data.title,
       slug: data.slug,
       excerpt: data.excerpt,
@@ -98,11 +98,11 @@ export async function updateNewsArticle(id: string, data: Partial<NewsArticle>) 
     }
 
     // If updating slug, check for duplicates
-    if (data.slug && slugExists(data.slug, id)) {
+    if (data.slug && await slugExists(data.slug, id)) {
       return { error: 'Slug already exists' };
     }
 
-    const updated = updateArticle(id, data);
+    const updated = await updateArticle(id, data);
 
     if (!updated) {
       return { error: 'Article not found' };
@@ -121,7 +121,7 @@ export async function deleteNewsArticle(id: string) {
       return { error: 'Authentication required' };
     }
 
-    const deleted = deleteArticle(id);
+    const deleted = await deleteArticle(id);
 
     if (!deleted) {
       return { error: 'Article not found' };

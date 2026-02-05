@@ -34,9 +34,9 @@ export default function GreatCommissionPage() {
             <div className="w-12 h-[3px] bg-red-600 mb-8" />
 
             <div className="flex flex-col md:flex-row gap-8 my-8 items-start">
-              <div className="md:w-2/3">
+              <div className="md:w-2/3 space-y-6">
                 <p className="mt-0">
-                  A common objection from many within the institutional Protestant church today when confronted with our message of abolition is to &ldquo;keep the main thing the main thing.&rdquo; They often claim that the work of the church is to fulfill the Great Commission, plain and simple and not to muddle about with &ldquo;social justice&rdquo; causes. The result of such reasoning is an abundance of professedly &ldquo;pro-life&rdquo; churches that spend substantially more time and money running programs, paying the salaries of
+                  A common objection from many within the institutional Protestant church today when confronted with our message of abolition is to &ldquo;keep the main thing the main thing.&rdquo; They often claim that the work of the church is to fulfill the Great Commission, plain and simple and not to muddle about with &ldquo;social justice&rdquo; causes. The result of such reasoning is an abundance of professedly &ldquo;pro-life&rdquo; churches that spend substantially more time and money running programs, paying the salaries of professional clergy, and maintaining landscaping, than they do exercising true religion (<a href="https://biblia.com/bible/esv/james/1/27" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Jas. 1:27</a>). With few exceptions the visible and professing church of Jesus Christ in America currently does little more than offer token expressions of opposition to the greatest and most dehumanizing evil of our age. A frequent justification of this abandonment of true religion is to hide behind the supposed &ldquo;work of the Great Commission.&rdquo; But a faithful examination of the Scriptures will confirm that just as faith without works is dead, so also is a &ldquo;Great Commission&rdquo; without the work of abolition.
                 </p>
               </div>
               <div className="md:w-1/3">
@@ -48,10 +48,6 @@ export default function GreatCommissionPage() {
                 />
               </div>
             </div>
-
-            <p>
-              professional clergy, and maintaining landscaping, than they do exercising true religion (Jas. 1:27). With few exceptions the visible and professing church of Jesus Christ in America currently does little more than offer token expressions of opposition to the greatest and most dehumanizing evil of our age. A frequent justification of this abandonment of true religion is to hide behind the supposed &ldquo;work of the Great Commission.&rdquo; But a faithful examination of the Scriptures will confirm that just as faith without works is dead, so also is a &ldquo;Great Commission&rdquo; without the work of abolition.
-            </p>
 
             <p>
               The text of the Great Commission is as follows:
@@ -76,11 +72,11 @@ export default function GreatCommissionPage() {
             </blockquote>
 
             <p>
-              Certainly, if Jesus has anything in mind regarding which commandments should be taught, He has these greatest in mind. Throughout the Gospels, we see that our obligation to love our neighbor was one of the main emphases of Christ&apos;s teaching ministry (Matt. 7:12, Luke 10:25-37, John 15:12-14, Matt. 25:31-46). So, if as part of the Great Commission, Christ commands that these two be taught, the question then arises: what do they entail?
+              Certainly, if Jesus has anything in mind regarding which commandments should be taught, He has these greatest in mind. Throughout the Gospels, we see that our obligation to love our neighbor was one of the main emphases of Christ&apos;s teaching ministry (<a href="https://biblia.com/bible/esv/matthew/7/12" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Matt. 7:12</a>, <a href="https://biblia.com/bible/esv/luke/10/25-37" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Luke 10:25-37</a>, <a href="https://biblia.com/bible/esv/john/15/12-14" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">John 15:12-14</a>, <a href="https://biblia.com/bible/esv/matthew/25/31-46" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Matt. 25:31-46</a>). So, if as part of the Great Commission, Christ commands that these two be taught, the question then arises: what do they entail?
             </p>
 
             <p>
-              If you love your neighbor as yourself, will you stand idly by while he is legally dismembered, even though he has committed no crime, and wronged no one? Will you stand idly by while two of your neighbors (in this country alone) are so butchered every minute? While 3500 neighbors are ripped limb from limb every day? Or will you content yourself with token expressions of opposition to this great evil? If you simply listen to one &ldquo;sanctity of life&rdquo; sermon a year, of what benefit is that? If you are a Christian, do you not already know that life is sacred? Have you not read that human beings are created in the image of God (Gen 1:27)? Are you so dull of mind and spirit that you need to be reminded once a year that murdering children is wrong? Do you not rather need to be exhorted to action? Where is the frequent and thunderous call from the pulpits to rise up as the Body of Christ and put an end to this great evil? Where is the resounding call to love justice, correct oppression, and take up the cause of the fatherless (Isa. 1:17)? Where is the rebuke of the carnal, the slothful, and the worldly weekly pew-fillers? Where is the call for such to repent of their sins and begin the exercise of true religion (Jas. 1:27)? The silence of our pulpits is so deafening that it could shatter every stained glass window, flip every pew, and wake every dead man from his grave.
+              If you love your neighbor as yourself, will you stand idly by while he is legally dismembered, even though he has committed no crime, and wronged no one? Will you stand idly by while two of your neighbors (in this country alone) are so butchered every minute? While 3500 neighbors are ripped limb from limb every day? Or will you content yourself with token expressions of opposition to this great evil? If you simply listen to one &ldquo;sanctity of life&rdquo; sermon a year, of what benefit is that? If you are a Christian, do you not already know that life is sacred? Have you not read that human beings are created in the image of God (<a href="https://biblia.com/bible/esv/genesis/1/27" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Gen 1:27</a>)? Are you so dull of mind and spirit that you need to be reminded once a year that murdering children is wrong? Do you not rather need to be exhorted to action? Where is the frequent and thunderous call from the pulpits to rise up as the Body of Christ and put an end to this great evil? Where is the resounding call to love justice, correct oppression, and take up the cause of the fatherless (<a href="https://biblia.com/bible/esv/isaiah/1/17" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Isa. 1:17</a>)? Where is the rebuke of the carnal, the slothful, and the worldly weekly pew-fillers? Where is the call for such to repent of their sins and begin the exercise of true religion (<a href="https://biblia.com/bible/esv/james/1/27" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Jas. 1:27</a>)? The silence of our pulpits is so deafening that it could shatter every stained glass window, flip every pew, and wake every dead man from his grave.
             </p>
 
             <p>
@@ -109,9 +105,9 @@ export default function GreatCommissionPage() {
             </div>
 
             <div className="flex flex-col md:flex-row gap-8 my-8 items-start">
-              <div className="md:w-2/3">
+              <div className="md:w-2/3 space-y-6">
                 <p className="mt-0">
-                  If we obey the greatest commandment and love God with all of our heart, soul, mind and strength (Mk. 12:30), then what will be our response to the legal dismemberment of the most innocent bearers of God&apos;s image in our country, not once but 3500 times a day? Are you willing to fight as hard to abolish the legalized slaughter of human children in your country as you are to fight against alcohol consumption in your denomination? Are
+                  If we obey the greatest commandment and love God with all of our heart, soul, mind and strength (<a href="https://biblia.com/bible/esv/mark/12/30" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Mk. 12:30</a>), then what will be our response to the legal dismemberment of the most innocent bearers of God&apos;s image in our country, not once but 3500 times a day? Are you willing to fight as hard to abolish the legalized slaughter of human children in your country as you are to fight against alcohol consumption in your denomination? Are you willing to oppose the practice of human abortion with the same tenacity with which you oppose theological liberals? Are you willing to fight even harder than that? If you are willing to spend thousands of hours toiling to fight for a particular doctrine and ensconce it as a denominational standard, should you not be willing to spend hundreds of thousands of hours toiling to abolish a practice that violently and ruthlessly desecrates the image of the God you claim to love, serve, and worship?
                 </p>
               </div>
               <div className="md:w-1/3">
@@ -123,10 +119,6 @@ export default function GreatCommissionPage() {
                 />
               </div>
             </div>
-
-            <p>
-              you willing to oppose the practice of human abortion with the same tenacity with which you oppose theological liberals? Are you willing to fight even harder than that? If you are willing to spend thousands of hours toiling to fight for a particular doctrine and ensconce it as a denominational standard, should you not be willing to spend hundreds of thousands of hours toiling to abolish a practice that violently and ruthlessly desecrates the image of the God you claim to love, serve, and worship?
-            </p>
 
             <p>
               You cannot claim to love God while offering only token expressions of opposition to entrenched and celebrated evil against his very image. You cannot claim to be faithfully obeying the Great Commission, if those you convert and disciple have little desire to obey the greatest commands of Christ in the most crucial arenas. Examine yourself, lest you find yourself travelling over land and sea to make converts that are twice as much the sons of hell as yourself. Stop making a mockery of the Great Commission, as if a faith that does not produce obedience is a faith that can save. Wash your hands, you sinners, and purify your hearts, you double-minded! Grieve, mourn and wail! Change your laughter to mourning and your joy to gloom! Humble yourselves before the Lord, and He will lift you up.
@@ -150,7 +142,7 @@ export default function GreatCommissionPage() {
             </div>
 
             <p className="text-sm text-gray-400 italic">
-              This content was originally published at Abolish Human Abortion. Abolish Abortion Michigan is not formally affiliated with Abolish Human Abortion, but shares its abolitionist principles.
+              This content was originally published at <a href="https://abolishhumanabortion.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Abolish Human Abortion</a>. Abolish Abortion Michigan is not formally affiliated with <a href="https://abolishhumanabortion.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Abolish Human Abortion</a>, but shares its abolitionist principles.
             </p>
           </div>
 

@@ -14,7 +14,7 @@ export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const article = getNewsArticleBySlug(slug);
+  const article = await getNewsArticleBySlug(slug);
 
   if (!article || !article.published) {
     return {
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-  const articles = getAllNewsArticles(true);
+  const articles = await getAllNewsArticles(true);
   return articles.map((article) => ({
     slug: article.slug,
   }));
@@ -37,7 +37,7 @@ export async function generateStaticParams() {
 
 export default async function NewsArticlePage({ params }: Props) {
   const { slug } = await params;
-  const article = getNewsArticleBySlug(slug);
+  const article = await getNewsArticleBySlug(slug);
 
   // Only show published articles to public
   if (!article || !article.published) {

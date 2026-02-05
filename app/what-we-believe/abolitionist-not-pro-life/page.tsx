@@ -82,17 +82,17 @@ export default function AbolitionistNotProLifePage() {
             <h3 className="text-xl font-bold mt-8 mb-4">Two Examples</h3>
 
             <p>
-              Free the States&apos; James Silberman met with the office of Ohio State Senator Andrew Brenner in April 2019. James explained to Brenner&apos;s aide the importance of introducing and passing a bill that nullifies Roe and treats abortion like murder from the moment of conception. At the end of James&apos; presentation, Brenner&apos;s aide said, &ldquo;This was very interesting, but it&apos;s Senator Brenner personal religious conviction that life begins at a heartbeat.&rdquo; Where did Senator Brenner learn that unbiblical, unscientific, dehumanizing nonsense? He learned it from the Heartbeat Bill which had just passed in Ohio a few months earlier.
+              <a href="https://freethestates.org/" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Free the States</a>&apos; James Silberman met with the office of Ohio State Senator Andrew Brenner in April 2019. James explained to Brenner&apos;s aide the importance of introducing and passing a bill that nullifies Roe and treats abortion like murder from the moment of conception. At the end of James&apos; presentation, Brenner&apos;s aide said, &ldquo;This was very interesting, but it&apos;s Senator Brenner personal religious conviction that life begins at a heartbeat.&rdquo; Where did Senator Brenner learn that unbiblical, unscientific, dehumanizing nonsense? He learned it from the Heartbeat Bill which had just passed in Ohio a few months earlier.
             </p>
 
             <p>
-              Free the States&apos; Russell Hunter was ministering outside an abortion facility in Norman, OK in 2016. A young mother who Russell was pleading with not to have the abortion told him, &ldquo;It&apos;s okay. My baby won&apos;t even feel any pain.&rdquo; Where did she learn that it&apos;s acceptable to murder your baby as long as he or she doesn&apos;t feel pain? From the pro-life movement and the Pain-Capable Unborn Child Protection Act which highlights pain as the reason abortion should be illegal.
+              <a href="https://freethestates.org/" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Free the States</a>&apos; Russell Hunter was ministering outside an abortion facility in Norman, OK in 2016. A young mother who Russell was pleading with not to have the abortion told him, &ldquo;It&apos;s okay. My baby won&apos;t even feel any pain.&rdquo; Where did she learn that it&apos;s acceptable to murder your baby as long as he or she doesn&apos;t feel pain? From the pro-life movement and the Pain-Capable Unborn Child Protection Act which highlights pain as the reason abortion should be illegal.
             </p>
 
             <h3 className="text-xl font-bold mt-8 mb-4">Criminalization and the Gospel</h3>
 
             <p>
-              Abolitionists are not trying to make abortion safer for women, more rare, or a little less legal. Abolitionists are seeking to criminalize abortion because it is murder and the laws against murder should be applied equally to all people. At the same time we preach the Gospel of Jesus Christ declaring that there is forgiveness for the sin of abortion, and all repentant post-abortive mothers and fathers can be redeemed and restored in knowing Jesus Christ as Lord. This truth does not mean that there should be no punishment for choosing to murder your child, however. There is no conflict between preaching the Gospel and establishing justice in the courts (Isaiah 1:16-17; Amos 5:15; Luke 11:42).
+              Abolitionists are not trying to make abortion safer for women, more rare, or a little less legal. Abolitionists are seeking to criminalize abortion because it is murder and the laws against murder should be applied equally to all people. At the same time we preach the Gospel of Jesus Christ declaring that there is forgiveness for the sin of abortion, and all repentant post-abortive mothers and fathers can be redeemed and restored in knowing Jesus Christ as Lord. This truth does not mean that there should be no punishment for choosing to murder your child, however. There is no conflict between preaching the Gospel and establishing justice in the courts (<a href="https://biblia.com/bible/esv/isaiah/1/16-17" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Isaiah 1:16-17</a>; <a href="https://biblia.com/bible/esv/amos/5/15" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Amos 5:15</a>; <a href="https://biblia.com/bible/esv/luke/11/42" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Luke 11:42</a>).
             </p>
 
             <blockquote className="border-l-4 border-red-600 pl-6 my-8 italic">
@@ -115,7 +115,7 @@ export default function AbolitionistNotProLifePage() {
             </div>
 
             <p className="text-sm text-gray-400 italic">
-              This content was originally published by Free the States, and is used by permission. Abolish Abortion Michigan is not formally affiliated with Free the States, but shares its abolitionist mission and principles.
+              This content was originally published by <a href="https://freethestates.org/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Free the States</a>, and is used by permission. Abolish Abortion Michigan is not formally affiliated with <a href="https://freethestates.org/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Free the States</a>, but shares its abolitionist mission and principles.
             </p>
           </div>
 

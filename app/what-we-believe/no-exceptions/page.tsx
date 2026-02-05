@@ -55,7 +55,7 @@ export default function NoExceptionsPage() {
             <h3 className="text-xl font-bold mt-8 mb-4">The Child Conceived in Rape</h3>
 
             <p>
-              Abolitionism could be described as upholding justice for the fatherless. No one is more fatherless than the child conceived in rape. This is probably the most vulnerable group of human beings on the planet. A law which allows for abortion in this situation is a thoroughly iniquitous decree which makes the fatherless prey (See Isaiah 1:16-17; 10:1-2). The law must prohibit the execution of the child for the crime of his or her father.
+              Abolitionism could be described as upholding justice for the fatherless. No one is more fatherless than the child conceived in rape. This is probably the most vulnerable group of human beings on the planet. A law which allows for abortion in this situation is a thoroughly iniquitous decree which makes the fatherless prey (See <a href="https://biblia.com/bible/esv/isaiah/1/16-17" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Isaiah 1:16-17</a>; <a href="https://biblia.com/bible/esv/isaiah/10/1-2" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">10:1-2</a>). The law must prohibit the execution of the child for the crime of his or her father.
             </p>
 
             <h3 className="text-xl font-bold mt-8 mb-4">The Child With a Disability</h3>
@@ -90,7 +90,7 @@ export default function NoExceptionsPage() {
             </div>
 
             <p className="text-sm text-gray-400 italic">
-              This content was originally published by Free the States, and is used by permission. Abolish Abortion Michigan is not formally affiliated with Free the States, but shares its abolitionist mission and principles.
+              This content was originally published by <a href="https://freethestates.org/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Free the States</a>, and is used by permission. Abolish Abortion Michigan is not formally affiliated with <a href="https://freethestates.org/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Free the States</a>, but shares its abolitionist mission and principles.
             </p>
           </div>
 

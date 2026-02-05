@@ -22,6 +22,12 @@ const quickActions = [
     href: '/admin/dashboard/news',
     color: 'bg-green-500/10 text-green-600',
   },
+  {
+    icon: FileText,
+    label: 'View Petitions',
+    href: '/admin/dashboard/petitions',
+    color: 'bg-purple-500/10 text-purple-600',
+  },
 ];
 
 export default function DashboardPage() {

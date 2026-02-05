@@ -1,12 +1,10 @@
-// Shared news articles store - in production, replace with database
-// This file is shared between API routes and server actions
-
 import { NewsArticle } from '@/types';
+import { prisma, isDatabaseConnected } from '@/lib/prisma';
 
 export type NewsArticleData = NewsArticle;
 
-// In-memory store for demo - replace with Prisma database in production
-export const newsArticles: NewsArticleData[] = [
+// In-memory fallback with default article
+const memoryStore: NewsArticleData[] = [
   {
     id: '1',
     title: 'Abolitionists of Michigan Launch a Website',
@@ -20,19 +18,46 @@ export const newsArticles: NewsArticleData[] = [
   },
 ];
 
-// Helper functions for news operations
-export function getAllNewsArticles(publishedOnly = false): NewsArticleData[] {
-  if (publishedOnly) {
-    return newsArticles.filter((a) => a.published);
+export async function getAllNewsArticles(publishedOnly = false): Promise<NewsArticleData[]> {
+  if (isDatabaseConnected) {
+    const items = await prisma.newsArticle.findMany({
+      where: publishedOnly ? { published: true } : undefined,
+      orderBy: { created_at: 'desc' },
+    });
+    return items.map(mapDbArticle);
   }
-  return [...newsArticles];
+
+  if (publishedOnly) {
+    return memoryStore.filter((a) => a.published);
+  }
+  return [...memoryStore];
 }
 
-export function getNewsArticleBySlug(slug: string): NewsArticleData | undefined {
-  return newsArticles.find((a) => a.slug === slug || a.id === slug);
+export async function getNewsArticleBySlug(slug: string): Promise<NewsArticleData | undefined> {
+  if (isDatabaseConnected) {
+    const item = await prisma.newsArticle.findFirst({
+      where: { OR: [{ slug }, { id: slug }] },
+    });
+    return item ? mapDbArticle(item) : undefined;
+  }
+  return memoryStore.find((a) => a.slug === slug || a.id === slug);
 }
 
-export function createNewsArticle(data: Omit<NewsArticleData, 'id' | 'created_at' | 'updated_at'>): NewsArticleData {
+export async function createNewsArticle(data: Omit<NewsArticleData, 'id' | 'created_at' | 'updated_at'>): Promise<NewsArticleData> {
+  if (isDatabaseConnected) {
+    const item = await prisma.newsArticle.create({
+      data: {
+        title: data.title,
+        slug: data.slug,
+        excerpt: data.excerpt,
+        content: data.content,
+        image: data.image || null,
+        published: data.published || false,
+      },
+    });
+    return mapDbArticle(item);
+  }
+
   const newArticle: NewsArticleData = {
     id: Date.now().toString(),
     title: data.title,
@@ -44,32 +69,80 @@ export function createNewsArticle(data: Omit<NewsArticleData, 'id' | 'created_at
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   };
-
-  newsArticles.unshift(newArticle);
+  memoryStore.unshift(newArticle);
   return newArticle;
 }
 
-export function updateNewsArticle(id: string, data: Partial<NewsArticleData>): NewsArticleData | null {
-  const index = newsArticles.findIndex((a) => a.id === id || a.slug === id);
+export async function updateNewsArticle(id: string, data: Partial<NewsArticleData>): Promise<NewsArticleData | null> {
+  if (isDatabaseConnected) {
+    try {
+      const item = await prisma.newsArticle.update({
+        where: { id },
+        data: {
+          ...(data.title !== undefined && { title: data.title }),
+          ...(data.slug !== undefined && { slug: data.slug }),
+          ...(data.excerpt !== undefined && { excerpt: data.excerpt }),
+          ...(data.content !== undefined && { content: data.content }),
+          ...(data.image !== undefined && { image: data.image }),
+          ...(data.published !== undefined && { published: data.published }),
+        },
+      });
+      return mapDbArticle(item);
+    } catch {
+      return null;
+    }
+  }
+
+  const index = memoryStore.findIndex((a) => a.id === id || a.slug === id);
   if (index === -1) return null;
 
-  newsArticles[index] = {
-    ...newsArticles[index],
+  memoryStore[index] = {
+    ...memoryStore[index],
     ...data,
     updated_at: new Date().toISOString(),
   };
-
-  return newsArticles[index];
+  return memoryStore[index];
 }
 
-export function deleteNewsArticle(id: string): boolean {
-  const index = newsArticles.findIndex((a) => a.id === id || a.slug === id);
-  if (index === -1) return false;
+export async function deleteNewsArticle(id: string): Promise<boolean> {
+  if (isDatabaseConnected) {
+    try {
+      await prisma.newsArticle.delete({ where: { id } });
+      return true;
+    } catch {
+      return false;
+    }
+  }
 
-  newsArticles.splice(index, 1);
+  const index = memoryStore.findIndex((a) => a.id === id || a.slug === id);
+  if (index === -1) return false;
+  memoryStore.splice(index, 1);
   return true;
 }
 
-export function slugExists(slug: string, excludeId?: string): boolean {
-  return newsArticles.some((a) => a.slug === slug && a.id !== excludeId);
+export async function slugExists(slug: string, excludeId?: string): Promise<boolean> {
+  if (isDatabaseConnected) {
+    const item = await prisma.newsArticle.findFirst({
+      where: {
+        slug,
+        ...(excludeId ? { NOT: { id: excludeId } } : {}),
+      },
+    });
+    return !!item;
+  }
+  return memoryStore.some((a) => a.slug === slug && a.id !== excludeId);
+}
+
+function mapDbArticle(item: { id: string; title: string; slug: string; excerpt: string; content: string; image: string | null; published: boolean; created_at: Date; updated_at: Date }): NewsArticleData {
+  return {
+    id: item.id,
+    title: item.title,
+    slug: item.slug,
+    excerpt: item.excerpt,
+    content: item.content,
+    image: item.image || '',
+    published: item.published,
+    created_at: item.created_at.toISOString(),
+    updated_at: item.updated_at.toISOString(),
+  };
 }

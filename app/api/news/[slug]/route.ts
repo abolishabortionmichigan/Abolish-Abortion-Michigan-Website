@@ -29,7 +29,7 @@ export async function GET(
 ) {
   try {
     const { slug } = await params;
-    const article = getNewsArticleBySlug(slug);
+    const article = await getNewsArticleBySlug(slug);
 
     if (!article) {
       return NextResponse.json({ error: 'Article not found' }, { status: 404 });
@@ -62,17 +62,17 @@ export async function PATCH(
     const { slug } = await params;
     const data = await request.json();
 
-    const existingArticle = getNewsArticleBySlug(slug);
+    const existingArticle = await getNewsArticleBySlug(slug);
     if (!existingArticle) {
       return NextResponse.json({ error: 'Article not found' }, { status: 404 });
     }
 
     // If updating slug, check for duplicates
-    if (data.slug && data.slug !== existingArticle.slug && slugExists(data.slug)) {
+    if (data.slug && data.slug !== existingArticle.slug && await slugExists(data.slug)) {
       return NextResponse.json({ error: 'Slug already exists' }, { status: 400 });
     }
 
-    const updated = updateNewsArticle(slug, data);
+    const updated = await updateNewsArticle(slug, data);
 
     if (!updated) {
       return NextResponse.json({ error: 'Article not found' }, { status: 404 });
@@ -95,7 +95,7 @@ export async function DELETE(
 
   try {
     const { slug } = await params;
-    const deleted = deleteNewsArticle(slug);
+    const deleted = await deleteNewsArticle(slug);
 
     if (!deleted) {
       return NextResponse.json({ error: 'Article not found' }, { status: 404 });

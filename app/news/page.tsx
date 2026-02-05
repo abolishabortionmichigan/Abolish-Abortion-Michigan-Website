@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 // Ensure page is dynamically rendered to show latest articles
 export const dynamic = 'force-dynamic';
 
-export default function NewsPage() {
+export default async function NewsPage() {
   // Get published articles only
-  const articles = getAllNewsArticles(true);
+  const articles = await getAllNewsArticles(true);
 
   return (
     <>

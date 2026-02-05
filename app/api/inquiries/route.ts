@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  return NextResponse.json(getAllInquiries());
+  return NextResponse.json(await getAllInquiries());
 }
 
 export async function POST(request: NextRequest) {
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid email format' }, { status: 400 });
     }
 
-    const newInquiry = createInquiry({
+    const newInquiry = await createInquiry({
       name: data.name,
       email: data.email,
       subject: data.subject || 'General Inquiry',
