@@ -10,13 +10,12 @@ interface UserState {
   logout: () => Promise<void>;
 }
 
-type UserPersist = Pick<UserState, 'user' | 'token'>;
+type UserPersist = Pick<UserState, 'user'>;
 
 const persistConfig: PersistOptions<UserState, UserPersist> = {
   name: 'aam-user-data',
   partialize: (state) => ({
     user: state.user,
-    token: state.token,
   }),
 };
 

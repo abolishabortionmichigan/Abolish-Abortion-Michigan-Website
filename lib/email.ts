@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import { escapeHtml } from './sanitize';
 
 interface EmailPayload {
   to: string;
@@ -74,7 +75,7 @@ export const sendInquiryNotificationEmail = async (inquiry: InquiryData) => {
     const info = await transporter.sendMail({
       from: `"AAM Website" <${EMAIL_USER}>`,
       to: ADMIN_EMAIL,
-      subject: `New Inquiry: ${inquiry.subject || 'General Inquiry'}`,
+      subject: `New Inquiry: ${inquiry.subject ? escapeHtml(inquiry.subject) : 'General Inquiry'}`,
       html: inquiryNotificationEmailHtml(inquiry),
     });
 
@@ -88,6 +89,11 @@ export const sendInquiryNotificationEmail = async (inquiry: InquiryData) => {
 
 // HTML template for user confirmation email
 const inquiryConfirmationEmailHtml = (inquiry: InquiryData) => {
+  const safeName = escapeHtml(inquiry.name);
+  const safeEmail = escapeHtml(inquiry.email);
+  const safeSubject = inquiry.subject ? escapeHtml(inquiry.subject) : '';
+  const safeMessage = escapeHtml(inquiry.message);
+
   return `
 <!DOCTYPE html>
 <html>
@@ -185,16 +191,16 @@ const inquiryConfirmationEmailHtml = (inquiry: InquiryData) => {
           <tr>
             <td class="email-content" style="padding: 35px 40px;">
               <h1 style="color: #1a1a2e; font-size: 24px; margin-top: 0; margin-bottom: 25px;">Thank You for Reaching Out</h1>
-              <p>Hello <strong style="color: #8b0000;">${inquiry.name}</strong>,</p>
+              <p>Hello <strong style="color: #8b0000;">${safeName}</strong>,</p>
               <p>Thank you for contacting Abolish Abortion Michigan. We have received your inquiry and appreciate your interest in our mission to end abortion in Michigan.</p>
 
               <div class="info-section" style="background-color: #f9f9f9; padding: 20px; border-radius: 6px; border-left: 4px solid #d4af37; margin: 20px 0;">
                 <h3 style="color: #1a1a2e; margin-top: 0;">Your Inquiry Details</h3>
-                <p><span class="info-label" style="font-weight: 600; color: #555;">Name:</span> ${inquiry.name}</p>
-                <p><span class="info-label" style="font-weight: 600; color: #555;">Email:</span> ${inquiry.email}</p>
-                ${inquiry.subject ? `<p><span class="info-label" style="font-weight: 600; color: #555;">Subject:</span> ${inquiry.subject}</p>` : ''}
+                <p><span class="info-label" style="font-weight: 600; color: #555;">Name:</span> ${safeName}</p>
+                <p><span class="info-label" style="font-weight: 600; color: #555;">Email:</span> ${safeEmail}</p>
+                ${safeSubject ? `<p><span class="info-label" style="font-weight: 600; color: #555;">Subject:</span> ${safeSubject}</p>` : ''}
                 <p><span class="info-label" style="font-weight: 600; color: #555;">Message:</span></p>
-                <p style="white-space: pre-wrap; background: #fff; padding: 10px; border-radius: 4px;">${inquiry.message}</p>
+                <p style="white-space: pre-wrap; background: #fff; padding: 10px; border-radius: 4px;">${safeMessage}</p>
               </div>
 
               <div class="note" style="border-left: 3px solid #d4af37; padding: 10px 15px; background-color: #f9f9f9; margin-top: 20px; font-style: italic;">
@@ -222,6 +228,11 @@ const inquiryConfirmationEmailHtml = (inquiry: InquiryData) => {
 
 // HTML template for admin notification email
 const inquiryNotificationEmailHtml = (inquiry: InquiryData) => {
+  const safeName = escapeHtml(inquiry.name);
+  const safeEmail = escapeHtml(inquiry.email);
+  const safeSubject = inquiry.subject ? escapeHtml(inquiry.subject) : 'General Inquiry';
+  const safeMessage = escapeHtml(inquiry.message);
+
   const formattedDate = new Date(inquiry.created_at).toLocaleString('en-US', {
     weekday: 'long',
     year: 'numeric',
@@ -325,17 +336,17 @@ const inquiryNotificationEmailHtml = (inquiry: InquiryData) => {
 
               <div class="info-row" style="padding: 10px 0; border-bottom: 1px solid #eee;">
                 <span class="info-label" style="font-weight: bold; color: #666; display: inline-block; width: 100px;">From:</span>
-                <span>${inquiry.name}</span>
+                <span>${safeName}</span>
               </div>
 
               <div class="info-row" style="padding: 10px 0; border-bottom: 1px solid #eee;">
                 <span class="info-label" style="font-weight: bold; color: #666; display: inline-block; width: 100px;">Email:</span>
-                <span><a href="mailto:${inquiry.email}" style="color: #8b0000;">${inquiry.email}</a></span>
+                <span><a href="mailto:${safeEmail}" style="color: #8b0000;">${safeEmail}</a></span>
               </div>
 
               <div class="info-row" style="padding: 10px 0; border-bottom: 1px solid #eee;">
                 <span class="info-label" style="font-weight: bold; color: #666; display: inline-block; width: 100px;">Subject:</span>
-                <span>${inquiry.subject || 'General Inquiry'}</span>
+                <span>${safeSubject}</span>
               </div>
 
               <div class="info-row" style="padding: 10px 0; border-bottom: 1px solid #eee;">
@@ -345,7 +356,7 @@ const inquiryNotificationEmailHtml = (inquiry: InquiryData) => {
 
               <div class="message-box" style="background-color: #f9f9f9; padding: 15px; border-radius: 6px; margin-top: 15px; border-left: 4px solid #8b0000;">
                 <strong style="color: #1a1a2e;">Message:</strong>
-                <p style="white-space: pre-wrap; margin-top: 10px;">${inquiry.message}</p>
+                <p style="white-space: pre-wrap; margin-top: 10px;">${safeMessage}</p>
               </div>
 
               <div style="text-align: center; margin-top: 25px;">

@@ -11,6 +11,7 @@ export default function PetitionForm() {
     state: 'MI',
     zipcode: '',
     subscribed: true,
+    website: '', // honeypot field
   });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
@@ -51,6 +52,7 @@ export default function PetitionForm() {
           state: 'MI',
           zipcode: '',
           subscribed: true,
+          website: '',
         });
       }
     } catch {
@@ -105,6 +107,19 @@ export default function PetitionForm() {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Honeypot field - hidden from real users */}
+        <div className="absolute opacity-0 top-0 left-0 h-0 w-0 -z-10" aria-hidden="true">
+          <label htmlFor="pet-website">Website</label>
+          <input
+            type="text"
+            id="pet-website"
+            name="website"
+            value={formData.website}
+            onChange={handleChange}
+            tabIndex={-1}
+            autoComplete="off"
+          />
+        </div>
         <div className="grid md:grid-cols-2 gap-4">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
