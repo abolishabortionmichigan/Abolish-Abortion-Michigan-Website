@@ -2,11 +2,18 @@ import { NextResponse } from 'next/server';
 import prisma, { isDatabaseConnected } from '@/lib/prisma';
 
 export async function GET() {
+  // Find any env vars that contain "DATABASE" or "DB" in the name
+  const dbRelatedVars = Object.keys(process.env)
+    .filter((key) => key.toUpperCase().includes('DATABASE') || key.toUpperCase().includes('POSTGRES'))
+    .map((key) => ({ key, valuePrefix: process.env[key]?.substring(0, 20) + '...' }));
+
   const info: Record<string, unknown> = {
     isDatabaseConnected,
     hasDbUrl: !!process.env.DATABASE_URL,
     dbUrlPrefix: process.env.DATABASE_URL?.substring(0, 30) + '...',
     nodeEnv: process.env.NODE_ENV,
+    dbRelatedVars,
+    totalEnvVars: Object.keys(process.env).length,
   };
 
   if (isDatabaseConnected) {
