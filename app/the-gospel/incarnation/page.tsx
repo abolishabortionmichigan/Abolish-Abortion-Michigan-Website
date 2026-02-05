@@ -61,7 +61,7 @@ export default function IncarnationPage() {
                   He became like us in all things in order that He might live just as we lived and face the same dangers, temptations, and troubles we face as fleshly creatures living in a fallen world (<a href="https://biblia.com/bible/esv/hebrews/2/14-18" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Heb. 2:14-18</a>; <a href="https://biblia.com/bible/esv/colossians/1/15-23" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Col. 1:15-23</a>).
                 </p>
               </div>
-              <div className="md:w-1/3">
+              <div className="max-w-xs mx-auto md:max-w-none md:w-1/3">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/images/incarnation-painting.jpeg"
