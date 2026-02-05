@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Loader2, RefreshCw, Search, Plus, Edit, Trash, Eye } from 'lucide-react';
+import { Loader2, RefreshCw, Search, Plus, Edit, Trash } from 'lucide-react';
 import { fetchNewsArticles, deleteNewsArticle } from '@/lib/actions/news-actions';
 import { NewsArticle } from '@/types';
 import { formatDate } from '@/lib/utils';
@@ -74,11 +74,11 @@ export default function NewsManagementPage() {
   });
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h1 className="text-2xl font-bold">News Management</h1>
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
+        <h1 className="text-xl sm:text-2xl font-bold">News Management</h1>
         <div className="flex items-center gap-2 w-full sm:w-auto">
-          <div className="relative flex-1 sm:flex-none sm:min-w-[250px]">
+          <div className="relative flex-1 sm:flex-none sm:min-w-[200px]">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
               placeholder="Search articles..."
@@ -90,9 +90,9 @@ export default function NewsManagementPage() {
           <Button variant="outline" size="icon" onClick={loadArticles} disabled={loading}>
             <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
           </Button>
-          <Button onClick={handleCreate}>
-            <Plus className="h-4 w-4 mr-2" />
-            New Article
+          <Button onClick={handleCreate} className="flex-shrink-0">
+            <Plus className="h-4 w-4 sm:mr-2" />
+            <span className="hidden sm:inline">New Article</span>
           </Button>
         </div>
       </div>
@@ -125,53 +125,93 @@ export default function NewsManagementPage() {
       )}
 
       {!loading && !error && articles.length > 0 && (
-        <div className="bg-white rounded-lg border overflow-hidden">
-          <table className="w-full">
-            <thead>
-              <tr className="bg-gray-50 border-b">
-                <th className="text-left p-4 font-medium">Title</th>
-                <th className="text-left p-4 font-medium hidden md:table-cell">Date</th>
-                <th className="text-left p-4 font-medium">Status</th>
-                <th className="text-right p-4 font-medium">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredArticles.map((article) => (
-                <tr key={article.id} className="border-b hover:bg-gray-50">
-                  <td className="p-4">
-                    <div>
-                      <p className="font-medium">{article.title}</p>
-                      <p className="text-sm text-gray-500 truncate max-w-[300px]">{article.excerpt}</p>
-                    </div>
-                  </td>
-                  <td className="p-4 hidden md:table-cell">
+        <>
+          {/* Desktop table */}
+          <div className="hidden sm:block bg-white rounded-lg border overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-gray-50 border-b">
+                    <th className="text-left p-4 font-medium">Title</th>
+                    <th className="text-left p-4 font-medium hidden md:table-cell">Date</th>
+                    <th className="text-left p-4 font-medium">Status</th>
+                    <th className="text-right p-4 font-medium">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredArticles.map((article) => (
+                    <tr key={article.id} className="border-b hover:bg-gray-50">
+                      <td className="p-4">
+                        <div>
+                          <p className="font-medium">{article.title}</p>
+                          <p className="text-sm text-gray-500 truncate max-w-[300px]">{article.excerpt}</p>
+                        </div>
+                      </td>
+                      <td className="p-4 hidden md:table-cell">
+                        {article.created_at ? formatDate(article.created_at) : 'N/A'}
+                      </td>
+                      <td className="p-4">
+                        <Badge className={article.published ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}>
+                          {article.published ? 'Published' : 'Draft'}
+                        </Badge>
+                      </td>
+                      <td className="p-4 text-right">
+                        <div className="flex justify-end gap-2">
+                          <Button variant="outline" size="sm" onClick={() => handleEdit(article)}>
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleDelete(article.id)}
+                            className="text-red-600 hover:bg-red-50"
+                          >
+                            <Trash className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Mobile card layout */}
+          <div className="sm:hidden space-y-3">
+            {filteredArticles.map((article) => (
+              <div key={article.id} className="bg-white rounded-lg border p-4 space-y-2">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0 flex-1">
+                    <p className="font-medium line-clamp-2">{article.title}</p>
+                    <p className="text-sm text-gray-500 line-clamp-1 mt-1">{article.excerpt}</p>
+                  </div>
+                  <Badge className={`flex-shrink-0 ${article.published ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                    {article.published ? 'Published' : 'Draft'}
+                  </Badge>
+                </div>
+                <div className="flex items-center justify-between pt-2 border-t">
+                  <span className="text-xs text-gray-400">
                     {article.created_at ? formatDate(article.created_at) : 'N/A'}
-                  </td>
-                  <td className="p-4">
-                    <Badge className={article.published ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}>
-                      {article.published ? 'Published' : 'Draft'}
-                    </Badge>
-                  </td>
-                  <td className="p-4 text-right">
-                    <div className="flex justify-end gap-2">
-                      <Button variant="outline" size="sm" onClick={() => handleEdit(article)}>
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleDelete(article.id)}
-                        className="text-red-600 hover:bg-red-50"
-                      >
-                        <Trash className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                  </span>
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm" onClick={() => handleEdit(article)}>
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDelete(article.id)}
+                      className="text-red-600 hover:bg-red-50"
+                    >
+                      <Trash className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
       )}
 
       <NewsModal
