@@ -26,7 +26,7 @@ export async function fetchInquiries() {
       return { error: 'Authentication required' };
     }
 
-    return getAllInquiries();
+    return await getAllInquiries();
   } catch (error) {
     return { error: 'Failed to fetch inquiries' };
   }
@@ -39,7 +39,7 @@ export async function updateInquiry(id: string, data: Partial<Inquiry>) {
       return { error: 'Authentication required' };
     }
 
-    const updated = updateInquiryData(id, data);
+    const updated = await updateInquiryData(id, data);
 
     if (!updated) {
       return { error: 'Inquiry not found' };
@@ -58,7 +58,7 @@ export async function deleteInquiry(id: string) {
       return { error: 'Authentication required' };
     }
 
-    const deleted = deleteInquiryData(id);
+    const deleted = await deleteInquiryData(id);
 
     if (!deleted) {
       return { error: 'Inquiry not found' };
@@ -83,7 +83,7 @@ export async function createInquiry(data: Omit<Inquiry, 'id' | 'status' | 'creat
       return { error: 'Invalid email format' };
     }
 
-    const newInquiry = createInquiryData(data);
+    const newInquiry = await createInquiryData(data);
 
     // Send emails (non-blocking)
     Promise.all([

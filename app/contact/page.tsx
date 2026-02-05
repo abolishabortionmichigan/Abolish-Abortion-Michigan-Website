@@ -52,10 +52,14 @@ export default function ContactPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-[#1a1a1a] text-white py-16 md:py-24">
+      <section className="bg-[#1a1a1a] text-white py-24 md:py-32">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">CONTACT</h1>
-          <p className="text-gray-400">Get in touch with Abolish Abortion Michigan</p>
+          <h1 className="text-4xl md:text-6xl mb-6">
+            <span className="font-light">Contact</span>{' '}
+            <span className="font-black">US</span>
+          </h1>
+          <div className="w-12 h-[3px] bg-red-600 mx-auto mb-6" />
+          <p className="text-sm md:text-base tracking-[0.3em] uppercase text-gray-300">Get in touch with Abolish Abortion Michigan</p>
         </div>
       </section>
 
@@ -73,8 +77,8 @@ export default function ContactPage() {
               <div className="space-y-4">
                 <div>
                   <h3 className="font-semibold mb-1">Email</h3>
-                  <a href="mailto:admin@abolishabortionmichigan.com" className="text-red-600 hover:text-red-700">
-                    admin@abolishabortionmichigan.com
+                  <a href="mailto:contact@abolishabortionmichigan.com" className="text-red-600 hover:text-red-700">
+                    contact@abolishabortionmichigan.com
                   </a>
                 </div>
 

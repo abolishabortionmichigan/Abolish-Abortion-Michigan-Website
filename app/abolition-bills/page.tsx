@@ -11,10 +11,14 @@ export default function AbolitionBillsPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-[#1a1a1a] text-white py-16 md:py-24">
+      <section className="bg-[#1a1a1a] text-white py-24 md:py-32">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">ABOLITION BILLS</h1>
-          <p className="text-gray-400">Legislative efforts to abolish abortion in Michigan</p>
+          <h1 className="text-4xl md:text-6xl mb-6">
+            <span className="font-light">Abolition</span>{' '}
+            <span className="font-black">BILLS</span>
+          </h1>
+          <div className="w-12 h-[3px] bg-red-600 mx-auto mb-6" />
+          <p className="text-sm md:text-base tracking-[0.3em] uppercase text-gray-300">Legislative efforts to abolish abortion in Michigan</p>
         </div>
       </section>
 

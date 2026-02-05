@@ -7,7 +7,7 @@ import { getAuthToken, verifyToken } from '@/lib/actions/auth-actions';
 import { Loader2 } from 'lucide-react';
 import AppSidebar from '../components/layout/app-sidebar';
 import AppHeader from '../components/layout/app-header';
-import Footer from '@/components/Footer';
+
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -78,7 +78,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           <div className="max-w-7xl mx-auto p-4 md:p-6 min-h-[calc(100vh-200px)]">
             {children}
           </div>
-          <Footer />
+
         </div>
       </div>
     </div>

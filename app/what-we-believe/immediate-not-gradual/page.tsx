@@ -113,7 +113,7 @@ export default function ImmediateNotGradualPage() {
             </div>
 
             <p className="text-sm text-gray-400 italic">
-              This content was originally published by Free the States, and is used by permission. Abolish Abortion Michigan is not formally affiliated with Free the States, but shares its abolitionist mission and principles.
+              This content was originally published by <a href="https://freethestates.org/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Free the States</a>, and is used by permission. Abolish Abortion Michigan is not formally affiliated with <a href="https://freethestates.org/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Free the States</a>, but shares its abolitionist mission and principles.
             </p>
           </div>
 

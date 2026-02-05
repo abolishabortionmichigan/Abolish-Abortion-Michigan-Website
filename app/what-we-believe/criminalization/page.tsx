@@ -49,7 +49,7 @@ export default function CriminalizationPage() {
             </blockquote>
 
             <p>
-              The pro-life movement has long fought against abortion by this strategy, arguing that women have been betrayed by abortion and are victims of it rather than accomplices to it. This was the primary argument pro-life Republican Jeff Leach made to justify his opposition to the Abolition of Abortion in Texas Act. Following the lead of the pro-life movement, Leach wanted to exempt parents from being prosecuted as accomplices in the murder of their aborted children. Leach&apos;s opposition to the abolition bill was endorsed by his pastor and former Southern Baptist Convention President Jack Graham, current SBC President J.D. Greer, Abby Johnson, Brian Fisher of Human Coalition, and other pro-life leaders.
+              The pro-life movement has long fought against abortion by this strategy, arguing that women have been betrayed by abortion and are victims of it rather than accomplices to it. This was the primary argument pro-life Republican Jeff Leach made to justify his opposition to the Abolition of Abortion in Texas Act. Following the lead of the pro-life movement, Leach wanted to exempt parents from being prosecuted as accomplices in the murder of their aborted children. Leach&apos;s opposition to the abolition bill was <a href="https://christiannews.net/2019/04/11/former-sbc-president-jack-graham-praises-chairman-who-killed-bill-to-outlaw-abortion-as-courageous/" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">endorsed</a> by his pastor and former Southern Baptist Convention President Jack Graham, current SBC President J.D. Greer, Abby Johnson, Brian Fisher of Human Coalition, and other pro-life leaders.
             </p>
 
             <p>
@@ -79,7 +79,7 @@ export default function CriminalizationPage() {
             <h3 className="text-xl font-bold mt-8 mb-4">1) Parental Exemptions Create a Right to DIY Abortions</h3>
 
             <p>
-              Providing automatic immunity in all cases to mothers and fathers who have their children murdered literally means that do-it-yourself abortions are legal. In fact, Cari Sietstra, a board member of the National Abortion Federation, published an article in The New York Times in 2019 calling pro-life and pro-choice people to work together toward a do-it-yourself (DIY) abortion industry that is allowed under pro-life legislation:
+              Providing automatic immunity in all cases to mothers and fathers who have their children murdered literally means that do-it-yourself abortions are legal. In fact, Cari Sietstra, a board member of the National Abortion Federation, published an <a href="https://www.nytimes.com/2019/05/11/opinion/abortion-pregnancy-misoprostol.html" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">article</a> in The New York Times in 2019 calling pro-life and pro-choice people to work together toward a do-it-yourself (DIY) abortion industry that is allowed under pro-life legislation:
             </p>
 
             <blockquote className="border-l-4 border-red-600 pl-6 my-8 italic">
@@ -179,7 +179,7 @@ export default function CriminalizationPage() {
             </div>
 
             <p className="text-sm text-gray-400 italic">
-              This content was originally published by Free the States, and is used by permission. Abolish Abortion Michigan is not formally affiliated with Free the States, but shares its abolitionist mission and principles.
+              This content was originally published by <a href="https://freethestates.org/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Free the States</a>, and is used by permission. Abolish Abortion Michigan is not formally affiliated with <a href="https://freethestates.org/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Free the States</a>, but shares its abolitionist mission and principles.
             </p>
           </div>
 

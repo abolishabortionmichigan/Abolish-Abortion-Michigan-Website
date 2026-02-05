@@ -11,11 +11,14 @@ export default function ComponentsOfAbolitionBillPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-[#1a1a1a] text-white py-16 md:py-24">
+      <section className="bg-[#1a1a1a] text-white py-24 md:py-32">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <p className="text-red-500 font-semibold mb-4">ABOLITION BILLS</p>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">COMPONENTS OF AN ABOLITION BILL</h1>
-          <p className="text-xl text-gray-300">Key differences between abolitionist and pro-life legislation</p>
+          <h1 className="text-4xl md:text-6xl mb-6">
+            <span className="font-light">Components of an</span>{' '}
+            <span className="font-black">ABOLITION BILL</span>
+          </h1>
+          <div className="w-12 h-[3px] bg-red-600 mx-auto mb-6" />
+          <p className="text-sm md:text-base tracking-[0.3em] uppercase text-gray-300">Key differences between abolitionist and pro-life legislation</p>
         </div>
       </section>
 
@@ -46,13 +49,13 @@ export default function ComponentsOfAbolitionBillPage() {
             <h3 className="text-xl font-bold mt-8 mb-4">3) Abolition Bills Criminalize Abortion Itself and Establish Equal Justice for the Preborn</h3>
 
             <p>
-              An abolition bill makes preborn human beings completely equal under the law. That means murdering or being an accomplice to the murder of a preborn human being comes with the same legal penalty as murdering or being an accomplice to the murder of a born human being. Pro-life bills which give automatic legal immunity to the mother deprive preborn human beings of equal justice and protection. This hypocrisy actually led to the decriminalization of abortion in the first place. The Texas abortion statutes in question in Roe gave automatic immunity to the mother in all cases. Justice Blackmun wrote in Roe footnote 54 that if Texas really believed preborn human beings were persons, the state would legally penalize those who murder them to the same degree as those who murder born persons. More info about the importance of fully criminalizing abortion can be found <Link href="/what-we-believe/criminalization" className="text-red-600 hover:underline">here</Link>.
+              An abolition bill makes preborn human beings completely equal under the law. That means murdering or being an accomplice to the murder of a preborn human being comes with the same legal penalty as murdering or being an accomplice to the murder of a born human being. Pro-life bills which give automatic legal immunity to the mother deprive preborn human beings of equal justice and protection. This hypocrisy actually led to the decriminalization of abortion in the first place. The Texas abortion statutes in question in Roe gave automatic immunity to the mother in all cases. Justice Blackmun wrote in Roe footnote 54 that if Texas really believed preborn human beings were persons, the state would legally penalize those who murder them to the same degree as those who murder born persons. More info about the importance of fully criminalizing abortion can be found <a href="https://freethestates.org/criminalization/" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">here</a>.
             </p>
 
             <h3 className="text-xl font-bold mt-8 mb-4">4) Abolition Bills Do Not Submit to the Unconstitutional Ruling in Roe</h3>
 
             <p>
-              Roe is an evil, unconstitutional Supreme Court opinion ordering the states to allow mass murder within their jurisdictions. An abolition bill recognizes that the courts have no rightful authority to legalize murder. Court opinions legalizing murder are null and void by their nature and will be treated as such upon the passage of an abolition bill. In addition to a magistrate&apos;s duty to uphold the Constitution in the face of judicial tyranny, all men have a transcendent, immutable moral obligation to disregard an order from a superior to allow mass murder, and that&apos;s exactly what Roe is. Lower magistrates must interpose themselves between the victims of abortion and any higher magistrate who would deprive preborn human beings of the right to life. Specific to this case, state executives, legislators, and judges are the lower magistrates who must defy the tyrannical federal judiciary. An abolition bill includes language specifying that it will be enforced regardless of any contrary federal law, executive order, or court opinion. Submitting to the Supreme Court&apos;s order to allow mass murder is cowardly and iniquitous and absent language nullifying Roe, a bill outlawing abortion will not be enforced. More info about ignoring Roe can be found <Link href="/what-we-believe/ignore-roe" className="text-red-600 hover:underline">here</Link>.
+              Roe is an evil, unconstitutional Supreme Court opinion ordering the states to allow mass murder within their jurisdictions. An abolition bill recognizes that the courts have no rightful authority to legalize murder. Court opinions legalizing murder are null and void by their nature and will be treated as such upon the passage of an abolition bill. In addition to a magistrate&apos;s duty to uphold the Constitution in the face of judicial tyranny, all men have a transcendent, immutable moral obligation to disregard an order from a superior to allow mass murder, and that&apos;s exactly what Roe is. Lower magistrates must interpose themselves between the victims of abortion and any higher magistrate who would deprive preborn human beings of the right to life. Specific to this case, state executives, legislators, and judges are the lower magistrates who must defy the tyrannical federal judiciary. An abolition bill includes language specifying that it will be enforced regardless of any contrary federal law, executive order, or court opinion. Submitting to the Supreme Court&apos;s order to allow mass murder is cowardly and iniquitous and absent language nullifying Roe, a bill outlawing abortion will not be enforced. More info about ignoring Roe can be found <a href="https://freethestates.org/nullification-and-interposition/" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">here</a>.
             </p>
 
             <h3 className="text-xl font-bold mt-8 mb-4">5) Abolition Bills Repeal or Supersede All Statutes Which Allow for Abortion</h3>
@@ -72,7 +75,7 @@ export default function ComponentsOfAbolitionBillPage() {
             </div>
 
             <p className="text-sm text-gray-400 italic mt-12">
-              This content was originally published by Free the States, and is used by permission. Abolish Abortion Michigan is not formally affiliated with Free the States, but shares its abolitionist mission and principles.
+              This content was originally published by <a href="https://freethestates.org/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Free the States</a>, and is used by permission. Abolish Abortion Michigan is not formally affiliated with <a href="https://freethestates.org/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Free the States</a>, but shares its abolitionist mission and principles.
             </p>
           </div>
 

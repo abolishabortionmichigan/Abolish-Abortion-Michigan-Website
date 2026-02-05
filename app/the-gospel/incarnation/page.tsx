@@ -58,7 +58,7 @@ export default function IncarnationPage() {
                 </p>
 
                 <p>
-                  He became like us in all things in order that He might live just as we lived and face the same dangers, temptations, and troubles we face as fleshly creatures living in a fallen world (Heb. 2:14-18; Col. 1:15-23).
+                  He became like us in all things in order that He might live just as we lived and face the same dangers, temptations, and troubles we face as fleshly creatures living in a fallen world (<a href="https://biblia.com/bible/esv/hebrews/2/14-18" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Heb. 2:14-18</a>; <a href="https://biblia.com/bible/esv/colossians/1/15-23" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Col. 1:15-23</a>).
                 </p>
               </div>
               <div className="md:w-1/3">
@@ -72,7 +72,7 @@ export default function IncarnationPage() {
             </div>
 
             <p>
-              The Son of God appeared to give light to those who sit in darkness, bring life and immortality to light through the Gospel, set people free from their slavery to sin, reconcile the world to Himself, abolish death, destroy every work of darkness, and guide our feet into the way of peace. He revealed Himself as the Word of the Father, Ruler and King of all creation, head of the church and the living God, and Redeemer of sinful men (Luke 1:78-79; 2 Tim. 1:10; Heb. 8:12; Luke 4:18; 1 Cor. 15:26; 2 Cor. 5:18-21; 1 John 3:8; Rom. 3:23-24).
+              The Son of God appeared to give light to those who sit in darkness, bring life and immortality to light through the Gospel, set people free from their slavery to sin, reconcile the world to Himself, abolish death, destroy every work of darkness, and guide our feet into the way of peace. He revealed Himself as the Word of the Father, Ruler and King of all creation, head of the church and the living God, and Redeemer of sinful men (<a href="https://biblia.com/bible/esv/luke/1/78-79" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Luke 1:78-79</a>; <a href="https://biblia.com/bible/esv/2-timothy/1/10" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">2 Tim. 1:10</a>; <a href="https://biblia.com/bible/esv/hebrews/8/12" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Heb. 8:12</a>; <a href="https://biblia.com/bible/esv/luke/4/18" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Luke 4:18</a>; <a href="https://biblia.com/bible/esv/1-corinthians/15/26" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">1 Cor. 15:26</a>; <a href="https://biblia.com/bible/esv/2-corinthians/5/18-21" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">2 Cor. 5:18-21</a>; <a href="https://biblia.com/bible/esv/1-john/3/8" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">1 John 3:8</a>; <a href="https://biblia.com/bible/esv/romans/3/23-24" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Rom. 3:23-24</a>).
             </p>
 
             <p>
@@ -92,7 +92,7 @@ export default function IncarnationPage() {
             </div>
 
             <p className="text-sm text-gray-400 italic">
-              This content was originally published at Abolish Human Abortion. Abolish Abortion Michigan is not formally affiliated with Abolish Human Abortion, but shares its abolitionist principles.
+              This content was originally published at <a href="https://abolishhumanabortion.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Abolish Human Abortion</a>. Abolish Abortion Michigan is not formally affiliated with <a href="https://abolishhumanabortion.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Abolish Human Abortion</a>, but shares its abolitionist principles.
             </p>
           </div>
 

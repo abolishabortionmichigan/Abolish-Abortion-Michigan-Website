@@ -27,17 +27,17 @@ export async function GET(request: NextRequest) {
   const publishedOnly = searchParams.get('published') === 'true';
 
   if (publishedOnly) {
-    return NextResponse.json(getAllNewsArticles(true));
+    return NextResponse.json(await getAllNewsArticles(true));
   }
 
   // For admin view, verify auth
   const user = verifyAuth(request);
   if (!user || user.role !== 'admin') {
     // Return only published articles for non-admins
-    return NextResponse.json(getAllNewsArticles(true));
+    return NextResponse.json(await getAllNewsArticles(true));
   }
 
-  return NextResponse.json(getAllNewsArticles(false));
+  return NextResponse.json(await getAllNewsArticles(false));
 }
 
 export async function POST(request: NextRequest) {
@@ -54,11 +54,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Check for duplicate slug
-    if (slugExists(data.slug)) {
+    if (await slugExists(data.slug)) {
       return NextResponse.json({ error: 'Slug already exists' }, { status: 400 });
     }
 
-    const newArticle = createNewsArticle({
+    const newArticle = await createNewsArticle({
       title: data.title,
       slug: data.slug,
       excerpt: data.excerpt,
