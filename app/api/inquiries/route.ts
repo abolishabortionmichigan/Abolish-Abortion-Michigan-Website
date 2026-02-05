@@ -5,6 +5,7 @@ import {
 } from '@/lib/data/inquiry-store';
 import { sendInquiryConfirmationEmail, sendInquiryNotificationEmail } from '@/lib/email';
 import { getAuthToken, verifyToken } from '@/lib/actions/auth-actions';
+import { checkRateLimit } from '@/lib/rate-limit';
 
 export async function GET() {
   const token = await getAuthToken();
@@ -22,6 +23,13 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limit form submissions (10 per 15 min per IP)
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+    const limit = checkRateLimit(`inquiry:${ip}`, 10);
+    if (!limit.allowed) {
+      return NextResponse.json({ error: `Too many submissions. Try again in ${limit.retryAfterSeconds} seconds.` }, { status: 429 });
+    }
+
     const data = await request.json();
 
     if (!data.name || !data.email || !data.message) {
