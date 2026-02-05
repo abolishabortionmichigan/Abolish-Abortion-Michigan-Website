@@ -18,7 +18,7 @@ export default function NewsCard({ title, excerpt, date, slug, image }: NewsCard
 
   return (
     <Link href={`/news/${slug}`} className="block news-card">
-      <article className="relative h-80 md:h-96 overflow-hidden group bg-[#1a1a1a]">
+      <article className="relative h-64 sm:h-80 md:h-96 overflow-hidden group bg-[#1a1a1a]">
         {/* Background Image or Placeholder */}
         <div className="absolute inset-0">
           {hasValidImage ? (

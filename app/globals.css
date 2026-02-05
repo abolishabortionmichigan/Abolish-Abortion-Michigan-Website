@@ -87,3 +87,13 @@ html {
 .faq-section {
   scroll-margin-top: 100px;
 }
+
+/* Hide public header/footer on admin pages */
+body:has(#admin-area) > header,
+body:has(#admin-area) > footer {
+  display: none !important;
+}
+
+body:has(#admin-area) > main {
+  flex: none !important;
+}

@@ -102,11 +102,11 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-        <Button variant="outline" size="sm" onClick={fetchData} disabled={loading}>
+      <div className="flex items-center justify-between gap-2">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Dashboard</h1>
+        <Button variant="outline" size="sm" onClick={fetchData} disabled={loading} className="flex-shrink-0">
           <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
-          <span className="ml-2">Refresh</span>
+          <span className="ml-2 hidden sm:inline">Refresh</span>
         </Button>
       </div>
 
@@ -125,9 +125,9 @@ export default function DashboardPage() {
           <CardTitle>Quick Actions</CardTitle>
           <CardDescription>Common tasks and shortcuts</CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-wrap gap-4">
+        <CardContent className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           {quickActions.map((action, i) => (
-            <Link key={i} href={action.href} className="flex-1 min-w-[200px]">
+            <Link key={i} href={action.href}>
               <div className="group flex items-center justify-between p-4 rounded-xl border hover:bg-gray-50 transition-colors">
                 <div className="flex items-center gap-4">
                   <div className={`${action.color} p-3 rounded-lg`}>

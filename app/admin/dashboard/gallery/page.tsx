@@ -232,7 +232,7 @@ export default function GalleryManagementPage() {
       )}
 
       {!loading && !error && photos.length > 0 && (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
           {photos.map((photo) => (
             <div key={photo.id} className="bg-white rounded-lg border overflow-hidden group">
               <div className="relative aspect-square bg-gray-100">
@@ -249,8 +249,8 @@ export default function GalleryManagementPage() {
                     <ImageIcon className="w-8 h-8" />
                   </div>
                 )}
-                {/* Hover overlay with actions */}
-                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                {/* Hover overlay with actions (desktop) */}
+                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity hidden sm:flex items-center justify-center gap-2">
                   <Button
                     size="sm"
                     variant="secondary"
@@ -273,25 +273,23 @@ export default function GalleryManagementPage() {
                 <p className="text-xs text-gray-600 truncate">
                   {photo.caption || 'No caption'}
                 </p>
-                {/* Mobile action buttons */}
+                {/* Mobile action buttons - icon only */}
                 <div className="flex gap-1 mt-1 sm:hidden">
                   <Button
                     size="sm"
                     variant="outline"
                     onClick={() => handleEdit(photo)}
-                    className="h-7 flex-1 text-xs"
+                    className="h-7 w-7 p-0"
                   >
-                    <Edit className="h-3 w-3 mr-1" />
-                    Edit
+                    <Edit className="h-3 w-3" />
                   </Button>
                   <Button
                     size="sm"
                     variant="outline"
                     onClick={() => handleDelete(photo.id)}
-                    className="h-7 flex-1 text-xs text-red-600"
+                    className="h-7 w-7 p-0 text-red-600"
                   >
-                    <Trash className="h-3 w-3 mr-1" />
-                    Delete
+                    <Trash className="h-3 w-3" />
                   </Button>
                 </div>
               </div>
