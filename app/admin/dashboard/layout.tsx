@@ -37,19 +37,19 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
               setUser(res.user);
             }
             if (res.user?.role !== 'admin') {
-              router.push('/login');
+              router.push('/manage-7x9k');
             }
           } else {
             await logout();
-            router.push('/login');
+            router.push('/manage-7x9k');
           }
         } else {
-          router.push('/login');
+          router.push('/manage-7x9k');
         }
       } catch (error) {
         console.error('Auth error:', error);
         await logout();
-        router.push('/login');
+        router.push('/manage-7x9k');
       } finally {
         setIsCheckingAuth(false);
       }
