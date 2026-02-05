@@ -1,5 +1,5 @@
 const WINDOW_MS = 15 * 60 * 1000; // 15 minutes
-const MAX_ATTEMPTS = 5;
+const DEFAULT_MAX_ATTEMPTS = 5;
 
 interface RateLimitEntry {
   count: number;
@@ -18,7 +18,7 @@ setInterval(() => {
   }
 }, 60 * 1000); // Clean up every minute
 
-export function checkRateLimit(key: string): { allowed: boolean; retryAfterSeconds?: number } {
+export function checkRateLimit(key: string, maxAttempts: number = DEFAULT_MAX_ATTEMPTS): { allowed: boolean; retryAfterSeconds?: number } {
   const now = Date.now();
   const entry = attempts.get(key);
 
@@ -27,7 +27,7 @@ export function checkRateLimit(key: string): { allowed: boolean; retryAfterSecon
     return { allowed: true };
   }
 
-  if (entry.count >= MAX_ATTEMPTS) {
+  if (entry.count >= maxAttempts) {
     const retryAfterSeconds = Math.ceil((entry.resetAt - now) / 1000);
     return { allowed: false, retryAfterSeconds };
   }

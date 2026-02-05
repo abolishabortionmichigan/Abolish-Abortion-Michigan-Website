@@ -8,7 +8,9 @@ import {
   hasAlreadySigned,
   deleteSignature as deleteSignatureData,
 } from '@/lib/data/petition-store';
+import { headers } from 'next/headers';
 import { getAuthToken, verifyToken } from './auth-actions';
+import { checkRateLimit } from '@/lib/rate-limit';
 
 async function isAdmin(): Promise<boolean> {
   const token = await getAuthToken();
@@ -45,6 +47,14 @@ export async function signPetition(data: {
   website?: string;
 }): Promise<PetitionSignature | { error: string }> {
   try {
+    // Rate limit form submissions (10 per 15 min per IP)
+    const hdrs = await headers();
+    const ip = hdrs.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+    const limit = checkRateLimit(`petition:${ip}`, 10);
+    if (!limit.allowed) {
+      return { error: `Too many submissions. Try again in ${limit.retryAfterSeconds} seconds.` };
+    }
+
     // Check honeypot field
     if (data.website) {
       // Silently pretend to succeed

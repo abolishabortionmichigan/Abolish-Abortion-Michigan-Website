@@ -1,32 +1,25 @@
-import { NextRequest, NextResponse } from 'next/server';
-import jwt from 'jsonwebtoken';
+import { NextResponse } from 'next/server';
+import { getAuthToken, verifyToken } from '@/lib/actions/auth-actions';
 
-const JWT_SECRET = process.env.JWT_SECRET || '***REDACTED***';
-
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
-    const { token } = await request.json();
+    const token = await getAuthToken();
 
     if (!token) {
       return NextResponse.json({ authorized: false, error: 'Token required' }, { status: 400 });
     }
 
-    const decoded = jwt.verify(token, JWT_SECRET) as {
-      userId: string;
-      email: string;
-      role: string;
-    };
+    const result = await verifyToken(token);
+
+    if (!result.authorized) {
+      return NextResponse.json({ authorized: false, error: 'Invalid token' }, { status: 401 });
+    }
 
     return NextResponse.json({
       authorized: true,
-      user: {
-        id: decoded.userId,
-        email: decoded.email,
-        role: decoded.role,
-      },
+      user: result.user,
     });
-  } catch (error) {
-    console.error('Token verification error:', error);
+  } catch {
     return NextResponse.json({ authorized: false, error: 'Invalid token' }, { status: 401 });
   }
 }

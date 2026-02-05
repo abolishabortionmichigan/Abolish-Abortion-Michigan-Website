@@ -1,25 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import jwt from 'jsonwebtoken';
 import {
   getAllNewsArticles,
   createNewsArticle,
   slugExists,
 } from '@/lib/data/news-store';
+import { getAuthToken, verifyToken } from '@/lib/actions/auth-actions';
 
-const JWT_SECRET = process.env.JWT_SECRET || '***REDACTED***';
-
-function verifyAuth(request: NextRequest) {
-  const authHeader = request.headers.get('authorization');
-  if (!authHeader?.startsWith('Bearer ')) {
-    return null;
-  }
-
-  try {
-    const token = authHeader.split(' ')[1];
-    return jwt.verify(token, JWT_SECRET) as { userId: string; email: string; role: string };
-  } catch {
-    return null;
-  }
+async function isAdmin(): Promise<boolean> {
+  const token = await getAuthToken();
+  if (!token) return false;
+  const result = await verifyToken(token);
+  return result.authorized && result.user?.role === 'admin';
 }
 
 export async function GET(request: NextRequest) {
@@ -31,8 +22,7 @@ export async function GET(request: NextRequest) {
   }
 
   // For admin view, verify auth
-  const user = verifyAuth(request);
-  if (!user || user.role !== 'admin') {
+  if (!await isAdmin()) {
     // Return only published articles for non-admins
     return NextResponse.json(await getAllNewsArticles(true));
   }
@@ -41,8 +31,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const user = verifyAuth(request);
-  if (!user || user.role !== 'admin') {
+  if (!await isAdmin()) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -68,7 +57,7 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json(newArticle, { status: 201 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to create article' }, { status: 500 });
   }
 }

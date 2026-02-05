@@ -1,40 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server';
-import jwt from 'jsonwebtoken';
 import {
-  getInquiryById,
   updateInquiry,
   deleteInquiry,
 } from '@/lib/data/inquiry-store';
+import { getAuthToken, verifyToken } from '@/lib/actions/auth-actions';
 
-const JWT_SECRET = process.env.JWT_SECRET || '***REDACTED***';
-
-function verifyAuth(request: NextRequest) {
-  const authHeader = request.headers.get('authorization');
-  if (!authHeader?.startsWith('Bearer ')) {
-    return null;
-  }
-
-  try {
-    const token = authHeader.split(' ')[1];
-    return jwt.verify(token, JWT_SECRET) as { userId: string; email: string; role: string };
-  } catch {
-    return null;
-  }
+async function isAdmin(): Promise<boolean> {
+  const token = await getAuthToken();
+  if (!token) return false;
+  const result = await verifyToken(token);
+  return result.authorized && result.user?.role === 'admin';
 }
 
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const user = verifyAuth(request);
-  if (!user || user.role !== 'admin') {
+  if (!await isAdmin()) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
     const { id } = await params;
     const data = await request.json();
-
     const updated = await updateInquiry(id, data);
 
     if (!updated) {
@@ -42,7 +30,7 @@ export async function PATCH(
     }
 
     return NextResponse.json(updated);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to update inquiry' }, { status: 500 });
   }
 }
@@ -51,8 +39,7 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const user = verifyAuth(request);
-  if (!user || user.role !== 'admin') {
+  if (!await isAdmin()) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
@@ -65,7 +52,7 @@ export async function DELETE(
     }
 
     return NextResponse.json({ success: true });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to delete inquiry' }, { status: 500 });
   }
 }
