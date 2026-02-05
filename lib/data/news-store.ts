@@ -1,9 +1,11 @@
+// News articles store - in-memory for now
+// TODO: Connect to database for persistence
+
 import { NewsArticle } from '@/types';
-import { prisma, isDatabaseConnected } from '@/lib/prisma';
 
 export type NewsArticleData = NewsArticle;
 
-// In-memory fallback with default article
+// In-memory store with default article
 const memoryStore: NewsArticleData[] = [
   {
     id: '1',
@@ -19,45 +21,20 @@ const memoryStore: NewsArticleData[] = [
 ];
 
 export async function getAllNewsArticles(publishedOnly = false): Promise<NewsArticleData[]> {
-  if (isDatabaseConnected) {
-    const items = await prisma.newsArticle.findMany({
-      where: publishedOnly ? { published: true } : undefined,
-      orderBy: { created_at: 'desc' },
-    });
-    return items.map(mapDbArticle);
-  }
-
+  const articles = [...memoryStore].sort((a, b) =>
+    new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime()
+  );
   if (publishedOnly) {
-    return memoryStore.filter((a) => a.published);
+    return articles.filter((a) => a.published);
   }
-  return [...memoryStore];
+  return articles;
 }
 
 export async function getNewsArticleBySlug(slug: string): Promise<NewsArticleData | undefined> {
-  if (isDatabaseConnected) {
-    const item = await prisma.newsArticle.findFirst({
-      where: { OR: [{ slug }, { id: slug }] },
-    });
-    return item ? mapDbArticle(item) : undefined;
-  }
   return memoryStore.find((a) => a.slug === slug || a.id === slug);
 }
 
 export async function createNewsArticle(data: Omit<NewsArticleData, 'id' | 'created_at' | 'updated_at'>): Promise<NewsArticleData> {
-  if (isDatabaseConnected) {
-    const item = await prisma.newsArticle.create({
-      data: {
-        title: data.title,
-        slug: data.slug,
-        excerpt: data.excerpt,
-        content: data.content,
-        image: data.image || null,
-        published: data.published || false,
-      },
-    });
-    return mapDbArticle(item);
-  }
-
   const newArticle: NewsArticleData = {
     id: Date.now().toString(),
     title: data.title,
@@ -74,25 +51,6 @@ export async function createNewsArticle(data: Omit<NewsArticleData, 'id' | 'crea
 }
 
 export async function updateNewsArticle(id: string, data: Partial<NewsArticleData>): Promise<NewsArticleData | null> {
-  if (isDatabaseConnected) {
-    try {
-      const item = await prisma.newsArticle.update({
-        where: { id },
-        data: {
-          ...(data.title !== undefined && { title: data.title }),
-          ...(data.slug !== undefined && { slug: data.slug }),
-          ...(data.excerpt !== undefined && { excerpt: data.excerpt }),
-          ...(data.content !== undefined && { content: data.content }),
-          ...(data.image !== undefined && { image: data.image }),
-          ...(data.published !== undefined && { published: data.published }),
-        },
-      });
-      return mapDbArticle(item);
-    } catch {
-      return null;
-    }
-  }
-
   const index = memoryStore.findIndex((a) => a.id === id || a.slug === id);
   if (index === -1) return null;
 
@@ -105,15 +63,6 @@ export async function updateNewsArticle(id: string, data: Partial<NewsArticleDat
 }
 
 export async function deleteNewsArticle(id: string): Promise<boolean> {
-  if (isDatabaseConnected) {
-    try {
-      await prisma.newsArticle.delete({ where: { id } });
-      return true;
-    } catch {
-      return false;
-    }
-  }
-
   const index = memoryStore.findIndex((a) => a.id === id || a.slug === id);
   if (index === -1) return false;
   memoryStore.splice(index, 1);
@@ -121,28 +70,5 @@ export async function deleteNewsArticle(id: string): Promise<boolean> {
 }
 
 export async function slugExists(slug: string, excludeId?: string): Promise<boolean> {
-  if (isDatabaseConnected) {
-    const item = await prisma.newsArticle.findFirst({
-      where: {
-        slug,
-        ...(excludeId ? { NOT: { id: excludeId } } : {}),
-      },
-    });
-    return !!item;
-  }
   return memoryStore.some((a) => a.slug === slug && a.id !== excludeId);
-}
-
-function mapDbArticle(item: { id: string; title: string; slug: string; excerpt: string; content: string; image: string | null; published: boolean; created_at: Date; updated_at: Date }): NewsArticleData {
-  return {
-    id: item.id,
-    title: item.title,
-    slug: item.slug,
-    excerpt: item.excerpt,
-    content: item.content,
-    image: item.image || '',
-    published: item.published,
-    created_at: item.created_at.toISOString(),
-    updated_at: item.updated_at.toISOString(),
-  };
 }
