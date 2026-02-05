@@ -1,12 +1,27 @@
 import { NextResponse } from 'next/server';
+import prisma, { isDatabaseConnected } from '@/lib/prisma';
 
 export async function GET() {
-  // List ALL env var names (no values for security)
-  const allVarNames = Object.keys(process.env).sort();
-
-  return NextResponse.json({
+  const info: Record<string, unknown> = {
+    isDatabaseConnected,
     hasDbUrl: !!process.env.DATABASE_URL,
-    totalEnvVars: allVarNames.length,
-    allVarNames,
-  });
+    dbUrlPrefix: process.env.DATABASE_URL?.substring(0, 30) + '...',
+  };
+
+  if (isDatabaseConnected) {
+    try {
+      const petitionCount = await prisma.petitionSignature.count();
+      const inquiryCount = await prisma.inquiry.count();
+      const newsCount = await prisma.newsArticle.count();
+      info.dbConnected = true;
+      info.petitionCount = petitionCount;
+      info.inquiryCount = inquiryCount;
+      info.newsCount = newsCount;
+    } catch (error: unknown) {
+      info.dbConnected = false;
+      info.dbError = error instanceof Error ? error.message : String(error);
+    }
+  }
+
+  return NextResponse.json(info);
 }
