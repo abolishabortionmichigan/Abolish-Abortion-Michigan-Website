@@ -53,7 +53,7 @@ export default function KingdomOfGodPage() {
                   At the heart of all that we do as abolitionists, as the people of God, is the Gospel call and cry, &ldquo;Repent for the Kingdom of God is at Hand!&rdquo; What drives abolitionism is a desire to do justice, love mercy, and walk humbly with our God (<a href="https://biblia.com/bible/esv/micah/6/8" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Micah 6:8</a>). We seek to bring justice to the fatherless and help to the helpless (<a href="https://biblia.com/bible/esv/isaiah/1/16-17" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Isaiah 1:16-17</a>). Our desire is to consistently practice what the New Testament calls pure and undefiled religion: to look after the orphaned and widows in their affliction, and to keep ourselves unstained by the world (<a href="https://biblia.com/bible/esv/james/1/27" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">James 1:27</a>).
                 </p>
               </div>
-              <div className="max-w-xs mx-auto md:max-w-none md:w-1/3">
+              <div className="w-2/3 max-w-[220px] mx-auto md:max-w-none md:w-1/3">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/images/repent-red.png"

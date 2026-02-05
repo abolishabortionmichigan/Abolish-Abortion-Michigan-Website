@@ -42,9 +42,18 @@ export interface PetitionSignature {
   created_at?: Date | string;
 }
 
+export interface GalleryPhoto {
+  id: string;
+  url: string;
+  caption?: string;
+  sortOrder?: number;
+  created_at?: Date | string;
+}
+
 export interface DashboardStats {
   totalInquiries: number;
   totalNews: number;
   totalSignatures: number;
+  totalPhotos: number;
   pendingInquiries: number;
 }

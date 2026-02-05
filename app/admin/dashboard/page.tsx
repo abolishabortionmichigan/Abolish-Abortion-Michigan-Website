@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Mail, Newspaper, FileText, RefreshCw, ArrowUpRight } from 'lucide-react';
+import { Mail, Newspaper, FileText, ImageIcon, RefreshCw, ArrowUpRight } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -27,6 +27,12 @@ const quickActions = [
     label: 'View Petitions',
     href: '/admin/dashboard/petitions',
     color: 'bg-purple-500/10 text-purple-600',
+  },
+  {
+    icon: ImageIcon,
+    label: 'Manage Gallery',
+    href: '/admin/dashboard/gallery',
+    color: 'bg-orange-500/10 text-orange-600',
   },
 ];
 
@@ -63,6 +69,13 @@ export default function DashboardPage() {
       description: 'People who signed the petition',
       icon: <FileText size={20} />,
       color: 'bg-purple-500/10 text-purple-600',
+    },
+    {
+      title: 'Gallery Photos',
+      value: data?.totalPhotos ?? 0,
+      description: 'Photos in the media gallery',
+      icon: <ImageIcon size={20} />,
+      color: 'bg-orange-500/10 text-orange-600',
     },
   ];
 
@@ -130,7 +143,7 @@ export default function DashboardPage() {
       </Card>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6">
         {stats.map((stat) => (
           <Card key={stat.title}>
             <CardHeader className="pb-2">

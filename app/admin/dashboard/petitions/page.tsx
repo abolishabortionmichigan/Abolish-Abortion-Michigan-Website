@@ -83,18 +83,18 @@ export default function PetitionsPage() {
   const subscribedCount = signatures.filter((s) => s.subscribed).length;
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
         <div>
-          <h1 className="text-2xl font-bold">Petition Signatures</h1>
+          <h1 className="text-xl sm:text-2xl font-bold">Petition Signatures</h1>
           {!loading && (
             <p className="text-sm text-gray-500 mt-1">
-              {signatures.length} total signatures &middot; {subscribedCount} subscribed to updates
+              {signatures.length} total &middot; {subscribedCount} subscribed
             </p>
           )}
         </div>
         <div className="flex items-center gap-2 w-full sm:w-auto">
-          <div className="relative flex-1 sm:flex-none sm:min-w-[300px]">
+          <div className="relative flex-1 sm:flex-none sm:min-w-[200px]">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <Input
               placeholder="Search signatures..."
@@ -138,58 +138,92 @@ export default function PetitionsPage() {
       )}
 
       {!loading && !error && signatures.length > 0 && (
-        <div className="bg-white rounded-lg border overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-gray-50 border-b">
-                  <th className="text-left p-4 font-medium">Name</th>
-                  <th className="text-left p-4 font-medium hidden md:table-cell">Email</th>
-                  <th className="text-left p-4 font-medium hidden lg:table-cell">Location</th>
-                  <th className="text-left p-4 font-medium hidden lg:table-cell">Subscribed</th>
-                  <th className="text-left p-4 font-medium hidden md:table-cell">Date</th>
-                  <th className="text-right p-4 font-medium">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredSignatures.map((sig) => (
-                  <tr key={sig.id} className="border-b hover:bg-gray-50">
-                    <td className="p-4">
-                      <div>
-                        <p className="font-medium">{sig.name}</p>
-                        <p className="text-sm text-gray-500 truncate max-w-[200px] md:hidden">{sig.email}</p>
-                      </div>
-                    </td>
-                    <td className="p-4 hidden md:table-cell">
-                      <p className="truncate max-w-[200px]">{sig.email}</p>
-                    </td>
-                    <td className="p-4 hidden lg:table-cell">
-                      <p>{[sig.city, sig.state, sig.zipcode].filter(Boolean).join(', ') || 'N/A'}</p>
-                    </td>
-                    <td className="p-4 hidden lg:table-cell">
-                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${sig.subscribed ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'}`}>
-                        {sig.subscribed ? 'Yes' : 'No'}
-                      </span>
-                    </td>
-                    <td className="p-4 hidden md:table-cell">
-                      {sig.created_at ? formatDate(sig.created_at) : 'N/A'}
-                    </td>
-                    <td className="p-4 text-right">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleDelete(sig.id)}
-                        className="text-red-600 hover:bg-red-50"
-                      >
-                        <Trash className="h-4 w-4" />
-                      </Button>
-                    </td>
+        <>
+          {/* Desktop table */}
+          <div className="hidden sm:block bg-white rounded-lg border overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-gray-50 border-b">
+                    <th className="text-left p-4 font-medium">Name</th>
+                    <th className="text-left p-4 font-medium hidden md:table-cell">Email</th>
+                    <th className="text-left p-4 font-medium hidden lg:table-cell">Location</th>
+                    <th className="text-left p-4 font-medium hidden lg:table-cell">Subscribed</th>
+                    <th className="text-left p-4 font-medium hidden md:table-cell">Date</th>
+                    <th className="text-right p-4 font-medium">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {filteredSignatures.map((sig) => (
+                    <tr key={sig.id} className="border-b hover:bg-gray-50">
+                      <td className="p-4">
+                        <div>
+                          <p className="font-medium">{sig.name}</p>
+                          <p className="text-sm text-gray-500 truncate max-w-[200px] md:hidden">{sig.email}</p>
+                        </div>
+                      </td>
+                      <td className="p-4 hidden md:table-cell">
+                        <p className="truncate max-w-[200px]">{sig.email}</p>
+                      </td>
+                      <td className="p-4 hidden lg:table-cell">
+                        <p>{[sig.city, sig.state, sig.zipcode].filter(Boolean).join(', ') || 'N/A'}</p>
+                      </td>
+                      <td className="p-4 hidden lg:table-cell">
+                        <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${sig.subscribed ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'}`}>
+                          {sig.subscribed ? 'Yes' : 'No'}
+                        </span>
+                      </td>
+                      <td className="p-4 hidden md:table-cell">
+                        {sig.created_at ? formatDate(sig.created_at) : 'N/A'}
+                      </td>
+                      <td className="p-4 text-right">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleDelete(sig.id)}
+                          className="text-red-600 hover:bg-red-50"
+                        >
+                          <Trash className="h-4 w-4" />
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+
+          {/* Mobile card layout */}
+          <div className="sm:hidden space-y-3">
+            {filteredSignatures.map((sig) => (
+              <div key={sig.id} className="bg-white rounded-lg border p-4 space-y-2">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <p className="font-medium truncate">{sig.name}</p>
+                    <p className="text-sm text-gray-500 truncate">{sig.email}</p>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleDelete(sig.id)}
+                    className="text-red-600 hover:bg-red-50 flex-shrink-0"
+                  >
+                    <Trash className="h-4 w-4" />
+                  </Button>
+                </div>
+                <div className="flex items-center justify-between text-xs text-gray-500 pt-2 border-t">
+                  <span>{[sig.city, sig.state, sig.zipcode].filter(Boolean).join(', ') || 'No location'}</span>
+                  <span>{sig.created_at ? formatDate(sig.created_at) : 'N/A'}</span>
+                </div>
+                {sig.subscribed && (
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    Subscribed
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        </>
       )}
 
       {filteredSignatures.length === 0 && searchTerm && !loading && (

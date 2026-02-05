@@ -74,9 +74,9 @@ export default function InquiriesPage() {
   });
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h1 className="text-2xl font-bold">Inquiry Management</h1>
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
+        <h1 className="text-xl sm:text-2xl font-bold">Inquiry Management</h1>
         <div className="flex items-center gap-2 w-full sm:w-auto">
           <div className="relative flex-1 sm:flex-none sm:min-w-[300px]">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -119,57 +119,100 @@ export default function InquiriesPage() {
       )}
 
       {!loading && !error && inquiries.length > 0 && (
-        <div className="bg-white rounded-lg border overflow-hidden">
-          <table className="w-full">
-            <thead>
-              <tr className="bg-gray-50 border-b">
-                <th className="text-left p-4 font-medium">Name</th>
-                <th className="text-left p-4 font-medium hidden md:table-cell">Subject</th>
-                <th className="text-left p-4 font-medium hidden lg:table-cell">Date</th>
-                <th className="text-left p-4 font-medium">Status</th>
-                <th className="text-right p-4 font-medium">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredInquiries.map((inquiry) => (
-                <tr key={inquiry.id} className="border-b hover:bg-gray-50">
-                  <td className="p-4">
-                    <div>
-                      <p className="font-medium">{inquiry.name}</p>
-                      <p className="text-sm text-gray-500 truncate max-w-[200px]">{inquiry.email}</p>
-                    </div>
-                  </td>
-                  <td className="p-4 hidden md:table-cell">
-                    <p className="truncate max-w-[200px]">{inquiry.subject || 'No subject'}</p>
-                  </td>
-                  <td className="p-4 hidden lg:table-cell">
+        <>
+          {/* Desktop table */}
+          <div className="hidden sm:block bg-white rounded-lg border overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-gray-50 border-b">
+                    <th className="text-left p-4 font-medium">Name</th>
+                    <th className="text-left p-4 font-medium hidden md:table-cell">Subject</th>
+                    <th className="text-left p-4 font-medium hidden lg:table-cell">Date</th>
+                    <th className="text-left p-4 font-medium">Status</th>
+                    <th className="text-right p-4 font-medium">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredInquiries.map((inquiry) => (
+                    <tr key={inquiry.id} className="border-b hover:bg-gray-50">
+                      <td className="p-4">
+                        <div>
+                          <p className="font-medium">{inquiry.name}</p>
+                          <p className="text-sm text-gray-500 truncate max-w-[200px]">{inquiry.email}</p>
+                        </div>
+                      </td>
+                      <td className="p-4 hidden md:table-cell">
+                        <p className="truncate max-w-[200px]">{inquiry.subject || 'No subject'}</p>
+                      </td>
+                      <td className="p-4 hidden lg:table-cell">
+                        {inquiry.created_at ? formatDate(inquiry.created_at) : 'N/A'}
+                      </td>
+                      <td className="p-4">
+                        <Badge className={statusColors[inquiry.status] || 'bg-gray-100'}>
+                          {inquiry.status.charAt(0).toUpperCase() + inquiry.status.slice(1)}
+                        </Badge>
+                      </td>
+                      <td className="p-4 text-right">
+                        <div className="flex justify-end gap-2">
+                          <Button variant="outline" size="sm" onClick={() => handleView(inquiry)}>
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleDelete(inquiry.id)}
+                            className="text-red-600 hover:bg-red-50"
+                          >
+                            <Trash className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Mobile card layout */}
+          <div className="sm:hidden space-y-3">
+            {filteredInquiries.map((inquiry) => (
+              <div key={inquiry.id} className="bg-white rounded-lg border p-4 space-y-2">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <p className="font-medium truncate">{inquiry.name}</p>
+                    <p className="text-sm text-gray-500 truncate">{inquiry.email}</p>
+                  </div>
+                  <Badge className={`flex-shrink-0 ${statusColors[inquiry.status] || 'bg-gray-100'}`}>
+                    {inquiry.status.charAt(0).toUpperCase() + inquiry.status.slice(1)}
+                  </Badge>
+                </div>
+                {inquiry.subject && (
+                  <p className="text-sm text-gray-600 truncate">{inquiry.subject}</p>
+                )}
+                <div className="flex items-center justify-between pt-2 border-t">
+                  <span className="text-xs text-gray-400">
                     {inquiry.created_at ? formatDate(inquiry.created_at) : 'N/A'}
-                  </td>
-                  <td className="p-4">
-                    <Badge className={statusColors[inquiry.status] || 'bg-gray-100'}>
-                      {inquiry.status.charAt(0).toUpperCase() + inquiry.status.slice(1)}
-                    </Badge>
-                  </td>
-                  <td className="p-4 text-right">
-                    <div className="flex justify-end gap-2">
-                      <Button variant="outline" size="sm" onClick={() => handleView(inquiry)}>
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleDelete(inquiry.id)}
-                        className="text-red-600 hover:bg-red-50"
-                      >
-                        <Trash className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                  </span>
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm" onClick={() => handleView(inquiry)}>
+                      <Eye className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDelete(inquiry.id)}
+                      className="text-red-600 hover:bg-red-50"
+                    >
+                      <Trash className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
       )}
 
       {filteredInquiries.length === 0 && searchTerm && !loading && (

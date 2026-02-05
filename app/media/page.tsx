@@ -1,23 +1,18 @@
 import { Metadata } from 'next';
 import GalleryImage from '@/components/GalleryImage';
 import CTABanner from '@/components/CTABanner';
+import { getAllGalleryPhotos } from '@/lib/data/gallery-store';
 
 export const metadata: Metadata = {
   title: 'Media - Abolish Abortion Michigan',
   description: 'Photos, videos, and resources from Abolish Abortion Michigan events and activism.',
 };
 
-// Placeholder gallery data - replace with actual images
-const galleryImages = [
-  { id: 1, src: '/images/gallery-1.jpg', alt: 'Event photo 1' },
-  { id: 2, src: '/images/gallery-2.jpg', alt: 'Event photo 2' },
-  { id: 3, src: '/images/gallery-3.jpg', alt: 'Event photo 3' },
-  { id: 4, src: '/images/gallery-4.jpg', alt: 'Event photo 4' },
-  { id: 5, src: '/images/gallery-5.jpg', alt: 'Event photo 5' },
-  { id: 6, src: '/images/gallery-6.jpg', alt: 'Event photo 6' },
-];
+export const dynamic = 'force-dynamic';
 
-export default function MediaPage() {
+export default async function MediaPage() {
+  const photos = await getAllGalleryPhotos();
+
   return (
     <>
       {/* Hero Section */}
@@ -37,15 +32,17 @@ export default function MediaPage() {
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl font-bold mb-8">Photo Gallery</h2>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {galleryImages.map((image) => (
-              <GalleryImage key={image.id} src={image.src} alt={image.alt} />
-            ))}
-          </div>
-
-          <p className="text-center text-gray-600 mt-8">
-            More photos coming soon. Check back for updates from our events and outreach activities.
-          </p>
+          {photos.length > 0 ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {photos.map((photo) => (
+                <GalleryImage key={photo.id} src={photo.url} alt={photo.caption || 'Gallery photo'} />
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-gray-600">
+              Photos coming soon. Check back for updates from our events and outreach activities.
+            </p>
+          )}
         </div>
       </section>
 
