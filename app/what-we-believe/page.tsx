@@ -10,10 +10,14 @@ export default function WhatWeBelievePage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-[#1a1a1a] text-white py-16 md:py-24">
+      <section className="bg-[#1a1a1a] text-white py-24 md:py-32">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">WHAT WE BELIEVE</h1>
-          <p className="text-gray-400">Our convictions about God, life, and justice</p>
+          <h1 className="text-4xl md:text-6xl mb-6">
+            <span className="font-light">What We</span>{' '}
+            <span className="font-black">BELIEVE</span>
+          </h1>
+          <div className="w-12 h-[3px] bg-red-600 mx-auto mb-6" />
+          <p className="text-sm md:text-base tracking-[0.3em] uppercase text-gray-300">Our convictions about God, life, and justice</p>
         </div>
       </section>
 

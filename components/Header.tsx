@@ -40,6 +40,7 @@ const navItems = [
     dropdown: [
       { label: 'Abolition Bills', href: '/abolition-bills' },
       { label: 'Components of an Abolition Bill', href: '/abolition-bills/components' },
+      { label: 'Current Abolition Bills', href: '/abolition-bills/current-bills' },
       { label: 'HB 4671', href: '/abolition-bills#hb4671' },
       { label: 'Current Legislation', href: '/abolition-bills#current' },
     ],
