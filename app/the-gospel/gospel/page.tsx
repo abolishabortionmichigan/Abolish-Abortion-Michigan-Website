@@ -52,7 +52,7 @@ export default function GospelPage() {
             <img
               src="/images/gospel.png"
               alt="The Gospel"
-              className="max-w-md mx-auto my-8 rounded-lg"
+              className="w-full max-w-md mx-auto my-8 rounded-lg"
             />
 
             <div className="my-10">
