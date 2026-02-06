@@ -3,13 +3,12 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import CTABanner from '@/components/CTABanner';
-import { getNewsArticleBySlug, getAllNewsArticles } from '@/lib/data/news-store';
+import { getNewsArticleBySlug } from '@/lib/data/news-store';
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
-// Ensure page is dynamically rendered
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -26,13 +25,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `${article.title} - Abolish Abortion Michigan`,
     description: article.excerpt,
   };
-}
-
-export async function generateStaticParams() {
-  const articles = await getAllNewsArticles(true);
-  return articles.map((article) => ({
-    slug: article.slug,
-  }));
 }
 
 export default async function NewsArticlePage({ params }: Props) {
