@@ -201,12 +201,14 @@ export default function ContactPage() {
                   {status === 'sending' ? 'Sending...' : 'Send Message'}
                 </button>
 
-                {status === 'success' && (
-                  <p className="text-green-600 text-center">Message sent successfully!</p>
-                )}
-                {status === 'error' && (
-                  <p className="text-red-600 text-center">Failed to send message. Please try again.</p>
-                )}
+                <div aria-live="polite" aria-atomic="true">
+                  {status === 'success' && (
+                    <p className="text-green-600 text-center" role="status">Message sent successfully!</p>
+                  )}
+                  {status === 'error' && (
+                    <p className="text-red-600 text-center" role="alert">Failed to send message. Please try again.</p>
+                  )}
+                </div>
               </form>
             </div>
           </div>

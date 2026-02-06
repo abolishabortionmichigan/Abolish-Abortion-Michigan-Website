@@ -53,13 +53,6 @@ export default async function NewsPage() {
         </div>
       </section>
 
-      {/* Sidebar Info */}
-      <section className="bg-gray-100 py-12">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <p className="text-gray-600">no announcements at this time.</p>
-        </div>
-      </section>
-
       {/* CTA Banner */}
       <CTABanner />
     </>

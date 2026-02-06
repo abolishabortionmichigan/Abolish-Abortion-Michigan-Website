@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import CTABanner from '@/components/CTABanner';
 import PetitionForm from '@/components/PetitionForm';
+import ShareButtons from '@/components/ShareButtons';
 
 export const metadata: Metadata = {
   title: 'The Petition - Abolish Abortion Michigan',
@@ -55,6 +56,11 @@ export default function ThePetitionPage() {
                 <li>Declares null and void any federal law, regulation, or court opinion that purports to permit abortion</li>
               </ol>
             </div>
+          </div>
+
+          {/* Share Buttons */}
+          <div className="mb-8">
+            <ShareButtons />
           </div>
 
           {/* Petition Form */}
