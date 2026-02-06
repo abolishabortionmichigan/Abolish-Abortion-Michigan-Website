@@ -27,7 +27,7 @@ export default function NewsCard({ title, excerpt, date, slug, image }: NewsCard
               src={image}
               alt={title}
               fill
-              className="object-contain"
+              className="object-cover"
               onError={() => setImageError(true)}
             />
           ) : (

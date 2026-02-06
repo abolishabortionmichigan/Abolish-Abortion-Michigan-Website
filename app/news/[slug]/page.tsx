@@ -70,7 +70,7 @@ export default async function NewsArticlePage({ params }: Props) {
             src={article.image}
             alt={article.title}
             fill
-            className="object-contain"
+            className="object-cover"
           />
         </div>
       )}
