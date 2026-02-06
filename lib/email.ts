@@ -17,7 +17,7 @@ interface InquiryData {
 }
 
 // Get email configuration from environment variables
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@abolishabortionmichigan.com';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 const EMAIL_USER = process.env.EMAIL_USER || ADMIN_EMAIL;
 const EMAIL_PASSWORD = process.env.EMAIL_PASSWORD;
 const EMAIL_HOST = process.env.EMAIL_HOST || 'smtp.gmail.com';
@@ -54,7 +54,7 @@ export const sendInquiryConfirmationEmail = async (inquiry: InquiryData) => {
       html: inquiryConfirmationEmailHtml(inquiry),
     });
 
-    console.log(`Confirmation email sent: ${info.messageId}`);
+    // Email sent successfully
     return { success: true, messageId: info.messageId };
   } catch (error) {
     console.error('Error sending confirmation email:', error);
@@ -79,7 +79,7 @@ export const sendInquiryNotificationEmail = async (inquiry: InquiryData) => {
       html: inquiryNotificationEmailHtml(inquiry),
     });
 
-    console.log(`Notification email sent: ${info.messageId}`);
+    // Email sent successfully
     return { success: true, messageId: info.messageId };
   } catch (error) {
     console.error('Error sending notification email:', error);
