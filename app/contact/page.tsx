@@ -114,7 +114,7 @@ export default function ContactPage() {
 
             {/* Contact Form */}
             <div>
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-4" aria-describedby={status === 'error' ? 'contact-error' : status === 'success' ? 'contact-success' : undefined}>
                 {/* Honeypot field - hidden from real users */}
                 <div className="absolute opacity-0 top-0 left-0 h-0 w-0 -z-10" aria-hidden="true">
                   <label htmlFor="website">Website</label>
@@ -203,10 +203,10 @@ export default function ContactPage() {
 
                 <div aria-live="polite" aria-atomic="true">
                   {status === 'success' && (
-                    <p className="text-green-600 text-center" role="status">Message sent successfully!</p>
+                    <p id="contact-success" className="text-green-600 text-center" role="status">Message sent successfully!</p>
                   )}
                   {status === 'error' && (
-                    <p className="text-red-600 text-center" role="alert">Failed to send message. Please try again.</p>
+                    <p id="contact-error" className="text-red-600 text-center" role="alert">Failed to send message. Please try again.</p>
                   )}
                 </div>
               </form>

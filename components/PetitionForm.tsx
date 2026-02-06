@@ -102,13 +102,13 @@ export default function PetitionForm() {
 
       <div aria-live="polite" aria-atomic="true">
         {status === 'error' && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
+          <div id="petition-error" className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
             {errorMessage}
           </div>
         )}
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4" aria-describedby={status === 'error' ? 'petition-error' : undefined}>
         {/* Honeypot field - hidden from real users */}
         <div className="absolute opacity-0 top-0 left-0 h-0 w-0 -z-10" aria-hidden="true">
           <label htmlFor="pet-website">Website</label>
