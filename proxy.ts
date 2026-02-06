@@ -27,7 +27,13 @@ export function proxy(request: NextRequest) {
   } catch {
     // Token is invalid or expired - clear it and redirect
     const response = NextResponse.redirect(new URL('/manage-7x9k', request.url));
-    response.cookies.delete('auth_token');
+    response.cookies.set('auth_token', '', {
+      path: '/',
+      expires: new Date(0),
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+    });
     return response;
   }
 }
