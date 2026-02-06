@@ -63,7 +63,10 @@ export default function Footer() {
               <Link href="/non-violence-statement" className="text-red-500 hover:text-red-400 transition-colors">
                 non-violence statement
               </Link>
-              .
+              {' '}&bull;{' '}
+              <Link href="/privacy-policy" className="text-red-500 hover:text-red-400 transition-colors">
+                Privacy Policy
+              </Link>
             </p>
 
             {/* Social Icons */}

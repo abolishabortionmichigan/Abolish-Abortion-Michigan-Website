@@ -10,6 +10,7 @@ import {
   deleteNewsArticle as deleteArticle,
   slugExists,
 } from '@/lib/data/news-store';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 async function isAdmin(): Promise<boolean> {
   const token = await getAuthToken();
@@ -79,7 +80,7 @@ export async function createNewsArticle(data: Omit<NewsArticle, 'id' | 'created_
       title: data.title,
       slug: data.slug,
       excerpt: data.excerpt,
-      content: data.content,
+      content: sanitizeHtml(data.content),
       image: data.image || '',
       published: data.published || false,
     });
@@ -102,7 +103,12 @@ export async function updateNewsArticle(id: string, data: Partial<NewsArticle>) 
       return { error: 'Slug already exists' };
     }
 
-    const updated = await updateArticle(id, data);
+    // Sanitize content if being updated
+    const sanitizedData = data.content
+      ? { ...data, content: sanitizeHtml(data.content) }
+      : data;
+
+    const updated = await updateArticle(id, sanitizedData);
 
     if (!updated) {
       return { error: 'Article not found' };
