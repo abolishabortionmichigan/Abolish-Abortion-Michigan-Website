@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer';
+import { createHmac } from 'crypto';
 import { escapeHtml } from './sanitize';
 
 interface EmailPayload {
@@ -14,6 +15,26 @@ interface InquiryData {
   subject?: string;
   message: string;
   created_at: string;
+}
+
+interface PetitionData {
+  name: string;
+  email: string;
+  city?: string;
+  state?: string;
+  subscribed?: boolean;
+}
+
+interface ArticleData {
+  title: string;
+  slug: string;
+  excerpt: string;
+  image?: string;
+}
+
+interface SubscriberData {
+  name: string;
+  email: string;
 }
 
 // Get email configuration from environment variables
@@ -370,6 +391,397 @@ const inquiryNotificationEmailHtml = (inquiry: InquiryData) => {
               <p style="margin: 0;">This is an automated notification from the AAM Website.</p>
             </td>
           </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+  `;
+};
+
+// ===== UNSUBSCRIBE HELPERS =====
+
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://abolishabortionmichigan.com';
+
+export function generateUnsubscribeToken(email: string): string {
+  const secret = process.env.JWT_SECRET || '';
+  return createHmac('sha256', secret).update(email.toLowerCase()).digest('hex');
+}
+
+export function verifyUnsubscribeToken(email: string, token: string): boolean {
+  const expected = generateUnsubscribeToken(email);
+  return expected === token;
+}
+
+function getUnsubscribeUrl(email: string): string {
+  const token = generateUnsubscribeToken(email);
+  return `${BASE_URL}/unsubscribe?email=${encodeURIComponent(email.toLowerCase())}&token=${token}`;
+}
+
+function unsubscribeFooterHtml(email: string): string {
+  const url = getUnsubscribeUrl(email);
+  return `
+          <tr>
+            <td style="text-align: center; padding: 15px 20px; font-size: 12px; color: #999999;">
+              <p style="margin: 0;">You received this email because you subscribed at abolishabortionmichigan.com.</p>
+              <p style="margin: 5px 0 0 0;"><a href="${url}" style="color: #999999; text-decoration: underline;">Unsubscribe</a></p>
+            </td>
+          </tr>`;
+}
+
+// ===== PETITION EMAILS =====
+
+export const sendPetitionConfirmationEmail = async (petition: PetitionData) => {
+  if (!EMAIL_PASSWORD) {
+    console.warn('Email password not configured. Skipping email send.');
+    return { success: false, error: 'Email not configured' };
+  }
+
+  const transporter = createTransporter();
+
+  try {
+    const info = await transporter.sendMail({
+      from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
+      to: petition.email,
+      subject: 'Thank You for Signing the Petition!',
+      html: petitionConfirmationEmailHtml(petition),
+    });
+
+    return { success: true, messageId: info.messageId };
+  } catch (error) {
+    console.error('Error sending petition confirmation email:', error);
+    return { success: false, error: 'Failed to send email' };
+  }
+};
+
+export const sendPetitionNotificationEmail = async (petition: PetitionData) => {
+  if (!EMAIL_PASSWORD) {
+    console.warn('Email password not configured. Skipping email send.');
+    return { success: false, error: 'Email not configured' };
+  }
+
+  const transporter = createTransporter();
+
+  try {
+    const info = await transporter.sendMail({
+      from: `"AAM Website" <${EMAIL_USER}>`,
+      to: ADMIN_EMAIL,
+      subject: `New Petition Signature: ${escapeHtml(petition.name)}`,
+      html: petitionNotificationEmailHtml(petition),
+    });
+
+    return { success: true, messageId: info.messageId };
+  } catch (error) {
+    console.error('Error sending petition notification email:', error);
+    return { success: false, error: 'Failed to send email' };
+  }
+};
+
+const petitionConfirmationEmailHtml = (petition: PetitionData) => {
+  const safeName = escapeHtml(petition.name);
+  const safeEmail = escapeHtml(petition.email);
+  const safeCity = petition.city ? escapeHtml(petition.city) : '';
+  const safeState = petition.state ? escapeHtml(petition.state) : 'MI';
+
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You for Signing</title>
+</head>
+<body style="font-family: 'Georgia', 'Times New Roman', serif; line-height: 1.6; color: #333333; background-color: #f5f5f5; margin: 0; padding: 0;">
+  <table cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f5f5f5">
+    <tr>
+      <td align="center" style="padding: 20px 0;">
+        <table cellpadding="0" cellspacing="0" border="0" width="600" style="border-radius: 8px; overflow: hidden; background-color: #fff; max-width: 600px;">
+          <tr>
+            <td bgcolor="#1a1a2e" style="padding: 30px 20px; text-align: center;">
+              <div style="font-size: 24px; font-weight: bold; color: #d4af37; letter-spacing: 1px;">Abolish Abortion Michigan</div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 35px 40px;">
+              <h1 style="color: #1a1a2e; font-size: 24px; margin-top: 0; margin-bottom: 25px;">Thank You for Signing!</h1>
+              <p>Hello <strong style="color: #8b0000;">${safeName}</strong>,</p>
+              <p>Thank you for signing the petition to abolish abortion in Michigan. Your voice matters, and together we are standing for the rights of the preborn.</p>
+
+              <div style="background-color: #f9f9f9; padding: 20px; border-radius: 6px; border-left: 4px solid #d4af37; margin: 20px 0;">
+                <h3 style="color: #1a1a2e; margin-top: 0;">Your Signature Details</h3>
+                <p><span style="font-weight: 600; color: #555;">Name:</span> ${safeName}</p>
+                <p><span style="font-weight: 600; color: #555;">Email:</span> ${safeEmail}</p>
+                ${safeCity ? `<p><span style="font-weight: 600; color: #555;">City:</span> ${safeCity}, ${safeState}</p>` : `<p><span style="font-weight: 600; color: #555;">State:</span> ${safeState}</p>`}
+              </div>
+
+              ${petition.subscribed ? '<p style="border-left: 3px solid #d4af37; padding: 10px 15px; background-color: #f9f9f9; margin-top: 20px; font-style: italic;">You have opted in to receive updates from Abolish Abortion Michigan. You can unsubscribe at any time.</p>' : ''}
+
+              <p style="margin-top: 25px;">In Christ,<br><strong>Abolish Abortion Michigan</strong></p>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#1a1a2e" style="padding: 25px; text-align: center; font-size: 13px; color: #cccccc;">
+              <p style="margin: 0 0 10px 0;">&copy; ${new Date().getFullYear()} Abolish Abortion Michigan. All rights reserved.</p>
+              <p style="margin: 0;"><a href="https://abolishabortionmichigan.com" style="color: #d4af37; text-decoration: none;">abolishabortionmichigan.com</a></p>
+            </td>
+          </tr>
+          ${petition.subscribed ? unsubscribeFooterHtml(petition.email) : ''}
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+  `;
+};
+
+const petitionNotificationEmailHtml = (petition: PetitionData) => {
+  const safeName = escapeHtml(petition.name);
+  const safeEmail = escapeHtml(petition.email);
+  const safeCity = petition.city ? escapeHtml(petition.city) : '';
+  const safeState = petition.state ? escapeHtml(petition.state) : 'MI';
+
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Petition Signature</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333333; background-color: #f5f5f5; margin: 0; padding: 0;">
+  <table cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f5f5f5">
+    <tr>
+      <td align="center" style="padding: 20px 0;">
+        <table cellpadding="0" cellspacing="0" border="0" width="600" style="border-radius: 8px; overflow: hidden; background-color: #fff; max-width: 600px;">
+          <tr>
+            <td bgcolor="#8b0000" style="padding: 20px; text-align: center;">
+              <div style="font-size: 20px; font-weight: bold; color: #ffffff;">New Petition Signature</div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 30px;">
+              <h1 style="color: #1a1a2e; font-size: 22px; margin-top: 0;">Signature Details</h1>
+
+              <div style="padding: 10px 0; border-bottom: 1px solid #eee;">
+                <span style="font-weight: bold; color: #666; display: inline-block; width: 100px;">Name:</span>
+                <span>${safeName}</span>
+              </div>
+              <div style="padding: 10px 0; border-bottom: 1px solid #eee;">
+                <span style="font-weight: bold; color: #666; display: inline-block; width: 100px;">Email:</span>
+                <span><a href="mailto:${safeEmail}" style="color: #8b0000;">${safeEmail}</a></span>
+              </div>
+              ${safeCity ? `<div style="padding: 10px 0; border-bottom: 1px solid #eee;">
+                <span style="font-weight: bold; color: #666; display: inline-block; width: 100px;">Location:</span>
+                <span>${safeCity}, ${safeState}</span>
+              </div>` : `<div style="padding: 10px 0; border-bottom: 1px solid #eee;">
+                <span style="font-weight: bold; color: #666; display: inline-block; width: 100px;">State:</span>
+                <span>${safeState}</span>
+              </div>`}
+              <div style="padding: 10px 0; border-bottom: 1px solid #eee;">
+                <span style="font-weight: bold; color: #666; display: inline-block; width: 100px;">Subscribed:</span>
+                <span>${petition.subscribed ? 'Yes' : 'No'}</span>
+              </div>
+
+              <div style="text-align: center; margin-top: 25px;">
+                <a href="https://abolishabortionmichigan.com/admin/dashboard/petitions" style="display: inline-block; background-color: #1a1a2e; color: #ffffff !important; text-decoration: none; padding: 12px 25px; border-radius: 4px; font-weight: bold;">View in Dashboard</a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#f0f0f0" style="text-align: center; padding: 20px; color: #666666; font-size: 12px;">
+              <p style="margin: 0;">This is an automated notification from the AAM Website.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+  `;
+};
+
+// ===== NEWSLETTER EMAILS =====
+
+export const sendNewsletterEmail = async (article: ArticleData, subscriber: SubscriberData) => {
+  if (!EMAIL_PASSWORD) {
+    return { success: false, error: 'Email not configured' };
+  }
+
+  const transporter = createTransporter();
+
+  try {
+    const info = await transporter.sendMail({
+      from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
+      to: subscriber.email,
+      subject: `New Article: ${article.title}`,
+      html: newsletterEmailHtml(article, subscriber),
+    });
+
+    return { success: true, messageId: info.messageId };
+  } catch (error) {
+    console.error(`Error sending newsletter to ${subscriber.email}:`, error);
+    return { success: false, error: 'Failed to send email' };
+  }
+};
+
+export const sendNewsletterToAll = async (article: ArticleData, subscribers: SubscriberData[]): Promise<{ sent: number; failed: number }> => {
+  let sent = 0;
+  let failed = 0;
+
+  for (const subscriber of subscribers) {
+    const result = await sendNewsletterEmail(article, subscriber);
+    if (result.success) {
+      sent++;
+    } else {
+      failed++;
+    }
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+
+  return { sent, failed };
+};
+
+const newsletterEmailHtml = (article: ArticleData, subscriber: SubscriberData) => {
+  const safeName = escapeHtml(subscriber.name);
+  const safeTitle = escapeHtml(article.title);
+  const safeExcerpt = escapeHtml(article.excerpt);
+  const articleUrl = `${BASE_URL}/news/${article.slug}`;
+
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${safeTitle}</title>
+</head>
+<body style="font-family: 'Georgia', 'Times New Roman', serif; line-height: 1.6; color: #333333; background-color: #f5f5f5; margin: 0; padding: 0;">
+  <table cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f5f5f5">
+    <tr>
+      <td align="center" style="padding: 20px 0;">
+        <table cellpadding="0" cellspacing="0" border="0" width="600" style="border-radius: 8px; overflow: hidden; background-color: #fff; max-width: 600px;">
+          <tr>
+            <td bgcolor="#1a1a2e" style="padding: 30px 20px; text-align: center;">
+              <div style="font-size: 24px; font-weight: bold; color: #d4af37; letter-spacing: 1px;">Abolish Abortion Michigan</div>
+            </td>
+          </tr>
+          ${article.image ? `<tr>
+            <td style="padding: 0;">
+              <img src="${BASE_URL}${article.image}" alt="${safeTitle}" style="width: 100%; max-height: 300px; object-fit: cover; display: block;" />
+            </td>
+          </tr>` : ''}
+          <tr>
+            <td style="padding: 35px 40px;">
+              <p style="color: #8b0000; font-size: 12px; text-transform: uppercase; letter-spacing: 2px; margin-top: 0;">New Article</p>
+              <h1 style="color: #1a1a2e; font-size: 24px; margin-top: 5px; margin-bottom: 15px;">${safeTitle}</h1>
+              <p>Hello <strong>${safeName}</strong>,</p>
+              <p>${safeExcerpt}</p>
+
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="${articleUrl}" style="display: inline-block; background-color: #8b0000; color: #ffffff !important; text-decoration: none; padding: 14px 30px; border-radius: 4px; font-weight: bold; font-size: 16px;">Read Full Article</a>
+              </div>
+
+              <p style="margin-top: 25px; color: #666; font-size: 14px;">Thank you for staying informed about our mission.</p>
+              <p style="margin-top: 15px;">In Christ,<br><strong>Abolish Abortion Michigan</strong></p>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#1a1a2e" style="padding: 25px; text-align: center; font-size: 13px; color: #cccccc;">
+              <p style="margin: 0 0 10px 0;">&copy; ${new Date().getFullYear()} Abolish Abortion Michigan. All rights reserved.</p>
+              <p style="margin: 0;"><a href="https://abolishabortionmichigan.com" style="color: #d4af37; text-decoration: none;">abolishabortionmichigan.com</a></p>
+            </td>
+          </tr>
+          ${unsubscribeFooterHtml(subscriber.email)}
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+  `;
+};
+
+// ===== BROADCAST EMAILS =====
+
+export const sendBroadcastEmail = async (subject: string, body: string, subscriber: SubscriberData) => {
+  if (!EMAIL_PASSWORD) {
+    return { success: false, error: 'Email not configured' };
+  }
+
+  const transporter = createTransporter();
+
+  try {
+    const info = await transporter.sendMail({
+      from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
+      to: subscriber.email,
+      subject,
+      html: broadcastEmailHtml(subject, body, subscriber),
+    });
+
+    return { success: true, messageId: info.messageId };
+  } catch (error) {
+    console.error(`Error sending broadcast to ${subscriber.email}:`, error);
+    return { success: false, error: 'Failed to send email' };
+  }
+};
+
+export const sendBroadcastToAll = async (subject: string, body: string, subscribers: SubscriberData[]): Promise<{ sent: number; failed: number }> => {
+  let sent = 0;
+  let failed = 0;
+
+  for (const subscriber of subscribers) {
+    const result = await sendBroadcastEmail(subject, body, subscriber);
+    if (result.success) {
+      sent++;
+    } else {
+      failed++;
+    }
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+
+  return { sent, failed };
+};
+
+const broadcastEmailHtml = (subject: string, body: string, subscriber: SubscriberData) => {
+  const safeName = escapeHtml(subscriber.name);
+  const safeSubject = escapeHtml(subject);
+
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${safeSubject}</title>
+</head>
+<body style="font-family: 'Georgia', 'Times New Roman', serif; line-height: 1.6; color: #333333; background-color: #f5f5f5; margin: 0; padding: 0;">
+  <table cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f5f5f5">
+    <tr>
+      <td align="center" style="padding: 20px 0;">
+        <table cellpadding="0" cellspacing="0" border="0" width="600" style="border-radius: 8px; overflow: hidden; background-color: #fff; max-width: 600px;">
+          <tr>
+            <td bgcolor="#1a1a2e" style="padding: 30px 20px; text-align: center;">
+              <div style="font-size: 24px; font-weight: bold; color: #d4af37; letter-spacing: 1px;">Abolish Abortion Michigan</div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 35px 40px;">
+              <h1 style="color: #1a1a2e; font-size: 24px; margin-top: 0; margin-bottom: 25px;">${safeSubject}</h1>
+              <p>Hello <strong style="color: #8b0000;">${safeName}</strong>,</p>
+              <div style="margin: 20px 0;">${body}</div>
+              <p style="margin-top: 25px;">In Christ,<br><strong>Abolish Abortion Michigan</strong></p>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#1a1a2e" style="padding: 25px; text-align: center; font-size: 13px; color: #cccccc;">
+              <p style="margin: 0 0 10px 0;">&copy; ${new Date().getFullYear()} Abolish Abortion Michigan. All rights reserved.</p>
+              <p style="margin: 0;"><a href="https://abolishabortionmichigan.com" style="color: #d4af37; text-decoration: none;">abolishabortionmichigan.com</a></p>
+            </td>
+          </tr>
+          ${unsubscribeFooterHtml(subscriber.email)}
         </table>
       </td>
     </tr>

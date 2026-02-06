@@ -77,6 +77,32 @@ export async function getSubscribedEmails(): Promise<PetitionSignature[]> {
   return memoryStore.filter((s) => s.subscribed === true);
 }
 
+export async function updateSubscriptionStatus(email: string, subscribed: boolean): Promise<boolean> {
+  if (isDatabaseConnected) {
+    try {
+      await prisma.petitionSignature.update({
+        where: { email: email.toLowerCase() },
+        data: { subscribed },
+      });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  const sig = memoryStore.find((s) => s.email.toLowerCase() === email.toLowerCase());
+  if (!sig) return false;
+  sig.subscribed = subscribed;
+  return true;
+}
+
+export async function getSubscriberCount(): Promise<number> {
+  if (isDatabaseConnected) {
+    return prisma.petitionSignature.count({ where: { subscribed: true } });
+  }
+  return memoryStore.filter((s) => s.subscribed === true).length;
+}
+
 export async function deleteSignature(id: string): Promise<boolean> {
   if (isDatabaseConnected) {
     try {

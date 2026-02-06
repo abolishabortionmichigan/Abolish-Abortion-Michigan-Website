@@ -10,6 +10,8 @@ import {
   deleteNewsArticle as deleteArticle,
   slugExists,
 } from '@/lib/data/news-store';
+import { getSubscribedEmails } from '@/lib/data/petition-store';
+import { sendNewsletterToAll } from '@/lib/email';
 import { sanitizeHtml } from '@/lib/sanitize';
 
 async function isAdmin(): Promise<boolean> {
@@ -85,6 +87,17 @@ export async function createNewsArticle(data: Omit<NewsArticle, 'id' | 'created_
       published: data.published || false,
     });
 
+    // Send newsletter to subscribers if article is published
+    if (data.published) {
+      const subscribers = await getSubscribedEmails();
+      if (subscribers.length > 0) {
+        sendNewsletterToAll(
+          { title: data.title, slug: data.slug, excerpt: data.excerpt, image: data.image },
+          subscribers
+        ).catch((err) => console.error('Failed to send newsletter:', err));
+      }
+    }
+
     return newArticle;
   } catch (error) {
     return { error: 'Failed to create article' };
@@ -103,6 +116,17 @@ export async function updateNewsArticle(id: string, data: Partial<NewsArticle>) 
       return { error: 'Slug already exists' };
     }
 
+    // Check if article is being published for the first time
+    let wasPublished = false;
+    if (data.published === true) {
+      const existing = await getNewsArticleBySlug(id);
+      if (existing && !existing.published) {
+        wasPublished = false; // It wasn't published before, so this is a new publish
+      } else {
+        wasPublished = true; // Already published, skip newsletter
+      }
+    }
+
     // Sanitize content if being updated
     const sanitizedData = data.content
       ? { ...data, content: sanitizeHtml(data.content) }
@@ -112,6 +136,17 @@ export async function updateNewsArticle(id: string, data: Partial<NewsArticle>) 
 
     if (!updated) {
       return { error: 'Article not found' };
+    }
+
+    // Send newsletter when article transitions from draft to published
+    if (data.published === true && !wasPublished) {
+      const subscribers = await getSubscribedEmails();
+      if (subscribers.length > 0) {
+        sendNewsletterToAll(
+          { title: updated.title, slug: updated.slug, excerpt: updated.excerpt, image: updated.image },
+          subscribers
+        ).catch((err) => console.error('Failed to send newsletter:', err));
+      }
     }
 
     return updated;

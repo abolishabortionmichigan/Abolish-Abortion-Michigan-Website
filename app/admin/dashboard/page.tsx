@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Mail, Newspaper, FileText, ImageIcon, RefreshCw, ArrowUpRight } from 'lucide-react';
+import { Mail, Newspaper, FileText, ImageIcon, RefreshCw, ArrowUpRight, Users } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -77,6 +77,13 @@ export default function DashboardPage() {
       icon: <ImageIcon size={20} />,
       color: 'bg-orange-500/10 text-orange-600',
     },
+    {
+      title: 'Subscribers',
+      value: data?.totalSubscribers ?? 0,
+      description: 'Newsletter subscribers',
+      icon: <Users size={20} />,
+      color: 'bg-teal-500/10 text-teal-600',
+    },
   ];
 
   const fetchData = async () => {
@@ -143,7 +150,7 @@ export default function DashboardPage() {
       </Card>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 sm:gap-6">
         {stats.map((stat) => (
           <Card key={stat.title}>
             <CardHeader className="pb-2">

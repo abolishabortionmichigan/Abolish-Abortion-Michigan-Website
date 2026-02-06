@@ -56,4 +56,5 @@ export interface DashboardStats {
   totalSignatures: number;
   totalPhotos: number;
   pendingInquiries: number;
+  totalSubscribers: number;
 }

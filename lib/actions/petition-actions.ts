@@ -11,6 +11,7 @@ import {
 import { headers } from 'next/headers';
 import { getAuthToken, verifyToken } from './auth-actions';
 import { checkRateLimit } from '@/lib/rate-limit';
+import { sendPetitionConfirmationEmail, sendPetitionNotificationEmail } from '@/lib/email';
 
 async function isAdmin(): Promise<boolean> {
   const token = await getAuthToken();
@@ -106,6 +107,21 @@ export async function signPetition(data: {
       zipcode: data.zipcode,
       subscribed: data.subscribed || false,
     });
+
+    // Send emails (non-blocking)
+    const petitionData = {
+      name: data.name,
+      email: data.email,
+      city: data.city,
+      state: data.state,
+      subscribed: data.subscribed,
+    };
+    sendPetitionConfirmationEmail(petitionData).catch((err) =>
+      console.error('Failed to send petition confirmation:', err)
+    );
+    sendPetitionNotificationEmail(petitionData).catch((err) =>
+      console.error('Failed to send petition notification:', err)
+    );
 
     return newSignature;
   } catch (error) {

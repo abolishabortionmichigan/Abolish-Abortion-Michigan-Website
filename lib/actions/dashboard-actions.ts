@@ -3,7 +3,7 @@
 import { getAuthToken, verifyToken } from './auth-actions';
 import { getAllInquiries } from '@/lib/data/inquiry-store';
 import { getAllNewsArticles } from '@/lib/data/news-store';
-import { getSignatureCount } from '@/lib/data/petition-store';
+import { getSignatureCount, getSubscriberCount } from '@/lib/data/petition-store';
 import { getGalleryPhotoCount } from '@/lib/data/gallery-store';
 import { DashboardStats } from '@/types';
 
@@ -26,6 +26,7 @@ export async function getDashboardStats(): Promise<DashboardStats | { error: str
     const newsArticles = await getAllNewsArticles(false);
     const signatureCount = await getSignatureCount();
     const photoCount = await getGalleryPhotoCount();
+    const subscriberCount = await getSubscriberCount();
 
     const stats: DashboardStats = {
       totalInquiries: inquiries.length,
@@ -33,6 +34,7 @@ export async function getDashboardStats(): Promise<DashboardStats | { error: str
       totalNews: newsArticles.length,
       totalSignatures: signatureCount,
       totalPhotos: photoCount,
+      totalSubscribers: subscriberCount,
     };
 
     return stats;
