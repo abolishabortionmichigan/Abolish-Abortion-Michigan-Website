@@ -108,7 +108,7 @@ export async function signPetition(data: {
       subscribed: data.subscribed || false,
     });
 
-    // Send emails (non-blocking)
+    // Send emails
     const petitionData = {
       name: data.name,
       email: data.email,
@@ -116,12 +116,10 @@ export async function signPetition(data: {
       state: data.state,
       subscribed: data.subscribed,
     };
-    sendPetitionConfirmationEmail(petitionData).catch((err) =>
-      console.error('Failed to send petition confirmation:', err)
-    );
-    sendPetitionNotificationEmail(petitionData).catch((err) =>
-      console.error('Failed to send petition notification:', err)
-    );
+    await Promise.all([
+      sendPetitionConfirmationEmail(petitionData),
+      sendPetitionNotificationEmail(petitionData),
+    ]);
 
     return newSignature;
   } catch (error) {
