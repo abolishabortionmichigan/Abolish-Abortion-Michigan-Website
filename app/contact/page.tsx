@@ -12,10 +12,12 @@ export default function ContactPage() {
     website: '', // honeypot field
   });
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('sending');
+    setErrorMessage('');
 
     try {
       const response = await fetch('/api/inquiries', {
@@ -39,8 +41,9 @@ export default function ContactPage() {
 
       setStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '', website: '' });
-    } catch {
+    } catch (err) {
       setStatus('error');
+      setErrorMessage(err instanceof Error ? err.message : 'Failed to send message. Please try again.');
     }
   };
 
@@ -206,7 +209,7 @@ export default function ContactPage() {
                     <p id="contact-success" className="text-green-600 text-center" role="status">Message sent successfully!</p>
                   )}
                   {status === 'error' && (
-                    <p id="contact-error" className="text-red-600 text-center" role="alert">Failed to send message. Please try again.</p>
+                    <p id="contact-error" className="text-red-600 text-center" role="alert">{errorMessage}</p>
                   )}
                 </div>
               </form>
