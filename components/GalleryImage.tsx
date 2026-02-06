@@ -18,7 +18,7 @@ export default function GalleryImage({ src, alt }: GalleryImageProps) {
           src={src}
           alt={alt}
           fill
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
+          className="object-contain transition-transform duration-300 group-hover:scale-105"
           onError={() => setImageError(true)}
         />
       ) : null}

@@ -53,7 +53,7 @@ export default async function NewsArticlePage({ params }: Props) {
               alt={article.title}
               fill
               priority
-              className="object-cover opacity-30"
+              className="object-contain opacity-30"
             />
           </div>
         )}
@@ -70,7 +70,7 @@ export default async function NewsArticlePage({ params }: Props) {
             src={article.image}
             alt={article.title}
             fill
-            className="object-cover"
+            className="object-contain"
           />
         </div>
       )}

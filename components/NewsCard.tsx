@@ -27,7 +27,7 @@ export default function NewsCard({ title, excerpt, date, slug, image }: NewsCard
               src={image}
               alt={title}
               fill
-              className="object-cover"
+              className="object-contain"
               onError={() => setImageError(true)}
             />
           ) : (
@@ -55,7 +55,7 @@ export default function NewsCard({ title, excerpt, date, slug, image }: NewsCard
               src={image}
               alt={title}
               fill
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              className="object-contain transition-transform duration-500 group-hover:scale-105"
               onError={() => setImageError(true)}
             />
           ) : (
