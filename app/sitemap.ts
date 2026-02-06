@@ -15,6 +15,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/media`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
     { url: `${BASE_URL}/non-violence-statement`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.4 },
     { url: `${BASE_URL}/privacy-policy`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${BASE_URL}/unsubscribe`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.1 },
     // The Gospel section
     { url: `${BASE_URL}/the-gospel`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE_URL}/the-gospel/gospel`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.5 },
