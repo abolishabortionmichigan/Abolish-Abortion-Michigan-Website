@@ -16,9 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const article = await getNewsArticleBySlug(slug);
 
   if (!article || !article.published) {
-    return {
-      title: 'Article Not Found - Abolish Abortion Michigan',
-    };
+    notFound();
   }
 
   return {
@@ -54,6 +52,7 @@ export default async function NewsArticlePage({ params }: Props) {
               src={article.image}
               alt={article.title}
               fill
+              priority
               className="object-cover opacity-30"
             />
           </div>
