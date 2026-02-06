@@ -91,10 +91,10 @@ export async function createNewsArticle(data: Omit<NewsArticle, 'id' | 'created_
     if (data.published) {
       const subscribers = await getSubscribedEmails();
       if (subscribers.length > 0) {
-        sendNewsletterToAll(
+        await sendNewsletterToAll(
           { title: data.title, slug: data.slug, excerpt: data.excerpt, image: data.image },
           subscribers
-        ).catch((err) => console.error('Failed to send newsletter:', err));
+        );
       }
     }
 
@@ -142,10 +142,10 @@ export async function updateNewsArticle(id: string, data: Partial<NewsArticle>) 
     if (data.published === true && !wasPublished) {
       const subscribers = await getSubscribedEmails();
       if (subscribers.length > 0) {
-        sendNewsletterToAll(
+        await sendNewsletterToAll(
           { title: updated.title, slug: updated.slug, excerpt: updated.excerpt, image: updated.image },
           subscribers
-        ).catch((err) => console.error('Failed to send newsletter:', err));
+        );
       }
     }
 
