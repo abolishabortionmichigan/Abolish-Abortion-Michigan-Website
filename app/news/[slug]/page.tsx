@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import CTABanner from '@/components/CTABanner';
 import { getNewsArticleBySlug } from '@/lib/data/news-store';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -80,7 +81,7 @@ export default async function NewsArticlePage({ params }: Props) {
         <div className="max-w-3xl mx-auto px-4">
           <article
             className="prose prose-lg max-w-none prose-headings:text-[#1a1a1a] prose-a:text-red-600 prose-a:no-underline hover:prose-a:underline prose-img:max-w-full prose-img:h-auto prose-img:rounded-lg"
-            dangerouslySetInnerHTML={{ __html: article.content }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(article.content) }}
           />
 
           {/* Back to News */}
