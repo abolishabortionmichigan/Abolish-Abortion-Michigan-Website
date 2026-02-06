@@ -241,7 +241,7 @@ export default function GalleryManagementPage() {
                     src={photo.url}
                     alt={photo.caption || 'Gallery photo'}
                     fill
-                    className="object-cover"
+                    className="object-contain"
                     onError={() => setImageErrors((prev) => ({ ...prev, [photo.id]: true }))}
                   />
                 ) : (
