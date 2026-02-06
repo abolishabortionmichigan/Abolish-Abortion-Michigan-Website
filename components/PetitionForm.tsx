@@ -63,7 +63,7 @@ export default function PetitionForm() {
 
   if (status === 'success') {
     return (
-      <div className="bg-green-50 border-2 border-green-600 p-8 rounded-lg text-center" id="sign">
+      <div className="bg-green-50 border-2 border-green-600 p-8 rounded-lg text-center" id="sign" role="status" aria-live="polite">
         <div className="text-green-600 mb-4">
           <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -100,11 +100,13 @@ export default function PetitionForm() {
         Add your name to the growing list of Michiganders calling for the immediate abolition of abortion.
       </p>
 
-      {status === 'error' && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-          {errorMessage}
-        </div>
-      )}
+      <div aria-live="polite" aria-atomic="true">
+        {status === 'error' && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
+            {errorMessage}
+          </div>
+        )}
+      </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Honeypot field - hidden from real users */}

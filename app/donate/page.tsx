@@ -120,9 +120,9 @@ export default function DonatePage() {
                   <p className="text-sm text-gray-600">
                     Make checks payable to:<br />
                     <strong>Abolish Abortion Michigan</strong><br />
-                    {/* TODO: Add your mailing address */}
-                    [Your Address]<br />
-                    [City, MI ZIP]
+                    3665 S Lakeshore Dr<br />
+                    Suite 4<br />
+                    St Joseph, MI 49085
                   </p>
                 </div>
                 <div>
