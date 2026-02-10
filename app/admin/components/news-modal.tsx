@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Loader2 } from 'lucide-react';
+import { Loader2, AlertTriangle } from 'lucide-react';
 import { createNewsArticle, updateNewsArticle } from '@/lib/actions/news-actions';
 import { NewsArticle } from '@/types';
 import { slugify } from '@/lib/utils';
@@ -36,6 +36,7 @@ export default function NewsModal({ open, onClose, article, isCreating, onSave }
     published: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPublishConfirm, setShowPublishConfirm] = useState(false);
 
   useEffect(() => {
     if (article && !isCreating) {
@@ -67,19 +68,42 @@ export default function NewsModal({ open, onClose, article, isCreating, onSave }
     }));
   };
 
+  // Check if publishing will trigger a newsletter send
+  const willSendNewsletter =
+    formData.published && (isCreating || (article && !article.published));
+
   const handleSubmit = async () => {
     if (!formData.title || !formData.excerpt || !formData.content) {
       alert('Please fill in all required fields');
       return;
     }
 
+    if (willSendNewsletter) {
+      setShowPublishConfirm(true);
+      return;
+    }
+
+    await doSubmit(formData);
+  };
+
+  const handlePublishConfirm = async () => {
+    setShowPublishConfirm(false);
+    await doSubmit(formData);
+  };
+
+  const handleSaveAsDraft = async () => {
+    setShowPublishConfirm(false);
+    await doSubmit({ ...formData, published: false });
+  };
+
+  const doSubmit = async (data: typeof formData) => {
     setIsSubmitting(true);
     try {
       let res;
       if (isCreating) {
-        res = await createNewsArticle(formData);
+        res = await createNewsArticle(data);
       } else if (article) {
-        res = await updateNewsArticle(article.id, formData);
+        res = await updateNewsArticle(article.id, data);
       }
 
       if (res && 'error' in res) {
@@ -198,6 +222,36 @@ export default function NewsModal({ open, onClose, article, isCreating, onSave }
           </Button>
         </DialogFooter>
       </DialogContent>
+
+      {/* Publish Confirmation Dialog */}
+      {showPublishConfirm && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4">
+          <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
+            <div className="flex items-start gap-3 mb-4">
+              <div className="bg-amber-100 rounded-full p-2 flex-shrink-0">
+                <AlertTriangle size={20} className="text-amber-600" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold">Publish Article?</h3>
+                <p className="text-gray-600 mt-1">
+                  Publishing this article will <strong>send a newsletter email to all subscribers</strong>. This cannot be undone.
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-3 justify-end">
+              <Button variant="outline" onClick={handleSaveAsDraft}>
+                Save as Draft
+              </Button>
+              <Button
+                onClick={handlePublishConfirm}
+                className="bg-red-600 hover:bg-red-700 text-white"
+              >
+                Publish & Notify Subscribers
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </Dialog>
   );
 }
