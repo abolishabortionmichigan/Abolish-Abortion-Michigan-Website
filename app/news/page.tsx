@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
-import NewsCard from '@/components/NewsCard';
 import CTABanner from '@/components/CTABanner';
 import { getAllNewsArticles } from '@/lib/data/news-store';
+import NewsSearch from './news-search';
 
 export const metadata: Metadata = {
   title: 'News - Abolish Abortion Michigan',
@@ -15,6 +15,15 @@ export default async function NewsPage() {
   // Get published articles only
   const articles = await getAllNewsArticles(true);
 
+  // Serialize for client component
+  const serialized = articles.map((a) => ({
+    title: a.title,
+    excerpt: a.excerpt,
+    slug: a.slug,
+    image: a.image,
+    created_at: a.created_at ? new Date(a.created_at).toISOString() : undefined,
+  }));
+
   return (
     <>
       {/* Hero Section */}
@@ -24,32 +33,10 @@ export default async function NewsPage() {
         </div>
       </section>
 
-      {/* News Grid */}
+      {/* News Grid with Search */}
       <section className="bg-white py-12">
         <div className="max-w-7xl mx-auto px-4">
-          {articles.length > 0 ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {articles.map((article) => (
-                <NewsCard
-                  key={article.slug}
-                  title={article.title}
-                  excerpt={article.excerpt}
-                  date={article.created_at ? new Date(article.created_at).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  }) : ''}
-                  slug={article.slug}
-                  image={article.image}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-12">
-              <h2 className="text-2xl font-bold mb-4">Nothing Found</h2>
-              <p className="text-gray-600">It seems we can&apos;t find any posts. Perhaps searching will help.</p>
-            </div>
-          )}
+          <NewsSearch articles={serialized} />
         </div>
       </section>
 
