@@ -14,6 +14,8 @@ export default function PetitionsPage() {
   const [error, setError] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [bulkDeleting, setBulkDeleting] = useState(false);
   const itemsPerPage = 25;
 
   const loadSignatures = async () => {
@@ -47,6 +49,38 @@ export default function PetitionsPage() {
       }
     } catch (err) {
       console.error('Delete error:', err);
+    }
+  };
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedIds.size === paginatedSignatures.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(paginatedSignatures.map((s) => s.id)));
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    if (selectedIds.size === 0) return;
+    if (!confirm(`Are you sure you want to delete ${selectedIds.size} signature${selectedIds.size !== 1 ? 's' : ''}?`)) return;
+
+    setBulkDeleting(true);
+    try {
+      await Promise.all(Array.from(selectedIds).map((id) => deleteSignature(id)));
+      setSignatures((prev) => prev.filter((s) => !selectedIds.has(s.id)));
+      setSelectedIds(new Set());
+    } catch (err) {
+      console.error('Bulk delete error:', err);
+    } finally {
+      setBulkDeleting(false);
     }
   };
 
@@ -147,12 +181,41 @@ export default function PetitionsPage() {
 
       {!loading && !error && signatures.length > 0 && (
         <>
+          {/* Bulk action bar */}
+          {selectedIds.size > 0 && (
+            <div className="flex items-center justify-between bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+              <span className="text-sm font-medium text-red-700">
+                {selectedIds.size} selected
+              </span>
+              <Button
+                size="sm"
+                onClick={handleBulkDelete}
+                disabled={bulkDeleting}
+                className="bg-red-600 hover:bg-red-700 text-white"
+              >
+                {bulkDeleting ? (
+                  <><Loader2 className="h-4 w-4 animate-spin mr-2" />Deleting...</>
+                ) : (
+                  <><Trash className="h-4 w-4 mr-2" />Delete Selected</>
+                )}
+              </Button>
+            </div>
+          )}
+
           {/* Desktop table */}
           <div className="hidden sm:block bg-white rounded-lg border overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
                   <tr className="bg-gray-50 border-b">
+                    <th className="p-4 w-10">
+                      <input
+                        type="checkbox"
+                        checked={paginatedSignatures.length > 0 && selectedIds.size === paginatedSignatures.length}
+                        onChange={toggleSelectAll}
+                        className="h-4 w-4 rounded border-gray-300"
+                      />
+                    </th>
                     <th className="text-left p-4 font-medium">Name</th>
                     <th className="text-left p-4 font-medium hidden md:table-cell">Email</th>
                     <th className="text-left p-4 font-medium hidden lg:table-cell">Location</th>
@@ -163,7 +226,15 @@ export default function PetitionsPage() {
                 </thead>
                 <tbody>
                   {paginatedSignatures.map((sig) => (
-                    <tr key={sig.id} className="border-b hover:bg-gray-50">
+                    <tr key={sig.id} className={`border-b hover:bg-gray-50 ${selectedIds.has(sig.id) ? 'bg-red-50/50' : ''}`}>
+                      <td className="p-4 w-10">
+                        <input
+                          type="checkbox"
+                          checked={selectedIds.has(sig.id)}
+                          onChange={() => toggleSelect(sig.id)}
+                          className="h-4 w-4 rounded border-gray-300"
+                        />
+                      </td>
                       <td className="p-4">
                         <div>
                           <p className="font-medium">{sig.name}</p>
@@ -204,11 +275,19 @@ export default function PetitionsPage() {
           {/* Mobile card layout */}
           <div className="sm:hidden space-y-3">
             {paginatedSignatures.map((sig) => (
-              <div key={sig.id} className="bg-white rounded-lg border p-4 space-y-2">
+              <div key={sig.id} className={`bg-white rounded-lg border p-4 space-y-2 ${selectedIds.has(sig.id) ? 'ring-2 ring-red-200 bg-red-50/50' : ''}`}>
                 <div className="flex items-start justify-between gap-2">
-                  <div className="min-w-0">
-                    <p className="font-medium truncate">{sig.name}</p>
-                    <p className="text-sm text-gray-500 truncate">{sig.email}</p>
+                  <div className="flex items-start gap-3 min-w-0">
+                    <input
+                      type="checkbox"
+                      checked={selectedIds.has(sig.id)}
+                      onChange={() => toggleSelect(sig.id)}
+                      className="h-4 w-4 rounded border-gray-300 mt-1 flex-shrink-0"
+                    />
+                    <div className="min-w-0">
+                      <p className="font-medium truncate">{sig.name}</p>
+                      <p className="text-sm text-gray-500 truncate">{sig.email}</p>
+                    </div>
                   </div>
                   <Button
                     variant="outline"
