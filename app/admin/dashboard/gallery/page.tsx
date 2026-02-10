@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Loader2, RefreshCw, Plus, Trash, Edit, ImageIcon } from 'lucide-react';
+import { Loader2, RefreshCw, Plus, Trash, Edit, ImageIcon, Download } from 'lucide-react';
 import {
   fetchGalleryPhotos,
   createGalleryPhoto,
@@ -100,6 +100,28 @@ export default function GalleryManagementPage() {
     }
   };
 
+  const handleExportCSV = () => {
+    const headers = ['URL', 'Caption', 'Sort Order', 'Date Added'];
+    const rows = photos.map((p) => [
+      p.url,
+      p.caption || '',
+      String(p.sortOrder || 0),
+      p.created_at ? new Date(p.created_at).toLocaleDateString() : '',
+    ]);
+
+    const csv = [headers, ...rows]
+      .map((row) => row.map((cell) => `"${cell}"`).join(','))
+      .join('\n');
+
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `gallery-photos-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this photo?')) return;
 
@@ -118,6 +140,9 @@ export default function GalleryManagementPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
         <h1 className="text-xl sm:text-2xl font-bold">Photo Gallery</h1>
         <div className="flex items-center gap-2">
+          <Button variant="outline" size="icon" onClick={handleExportCSV} disabled={loading || photos.length === 0} title="Export CSV">
+            <Download className="h-4 w-4" />
+          </Button>
           <Button variant="outline" size="icon" onClick={loadPhotos} disabled={loading}>
             <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
           </Button>

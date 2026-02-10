@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Loader2, RefreshCw, Search, Plus, Edit, Trash } from 'lucide-react';
+import { Loader2, RefreshCw, Search, Plus, Edit, Trash, Download } from 'lucide-react';
 import { fetchNewsArticles, deleteNewsArticle } from '@/lib/actions/news-actions';
 import { NewsArticle } from '@/types';
 import { formatDate } from '@/lib/utils';
@@ -65,6 +65,30 @@ export default function NewsManagementPage() {
     }
   };
 
+  const handleExportCSV = () => {
+    const headers = ['Title', 'Slug', 'Excerpt', 'Published', 'Created', 'Updated'];
+    const rows = filteredArticles.map((art) => [
+      art.title,
+      art.slug,
+      art.excerpt.replace(/"/g, '""'),
+      art.published ? 'Yes' : 'No',
+      art.created_at ? new Date(art.created_at).toLocaleDateString() : '',
+      art.updated_at ? new Date(art.updated_at).toLocaleDateString() : '',
+    ]);
+
+    const csv = [headers, ...rows]
+      .map((row) => row.map((cell) => `"${cell}"`).join(','))
+      .join('\n');
+
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `news-articles-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const filteredArticles = articles.filter((article) => {
     const search = searchTerm.toLowerCase();
     return (
@@ -87,6 +111,9 @@ export default function NewsManagementPage() {
               className="pl-10"
             />
           </div>
+          <Button variant="outline" size="icon" onClick={handleExportCSV} disabled={loading || articles.length === 0} title="Export CSV">
+            <Download className="h-4 w-4" />
+          </Button>
           <Button variant="outline" size="icon" onClick={loadArticles} disabled={loading}>
             <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
           </Button>

@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Mail, Newspaper, FileText, ImageIcon, RefreshCw, ArrowUpRight, Users } from 'lucide-react';
+import { Mail, Newspaper, FileText, ImageIcon, RefreshCw, ArrowUpRight, Users, Download } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { getDashboardStats } from '@/lib/actions/dashboard-actions';
+import { getDashboardStats, exportAllData } from '@/lib/actions/dashboard-actions';
 import { DashboardStats } from '@/types';
 
 const quickActions = [
@@ -39,6 +39,7 @@ const quickActions = [
 export default function DashboardPage() {
   const [data, setData] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [exporting, setExporting] = useState(false);
   const [error, setError] = useState(false);
 
   const stats = [
@@ -103,6 +104,70 @@ export default function DashboardPage() {
     }
   };
 
+  const handleExportAll = async () => {
+    setExporting(true);
+    try {
+      const res = await exportAllData();
+      if ('error' in res) {
+        alert(res.error);
+        return;
+      }
+
+      const q = (s: string) => `"${s.replace(/"/g, '""')}"`;
+      const date = new Date().toISOString().split('T')[0];
+      const fmtDate = (d?: Date | string) => d ? new Date(d).toLocaleDateString() : '';
+
+      const sections: string[] = [];
+
+      // Inquiries
+      sections.push('INQUIRIES');
+      sections.push(['Name', 'Email', 'Subject', 'Message', 'Status', 'Date'].map(q).join(','));
+      res.inquiries.forEach((i) => {
+        sections.push([i.name, i.email, i.subject || '', i.message, i.status, fmtDate(i.created_at)].map(q).join(','));
+      });
+
+      sections.push('');
+
+      // News Articles
+      sections.push('NEWS ARTICLES');
+      sections.push(['Title', 'Slug', 'Excerpt', 'Published', 'Created', 'Updated'].map(q).join(','));
+      res.articles.forEach((a) => {
+        sections.push([a.title, a.slug, a.excerpt, a.published ? 'Yes' : 'No', fmtDate(a.created_at), fmtDate(a.updated_at)].map(q).join(','));
+      });
+
+      sections.push('');
+
+      // Petition Signatures
+      sections.push('PETITION SIGNATURES');
+      sections.push(['Name', 'Email', 'City', 'State', 'Zip Code', 'Subscribed', 'Date Signed'].map(q).join(','));
+      res.signatures.forEach((s) => {
+        sections.push([s.name, s.email, s.city || '', s.state || '', s.zipcode || '', s.subscribed ? 'Yes' : 'No', fmtDate(s.created_at)].map(q).join(','));
+      });
+
+      sections.push('');
+
+      // Gallery Photos
+      sections.push('GALLERY PHOTOS');
+      sections.push(['URL', 'Caption', 'Sort Order', 'Date Added'].map(q).join(','));
+      res.photos.forEach((p) => {
+        sections.push([p.url, p.caption || '', String(p.sortOrder || 0), fmtDate(p.created_at)].map(q).join(','));
+      });
+
+      const csv = sections.join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `aam-full-export-${date}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      alert('Failed to export data');
+    } finally {
+      setExporting(false);
+    }
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -111,10 +176,16 @@ export default function DashboardPage() {
     <div className="space-y-8">
       <div className="flex items-center justify-between gap-2">
         <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Dashboard</h1>
-        <Button variant="outline" size="sm" onClick={fetchData} disabled={loading} className="flex-shrink-0">
-          <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
-          <span className="ml-2 hidden sm:inline">Refresh</span>
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={handleExportAll} disabled={exporting || loading} className="flex-shrink-0">
+            <Download size={14} className={exporting ? 'animate-pulse' : ''} />
+            <span className="ml-2 hidden sm:inline">{exporting ? 'Exporting...' : 'Export All'}</span>
+          </Button>
+          <Button variant="outline" size="sm" onClick={fetchData} disabled={loading} className="flex-shrink-0">
+            <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
+            <span className="ml-2 hidden sm:inline">Refresh</span>
+          </Button>
+        </div>
       </div>
 
       {error && (

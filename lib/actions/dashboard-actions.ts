@@ -3,8 +3,8 @@
 import { getAuthToken, verifyToken } from './auth-actions';
 import { getAllInquiries } from '@/lib/data/inquiry-store';
 import { getAllNewsArticles } from '@/lib/data/news-store';
-import { getSignatureCount, getSubscriberCount } from '@/lib/data/petition-store';
-import { getGalleryPhotoCount } from '@/lib/data/gallery-store';
+import { getAllSignatures, getSignatureCount, getSubscriberCount } from '@/lib/data/petition-store';
+import { getAllGalleryPhotos, getGalleryPhotoCount } from '@/lib/data/gallery-store';
 import { DashboardStats } from '@/types';
 
 async function isAdmin(): Promise<boolean> {
@@ -40,5 +40,25 @@ export async function getDashboardStats(): Promise<DashboardStats | { error: str
     return stats;
   } catch (error) {
     return { error: 'Failed to fetch dashboard stats' };
+  }
+}
+
+export async function exportAllData() {
+  try {
+    const admin = await isAdmin();
+    if (!admin) {
+      return { error: 'Authentication required' };
+    }
+
+    const [inquiries, articles, signatures, photos] = await Promise.all([
+      getAllInquiries(),
+      getAllNewsArticles(false),
+      getAllSignatures(),
+      getAllGalleryPhotos(),
+    ]);
+
+    return { inquiries, articles, signatures, photos };
+  } catch (error) {
+    return { error: 'Failed to export data' };
   }
 }

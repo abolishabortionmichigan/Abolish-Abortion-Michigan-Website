@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Loader2, RefreshCw, Search, Trash, Eye } from 'lucide-react';
+import { Loader2, RefreshCw, Search, Trash, Eye, Download } from 'lucide-react';
 import { fetchInquiries, updateInquiry, deleteInquiry } from '@/lib/actions/inquiry-actions';
 import { Inquiry } from '@/types';
 import { formatDate } from '@/lib/utils';
@@ -63,6 +63,30 @@ export default function InquiriesPage() {
     }
   };
 
+  const handleExportCSV = () => {
+    const headers = ['Name', 'Email', 'Subject', 'Message', 'Status', 'Date'];
+    const rows = filteredInquiries.map((i) => [
+      i.name,
+      i.email,
+      i.subject || '',
+      i.message.replace(/"/g, '""'),
+      i.status,
+      i.created_at ? new Date(i.created_at).toLocaleDateString() : '',
+    ]);
+
+    const csv = [headers, ...rows]
+      .map((row) => row.map((cell) => `"${cell}"`).join(','))
+      .join('\n');
+
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `inquiries-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const filteredInquiries = inquiries.filter((inquiry) => {
     const search = searchTerm.toLowerCase();
     return (
@@ -87,6 +111,9 @@ export default function InquiriesPage() {
               className="pl-10"
             />
           </div>
+          <Button variant="outline" size="icon" onClick={handleExportCSV} disabled={loading || inquiries.length === 0} title="Export CSV">
+            <Download className="h-4 w-4" />
+          </Button>
           <Button variant="outline" size="icon" onClick={loadInquiries} disabled={loading}>
             <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
           </Button>
