@@ -1,11 +1,35 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Send, Users, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Send, Users, AlertCircle, CheckCircle2, Bold, Italic, Link, Heading2, Pilcrow, List, ListOrdered, CornerDownLeft, Eye, PenLine } from 'lucide-react';
 import { sendBroadcast } from '@/lib/actions/email-actions';
 import { getDashboardStats } from '@/lib/actions/dashboard-actions';
+
+function insertTag(
+  textarea: HTMLTextAreaElement,
+  before: string,
+  after: string,
+  body: string,
+  setBody: (v: string) => void
+) {
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const selected = body.substring(start, end);
+  const replacement = before + (selected || 'text') + after;
+  const newBody = body.substring(0, start) + replacement + body.substring(end);
+  setBody(newBody);
+
+  // Restore cursor position after React re-render
+  requestAnimationFrame(() => {
+    textarea.focus();
+    const cursorPos = selected
+      ? start + replacement.length
+      : start + before.length + 4; // position after "text"
+    textarea.setSelectionRange(cursorPos, cursorPos);
+  });
+}
 
 export default function EmailBroadcastPage() {
   const [subject, setSubject] = useState('');
@@ -14,6 +38,8 @@ export default function EmailBroadcastPage() {
   const [result, setResult] = useState<{ sent?: number; failed?: number; error?: string } | null>(null);
   const [subscriberCount, setSubscriberCount] = useState<number | null>(null);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [activeTab, setActiveTab] = useState<'compose' | 'preview'>('compose');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     getDashboardStats().then((stats) => {
@@ -52,6 +78,53 @@ export default function EmailBroadcastPage() {
       setSending(false);
     }
   };
+
+  const handleToolbar = (action: string) => {
+    const ta = textareaRef.current;
+    if (!ta) return;
+
+    switch (action) {
+      case 'bold':
+        insertTag(ta, '<strong>', '</strong>', body, setBody);
+        break;
+      case 'italic':
+        insertTag(ta, '<em>', '</em>', body, setBody);
+        break;
+      case 'heading':
+        insertTag(ta, '<h2>', '</h2>', body, setBody);
+        break;
+      case 'paragraph':
+        insertTag(ta, '<p>', '</p>', body, setBody);
+        break;
+      case 'ul':
+        insertTag(ta, '<ul>\n  <li>', '</li>\n</ul>', body, setBody);
+        break;
+      case 'ol':
+        insertTag(ta, '<ol>\n  <li>', '</li>\n</ol>', body, setBody);
+        break;
+      case 'br':
+        insertTag(ta, '<br>', '', body, setBody);
+        break;
+      case 'link': {
+        const url = window.prompt('Enter URL:');
+        if (url) {
+          insertTag(ta, `<a href="${url}">`, '</a>', body, setBody);
+        }
+        break;
+      }
+    }
+  };
+
+  const toolbarButtons = [
+    { action: 'bold', icon: Bold, label: 'Bold' },
+    { action: 'italic', icon: Italic, label: 'Italic' },
+    { action: 'link', icon: Link, label: 'Link' },
+    { action: 'heading', icon: Heading2, label: 'Heading' },
+    { action: 'paragraph', icon: Pilcrow, label: 'Paragraph' },
+    { action: 'ul', icon: List, label: 'Bullet List' },
+    { action: 'ol', icon: ListOrdered, label: 'Ordered List' },
+    { action: 'br', icon: CornerDownLeft, label: 'Line Break' },
+  ];
 
   return (
     <div className="space-y-6">
@@ -99,68 +172,177 @@ export default function EmailBroadcastPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Compose Email</CardTitle>
-          <CardDescription>
-            This email will be sent individually to each subscriber with a personalized unsubscribe link.
-          </CardDescription>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle>Compose Email</CardTitle>
+              <CardDescription>
+                This email will be sent individually to each subscriber with a personalized unsubscribe link.
+              </CardDescription>
+            </div>
+            <div className="flex bg-gray-100 rounded-lg p-1">
+              <button
+                type="button"
+                onClick={() => setActiveTab('compose')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                  activeTab === 'compose' ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                <PenLine size={14} />
+                Compose
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('preview')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                  activeTab === 'preview' ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                <Eye size={14} />
+                Preview
+              </button>
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
-                Subject
-              </label>
-              <input
-                id="subject"
-                type="text"
-                value={subject}
-                onChange={(e) => setSubject(e.target.value)}
-                placeholder="Enter email subject..."
-                maxLength={200}
-                required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
-              />
-              <p className="text-xs text-gray-400 mt-1">{subject.length}/200</p>
-            </div>
+          {activeTab === 'compose' ? (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
+                  Subject
+                </label>
+                <input
+                  id="subject"
+                  type="text"
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                  placeholder="Enter email subject..."
+                  maxLength={200}
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                />
+                <p className="text-xs text-gray-400 mt-1">{subject.length}/200</p>
+              </div>
 
-            <div>
-              <label htmlFor="body" className="block text-sm font-medium text-gray-700 mb-1">
-                Message Body
-              </label>
-              <p className="text-xs text-gray-500 mb-2">
-                You can use basic HTML tags for formatting: &lt;p&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;a href=&quot;...&quot;&gt;, &lt;br&gt;, &lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;
-              </p>
-              <textarea
-                id="body"
-                value={body}
-                onChange={(e) => setBody(e.target.value)}
-                placeholder="Write your message here..."
-                rows={12}
-                required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent font-mono text-sm"
-              />
-            </div>
+              <div>
+                <label htmlFor="body" className="block text-sm font-medium text-gray-700 mb-1">
+                  Message Body
+                </label>
 
-            <div className="flex justify-end pt-2">
-              <Button
-                type="submit"
-                disabled={sending || !subject.trim() || !body.trim()}
-                className="bg-red-600 hover:bg-red-700 text-white"
-              >
-                {sending ? (
-                  <>
-                    <Send size={16} className="mr-2 animate-pulse" />
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    <Send size={16} className="mr-2" />
-                    Send to All Subscribers
-                  </>
-                )}
-              </Button>
+                {/* Toolbar */}
+                <div className="flex flex-wrap gap-1 p-2 bg-gray-50 border border-gray-300 border-b-0 rounded-t-md">
+                  {toolbarButtons.map((btn) => (
+                    <button
+                      key={btn.action}
+                      type="button"
+                      onClick={() => handleToolbar(btn.action)}
+                      title={btn.label}
+                      className="p-1.5 rounded hover:bg-gray-200 text-gray-600 hover:text-gray-900 transition-colors"
+                    >
+                      <btn.icon size={16} />
+                    </button>
+                  ))}
+                </div>
+
+                <textarea
+                  ref={textareaRef}
+                  id="body"
+                  value={body}
+                  onChange={(e) => setBody(e.target.value)}
+                  placeholder="Write your message here..."
+                  rows={12}
+                  required
+                  className="w-full px-3 py-2 border border-gray-300 rounded-b-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent font-mono text-sm"
+                />
+              </div>
+
+              <div className="flex justify-end pt-2">
+                <Button
+                  type="submit"
+                  disabled={sending || !subject.trim() || !body.trim()}
+                  className="bg-red-600 hover:bg-red-700 text-white"
+                >
+                  {sending ? (
+                    <>
+                      <Send size={16} className="mr-2 animate-pulse" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send size={16} className="mr-2" />
+                      Send to All Subscribers
+                    </>
+                  )}
+                </Button>
+              </div>
+            </form>
+          ) : (
+            /* Email Preview */
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                <p className="text-gray-900 font-medium">{subject || '(No subject)'}</p>
+              </div>
+
+              <div className="border rounded-lg overflow-hidden">
+                {/* Email header */}
+                <div style={{ backgroundColor: '#1a1a2e', padding: '24px 16px', textAlign: 'center' }}>
+                  <span style={{ fontSize: '20px', fontWeight: 'bold', color: '#d4af37', letterSpacing: '1px' }}>
+                    Abolish Abortion Michigan
+                  </span>
+                </div>
+
+                {/* Email body */}
+                <div style={{ padding: '28px 32px', fontFamily: 'Georgia, serif', lineHeight: '1.6', color: '#333' }}>
+                  <h1 style={{ color: '#1a1a2e', fontSize: '20px', marginTop: 0, marginBottom: '20px' }}>
+                    {subject || '(No subject)'}
+                  </h1>
+                  <p>Hello <strong style={{ color: '#8b0000' }}>Subscriber Name</strong>,</p>
+                  {body ? (
+                    <div style={{ margin: '16px 0' }} dangerouslySetInnerHTML={{ __html: body }} />
+                  ) : (
+                    <p style={{ color: '#999', fontStyle: 'italic' }}>(No message body yet)</p>
+                  )}
+                  <p style={{ marginTop: '20px' }}>
+                    In Christ,<br /><strong>Abolish Abortion Michigan</strong>
+                  </p>
+                </div>
+
+                {/* Email footer */}
+                <div style={{ backgroundColor: '#1a1a2e', padding: '20px', textAlign: 'center', fontSize: '12px', color: '#cccccc' }}>
+                  <p style={{ margin: '0 0 8px 0' }}>&copy; {new Date().getFullYear()} Abolish Abortion Michigan. All rights reserved.</p>
+                  <p style={{ margin: 0, color: '#d4af37' }}>abolishabortionmichigan.com</p>
+                </div>
+
+                {/* Unsubscribe footer */}
+                <div style={{ textAlign: 'center', padding: '12px 16px', fontSize: '11px', color: '#999' }}>
+                  <p style={{ margin: 0 }}>You received this email because you subscribed at abolishabortionmichigan.com.</p>
+                  <p style={{ margin: '4px 0 0 0' }}>
+                    <span style={{ textDecoration: 'underline' }}>Unsubscribe</span>
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex justify-end pt-2">
+                <Button
+                  type="button"
+                  onClick={() => setActiveTab('compose')}
+                  variant="outline"
+                  className="mr-2"
+                >
+                  Back to Compose
+                </Button>
+                <Button
+                  type="button"
+                  disabled={sending || !subject.trim() || !body.trim()}
+                  onClick={() => { if (subject.trim() && body.trim()) setShowConfirm(true); }}
+                  className="bg-red-600 hover:bg-red-700 text-white"
+                >
+                  <Send size={16} className="mr-2" />
+                  Send to All Subscribers
+                </Button>
+              </div>
             </div>
-          </form>
+          )}
         </CardContent>
       </Card>
 
