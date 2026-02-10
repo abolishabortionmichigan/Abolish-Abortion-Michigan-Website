@@ -39,6 +39,7 @@ interface SubscriberData {
 
 // Get email configuration from environment variables
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || ADMIN_EMAIL;
 const EMAIL_USER = process.env.EMAIL_USER || ADMIN_EMAIL;
 const EMAIL_PASSWORD = process.env.EMAIL_PASSWORD;
 const EMAIL_HOST = process.env.EMAIL_HOST || 'smtp.gmail.com';
@@ -70,7 +71,7 @@ export const sendInquiryConfirmationEmail = async (inquiry: InquiryData) => {
     const info = await transporter.sendMail({
       from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
       to: inquiry.email,
-      bcc: ADMIN_EMAIL,
+      bcc: NOTIFICATION_EMAIL,
       subject: `Thank You for Contacting Abolish Abortion Michigan`,
       html: inquiryConfirmationEmailHtml(inquiry),
     });
@@ -95,7 +96,7 @@ export const sendInquiryNotificationEmail = async (inquiry: InquiryData) => {
   try {
     const info = await transporter.sendMail({
       from: `"AAM Website" <${EMAIL_USER}>`,
-      to: ADMIN_EMAIL,
+      to: NOTIFICATION_EMAIL,
       subject: `New Inquiry: ${inquiry.subject ? escapeHtml(inquiry.subject) : 'General Inquiry'}`,
       html: inquiryNotificationEmailHtml(inquiry),
     });
@@ -466,7 +467,7 @@ export const sendPetitionNotificationEmail = async (petition: PetitionData) => {
   try {
     const info = await transporter.sendMail({
       from: `"AAM Website" <${EMAIL_USER}>`,
-      to: ADMIN_EMAIL,
+      to: NOTIFICATION_EMAIL,
       subject: `New Petition Signature: ${escapeHtml(petition.name)}`,
       html: petitionNotificationEmailHtml(petition),
     });
