@@ -11,7 +11,7 @@ import {
   slugExists,
 } from '@/lib/data/news-store';
 import { getSubscribedEmails } from '@/lib/data/petition-store';
-import { sendNewsletterToAll } from '@/lib/email';
+import { sendNewsletterToAll, sendNewsletterNotification } from '@/lib/email';
 import { sanitizeHtml } from '@/lib/sanitize';
 
 async function isAdmin(): Promise<boolean> {
@@ -91,10 +91,9 @@ export async function createNewsArticle(data: Omit<NewsArticle, 'id' | 'created_
     if (data.published) {
       const subscribers = await getSubscribedEmails();
       if (subscribers.length > 0) {
-        await sendNewsletterToAll(
-          { title: data.title, slug: data.slug, excerpt: data.excerpt, image: data.image },
-          subscribers
-        );
+        const articleData = { title: data.title, slug: data.slug, excerpt: data.excerpt, image: data.image };
+        const result = await sendNewsletterToAll(articleData, subscribers);
+        await sendNewsletterNotification(articleData, result.sent, result.failed);
       }
     }
 
@@ -142,10 +141,9 @@ export async function updateNewsArticle(id: string, data: Partial<NewsArticle>) 
     if (data.published === true && !wasPublished) {
       const subscribers = await getSubscribedEmails();
       if (subscribers.length > 0) {
-        await sendNewsletterToAll(
-          { title: updated.title, slug: updated.slug, excerpt: updated.excerpt, image: updated.image },
-          subscribers
-        );
+        const articleData = { title: updated.title, slug: updated.slug, excerpt: updated.excerpt, image: updated.image };
+        const result = await sendNewsletterToAll(articleData, subscribers);
+        await sendNewsletterNotification(articleData, result.sent, result.failed);
       }
     }
 

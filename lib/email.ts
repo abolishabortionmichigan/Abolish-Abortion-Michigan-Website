@@ -746,6 +746,134 @@ export const sendBroadcastToAll = async (subject: string, body: string, subscrib
   return { sent, failed };
 };
 
+// Send admin notification after newsletter is sent
+export const sendNewsletterNotification = async (article: ArticleData, sent: number, failed: number) => {
+  if (!EMAIL_PASSWORD || !NOTIFICATION_EMAIL) {
+    return { success: false, error: 'Email not configured' };
+  }
+
+  const transporter = createTransporter();
+
+  try {
+    const info = await transporter.sendMail({
+      from: `"AAM Website" <${EMAIL_USER}>`,
+      to: NOTIFICATION_EMAIL,
+      subject: `Newsletter Sent: ${article.title}`,
+      html: `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f5f5f5; margin: 0; padding: 0;">
+  <table cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f5f5f5">
+    <tr>
+      <td align="center" style="padding: 20px 0;">
+        <table cellpadding="0" cellspacing="0" border="0" width="600" style="border-radius: 8px; overflow: hidden; background-color: #fff; max-width: 600px;">
+          <tr>
+            <td bgcolor="#1a1a2e" style="padding: 20px; text-align: center;">
+              <div style="font-size: 20px; font-weight: bold; color: #d4af37;">Newsletter Sent</div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 30px;">
+              <h1 style="color: #1a1a2e; font-size: 22px; margin-top: 0;">Newsletter Summary</h1>
+              <div style="padding: 10px 0; border-bottom: 1px solid #eee;">
+                <span style="font-weight: bold; color: #666;">Article:</span> ${escapeHtml(article.title)}
+              </div>
+              <div style="padding: 10px 0; border-bottom: 1px solid #eee;">
+                <span style="font-weight: bold; color: #666;">Sent:</span> ${sent} email${sent !== 1 ? 's' : ''}
+              </div>
+              ${failed > 0 ? `<div style="padding: 10px 0; border-bottom: 1px solid #eee;">
+                <span style="font-weight: bold; color: #c00;">Failed:</span> ${failed}
+              </div>` : ''}
+              <div style="text-align: center; margin-top: 25px;">
+                <a href="${BASE_URL}/news/${article.slug}" style="display: inline-block; background-color: #1a1a2e; color: #ffffff !important; text-decoration: none; padding: 12px 25px; border-radius: 4px; font-weight: bold;">View Article</a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#f0f0f0" style="text-align: center; padding: 15px; color: #666; font-size: 12px;">
+              <p style="margin: 0;">This is an automated notification from the AAM Website.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`,
+    });
+
+    return { success: true, messageId: info.messageId };
+  } catch (error) {
+    console.error('Error sending newsletter notification:', error);
+    return { success: false, error: 'Failed to send email' };
+  }
+};
+
+// Send admin notification after broadcast is sent
+export const sendBroadcastNotification = async (subject: string, sent: number, failed: number) => {
+  if (!EMAIL_PASSWORD || !NOTIFICATION_EMAIL) {
+    return { success: false, error: 'Email not configured' };
+  }
+
+  const transporter = createTransporter();
+
+  try {
+    const info = await transporter.sendMail({
+      from: `"AAM Website" <${EMAIL_USER}>`,
+      to: NOTIFICATION_EMAIL,
+      subject: `Broadcast Sent: ${subject}`,
+      html: `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f5f5f5; margin: 0; padding: 0;">
+  <table cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f5f5f5">
+    <tr>
+      <td align="center" style="padding: 20px 0;">
+        <table cellpadding="0" cellspacing="0" border="0" width="600" style="border-radius: 8px; overflow: hidden; background-color: #fff; max-width: 600px;">
+          <tr>
+            <td bgcolor="#1a1a2e" style="padding: 20px; text-align: center;">
+              <div style="font-size: 20px; font-weight: bold; color: #d4af37;">Broadcast Sent</div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 30px;">
+              <h1 style="color: #1a1a2e; font-size: 22px; margin-top: 0;">Broadcast Summary</h1>
+              <div style="padding: 10px 0; border-bottom: 1px solid #eee;">
+                <span style="font-weight: bold; color: #666;">Subject:</span> ${escapeHtml(subject)}
+              </div>
+              <div style="padding: 10px 0; border-bottom: 1px solid #eee;">
+                <span style="font-weight: bold; color: #666;">Sent:</span> ${sent} email${sent !== 1 ? 's' : ''}
+              </div>
+              ${failed > 0 ? `<div style="padding: 10px 0; border-bottom: 1px solid #eee;">
+                <span style="font-weight: bold; color: #c00;">Failed:</span> ${failed}
+              </div>` : ''}
+              <div style="text-align: center; margin-top: 25px;">
+                <a href="${BASE_URL}/admin/dashboard/email" style="display: inline-block; background-color: #1a1a2e; color: #ffffff !important; text-decoration: none; padding: 12px 25px; border-radius: 4px; font-weight: bold;">Go to Email Dashboard</a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#f0f0f0" style="text-align: center; padding: 15px; color: #666; font-size: 12px;">
+              <p style="margin: 0;">This is an automated notification from the AAM Website.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`,
+    });
+
+    return { success: true, messageId: info.messageId };
+  } catch (error) {
+    console.error('Error sending broadcast notification:', error);
+    return { success: false, error: 'Failed to send email' };
+  }
+};
+
 const broadcastEmailHtml = (subject: string, body: string, subscriber: SubscriberData) => {
   const safeName = escapeHtml(subscriber.name);
   const safeSubject = escapeHtml(subject);
