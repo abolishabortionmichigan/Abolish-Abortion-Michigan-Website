@@ -24,6 +24,8 @@ export default function GalleryManagementPage() {
   const [formOrder, setFormOrder] = useState('0');
   const [saving, setSaving] = useState(false);
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 24;
 
   const loadPhotos = async () => {
     setLoading(true);
@@ -257,8 +259,9 @@ export default function GalleryManagementPage() {
       )}
 
       {!loading && !error && photos.length > 0 && (
+        <>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-          {photos.map((photo) => (
+          {photos.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((photo) => (
             <div key={photo.id} className="bg-white rounded-lg border overflow-hidden group">
               <div className="relative aspect-square bg-gray-100">
                 {!imageErrors[photo.id] ? (
@@ -321,6 +324,32 @@ export default function GalleryManagementPage() {
             </div>
           ))}
         </div>
+
+        {/* Pagination */}
+        {Math.ceil(photos.length / itemsPerPage) > 1 && (
+          <div className="flex items-center justify-between bg-white rounded-lg border px-4 py-3">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </Button>
+            <span className="text-sm text-gray-600">
+              Page {currentPage} of {Math.ceil(photos.length / itemsPerPage)} ({photos.length} total)
+            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setCurrentPage((p) => Math.min(Math.ceil(photos.length / itemsPerPage), p + 1))}
+              disabled={currentPage === Math.ceil(photos.length / itemsPerPage)}
+            >
+              Next
+            </Button>
+          </div>
+        )}
+        </>
       )}
     </div>
   );

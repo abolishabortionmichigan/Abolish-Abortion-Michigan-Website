@@ -21,8 +21,10 @@ export default function InquiriesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
   const [selectedInquiry, setSelectedInquiry] = useState<Inquiry | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const itemsPerPage = 25;
 
   const loadInquiries = async () => {
     setLoading(true);
@@ -97,6 +99,12 @@ export default function InquiriesPage() {
     );
   });
 
+  const totalPages = Math.ceil(filteredInquiries.length / itemsPerPage);
+  const paginatedInquiries = filteredInquiries.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className="space-y-4 sm:space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
@@ -107,7 +115,7 @@ export default function InquiriesPage() {
             <Input
               placeholder="Search inquiries..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
               className="pl-10"
             />
           </div>
@@ -161,7 +169,7 @@ export default function InquiriesPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredInquiries.map((inquiry) => (
+                  {paginatedInquiries.map((inquiry) => (
                     <tr key={inquiry.id} className="border-b hover:bg-gray-50">
                       <td className="p-4">
                         <div>
@@ -204,7 +212,7 @@ export default function InquiriesPage() {
 
           {/* Mobile card layout */}
           <div className="sm:hidden space-y-3">
-            {filteredInquiries.map((inquiry) => (
+            {paginatedInquiries.map((inquiry) => (
               <div key={inquiry.id} className="bg-white rounded-lg border p-4 space-y-2">
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
@@ -239,6 +247,31 @@ export default function InquiriesPage() {
               </div>
             ))}
           </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between bg-white rounded-lg border px-4 py-3">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </Button>
+              <span className="text-sm text-gray-600">
+                Page {currentPage} of {totalPages} ({filteredInquiries.length} total)
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </Button>
+            </div>
+          )}
         </>
       )}
 

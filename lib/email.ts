@@ -84,6 +84,72 @@ export const sendInquiryConfirmationEmail = async (inquiry: InquiryData) => {
   }
 };
 
+// Send reply email to inquiry sender
+export const sendInquiryReplyEmail = async (data: { to: string; name: string; subject: string; message: string }) => {
+  if (!EMAIL_PASSWORD) {
+    console.warn('Email password not configured. Skipping email send.');
+    return { success: false, error: 'Email not configured' };
+  }
+
+  const transporter = createTransporter();
+  const safeName = escapeHtml(data.name);
+  const safeSubject = escapeHtml(data.subject);
+
+  try {
+    const info = await transporter.sendMail({
+      from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
+      to: data.to,
+      bcc: NOTIFICATION_EMAIL,
+      subject: `Re: ${safeSubject || 'Your Inquiry'}`,
+      html: `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="font-family: Georgia, serif; line-height: 1.6; color: #333; background-color: #f5f5f5; margin: 0; padding: 0;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 20px 0;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+          <tr>
+            <td bgcolor="#1a1a2e" style="padding: 25px; text-align: center;">
+              <span style="font-size: 20px; font-weight: bold; color: #d4af37; letter-spacing: 1px;">Abolish Abortion Michigan</span>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 35px 40px;">
+              <p>Hello <strong style="color: #8b0000;">${safeName}</strong>,</p>
+              <p>Thank you for reaching out to us. Here is our response to your inquiry:</p>
+              <div style="margin: 20px 0; padding: 20px; background-color: #f8f8f8; border-left: 4px solid #8b0000; border-radius: 4px;">
+                ${data.message}
+              </div>
+              <p style="margin-top: 25px;">In Christ,<br><strong>Abolish Abortion Michigan</strong></p>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#1a1a2e" style="padding: 25px; text-align: center; font-size: 13px; color: #cccccc;">
+              <p style="margin: 0 0 10px 0;">&copy; ${new Date().getFullYear()} Abolish Abortion Michigan. All rights reserved.</p>
+              <p style="margin: 0;"><a href="https://abolishabortionmichigan.com" style="color: #d4af37; text-decoration: none;">abolishabortionmichigan.com</a></p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+      `,
+    });
+
+    return { success: true, messageId: info.messageId };
+  } catch (error) {
+    console.error('Error sending reply email:', error);
+    return { success: false, error: 'Failed to send reply' };
+  }
+};
+
 // Send notification email to admin when new inquiry is received
 export const sendInquiryNotificationEmail = async (inquiry: InquiryData) => {
   if (!EMAIL_PASSWORD) {

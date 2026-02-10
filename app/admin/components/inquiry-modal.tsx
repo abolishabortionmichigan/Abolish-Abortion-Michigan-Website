@@ -12,8 +12,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Loader2, Trash } from 'lucide-react';
-import { updateInquiry, deleteInquiry } from '@/lib/actions/inquiry-actions';
+import { Loader2, Trash, Reply, Send, CheckCircle2 } from 'lucide-react';
+import { updateInquiry, deleteInquiry, replyToInquiry } from '@/lib/actions/inquiry-actions';
 import { Inquiry } from '@/types';
 import { formatDate } from '@/lib/utils';
 
@@ -29,10 +29,19 @@ const statusOptions = ['pending', 'responded', 'closed'];
 export default function InquiryModal({ open, onClose, inquiry, onUpdate }: InquiryModalProps) {
   const [status, setStatus] = useState('pending');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showReply, setShowReply] = useState(false);
+  const [replyMessage, setReplyMessage] = useState('');
+  const [replySending, setReplySending] = useState(false);
+  const [replySent, setReplySent] = useState(false);
+  const [replyError, setReplyError] = useState('');
 
   useEffect(() => {
     if (inquiry) {
       setStatus(inquiry.status);
+      setShowReply(false);
+      setReplyMessage('');
+      setReplySent(false);
+      setReplyError('');
     }
   }, [inquiry]);
 
@@ -67,6 +76,29 @@ export default function InquiryModal({ open, onClose, inquiry, onUpdate }: Inqui
       console.error('Delete error:', error);
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleReply = async () => {
+    if (!inquiry || !replyMessage.trim()) return;
+
+    setReplySending(true);
+    setReplyError('');
+    try {
+      const res = await replyToInquiry(inquiry.id, replyMessage);
+      if ('error' in res) {
+        setReplyError(res.error || 'Failed to send reply');
+      } else {
+        setReplySent(true);
+        setStatus('responded');
+        setReplyMessage('');
+        setShowReply(false);
+        onUpdate();
+      }
+    } catch {
+      setReplyError('Failed to send reply');
+    } finally {
+      setReplySending(false);
     }
   };
 
@@ -126,6 +158,69 @@ export default function InquiryModal({ open, onClose, inquiry, onUpdate }: Inqui
               {inquiry.created_at ? formatDate(inquiry.created_at) : 'N/A'}
             </div>
           </div>
+
+          {/* Reply Section */}
+          {replySent && (
+            <div className="flex items-center gap-2 p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm">
+              <CheckCircle2 size={16} />
+              Reply sent successfully! Status updated to &quot;Responded&quot;.
+            </div>
+          )}
+
+          {!showReply ? (
+            <Button
+              variant="outline"
+              onClick={() => setShowReply(true)}
+              className="w-full"
+            >
+              <Reply className="h-4 w-4 mr-2" />
+              Reply to {inquiry.name}
+            </Button>
+          ) : (
+            <div className="space-y-3 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <Label>Reply to {inquiry.email}</Label>
+              <textarea
+                value={replyMessage}
+                onChange={(e) => setReplyMessage(e.target.value)}
+                placeholder="Type your reply..."
+                rows={5}
+                maxLength={5000}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm"
+              />
+              <p className="text-xs text-gray-400">{replyMessage.length}/5000</p>
+              {replyError && (
+                <p className="text-sm text-red-600">{replyError}</p>
+              )}
+              <div className="flex gap-2 justify-end">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => { setShowReply(false); setReplyError(''); }}
+                  disabled={replySending}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={handleReply}
+                  disabled={replySending || !replyMessage.trim()}
+                  className="bg-red-600 hover:bg-red-700 text-white"
+                >
+                  {replySending ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="h-4 w-4 mr-2" />
+                      Send Reply
+                    </>
+                  )}
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
 
         <DialogFooter className="flex justify-between mt-6">
