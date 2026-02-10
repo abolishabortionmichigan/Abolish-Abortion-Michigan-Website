@@ -44,6 +44,7 @@ export default function RootLayout({
     <html lang="en">
 
       <head>
+        <link rel="alternate" type="application/rss+xml" title="Abolish Abortion Michigan - News" href="/feed.xml" />
         <link rel="preconnect" href="https://www.youtube.com" />
         <link rel="preconnect" href="https://www.zeffy.com" />
         <link rel="dns-prefetch" href="https://www.youtube.com" />
