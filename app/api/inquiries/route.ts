@@ -69,8 +69,8 @@ export async function POST(request: NextRequest) {
       message: data.message,
     });
 
-    // Send emails (non-blocking - don't wait for completion)
-    Promise.all([
+    // Send emails
+    await Promise.all([
       sendInquiryConfirmationEmail({
         id: newInquiry.id,
         name: newInquiry.name,
@@ -87,9 +87,7 @@ export async function POST(request: NextRequest) {
         message: newInquiry.message,
         created_at: newInquiry.created_at as string,
       }),
-    ]).catch((error) => {
-      console.error('Error sending inquiry emails:', error);
-    });
+    ]);
 
     return NextResponse.json(newInquiry, { status: 201 });
   } catch (error) {

@@ -2,7 +2,7 @@
 
 import { getAuthToken, verifyToken } from './auth-actions';
 import { getSubscribedEmails } from '@/lib/data/petition-store';
-import { sendBroadcastToAll } from '@/lib/email';
+import { sendBroadcastToAll, sendBroadcastNotification } from '@/lib/email';
 import { sanitizeHtml } from '@/lib/sanitize';
 
 async function isAdmin(): Promise<boolean> {
@@ -41,6 +41,7 @@ export async function sendBroadcast(data: {
     const sanitizedBody = sanitizeHtml(data.body);
 
     const result = await sendBroadcastToAll(data.subject, sanitizedBody, subscribers);
+    await sendBroadcastNotification(data.subject, result.sent, result.failed);
 
     return result;
   } catch (error) {
