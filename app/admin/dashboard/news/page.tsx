@@ -16,6 +16,8 @@ export default function NewsManagementPage() {
   const [error, setError] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [bulkDeleting, setBulkDeleting] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState<NewsArticle | null>(null);
   const itemsPerPage = 25;
   const [modalOpen, setModalOpen] = useState(false);
@@ -64,6 +66,38 @@ export default function NewsManagementPage() {
       }
     } catch (err) {
       console.error('Delete error:', err);
+    }
+  };
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedIds.size === paginatedArticles.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(paginatedArticles.map((a) => a.id)));
+    }
+  };
+
+  const handleBulkDelete = async () => {
+    if (selectedIds.size === 0) return;
+    if (!confirm(`Are you sure you want to delete ${selectedIds.size} article${selectedIds.size !== 1 ? 's' : ''}?`)) return;
+
+    setBulkDeleting(true);
+    try {
+      await Promise.all(Array.from(selectedIds).map((id) => deleteNewsArticle(id)));
+      setArticles((prev) => prev.filter((a) => !selectedIds.has(a.id)));
+      setSelectedIds(new Set());
+    } catch (err) {
+      console.error('Bulk delete error:', err);
+    } finally {
+      setBulkDeleting(false);
     }
   };
 
@@ -161,12 +195,41 @@ export default function NewsManagementPage() {
 
       {!loading && !error && articles.length > 0 && (
         <>
+          {/* Bulk action bar */}
+          {selectedIds.size > 0 && (
+            <div className="flex items-center justify-between bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+              <span className="text-sm font-medium text-red-700">
+                {selectedIds.size} selected
+              </span>
+              <Button
+                size="sm"
+                onClick={handleBulkDelete}
+                disabled={bulkDeleting}
+                className="bg-red-600 hover:bg-red-700 text-white"
+              >
+                {bulkDeleting ? (
+                  <><Loader2 className="h-4 w-4 animate-spin mr-2" />Deleting...</>
+                ) : (
+                  <><Trash className="h-4 w-4 mr-2" />Delete Selected</>
+                )}
+              </Button>
+            </div>
+          )}
+
           {/* Desktop table */}
           <div className="hidden sm:block bg-white rounded-lg border overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
                   <tr className="bg-gray-50 border-b">
+                    <th className="p-4 w-10">
+                      <input
+                        type="checkbox"
+                        checked={paginatedArticles.length > 0 && selectedIds.size === paginatedArticles.length}
+                        onChange={toggleSelectAll}
+                        className="h-4 w-4 rounded border-gray-300"
+                      />
+                    </th>
                     <th className="text-left p-4 font-medium">Title</th>
                     <th className="text-left p-4 font-medium hidden md:table-cell">Date</th>
                     <th className="text-left p-4 font-medium">Status</th>
@@ -175,7 +238,15 @@ export default function NewsManagementPage() {
                 </thead>
                 <tbody>
                   {paginatedArticles.map((article) => (
-                    <tr key={article.id} className="border-b hover:bg-gray-50">
+                    <tr key={article.id} className={`border-b hover:bg-gray-50 ${selectedIds.has(article.id) ? 'bg-red-50/50' : ''}`}>
+                      <td className="p-4 w-10">
+                        <input
+                          type="checkbox"
+                          checked={selectedIds.has(article.id)}
+                          onChange={() => toggleSelect(article.id)}
+                          className="h-4 w-4 rounded border-gray-300"
+                        />
+                      </td>
                       <td className="p-4">
                         <div>
                           <p className="font-medium">{article.title}</p>
@@ -215,11 +286,19 @@ export default function NewsManagementPage() {
           {/* Mobile card layout */}
           <div className="sm:hidden space-y-3">
             {paginatedArticles.map((article) => (
-              <div key={article.id} className="bg-white rounded-lg border p-4 space-y-2">
+              <div key={article.id} className={`bg-white rounded-lg border p-4 space-y-2 ${selectedIds.has(article.id) ? 'ring-2 ring-red-200 bg-red-50/50' : ''}`}>
                 <div className="flex items-start justify-between gap-2">
-                  <div className="min-w-0 flex-1">
-                    <p className="font-medium line-clamp-2">{article.title}</p>
-                    <p className="text-sm text-gray-500 line-clamp-1 mt-1">{article.excerpt}</p>
+                  <div className="flex items-start gap-3 min-w-0 flex-1">
+                    <input
+                      type="checkbox"
+                      checked={selectedIds.has(article.id)}
+                      onChange={() => toggleSelect(article.id)}
+                      className="h-4 w-4 rounded border-gray-300 mt-1 flex-shrink-0"
+                    />
+                    <div className="min-w-0">
+                      <p className="font-medium line-clamp-2">{article.title}</p>
+                      <p className="text-sm text-gray-500 line-clamp-1 mt-1">{article.excerpt}</p>
+                    </div>
                   </div>
                   <Badge className={`flex-shrink-0 ${article.published ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
                     {article.published ? 'Published' : 'Draft'}

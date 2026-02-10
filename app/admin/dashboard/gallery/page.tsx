@@ -25,6 +25,8 @@ export default function GalleryManagementPage() {
   const [saving, setSaving] = useState(false);
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [bulkDeleting, setBulkDeleting] = useState(false);
   const itemsPerPage = 24;
 
   const loadPhotos = async () => {
@@ -122,6 +124,30 @@ export default function GalleryManagementPage() {
     a.download = `gallery-photos-${new Date().toISOString().split('T')[0]}.csv`;
     a.click();
     URL.revokeObjectURL(url);
+  };
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+
+  const handleBulkDelete = async () => {
+    if (selectedIds.size === 0) return;
+    if (!confirm(`Are you sure you want to delete ${selectedIds.size} photo${selectedIds.size !== 1 ? 's' : ''}?`)) return;
+
+    setBulkDeleting(true);
+    try {
+      await Promise.all(Array.from(selectedIds).map((id) => deleteGalleryPhoto(id)));
+      setPhotos((prev) => prev.filter((p) => !selectedIds.has(p.id)));
+      setSelectedIds(new Set());
+    } catch (err) {
+      console.error('Bulk delete error:', err);
+    } finally {
+      setBulkDeleting(false);
+    }
   };
 
   const handleDelete = async (id: string) => {
@@ -260,10 +286,39 @@ export default function GalleryManagementPage() {
 
       {!loading && !error && photos.length > 0 && (
         <>
+        {/* Bulk action bar */}
+        {selectedIds.size > 0 && (
+          <div className="flex items-center justify-between bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+            <span className="text-sm font-medium text-red-700">
+              {selectedIds.size} selected
+            </span>
+            <Button
+              size="sm"
+              onClick={handleBulkDelete}
+              disabled={bulkDeleting}
+              className="bg-red-600 hover:bg-red-700 text-white"
+            >
+              {bulkDeleting ? (
+                <><Loader2 className="h-4 w-4 animate-spin mr-2" />Deleting...</>
+              ) : (
+                <><Trash className="h-4 w-4 mr-2" />Delete Selected</>
+              )}
+            </Button>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
           {photos.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((photo) => (
-            <div key={photo.id} className="bg-white rounded-lg border overflow-hidden group">
+            <div key={photo.id} className={`bg-white rounded-lg border overflow-hidden group ${selectedIds.has(photo.id) ? 'ring-2 ring-red-300' : ''}`}>
               <div className="relative aspect-square bg-gray-100">
+                <div className="absolute top-2 left-2 z-10">
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.has(photo.id)}
+                    onChange={() => toggleSelect(photo.id)}
+                    className="h-4 w-4 rounded border-gray-300 bg-white cursor-pointer"
+                  />
+                </div>
                 {!imageErrors[photo.id] ? (
                   <Image
                     src={photo.url}
