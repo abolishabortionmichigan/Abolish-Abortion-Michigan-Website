@@ -13,6 +13,8 @@ export default function PetitionsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 25;
 
   const loadSignatures = async () => {
     setLoading(true);
@@ -80,6 +82,12 @@ export default function PetitionsPage() {
     );
   });
 
+  const totalPages = Math.ceil(filteredSignatures.length / itemsPerPage);
+  const paginatedSignatures = filteredSignatures.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   const subscribedCount = signatures.filter((s) => s.subscribed).length;
 
   return (
@@ -99,7 +107,7 @@ export default function PetitionsPage() {
             <Input
               placeholder="Search signatures..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => { setSearchTerm(e.target.value); setCurrentPage(1); }}
               className="pl-10"
             />
           </div>
@@ -154,7 +162,7 @@ export default function PetitionsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredSignatures.map((sig) => (
+                  {paginatedSignatures.map((sig) => (
                     <tr key={sig.id} className="border-b hover:bg-gray-50">
                       <td className="p-4">
                         <div>
@@ -195,7 +203,7 @@ export default function PetitionsPage() {
 
           {/* Mobile card layout */}
           <div className="sm:hidden space-y-3">
-            {filteredSignatures.map((sig) => (
+            {paginatedSignatures.map((sig) => (
               <div key={sig.id} className="bg-white rounded-lg border p-4 space-y-2">
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
@@ -223,6 +231,31 @@ export default function PetitionsPage() {
               </div>
             ))}
           </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between bg-white rounded-lg border px-4 py-3">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </Button>
+              <span className="text-sm text-gray-600">
+                Page {currentPage} of {totalPages} ({filteredSignatures.length} total)
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </Button>
+            </div>
+          )}
         </>
       )}
 

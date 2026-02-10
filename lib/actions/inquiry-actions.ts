@@ -9,7 +9,7 @@ import {
   updateInquiry as updateInquiryData,
   deleteInquiry as deleteInquiryData,
 } from '@/lib/data/inquiry-store';
-import { sendInquiryConfirmationEmail, sendInquiryNotificationEmail } from '@/lib/email';
+import { sendInquiryConfirmationEmail, sendInquiryNotificationEmail, sendInquiryReplyEmail } from '@/lib/email';
 
 async function isAdmin(): Promise<boolean> {
   const token = await getAuthToken();
@@ -67,6 +67,47 @@ export async function deleteInquiry(id: string) {
     return { success: true };
   } catch (error) {
     return { error: 'Failed to delete inquiry' };
+  }
+}
+
+export async function replyToInquiry(inquiryId: string, message: string) {
+  try {
+    const admin = await isAdmin();
+    if (!admin) {
+      return { error: 'Authentication required' };
+    }
+
+    if (!message.trim()) {
+      return { error: 'Reply message is required' };
+    }
+
+    if (message.length > 5000) {
+      return { error: 'Reply must be 5000 characters or less' };
+    }
+
+    const inquiry = await getInquiryById(inquiryId);
+    if (!inquiry) {
+      return { error: 'Inquiry not found' };
+    }
+
+    const result = await sendInquiryReplyEmail({
+      to: inquiry.email,
+      name: inquiry.name,
+      subject: inquiry.subject || 'General Inquiry',
+      message: message.trim(),
+    });
+
+    if (!result.success) {
+      return { error: result.error || 'Failed to send reply' };
+    }
+
+    // Update status to responded
+    await updateInquiryData(inquiryId, { status: 'responded' });
+
+    return { success: true };
+  } catch (error) {
+    console.error('Error replying to inquiry:', error);
+    return { error: 'Failed to send reply' };
   }
 }
 

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import CTABanner from '@/components/CTABanner';
+import ShareButtons from './share-buttons';
 import { getNewsArticleBySlug } from '@/lib/data/news-store';
 import { sanitizeHtml } from '@/lib/sanitize';
 
@@ -84,14 +85,18 @@ export default async function NewsArticlePage({ params }: Props) {
             dangerouslySetInnerHTML={{ __html: sanitizeHtml(article.content) }}
           />
 
-          {/* Back to News */}
-          <div className="mt-12 pt-8 border-t border-gray-200">
+          {/* Share + Back to News */}
+          <div className="mt-12 pt-8 border-t border-gray-200 flex items-center justify-between flex-wrap gap-4">
             <Link
               href="/news"
               className="text-red-600 font-semibold hover:text-red-700 transition-colors"
             >
               &larr; Back to News
             </Link>
+            <ShareButtons
+              url={`https://abolishabortionmichigan.com/news/${slug}`}
+              title={article.title}
+            />
           </div>
         </div>
       </section>
