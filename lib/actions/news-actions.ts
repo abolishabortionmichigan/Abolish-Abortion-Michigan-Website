@@ -14,12 +14,28 @@ import { getSubscribedEmails } from '@/lib/data/petition-store';
 import { sendNewsletterToAll, sendNewsletterNotification } from '@/lib/email';
 import { sanitizeHtml } from '@/lib/sanitize';
 
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://abolishabortionmichigan.com';
+
 async function isAdmin(): Promise<boolean> {
   const token = await getAuthToken();
   if (!token) return false;
 
   const result = await verifyToken(token);
   return result.authorized && result.user?.role === 'admin';
+}
+
+async function pingSitemapToSearchEngines() {
+  const sitemapUrl = encodeURIComponent(`${BASE_URL}/sitemap.xml`);
+  const pings = [
+    `https://www.google.com/ping?sitemap=${sitemapUrl}`,
+    `https://www.bing.com/ping?sitemap=${sitemapUrl}`,
+  ];
+
+  await Promise.allSettled(
+    pings.map((url) =>
+      fetch(url, { method: 'GET' }).catch(() => {})
+    )
+  );
 }
 
 export async function fetchNewsArticles(publishedOnly = false) {
@@ -95,6 +111,8 @@ export async function createNewsArticle(data: Omit<NewsArticle, 'id' | 'created_
         const result = await sendNewsletterToAll(articleData, subscribers);
         await sendNewsletterNotification(articleData, result.sent, result.failed);
       }
+      // Notify search engines of new content
+      pingSitemapToSearchEngines();
     }
 
     return newArticle;
@@ -145,6 +163,8 @@ export async function updateNewsArticle(id: string, data: Partial<NewsArticle>) 
         const result = await sendNewsletterToAll(articleData, subscribers);
         await sendNewsletterNotification(articleData, result.sent, result.failed);
       }
+      // Notify search engines of new content
+      pingSitemapToSearchEngines();
     }
 
     return updated;
