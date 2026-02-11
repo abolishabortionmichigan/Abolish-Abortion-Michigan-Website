@@ -85,11 +85,15 @@ export default function PrivacyPolicyPage() {
             <li>Opt out of any email communications at any time</li>
           </ul>
           <p>
-            To exercise any of these rights, please{' '}
+            To request data deletion, please visit our{' '}
+            <Link href="/delete-my-data" className="text-red-600 no-underline hover:underline">
+              data deletion request page
+            </Link>
+            . For all other requests, please{' '}
             <Link href="/contact" className="text-red-600 no-underline hover:underline">
               contact us
             </Link>
-            {' '}with your request. We will respond within 30 days.
+            . We will respond within 30 days.
           </p>
 
           <h2>Children&apos;s Privacy</h2>
