@@ -4,8 +4,16 @@ import Link from 'next/link';
 import Image from 'next/image';
 import CTABanner from '@/components/CTABanner';
 import ShareButtons from './share-buttons';
-import { getNewsArticleBySlug } from '@/lib/data/news-store';
+import NewsCard from '@/components/NewsCard';
+import { getNewsArticleBySlug, getAllNewsArticles } from '@/lib/data/news-store';
 import { sanitizeHtml } from '@/lib/sanitize';
+
+function getReadingTime(html: string): string {
+  const text = html.replace(/<[^>]*>/g, '');
+  const words = text.split(/\s+/).filter(Boolean).length;
+  const minutes = Math.max(1, Math.round(words / 200));
+  return `${minutes} min read`;
+}
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -31,7 +39,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: article.excerpt,
       type: 'article',
       publishedTime: article.created_at ? new Date(article.created_at).toISOString() : undefined,
-      ...(article.image ? { images: [{ url: article.image }] } : {}),
     },
   };
 }
@@ -52,6 +59,14 @@ export default async function NewsArticlePage({ params }: Props) {
         day: 'numeric',
       })
     : '';
+
+  const readingTime = getReadingTime(article.content);
+
+  // Get related articles (other published articles, excluding current)
+  const allArticles = await getAllNewsArticles(true);
+  const relatedArticles = allArticles
+    .filter((a) => a.slug !== slug)
+    .slice(0, 3);
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -102,7 +117,7 @@ export default async function NewsArticlePage({ params }: Props) {
           </div>
         )}
         <div className="relative max-w-4xl mx-auto px-4 text-center">
-          <p className="text-gray-400 mb-4">{formattedDate}</p>
+          <p className="text-gray-400 mb-4">{formattedDate} &middot; {readingTime}</p>
           <h1 className="text-3xl md:text-5xl font-bold">{article.title}</h1>
         </div>
       </section>
@@ -142,6 +157,36 @@ export default async function NewsArticlePage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      {/* Related Articles */}
+      {relatedArticles.length > 0 && (
+        <section className="bg-gray-50 py-12">
+          <div className="max-w-7xl mx-auto px-4">
+            <h2 className="text-2xl font-bold text-center mb-8">More News</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {relatedArticles.map((related) => (
+                <NewsCard
+                  key={related.slug}
+                  title={related.title}
+                  excerpt={related.excerpt}
+                  date={
+                    related.created_at
+                      ? new Date(related.created_at).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        })
+                      : ''
+                  }
+                  slug={related.slug}
+                  image={related.image}
+                  readingTime={getReadingTime(related.content)}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* CTA Banner */}
       <CTABanner />

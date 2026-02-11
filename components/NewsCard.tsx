@@ -10,9 +10,10 @@ interface NewsCardProps {
   date: string;
   slug: string;
   image?: string;
+  readingTime?: string;
 }
 
-export default function NewsCard({ title, excerpt, date, slug, image }: NewsCardProps) {
+export default function NewsCard({ title, excerpt, date, slug, image, readingTime }: NewsCardProps) {
   const [imageError, setImageError] = useState(false);
   const hasValidImage = image && image.length > 0 && !imageError;
 
@@ -40,7 +41,9 @@ export default function NewsCard({ title, excerpt, date, slug, image }: NewsCard
         </div>
         {/* Text section */}
         <div className="p-4">
-          <p className="text-gray-400 text-xs mb-2">{date}</p>
+          <p className="text-gray-400 text-xs mb-2">
+            {date}{readingTime && <span> &middot; {readingTime}</span>}
+          </p>
           <h3 className="text-white text-lg font-bold mb-2 line-clamp-2">{title}</h3>
           <p className="text-gray-400 text-sm line-clamp-2">{excerpt}</p>
         </div>
@@ -71,7 +74,9 @@ export default function NewsCard({ title, excerpt, date, slug, image }: NewsCard
 
         {/* Content */}
         <div className="absolute inset-0 flex flex-col justify-end p-6">
-          <p className="text-gray-300 text-sm mb-2">{date}</p>
+          <p className="text-gray-300 text-sm mb-2">
+            {date}{readingTime && <span> &middot; {readingTime}</span>}
+          </p>
           <h3 className="text-white text-xl md:text-2xl font-bold mb-3 line-clamp-2">
             {title}
           </h3>
