@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import CTABanner from '@/components/CTABanner';
 import PetitionForm from '@/components/PetitionForm';
 import ShareButtons from '@/components/ShareButtons';
+import SignatureCount from '@/components/SignatureCount';
 
 export const metadata: Metadata = {
   title: 'The Petition - Abolish Abortion Michigan',
@@ -20,6 +21,7 @@ export default function ThePetitionPage() {
           </h1>
           <div className="w-12 h-[3px] bg-red-600 mx-auto mb-6" />
           <p className="text-sm md:text-base tracking-[0.3em] uppercase text-gray-300">Call for the abolition of abortion in Michigan</p>
+          <SignatureCount />
         </div>
       </section>
 

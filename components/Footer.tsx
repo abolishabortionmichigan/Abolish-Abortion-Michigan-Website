@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import FooterNewsletter from './FooterNewsletter';
 
 export default function Footer() {
   return (
@@ -40,6 +41,15 @@ export default function Footer() {
             <p className="text-gray-300 text-sm leading-relaxed">
               Abolitionists in Michigan are devoted to showing mercy and establishing justice for our preborn neighbors being led to the slaughter. We seek to be used by God to bring an end to abortion in the United States and around the world, and to be used by Him to proclaim the gospel to as many people as we can, wherever we can, whenever we can. We bring the gospel into conflict with a culture that openly promotes the murder of children through means of agitation and assistance. We are committed to non-violent agitation, preaching, pleading, and information dissemination via community outreach, social media, and other means to abolish abortion.
             </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Newsletter Signup */}
+      <div className="border-t border-gray-800">
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <div className="max-w-md mx-auto text-center">
+            <FooterNewsletter />
           </div>
         </div>
       </div>

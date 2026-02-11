@@ -7,6 +7,7 @@ import {
   createSignature,
   hasAlreadySigned,
   deleteSignature as deleteSignatureData,
+  updateSubscriptionStatus,
 } from '@/lib/data/petition-store';
 import { headers } from 'next/headers';
 import { getAuthToken, verifyToken } from './auth-actions';
@@ -143,5 +144,55 @@ export async function deleteSignature(id: string) {
     return { success: true };
   } catch (error) {
     return { error: 'Failed to delete signature' };
+  }
+}
+
+export async function subscribeToNewsletter(data: {
+  email: string;
+  website?: string;
+}): Promise<{ success: true } | { error: string }> {
+  try {
+    // Rate limit
+    const hdrs = await headers();
+    const ip = hdrs.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+    const limit = checkRateLimit(`subscribe:${ip}`, 5);
+    if (!limit.allowed) {
+      return { error: `Too many attempts. Try again in ${limit.retryAfterSeconds} seconds.` };
+    }
+
+    // Honeypot
+    if (data.website) {
+      return { success: true };
+    }
+
+    if (!data.email) {
+      return { error: 'Email is required' };
+    }
+
+    if (data.email.length > 254) {
+      return { error: 'Email must be 254 characters or less' };
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(data.email)) {
+      return { error: 'Invalid email format' };
+    }
+
+    // If already in system, just make sure they're subscribed
+    if (await hasAlreadySigned(data.email)) {
+      await updateSubscriptionStatus(data.email, true);
+      return { success: true };
+    }
+
+    // Create new subscriber-only record
+    await createSignature({
+      name: 'Newsletter Subscriber',
+      email: data.email,
+      subscribed: true,
+    });
+
+    return { success: true };
+  } catch (error) {
+    return { error: 'Failed to subscribe' };
   }
 }
