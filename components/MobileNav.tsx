@@ -41,7 +41,7 @@ export default function MobileNav({ isOpen, onClose, navItems }: MobileNavProps)
       />
 
       {/* Drawer */}
-      <div className="fixed inset-y-0 right-0 w-full max-w-md bg-[#1a1a1a] z-50 overflow-y-auto">
+      <div id="mobile-nav" role="dialog" aria-label="Mobile navigation" className="fixed inset-y-0 right-0 w-full max-w-md bg-[#1a1a1a] z-50 overflow-y-auto">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -86,7 +86,7 @@ export default function MobileNav({ isOpen, onClose, navItems }: MobileNavProps)
         </Link>
 
         {/* Navigation Items */}
-        <nav>
+        <nav aria-label="Mobile navigation">
           {navItems.map((item) => (
             <div key={item.label} className="border-b border-gray-800">
               {item.dropdown ? (
@@ -94,6 +94,7 @@ export default function MobileNav({ isOpen, onClose, navItems }: MobileNavProps)
                   <button
                     onClick={() => toggleExpanded(item.label)}
                     className="w-full flex items-center justify-between px-6 py-4 text-white text-sm hover:bg-[#2a2a2a] transition-colors"
+                    aria-expanded={expandedItems.includes(item.label)}
                   >
                     <span>{toTitleCase(item.label)}</span>
                     <svg
@@ -103,6 +104,7 @@ export default function MobileNav({ isOpen, onClose, navItems }: MobileNavProps)
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
+                      aria-hidden="true"
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>

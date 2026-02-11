@@ -77,6 +77,10 @@ export default function Footer() {
               <Link href="/privacy-policy" className="text-red-500 hover:text-red-400 transition-colors">
                 Privacy Policy
               </Link>
+              {' '}&bull;{' '}
+              <Link href="/delete-my-data" className="text-red-500 hover:text-red-400 transition-colors">
+                Delete My Data
+              </Link>
             </p>
 
             {/* Social Icons */}
