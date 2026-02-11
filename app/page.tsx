@@ -26,6 +26,8 @@ export default async function HomePage() {
           <img
             src="/images/aa-logo.png"
             alt="Abolish Abortion Michigan"
+            width={176}
+            height={176}
             className="h-32 md:h-44 w-auto mx-auto mb-6 invert"
           />
           <h1 className="sr-only">Abolish Abortion Michigan</h1>
@@ -44,7 +46,7 @@ export default async function HomePage() {
               href="/who-we-are"
               className="inline-block px-8 py-4 border-2 border-white text-white font-bold text-lg hover:bg-white hover:text-[#1a1a1a] transition-colors"
             >
-              LEARN MORE
+              WHO WE ARE
             </Link>
           </div>
         </div>
@@ -59,19 +61,19 @@ export default async function HomePage() {
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="text-2xl sm:text-4xl md:text-5xl font-bold text-red-600 mb-2">{statistics.totalAbortions}</div>
+              <div className="text-2xl sm:text-4xl md:text-5xl font-bold text-red-700 mb-2">{statistics.totalAbortions}</div>
               <div className="text-gray-600 text-sm md:text-base">Total Abortions Since 1973</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl sm:text-4xl md:text-5xl font-bold text-red-600 mb-2">{statistics.yearlyAbortions}</div>
+              <div className="text-2xl sm:text-4xl md:text-5xl font-bold text-red-700 mb-2">{statistics.yearlyAbortions}</div>
               <div className="text-gray-600 text-sm md:text-base">Abortions Per Year</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl sm:text-4xl md:text-5xl font-bold text-red-600 mb-2">{statistics.dailyAbortions}</div>
+              <div className="text-2xl sm:text-4xl md:text-5xl font-bold text-red-700 mb-2">{statistics.dailyAbortions}</div>
               <div className="text-gray-600 text-sm md:text-base">Abortions Per Day</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl sm:text-4xl md:text-5xl font-bold text-red-600 mb-2">{statistics.sinceRoeOverturned}</div>
+              <div className="text-2xl sm:text-4xl md:text-5xl font-bold text-red-700 mb-2">{statistics.sinceRoeOverturned}</div>
               <div className="text-gray-600 text-sm md:text-base">Since Prop 3 Passed</div>
             </div>
           </div>
@@ -83,7 +85,7 @@ export default async function HomePage() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-6">Our Mission</h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-6">
-            <span className="text-red-600 font-semibold">Abortion is the intentional killing of the human fetus, or the performance of a procedure intentionally designed to kill the human fetus.</span>
+            <span className="text-red-700 font-semibold">Abortion is the intentional killing of the human fetus, or the performance of a procedure intentionally designed to kill the human fetus.</span>
           </p>
           <p className="text-lg text-gray-700 leading-relaxed mb-6">
             Abortion is the murder, the sacrifice, of tiny neighbors who have not yet been born. This great atrocity must be abolished.
@@ -113,30 +115,30 @@ export default async function HomePage() {
                 href="/what-we-believe"
                 className="inline-block px-6 py-3 bg-[#1a1a1a] text-white font-semibold hover:bg-gray-800 transition-colors"
               >
-                READ MORE
+                WHAT WE BELIEVE
               </Link>
             </div>
             <div className="bg-gray-100 p-8 rounded-lg">
-              <h3 className="text-xl font-bold mb-4 text-red-600">Key Principles</h3>
+              <h3 className="text-xl font-bold mb-4 text-red-700">Key Principles</h3>
               <ul className="space-y-4">
                 <li className="flex items-start">
-                  <svg className="w-5 h-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
+                  <svg className="w-5 h-5 text-red-700 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
                   <span>Human life begins at conception</span>
                 </li>
                 <li className="flex items-start">
-                  <svg className="w-5 h-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
+                  <svg className="w-5 h-5 text-red-700 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
                   <span>All human beings deserve equal protection under the law</span>
                 </li>
                 <li className="flex items-start">
-                  <svg className="w-5 h-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
+                  <svg className="w-5 h-5 text-red-700 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
                   <span>Abortion is murder and must be treated as such</span>
                 </li>
                 <li className="flex items-start">
-                  <svg className="w-5 h-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
+                  <svg className="w-5 h-5 text-red-700 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
                   <span>No exceptions—all children deserve protection</span>
                 </li>
                 <li className="flex items-start">
-                  <svg className="w-5 h-5 text-red-600 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
+                  <svg className="w-5 h-5 text-red-700 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
                   <span>The Gospel offers forgiveness for all sins, including abortion</span>
                 </li>
               </ul>
@@ -150,7 +152,7 @@ export default async function HomePage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-3xl font-bold">Latest News</h2>
-            <Link href="/news" className="text-red-600 font-semibold hover:text-red-700 transition-colors">
+            <Link href="/news" className="text-red-700 font-semibold hover:text-red-800 transition-colors">
               View All &rarr;
             </Link>
           </div>
@@ -180,7 +182,7 @@ export default async function HomePage() {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center p-6 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow">
               <div className="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-7 h-7 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-7 h-7 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
@@ -188,13 +190,13 @@ export default async function HomePage() {
               <p className="text-gray-600 mb-4">
                 Add your name to the growing list of Michiganders calling for the abolition of abortion.
               </p>
-              <Link href="/the-petition" className="text-red-600 font-semibold hover:text-red-700">
+              <Link href="/the-petition" className="text-red-700 font-semibold hover:text-red-800">
                 Sign Now &rarr;
               </Link>
             </div>
             <div className="text-center p-6 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow">
               <div className="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-7 h-7 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-7 h-7 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
                 </svg>
               </div>
@@ -202,13 +204,13 @@ export default async function HomePage() {
               <p className="text-gray-600 mb-4">
                 Share our message with your church, community, and elected officials.
               </p>
-              <Link href="/media" className="text-red-600 font-semibold hover:text-red-700">
+              <Link href="/media" className="text-red-700 font-semibold hover:text-red-800">
                 Get Resources &rarr;
               </Link>
             </div>
             <div className="text-center p-6 border border-gray-200 rounded-lg hover:shadow-lg transition-shadow">
               <div className="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-7 h-7 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-7 h-7 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
               </div>
@@ -216,7 +218,7 @@ export default async function HomePage() {
               <p className="text-gray-600 mb-4">
                 Support our efforts to abolish abortion in Michigan through your generous giving.
               </p>
-              <Link href="/donate" className="text-red-600 font-semibold hover:text-red-700">
+              <Link href="/donate" className="text-red-700 font-semibold hover:text-red-800">
                 Give Now &rarr;
               </Link>
             </div>

@@ -68,6 +68,8 @@ export default function Header() {
             <img
               src="/images/aa-logo.png"
               alt="Abolish Abortion Michigan logo"
+              width={36}
+              height={36}
               className="h-9 w-auto invert"
             />
             <div className="leading-tight">

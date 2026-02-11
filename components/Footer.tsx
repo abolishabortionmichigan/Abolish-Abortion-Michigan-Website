@@ -63,7 +63,7 @@ export default function Footer() {
             </p>
             <p className="text-sm text-gray-400 mb-4">
               Credit to{' '}
-              <Link href="https://abolishabortionnc.com" className="text-red-500 hover:text-red-400 transition-colors">
+              <Link href="https://abolishabortionnc.com" className="text-red-500 hover:text-red-400 underline transition-colors">
                 Abolish Abortion NC
               </Link>{' '}
               for allowing us to derive their work onto this website.
