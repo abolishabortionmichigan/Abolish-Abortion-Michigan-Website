@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 export default function Error({
   error,
@@ -9,6 +10,10 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  useEffect(() => {
+    console.error('Application error:', error);
+  }, [error]);
+
   return (
     <section className="bg-[#1a1a1a] text-white min-h-[60vh] flex items-center justify-center">
       <div className="max-w-lg mx-auto px-4 text-center">

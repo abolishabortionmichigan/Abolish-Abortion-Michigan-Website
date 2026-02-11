@@ -35,6 +35,15 @@ export async function createGalleryPhoto(data: { url: string; caption?: string; 
       return { error: 'Image URL is required' };
     }
 
+    try {
+      const parsed = new URL(data.url);
+      if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+        return { error: 'Only http and https URLs are allowed' };
+      }
+    } catch {
+      return { error: 'Invalid URL format' };
+    }
+
     const newPhoto = await createPhoto({
       url: data.url,
       caption: data.caption,

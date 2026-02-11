@@ -89,7 +89,10 @@ export default function SubscribersPage() {
     try {
       const toUnsubscribe = subscribers.filter((s) => selectedIds.has(s.id));
       const results = await Promise.allSettled(toUnsubscribe.map((s) => unsubscribeUser(s.email)));
-      const succeededEmails = new Set(toUnsubscribe.filter((_, i) => results[i].status === 'fulfilled').map((s) => s.id));
+      const succeededEmails = new Set(toUnsubscribe.filter((_, i) => {
+        const r = results[i];
+        return r.status === 'fulfilled' && !('error' in (r.value ?? {}));
+      }).map((s) => s.id));
       const failed = toUnsubscribe.length - succeededEmails.size;
       setSubscribers((prev) => prev.filter((s) => !succeededEmails.has(s.id)));
       setSelectedIds(new Set());
@@ -133,7 +136,9 @@ export default function SubscribersPage() {
   });
 
   const totalPages = Math.max(1, Math.ceil(filteredSubscribers.length / itemsPerPage));
-  if (currentPage > totalPages) setCurrentPage(totalPages);
+  useEffect(() => {
+    if (currentPage > totalPages) setCurrentPage(totalPages);
+  }, [currentPage, totalPages]);
   const paginatedSubscribers = filteredSubscribers.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage

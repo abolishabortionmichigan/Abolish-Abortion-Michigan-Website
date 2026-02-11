@@ -54,9 +54,11 @@ export default function FooterNewsletter() {
             <input
               type="email"
               placeholder="Your email"
+              aria-label="Email address for newsletter"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              maxLength={254}
               className="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-red-500 focus:border-red-500"
             />
             <button

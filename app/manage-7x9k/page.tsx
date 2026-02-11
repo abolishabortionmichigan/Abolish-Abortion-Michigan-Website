@@ -8,12 +8,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, AlertTriangle, Mail, Lock, Eye, EyeOff, KeyRound } from 'lucide-react';
-import { loginUser, getAuthToken, verifyToken, verifyAccessCode } from '@/lib/actions/auth-actions';
+import { loginUser, checkAuthStatus, verifyAccessCode } from '@/lib/actions/auth-actions';
 import { useUserStore } from '@/store/use-user';
 
 export default function SecureLoginPage() {
   const router = useRouter();
-  const { token, setToken, setUser, logout } = useUserStore();
+  const { setUser, logout } = useUserStore();
 
   // Access code gate
   const [accessCode, setAccessCode] = useState('');
@@ -33,25 +33,16 @@ export default function SecureLoginPage() {
     const checkAuth = async () => {
       setIsCheckingAuth(true);
       try {
-        const cookieToken = await getAuthToken();
-        if (cookieToken && !token) {
-          setToken(cookieToken);
-        }
-
-        const tokenToVerify = token || cookieToken;
-        if (tokenToVerify) {
-          const res = await verifyToken(tokenToVerify);
-          if (res.authorized) {
-            if (res.user?.role === 'admin') {
-              router.push('/admin/dashboard');
-            } else {
-              router.push('/');
-            }
-            return;
+        const res = await checkAuthStatus();
+        if (res.authorized) {
+          if (res.user?.role === 'admin') {
+            router.push('/admin/dashboard');
+          } else {
+            router.push('/');
           }
-          await logout();
+          return;
         }
-      } catch (error) {
+      } catch {
         await logout();
       } finally {
         setIsCheckingAuth(false);

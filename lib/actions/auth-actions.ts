@@ -35,9 +35,13 @@ export async function verifyAccessCode(code: string) {
   }
 
   const accessCode = getRequiredEnv('ADMIN_ACCESS_CODE');
-  const codeBuf = Buffer.from(code, 'utf-8');
-  const expectedBuf = Buffer.from(accessCode, 'utf-8');
-  if (codeBuf.length === expectedBuf.length && timingSafeEqual(codeBuf, expectedBuf)) {
+  // Pad both to same length to avoid timing leak on length difference
+  const maxLen = Math.max(code.length, accessCode.length);
+  const codeBuf = Buffer.alloc(maxLen);
+  const expectedBuf = Buffer.alloc(maxLen);
+  Buffer.from(code, 'utf-8').copy(codeBuf);
+  Buffer.from(accessCode, 'utf-8').copy(expectedBuf);
+  if (code.length === accessCode.length && timingSafeEqual(codeBuf, expectedBuf)) {
     return { valid: true };
   }
   return { valid: false };
@@ -127,6 +131,31 @@ export async function verifyToken(token: string) {
     };
   } catch {
     return { authorized: false, error: 'Invalid token' };
+  }
+}
+
+export async function checkAuthStatus() {
+  try {
+    const cookieStore = await cookies();
+    const tokenCookie = cookieStore.get('auth_token');
+    if (!tokenCookie?.value) {
+      return { authorized: false };
+    }
+    const decoded = jwt.verify(tokenCookie.value, getJwtSecret()) as {
+      userId: string;
+      email: string;
+      role: string;
+    };
+    return {
+      authorized: true,
+      user: {
+        id: decoded.userId,
+        email: decoded.email,
+        role: decoded.role,
+      },
+    };
+  } catch {
+    return { authorized: false };
   }
 }
 

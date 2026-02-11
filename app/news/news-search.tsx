@@ -42,6 +42,7 @@ export default function NewsSearch({ articles }: { articles: Article[] }) {
           <input
             type="text"
             placeholder="Search articles..."
+            aria-label="Search news articles"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"

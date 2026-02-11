@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 interface NavItem {
   label: string;
@@ -23,12 +23,34 @@ function toTitleCase(str: string) {
 
 export default function MobileNav({ isOpen, onClose, navItems }: MobileNavProps) {
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
   const toggleExpanded = (label: string) => {
     setExpandedItems((prev) =>
       prev.includes(label) ? prev.filter((item) => item !== label) : [...prev, label]
     );
   };
+
+  // Reset expanded items and focus close button on open
+  useEffect(() => {
+    if (isOpen) {
+      setExpandedItems([]);
+      closeButtonRef.current?.focus();
+    }
+  }, [isOpen]);
+
+  // Close on Escape key
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape') onClose();
+  }, [onClose]);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+      return () => document.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [isOpen, handleKeyDown]);
 
   if (!isOpen) return null;
 
@@ -44,6 +66,7 @@ export default function MobileNav({ isOpen, onClose, navItems }: MobileNavProps)
       <div id="mobile-nav" role="dialog" aria-label="Mobile navigation" className="fixed inset-y-0 right-0 w-full max-w-md bg-[#1a1a1a] z-50 overflow-y-auto">
         {/* Close Button */}
         <button
+          ref={closeButtonRef}
           onClick={onClose}
           className="absolute top-4 right-4 p-2 text-white hover:text-red-500 z-10"
           aria-label="Close menu"
@@ -59,7 +82,7 @@ export default function MobileNav({ isOpen, onClose, navItems }: MobileNavProps)
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/aa-logo.png"
-              alt="AA Logo"
+              alt="Abolish Abortion Michigan logo"
               className="h-8 w-auto invert"
             />
             <div className="leading-tight text-white">
