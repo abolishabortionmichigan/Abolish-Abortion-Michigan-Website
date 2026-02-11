@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Send, Users, AlertCircle, CheckCircle2, Bold, Italic, Link, Heading2, Pilcrow, List, ListOrdered, CornerDownLeft, Eye, PenLine } from 'lucide-react';
 import { sendBroadcast } from '@/lib/actions/email-actions';
 import { getDashboardStats } from '@/lib/actions/dashboard-actions';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 function insertTag(
   textarea: HTMLTextAreaElement,
@@ -108,7 +109,17 @@ export default function EmailBroadcastPage() {
       case 'link': {
         const url = window.prompt('Enter URL:');
         if (url) {
-          insertTag(ta, `<a href="${url}">`, '</a>', body, setBody);
+          try {
+            const parsed = new URL(url);
+            if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
+              const safeUrl = url.replace(/"/g, '&quot;');
+              insertTag(ta, `<a href="${safeUrl}">`, '</a>', body, setBody);
+            } else {
+              alert('Only http and https URLs are allowed.');
+            }
+          } catch {
+            alert('Please enter a valid URL (e.g. https://example.com).');
+          }
         }
         break;
       }
@@ -298,7 +309,7 @@ export default function EmailBroadcastPage() {
                   </h1>
                   <p>Hello <strong style={{ color: '#8b0000' }}>Subscriber Name</strong>,</p>
                   {body ? (
-                    <div style={{ margin: '16px 0' }} dangerouslySetInnerHTML={{ __html: body }} />
+                    <div style={{ margin: '16px 0' }} dangerouslySetInnerHTML={{ __html: sanitizeHtml(body) }} />
                   ) : (
                     <p style={{ color: '#999', fontStyle: 'italic' }}>(No message body yet)</p>
                   )}

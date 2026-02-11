@@ -89,9 +89,13 @@ export default function InquiriesPage() {
 
     setBulkDeleting(true);
     try {
-      await Promise.all(Array.from(selectedIds).map((id) => deleteInquiry(id)));
-      setInquiries((prev) => prev.filter((i) => !selectedIds.has(i.id)));
+      const ids = Array.from(selectedIds);
+      const results = await Promise.allSettled(ids.map((id) => deleteInquiry(id)));
+      const succeeded = new Set(ids.filter((_, i) => results[i].status === 'fulfilled'));
+      const failed = ids.length - succeeded.size;
+      setInquiries((prev) => prev.filter((i) => !succeeded.has(i.id)));
       setSelectedIds(new Set());
+      if (failed > 0) alert(`${failed} inquiry${failed !== 1 ? 'ies' : ''} failed to delete.`);
     } catch (err) {
       console.error('Bulk delete error:', err);
     } finally {
@@ -133,7 +137,8 @@ export default function InquiriesPage() {
     );
   });
 
-  const totalPages = Math.ceil(filteredInquiries.length / itemsPerPage);
+  const totalPages = Math.max(1, Math.ceil(filteredInquiries.length / itemsPerPage));
+  if (currentPage > totalPages) setCurrentPage(totalPages);
   const paginatedInquiries = filteredInquiries.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -333,7 +338,7 @@ export default function InquiriesPage() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                onClick={() => { setCurrentPage((p) => Math.max(1, p - 1)); setSelectedIds(new Set()); }}
                 disabled={currentPage === 1}
               >
                 Previous
@@ -344,7 +349,7 @@ export default function InquiriesPage() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                onClick={() => { setCurrentPage((p) => Math.min(totalPages, p + 1)); setSelectedIds(new Set()); }}
                 disabled={currentPage === totalPages}
               >
                 Next

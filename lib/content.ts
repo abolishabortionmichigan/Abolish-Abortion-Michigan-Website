@@ -12,7 +12,7 @@ export const newsArticles = [
       <p>Together, we can work towards the abolition of abortion in Michigan.</p>
     `,
     date: 'November 9, 2024',
-    image: '/images/news-launch.jpg',
+    image: '',
   },
 ];
 

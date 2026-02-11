@@ -3,6 +3,7 @@
 import { cookies, headers } from 'next/headers';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import { timingSafeEqual } from 'crypto';
 import { checkRateLimit } from '@/lib/rate-limit';
 
 function getRequiredEnv(name: string): string {
@@ -34,7 +35,9 @@ export async function verifyAccessCode(code: string) {
   }
 
   const accessCode = getRequiredEnv('ADMIN_ACCESS_CODE');
-  if (code === accessCode) {
+  const codeBuf = Buffer.from(code, 'utf-8');
+  const expectedBuf = Buffer.from(accessCode, 'utf-8');
+  if (codeBuf.length === expectedBuf.length && timingSafeEqual(codeBuf, expectedBuf)) {
     return { valid: true };
   }
   return { valid: false };
@@ -93,7 +96,6 @@ export async function loginUser(email: string, password: string) {
     await setAuthToken(token);
 
     return {
-      token,
       user: {
         id: '1',
         email: adminEmail,

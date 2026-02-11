@@ -42,6 +42,12 @@ html {
   scroll-behavior: smooth;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 /* News card hover effect */
 .news-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;

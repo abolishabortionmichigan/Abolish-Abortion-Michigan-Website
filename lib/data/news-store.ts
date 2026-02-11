@@ -14,7 +14,7 @@ const memoryStore: NewsArticleData[] = [
     slug: 'abolitionists-of-michigan-launch-a-website',
     excerpt: 'Abolish Abortion Michigan is proud to announce the launch of our website. Hooray, and congrats! We hope to continue improving the website and adding content for many years from now.',
     content: '<p>Abolish Abortion Michigan is proud to announce the launch of our website. Hooray, and congrats!</p><p>We hope to continue improving the website and adding content for many years from now. Hopefully this will help outsiders understand who we are, and help insiders in some other way.</p><p>Thanks to Abolish Abortion North Carolina for the hard work they put into their website, which we were able to derive much of our content and design from.</p>',
-    image: '/images/news-launch.jpg',
+    image: '',
     published: true,
     created_at: '2024-11-09T00:00:00.000Z',
     updated_at: '2024-11-09T00:00:00.000Z',

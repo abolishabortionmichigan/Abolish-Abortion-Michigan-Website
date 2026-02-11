@@ -88,9 +88,12 @@ export default function SubscribersPage() {
     setBulkDeleting(true);
     try {
       const toUnsubscribe = subscribers.filter((s) => selectedIds.has(s.id));
-      await Promise.all(toUnsubscribe.map((s) => unsubscribeUser(s.email)));
-      setSubscribers((prev) => prev.filter((s) => !selectedIds.has(s.id)));
+      const results = await Promise.allSettled(toUnsubscribe.map((s) => unsubscribeUser(s.email)));
+      const succeededEmails = new Set(toUnsubscribe.filter((_, i) => results[i].status === 'fulfilled').map((s) => s.id));
+      const failed = toUnsubscribe.length - succeededEmails.size;
+      setSubscribers((prev) => prev.filter((s) => !succeededEmails.has(s.id)));
       setSelectedIds(new Set());
+      if (failed > 0) alert(`${failed} user${failed !== 1 ? 's' : ''} failed to unsubscribe.`);
     } catch (err) {
       console.error('Bulk unsubscribe error:', err);
     } finally {
@@ -101,9 +104,9 @@ export default function SubscribersPage() {
   const handleExportCSV = () => {
     const headers = ['Name', 'Email', 'City', 'State', 'Zip Code', 'Date Subscribed'];
     const rows = filteredSubscribers.map((s) => [
-      s.name,
+      s.name.replace(/"/g, '""'),
       s.email,
-      s.city || '',
+      (s.city || '').replace(/"/g, '""'),
       s.state || '',
       s.zipcode || '',
       s.created_at ? new Date(s.created_at).toLocaleDateString() : '',
@@ -129,7 +132,8 @@ export default function SubscribersPage() {
     );
   });
 
-  const totalPages = Math.ceil(filteredSubscribers.length / itemsPerPage);
+  const totalPages = Math.max(1, Math.ceil(filteredSubscribers.length / itemsPerPage));
+  if (currentPage > totalPages) setCurrentPage(totalPages);
   const paginatedSubscribers = filteredSubscribers.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -339,7 +343,7 @@ export default function SubscribersPage() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                onClick={() => { setCurrentPage((p) => Math.max(1, p - 1)); setSelectedIds(new Set()); }}
                 disabled={currentPage === 1}
               >
                 Previous
@@ -350,7 +354,7 @@ export default function SubscribersPage() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                onClick={() => { setCurrentPage((p) => Math.min(totalPages, p + 1)); setSelectedIds(new Set()); }}
                 disabled={currentPage === totalPages}
               >
                 Next

@@ -10,6 +10,8 @@ import {
   deleteInquiry as deleteInquiryData,
 } from '@/lib/data/inquiry-store';
 import { sendInquiryConfirmationEmail, sendInquiryNotificationEmail, sendInquiryReplyEmail } from '@/lib/email';
+import { headers } from 'next/headers';
+import { checkRateLimit } from '@/lib/rate-limit';
 
 async function isAdmin(): Promise<boolean> {
   const token = await getAuthToken();
@@ -113,9 +115,17 @@ export async function replyToInquiry(inquiryId: string, message: string) {
 
 export async function createInquiry(data: Omit<Inquiry, 'id' | 'status' | 'created_at' | 'updated_at'> & { website?: string }) {
   try {
+    // Rate limit form submissions (10 per 15 min per IP)
+    const hdrs = await headers();
+    const ip = hdrs.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+    const limit = checkRateLimit(`inquiry:${ip}`, 10);
+    if (!limit.allowed) {
+      return { error: `Too many submissions. Try again in ${limit.retryAfterSeconds} seconds.` };
+    }
+
     // Check honeypot field
     if (data.website) {
-      return { id: 'ok', name: data.name, email: data.email, message: data.message, subject: data.subject || '', status: 'new', created_at: new Date().toISOString() };
+      return { id: 'ok', name: data.name, email: data.email, message: data.message, subject: data.subject || '', status: 'pending', created_at: new Date().toISOString() };
     }
 
     // Validate required fields
@@ -153,7 +163,7 @@ export async function createInquiry(data: Omit<Inquiry, 'id' | 'status' | 'creat
         email: newInquiry.email,
         subject: newInquiry.subject,
         message: newInquiry.message,
-        created_at: newInquiry.created_at as string,
+        created_at: newInquiry.created_at || '',
       }),
       sendInquiryNotificationEmail({
         id: newInquiry.id,
@@ -161,7 +171,7 @@ export async function createInquiry(data: Omit<Inquiry, 'id' | 'status' | 'creat
         email: newInquiry.email,
         subject: newInquiry.subject,
         message: newInquiry.message,
-        created_at: newInquiry.created_at as string,
+        created_at: newInquiry.created_at || '',
       }),
     ]).catch((error) => {
       console.error('Error sending inquiry emails:', error);

@@ -97,7 +97,6 @@ export default function SecureLoginPage() {
       if (res.error) {
         setError(true);
       } else {
-        setToken(res.token ?? null);
         setUser(res.user ?? null);
 
         if (res.user?.role === 'admin') {

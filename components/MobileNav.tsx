@@ -18,9 +18,7 @@ interface MobileNavProps {
 function toTitleCase(str: string) {
   return str
     .toLowerCase()
-    .split(/[\s/]/)
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(str.includes('/') ? '/' : ' ');
+    .replace(/(?:^|[\s/])\w/g, (match) => match.toUpperCase());
 }
 
 export default function MobileNav({ isOpen, onClose, navItems }: MobileNavProps) {

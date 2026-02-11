@@ -10,7 +10,7 @@ function mapPhoto(photo: { id: string; url: string; caption: string | null; sort
     url: photo.url,
     caption: photo.caption || undefined,
     sortOrder: photo.sortOrder,
-    created_at: photo.created_at,
+    created_at: photo.created_at.toISOString(),
   };
 }
 
@@ -64,7 +64,7 @@ export async function createGalleryPhoto(data: { url: string; caption?: string; 
     url: data.url,
     caption: data.caption,
     sortOrder: data.sortOrder || 0,
-    created_at: new Date(),
+    created_at: new Date().toISOString(),
   };
   memoryPhotos.push(newPhoto);
   return newPhoto;

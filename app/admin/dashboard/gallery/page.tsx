@@ -29,6 +29,12 @@ export default function GalleryManagementPage() {
   const [bulkDeleting, setBulkDeleting] = useState(false);
   const itemsPerPage = 24;
 
+  // Clamp currentPage when photos are deleted
+  useEffect(() => {
+    const maxPage = Math.max(1, Math.ceil(photos.length / itemsPerPage));
+    if (currentPage > maxPage) setCurrentPage(maxPage);
+  }, [photos.length, currentPage]);
+
   const loadPhotos = async () => {
     setLoading(true);
     setError(false);
@@ -108,7 +114,7 @@ export default function GalleryManagementPage() {
     const headers = ['URL', 'Caption', 'Sort Order', 'Date Added'];
     const rows = photos.map((p) => [
       p.url,
-      p.caption || '',
+      (p.caption || '').replace(/"/g, '""'),
       String(p.sortOrder || 0),
       p.created_at ? new Date(p.created_at).toLocaleDateString() : '',
     ]);
@@ -140,9 +146,13 @@ export default function GalleryManagementPage() {
 
     setBulkDeleting(true);
     try {
-      await Promise.all(Array.from(selectedIds).map((id) => deleteGalleryPhoto(id)));
-      setPhotos((prev) => prev.filter((p) => !selectedIds.has(p.id)));
+      const ids = Array.from(selectedIds);
+      const results = await Promise.allSettled(ids.map((id) => deleteGalleryPhoto(id)));
+      const succeeded = new Set(ids.filter((_, i) => results[i].status === 'fulfilled'));
+      const failed = ids.length - succeeded.size;
+      setPhotos((prev) => prev.filter((p) => !succeeded.has(p.id)));
       setSelectedIds(new Set());
+      if (failed > 0) alert(`${failed} photo${failed !== 1 ? 's' : ''} failed to delete.`);
     } catch (err) {
       console.error('Bulk delete error:', err);
     } finally {
@@ -386,7 +396,7 @@ export default function GalleryManagementPage() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              onClick={() => { setCurrentPage((p) => Math.max(1, p - 1)); setSelectedIds(new Set()); }}
               disabled={currentPage === 1}
             >
               Previous
@@ -397,7 +407,7 @@ export default function GalleryManagementPage() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setCurrentPage((p) => Math.min(Math.ceil(photos.length / itemsPerPage), p + 1))}
+              onClick={() => { setCurrentPage((p) => Math.min(Math.ceil(photos.length / itemsPerPage), p + 1)); setSelectedIds(new Set()); }}
               disabled={currentPage === Math.ceil(photos.length / itemsPerPage)}
             >
               Next

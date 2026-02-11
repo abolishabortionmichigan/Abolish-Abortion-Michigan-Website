@@ -37,6 +37,7 @@ export default function NewsModal({ open, onClose, article, isCreating, onSave }
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPublishConfirm, setShowPublishConfirm] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     if (article && !isCreating) {
@@ -73,8 +74,9 @@ export default function NewsModal({ open, onClose, article, isCreating, onSave }
     formData.published && (isCreating || (article && !article.published));
 
   const handleSubmit = async () => {
+    setErrorMessage('');
     if (!formData.title || !formData.excerpt || !formData.content) {
-      alert('Please fill in all required fields');
+      setErrorMessage('Please fill in all required fields.');
       return;
     }
 
@@ -107,16 +109,17 @@ export default function NewsModal({ open, onClose, article, isCreating, onSave }
       }
 
       if (res && 'error' in res) {
-        alert(res.error || 'Failed to save article');
+        setErrorMessage(res.error || 'Failed to save article.');
       } else if (res) {
+        setErrorMessage('');
         onSave();
         onClose();
       } else {
-        alert('Failed to save article');
+        setErrorMessage('Failed to save article.');
       }
     } catch (error) {
       console.error('Save error:', error);
-      alert('Failed to save article');
+      setErrorMessage('Failed to save article.');
     } finally {
       setIsSubmitting(false);
     }
@@ -203,6 +206,13 @@ export default function NewsModal({ open, onClose, article, isCreating, onSave }
             </Label>
           </div>
         </div>
+
+        {errorMessage && (
+          <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-md text-red-700 text-sm">
+            <AlertTriangle className="h-4 w-4 flex-shrink-0" />
+            {errorMessage}
+          </div>
+        )}
 
         <DialogFooter className="mt-6">
           <Button variant="outline" onClick={onClose} disabled={isSubmitting}>

@@ -74,9 +74,13 @@ export default function PetitionsPage() {
 
     setBulkDeleting(true);
     try {
-      await Promise.all(Array.from(selectedIds).map((id) => deleteSignature(id)));
-      setSignatures((prev) => prev.filter((s) => !selectedIds.has(s.id)));
+      const ids = Array.from(selectedIds);
+      const results = await Promise.allSettled(ids.map((id) => deleteSignature(id)));
+      const succeeded = new Set(ids.filter((_, i) => results[i].status === 'fulfilled'));
+      const failed = ids.length - succeeded.size;
+      setSignatures((prev) => prev.filter((s) => !succeeded.has(s.id)));
       setSelectedIds(new Set());
+      if (failed > 0) alert(`${failed} signature${failed !== 1 ? 's' : ''} failed to delete.`);
     } catch (err) {
       console.error('Bulk delete error:', err);
     } finally {
@@ -87,9 +91,9 @@ export default function PetitionsPage() {
   const handleExportCSV = () => {
     const headers = ['Name', 'Email', 'City', 'State', 'Zip Code', 'Subscribed', 'Date Signed'];
     const rows = filteredSignatures.map((s) => [
-      s.name,
+      s.name.replace(/"/g, '""'),
       s.email,
-      s.city || '',
+      (s.city || '').replace(/"/g, '""'),
       s.state || '',
       s.zipcode || '',
       s.subscribed ? 'Yes' : 'No',
@@ -116,7 +120,8 @@ export default function PetitionsPage() {
     );
   });
 
-  const totalPages = Math.ceil(filteredSignatures.length / itemsPerPage);
+  const totalPages = Math.max(1, Math.ceil(filteredSignatures.length / itemsPerPage));
+  if (currentPage > totalPages) setCurrentPage(totalPages);
   const paginatedSignatures = filteredSignatures.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -317,7 +322,7 @@ export default function PetitionsPage() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                onClick={() => { setCurrentPage((p) => Math.max(1, p - 1)); setSelectedIds(new Set()); }}
                 disabled={currentPage === 1}
               >
                 Previous
@@ -328,7 +333,7 @@ export default function PetitionsPage() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                onClick={() => { setCurrentPage((p) => Math.min(totalPages, p + 1)); setSelectedIds(new Set()); }}
                 disabled={currentPage === totalPages}
               >
                 Next

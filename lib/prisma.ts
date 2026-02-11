@@ -1,5 +1,8 @@
 import { PrismaClient } from "@/lib/generated/prisma";
 
+// Helper to check if database is configured
+export const isDatabaseConnected = !!process.env.DATABASE_URL;
+
 const prismaClientSingleton = () => {
   return new PrismaClient();
 };
@@ -10,11 +13,13 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClientSingleton | undefined;
 };
 
-const prisma = globalForPrisma.prisma ?? prismaClientSingleton();
+// Only instantiate PrismaClient when DATABASE_URL is configured
+const prisma = isDatabaseConnected
+  ? (globalForPrisma.prisma ?? prismaClientSingleton())
+  : (null as unknown as PrismaClientSingleton);
 
 export default prisma;
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
-
-// Helper to check if database is configured
-export const isDatabaseConnected = !!process.env.DATABASE_URL;
+if (isDatabaseConnected && process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma;
+}

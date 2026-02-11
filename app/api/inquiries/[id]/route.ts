@@ -23,7 +23,13 @@ export async function PATCH(
   try {
     const { id } = await params;
     const data = await request.json();
-    const updated = await updateInquiry(id, data);
+    // Only allow updating known fields
+    const allowedFields = ['status', 'name', 'email', 'subject', 'message'];
+    const filtered: Record<string, unknown> = {};
+    for (const key of allowedFields) {
+      if (key in data) filtered[key] = data[key];
+    }
+    const updated = await updateInquiry(id, filtered);
 
     if (!updated) {
       return NextResponse.json({ error: 'Inquiry not found' }, { status: 404 });
