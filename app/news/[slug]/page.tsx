@@ -11,6 +11,8 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://abolishabortionmichigan.com';
+
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -24,6 +26,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${article.title} - Abolish Abortion Michigan`,
     description: article.excerpt,
+    openGraph: {
+      title: article.title,
+      description: article.excerpt,
+      type: 'article',
+      publishedTime: article.created_at ? new Date(article.created_at).toISOString() : undefined,
+      ...(article.image ? { images: [{ url: article.image }] } : {}),
+    },
   };
 }
 
@@ -44,8 +53,41 @@ export default async function NewsArticlePage({ params }: Props) {
       })
     : '';
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'NewsArticle',
+    headline: article.title,
+    description: article.excerpt,
+    ...(article.image ? { image: [article.image] } : {}),
+    datePublished: article.created_at ? new Date(article.created_at).toISOString() : undefined,
+    dateModified: article.updated_at
+      ? new Date(article.updated_at).toISOString()
+      : article.created_at
+        ? new Date(article.created_at).toISOString()
+        : undefined,
+    author: {
+      '@type': 'Organization',
+      name: 'Abolish Abortion Michigan',
+      url: BASE_URL,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Abolish Abortion Michigan',
+      url: BASE_URL,
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${BASE_URL}/news/${slug}`,
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       {/* Hero Section with Image */}
       <section className="relative bg-[#1a1a1a] text-white py-16 md:py-24">
         {article.image && (
