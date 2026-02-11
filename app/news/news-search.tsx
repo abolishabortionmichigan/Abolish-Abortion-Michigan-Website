@@ -9,6 +9,7 @@ interface Article {
   slug: string;
   image?: string;
   created_at?: Date | string;
+  readingTime?: string;
 }
 
 export default function NewsSearch({ articles }: { articles: Article[] }) {
@@ -67,6 +68,7 @@ export default function NewsSearch({ articles }: { articles: Article[] }) {
               }
               slug={article.slug}
               image={article.image}
+              readingTime={article.readingTime}
             />
           ))}
         </div>

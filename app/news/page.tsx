@@ -11,6 +11,13 @@ export const metadata: Metadata = {
 // Ensure page is dynamically rendered to show latest articles
 export const dynamic = 'force-dynamic';
 
+function getReadingTime(html: string): string {
+  const text = html.replace(/<[^>]*>/g, '');
+  const words = text.split(/\s+/).filter(Boolean).length;
+  const minutes = Math.max(1, Math.round(words / 200));
+  return `${minutes} min read`;
+}
+
 export default async function NewsPage() {
   // Get published articles only
   const articles = await getAllNewsArticles(true);
@@ -22,6 +29,7 @@ export default async function NewsPage() {
     slug: a.slug,
     image: a.image,
     created_at: a.created_at ? new Date(a.created_at).toISOString() : undefined,
+    readingTime: getReadingTime(a.content),
   }));
 
   return (
