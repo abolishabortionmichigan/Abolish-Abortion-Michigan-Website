@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import FAQSection from '@/components/FAQSection';
 import { faqItems } from '@/lib/content';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 export const metadata: Metadata = {
   title: 'FAQ - Abolish Abortion Michigan',
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 const faqContent = faqItems.map((item) => ({
   id: item.id,
   title: item.title,
-  content: <div dangerouslySetInnerHTML={{ __html: item.content }} />,
+  content: <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(item.content) }} />,
 }));
 
 export default function FAQPage() {

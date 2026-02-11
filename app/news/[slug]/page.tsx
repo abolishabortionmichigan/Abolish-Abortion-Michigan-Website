@@ -151,7 +151,7 @@ export default async function NewsArticlePage({ params }: Props) {
               &larr; Back to News
             </Link>
             <ShareButtons
-              url={`https://abolishabortionmichigan.com/news/${slug}`}
+              url={`${BASE_URL}/news/${slug}`}
               title={article.title}
             />
           </div>

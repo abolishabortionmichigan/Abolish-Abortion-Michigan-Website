@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
     // Check honeypot field
     if (data.website) {
       // Silently accept but don't create the inquiry
-      return NextResponse.json({ id: 'ok', name: data.name, email: data.email, message: data.message, subject: data.subject || 'General Inquiry', status: 'new', created_at: new Date().toISOString() }, { status: 201 });
+      return NextResponse.json({ id: 'ok', name: data.name, email: data.email, message: data.message, subject: data.subject || 'General Inquiry', status: 'pending', created_at: new Date().toISOString() }, { status: 201 });
     }
 
     const newInquiry = await createInquiry({
@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
         email: newInquiry.email,
         subject: newInquiry.subject,
         message: newInquiry.message,
-        created_at: newInquiry.created_at as string,
+        created_at: newInquiry.created_at || '',
       }),
       sendInquiryNotificationEmail({
         id: newInquiry.id,
@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
         email: newInquiry.email,
         subject: newInquiry.subject,
         message: newInquiry.message,
-        created_at: newInquiry.created_at as string,
+        created_at: newInquiry.created_at || '',
       }),
     ]);
 

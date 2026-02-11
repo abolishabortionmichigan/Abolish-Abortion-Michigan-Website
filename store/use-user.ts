@@ -33,6 +33,9 @@ export const useUserStore = create<UserState>()(
           console.error('Logout error:', error);
         }
         set({ user: null, token: null });
+        try {
+          localStorage.removeItem('aam-user-data');
+        } catch {}
       },
     }),
     persistConfig

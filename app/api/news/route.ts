@@ -5,6 +5,7 @@ import {
   slugExists,
 } from '@/lib/data/news-store';
 import { getAuthToken, verifyToken } from '@/lib/actions/auth-actions';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 async function isAdmin(): Promise<boolean> {
   const token = await getAuthToken();
@@ -51,7 +52,7 @@ export async function POST(request: NextRequest) {
       title: data.title,
       slug: data.slug,
       excerpt: data.excerpt,
-      content: data.content,
+      content: sanitizeHtml(data.content),
       image: data.image || '',
       published: data.published || false,
     });

@@ -15,8 +15,8 @@ export interface Inquiry {
   subject?: string;
   message: string;
   status: string;
-  created_at?: Date | string;
-  updated_at?: Date | string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface NewsArticle {
@@ -27,8 +27,8 @@ export interface NewsArticle {
   content: string;
   image?: string;
   published: boolean;
-  created_at?: Date | string;
-  updated_at?: Date | string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface PetitionSignature {
@@ -39,7 +39,7 @@ export interface PetitionSignature {
   state?: string;
   zipcode?: string;
   subscribed?: boolean;
-  created_at?: Date | string;
+  created_at?: string;
 }
 
 export interface GalleryPhoto {
@@ -47,7 +47,7 @@ export interface GalleryPhoto {
   url: string;
   caption?: string;
   sortOrder?: number;
-  created_at?: Date | string;
+  created_at?: string;
 }
 
 export interface DashboardStats {

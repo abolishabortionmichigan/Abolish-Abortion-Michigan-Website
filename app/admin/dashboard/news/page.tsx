@@ -91,9 +91,13 @@ export default function NewsManagementPage() {
 
     setBulkDeleting(true);
     try {
-      await Promise.all(Array.from(selectedIds).map((id) => deleteNewsArticle(id)));
-      setArticles((prev) => prev.filter((a) => !selectedIds.has(a.id)));
+      const ids = Array.from(selectedIds);
+      const results = await Promise.allSettled(ids.map((id) => deleteNewsArticle(id)));
+      const succeeded = new Set(ids.filter((_, i) => results[i].status === 'fulfilled'));
+      const failed = ids.length - succeeded.size;
+      setArticles((prev) => prev.filter((a) => !succeeded.has(a.id)));
       setSelectedIds(new Set());
+      if (failed > 0) alert(`${failed} article${failed !== 1 ? 's' : ''} failed to delete.`);
     } catch (err) {
       console.error('Bulk delete error:', err);
     } finally {
@@ -133,7 +137,8 @@ export default function NewsManagementPage() {
     );
   });
 
-  const totalPages = Math.ceil(filteredArticles.length / itemsPerPage);
+  const totalPages = Math.max(1, Math.ceil(filteredArticles.length / itemsPerPage));
+  if (currentPage > totalPages) setCurrentPage(totalPages);
   const paginatedArticles = filteredArticles.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -332,7 +337,7 @@ export default function NewsManagementPage() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                onClick={() => { setCurrentPage((p) => Math.max(1, p - 1)); setSelectedIds(new Set()); }}
                 disabled={currentPage === 1}
               >
                 Previous
@@ -343,7 +348,7 @@ export default function NewsManagementPage() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                onClick={() => { setCurrentPage((p) => Math.min(totalPages, p + 1)); setSelectedIds(new Set()); }}
                 disabled={currentPage === totalPages}
               >
                 Next

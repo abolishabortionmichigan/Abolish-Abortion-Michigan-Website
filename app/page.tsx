@@ -1,8 +1,14 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
 import CTABanner from '@/components/CTABanner';
 import NewsCard from '@/components/NewsCard';
 import { statistics } from '@/lib/content';
 import { getAllNewsArticles } from '@/lib/data/news-store';
+
+export const metadata: Metadata = {
+  title: 'Abolish Abortion Michigan - Equal Protection for the Preborn',
+  description: 'Abolitionists in Michigan devoted to establishing justice and equal protection for our preborn neighbors. Join the movement to abolish abortion.',
+};
 
 export const dynamic = 'force-dynamic';
 

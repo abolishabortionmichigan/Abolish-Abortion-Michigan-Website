@@ -1,6 +1,11 @@
 import nodemailer from 'nodemailer';
-import { createHmac } from 'crypto';
+import { createHmac, timingSafeEqual } from 'crypto';
 import { escapeHtml } from './sanitize';
+
+// Strip newlines from email subjects to prevent header injection
+function sanitizeSubject(str: string): string {
+  return str.replace(/[\r\n]+/g, ' ').trim();
+}
 
 interface EmailPayload {
   to: string;
@@ -100,7 +105,7 @@ export const sendInquiryReplyEmail = async (data: { to: string; name: string; su
       from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
       to: data.to,
       bcc: NOTIFICATION_EMAIL,
-      subject: `Re: ${safeSubject || 'Your Inquiry'}`,
+      subject: sanitizeSubject(`Re: ${safeSubject || 'Your Inquiry'}`),
       html: `
 <!DOCTYPE html>
 <html>
@@ -123,7 +128,7 @@ export const sendInquiryReplyEmail = async (data: { to: string; name: string; su
               <p>Hello <strong style="color: #8b0000;">${safeName}</strong>,</p>
               <p>Thank you for reaching out to us. Here is our response to your inquiry:</p>
               <div style="margin: 20px 0; padding: 20px; background-color: #f8f8f8; border-left: 4px solid #8b0000; border-radius: 4px;">
-                ${data.message}
+                ${escapeHtml(data.message)}
               </div>
               <p style="margin-top: 25px;">In Christ,<br><strong>Abolish Abortion Michigan</strong></p>
             </td>
@@ -163,7 +168,7 @@ export const sendInquiryNotificationEmail = async (inquiry: InquiryData) => {
     const info = await transporter.sendMail({
       from: `"AAM Website" <${EMAIL_USER}>`,
       to: NOTIFICATION_EMAIL,
-      subject: `New Inquiry: ${inquiry.subject ? escapeHtml(inquiry.subject) : 'General Inquiry'}`,
+      subject: sanitizeSubject(`New Inquiry: ${inquiry.subject ? escapeHtml(inquiry.subject) : 'General Inquiry'}`),
       html: inquiryNotificationEmailHtml(inquiry),
     });
 
@@ -478,7 +483,10 @@ export function generateUnsubscribeToken(email: string): string {
 
 export function verifyUnsubscribeToken(email: string, token: string): boolean {
   const expected = generateUnsubscribeToken(email);
-  return expected === token;
+  const expectedBuf = Buffer.from(expected, 'utf-8');
+  const tokenBuf = Buffer.from(token, 'utf-8');
+  if (expectedBuf.length !== tokenBuf.length) return false;
+  return timingSafeEqual(expectedBuf, tokenBuf);
 }
 
 function getUnsubscribeUrl(email: string): string {
@@ -534,7 +542,7 @@ export const sendPetitionNotificationEmail = async (petition: PetitionData) => {
     const info = await transporter.sendMail({
       from: `"AAM Website" <${EMAIL_USER}>`,
       to: NOTIFICATION_EMAIL,
-      subject: `New Petition Signature: ${escapeHtml(petition.name)}`,
+      subject: sanitizeSubject(`New Petition Signature: ${escapeHtml(petition.name)}`),
       html: petitionNotificationEmailHtml(petition),
     });
 
@@ -949,7 +957,7 @@ export const sendNewsletterNotification = async (article: ArticleData, sent: num
     const info = await transporter.sendMail({
       from: `"AAM Website" <${EMAIL_USER}>`,
       to: NOTIFICATION_EMAIL,
-      subject: `Newsletter Sent: ${article.title}`,
+      subject: sanitizeSubject(`Newsletter Sent: ${escapeHtml(article.title)}`),
       html: `
 <!DOCTYPE html>
 <html>
@@ -1013,7 +1021,7 @@ export const sendBroadcastNotification = async (subject: string, sent: number, f
     const info = await transporter.sendMail({
       from: `"AAM Website" <${EMAIL_USER}>`,
       to: NOTIFICATION_EMAIL,
-      subject: `Broadcast Sent: ${subject}`,
+      subject: sanitizeSubject(`Broadcast Sent: ${escapeHtml(subject)}`),
       html: `
 <!DOCTYPE html>
 <html>

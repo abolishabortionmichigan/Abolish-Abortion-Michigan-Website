@@ -31,5 +31,7 @@ export function sanitizeHtml(dirty: string): string {
       'img': ['src', 'alt', 'title', 'width', 'height'],
       '*': ['class'],
     },
+    allowedSchemes: ['http', 'https', 'mailto'],
+    allowProtocolRelative: false,
   });
 }
