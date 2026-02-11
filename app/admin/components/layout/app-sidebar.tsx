@@ -87,6 +87,7 @@ export default function AppSidebar() {
           size="icon"
           className={cn('ml-auto', isCollapsed && 'mx-auto')}
           onClick={() => setIsCollapsed(!isCollapsed)}
+          aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
           {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
         </Button>

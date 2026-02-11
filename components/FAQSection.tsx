@@ -66,7 +66,7 @@ export default function FAQSection({ items }: FAQSectionProps) {
       </aside>
 
       {/* FAQ Content */}
-      <main className="flex-1 min-w-0">
+      <div className="flex-1 min-w-0" role="region" aria-label="FAQ answers">
         {items.map((item) => (
           <section key={item.id} id={item.id} className="faq-section mb-12 pb-8 border-b border-gray-200 last:border-0">
             <h2 className="text-xl md:text-2xl font-bold mb-6 text-[#1a1a1a]">{item.title}</h2>
@@ -75,7 +75,7 @@ export default function FAQSection({ items }: FAQSectionProps) {
             </div>
           </section>
         ))}
-      </main>
+      </div>
     </div>
   );
 }

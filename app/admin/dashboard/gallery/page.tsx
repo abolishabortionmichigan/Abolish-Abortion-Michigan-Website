@@ -199,8 +199,9 @@ export default function GalleryManagementPage() {
           </h2>
           <div className="space-y-3">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Image URL *</label>
+              <label htmlFor="gallery-url" className="block text-sm font-medium text-gray-700 mb-1">Image URL *</label>
               <Input
+                id="gallery-url"
                 placeholder="https://example.com/photo.jpg"
                 value={formUrl}
                 onChange={(e) => setFormUrl(e.target.value)}
@@ -210,16 +211,18 @@ export default function GalleryManagementPage() {
               </p>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Caption</label>
+              <label htmlFor="gallery-caption" className="block text-sm font-medium text-gray-700 mb-1">Caption</label>
               <Input
+                id="gallery-caption"
                 placeholder="Photo description (optional)"
                 value={formCaption}
                 onChange={(e) => setFormCaption(e.target.value)}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Sort Order</label>
+              <label htmlFor="gallery-order" className="block text-sm font-medium text-gray-700 mb-1">Sort Order</label>
               <Input
+                id="gallery-order"
                 type="number"
                 placeholder="0"
                 value={formOrder}

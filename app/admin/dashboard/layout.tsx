@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { ReactNode, useEffect, useState } from 'react';
 import { useUserStore } from '@/store/use-user';
-import { getAuthToken, verifyToken } from '@/lib/actions/auth-actions';
+import { checkAuthStatus } from '@/lib/actions/auth-actions';
 import { Loader2 } from 'lucide-react';
 import AppSidebar from '../components/layout/app-sidebar';
 import AppHeader from '../components/layout/app-header';
@@ -12,42 +12,26 @@ import AppHeader from '../components/layout/app-header';
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
-  const { token, setToken, logout, setUser } = useUserStore();
+  const { logout, setUser } = useUserStore();
 
   useEffect(() => {
-    const checkAuth = async () => {
+    const doCheck = async () => {
       setIsCheckingAuth(true);
       try {
-        const cookieToken = await getAuthToken();
+        const res = await checkAuthStatus();
 
-        if (cookieToken && !token) {
-          setToken(cookieToken);
-        }
-
-        const tokenToVerify = token || cookieToken;
-
-        if (tokenToVerify) {
-          const res = await verifyToken(tokenToVerify);
-
-          if (res.authorized) {
-            if (!token) {
-              setToken(tokenToVerify);
-            }
-            if (res.user) {
-              setUser(res.user);
-            }
-            if (res.user?.role !== 'admin') {
-              router.push('/manage-7x9k');
-            }
-          } else {
-            await logout();
+        if (res.authorized) {
+          if (res.user) {
+            setUser(res.user);
+          }
+          if (res.user?.role !== 'admin') {
             router.push('/manage-7x9k');
           }
         } else {
+          await logout();
           router.push('/manage-7x9k');
         }
-      } catch (error) {
-        console.error('Auth error:', error);
+      } catch {
         await logout();
         router.push('/manage-7x9k');
       } finally {
@@ -55,7 +39,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       }
     };
 
-    checkAuth();
+    doCheck();
   }, []);
 
   if (isCheckingAuth) {

@@ -93,7 +93,10 @@ export default function NewsManagementPage() {
     try {
       const ids = Array.from(selectedIds);
       const results = await Promise.allSettled(ids.map((id) => deleteNewsArticle(id)));
-      const succeeded = new Set(ids.filter((_, i) => results[i].status === 'fulfilled'));
+      const succeeded = new Set(ids.filter((_, i) => {
+        const r = results[i];
+        return r.status === 'fulfilled' && !('error' in (r.value ?? {}));
+      }));
       const failed = ids.length - succeeded.size;
       setArticles((prev) => prev.filter((a) => !succeeded.has(a.id)));
       setSelectedIds(new Set());
@@ -138,7 +141,9 @@ export default function NewsManagementPage() {
   });
 
   const totalPages = Math.max(1, Math.ceil(filteredArticles.length / itemsPerPage));
-  if (currentPage > totalPages) setCurrentPage(totalPages);
+  useEffect(() => {
+    if (currentPage > totalPages) setCurrentPage(totalPages);
+  }, [currentPage, totalPages]);
   const paginatedArticles = filteredArticles.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage

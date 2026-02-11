@@ -477,7 +477,8 @@ const inquiryNotificationEmailHtml = (inquiry: InquiryData) => {
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://abolishabortionmichigan.com';
 
 export function generateUnsubscribeToken(email: string): string {
-  const secret = process.env.JWT_SECRET || '';
+  const secret = process.env.JWT_SECRET;
+  if (!secret) throw new Error('JWT_SECRET is required for unsubscribe tokens');
   return createHmac('sha256', secret).update(email.toLowerCase()).digest('hex');
 }
 
@@ -816,7 +817,7 @@ export const sendNewsletterEmail = async (article: ArticleData, subscriber: Subs
     const info = await transporter.sendMail({
       from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
       to: subscriber.email,
-      subject: `New Article: ${article.title}`,
+      subject: sanitizeSubject(`New Article: ${article.title}`),
       html: newsletterEmailHtml(article, subscriber),
     });
 
@@ -917,7 +918,7 @@ export const sendBroadcastEmail = async (subject: string, body: string, subscrib
     const info = await transporter.sendMail({
       from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
       to: subscriber.email,
-      subject,
+      subject: sanitizeSubject(subject),
       html: broadcastEmailHtml(subject, body, subscriber),
     });
 

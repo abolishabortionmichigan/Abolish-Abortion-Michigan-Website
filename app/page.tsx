@@ -28,6 +28,7 @@ export default async function HomePage() {
             alt="Abolish Abortion Michigan"
             className="h-32 md:h-44 w-auto mx-auto mb-6 invert"
           />
+          <h1 className="sr-only">Abolish Abortion Michigan</h1>
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8">
             We are dedicated to the immediate and total abolition of human abortion in the state of Michigan.
             Not regulation. Not reduction. <span className="text-red-500 font-semibold">Abolition.</span>

@@ -67,7 +67,7 @@ export default function Header() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/aa-logo.png"
-              alt="AA Logo"
+              alt="Abolish Abortion Michigan logo"
               className="h-9 w-auto invert"
             />
             <div className="leading-tight">

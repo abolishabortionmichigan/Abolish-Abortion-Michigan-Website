@@ -21,8 +21,8 @@ export async function GET() {
 
     return `    <item>
       <title>${escapeXml(article.title)}</title>
-      <link>${BASE_URL}/news/${article.slug}</link>
-      <guid isPermaLink="true">${BASE_URL}/news/${article.slug}</guid>
+      <link>${BASE_URL}/news/${escapeXml(article.slug)}</link>
+      <guid isPermaLink="true">${BASE_URL}/news/${escapeXml(article.slug)}</guid>
       <description>${escapeXml(article.excerpt)}</description>
       <pubDate>${pubDate}</pubDate>
     </item>`;

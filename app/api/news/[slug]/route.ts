@@ -6,6 +6,7 @@ import {
   slugExists,
 } from '@/lib/data/news-store';
 import { getAuthToken, verifyToken } from '@/lib/actions/auth-actions';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 async function isAdmin(): Promise<boolean> {
   const token = await getAuthToken();
@@ -59,6 +60,11 @@ export async function PATCH(
     // If updating slug, check for duplicates
     if (data.slug && data.slug !== existingArticle.slug && await slugExists(data.slug)) {
       return NextResponse.json({ error: 'Slug already exists' }, { status: 400 });
+    }
+
+    // Sanitize content if provided
+    if (data.content) {
+      data.content = sanitizeHtml(data.content);
     }
 
     const updated = await updateNewsArticle(slug, data);

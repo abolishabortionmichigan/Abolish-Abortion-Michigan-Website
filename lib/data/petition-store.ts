@@ -58,7 +58,7 @@ export async function createSignature(data: Omit<PetitionSignature, 'id' | 'crea
   const newSignature: PetitionSignature = {
     id: Date.now().toString(),
     name: data.name,
-    email: data.email,
+    email: data.email.toLowerCase(),
     city: data.city || '',
     state: data.state || 'MI',
     zipcode: data.zipcode || '',

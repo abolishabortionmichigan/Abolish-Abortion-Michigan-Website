@@ -91,7 +91,10 @@ export default function InquiriesPage() {
     try {
       const ids = Array.from(selectedIds);
       const results = await Promise.allSettled(ids.map((id) => deleteInquiry(id)));
-      const succeeded = new Set(ids.filter((_, i) => results[i].status === 'fulfilled'));
+      const succeeded = new Set(ids.filter((_, i) => {
+        const r = results[i];
+        return r.status === 'fulfilled' && !('error' in (r.value ?? {}));
+      }));
       const failed = ids.length - succeeded.size;
       setInquiries((prev) => prev.filter((i) => !succeeded.has(i.id)));
       setSelectedIds(new Set());
@@ -138,7 +141,9 @@ export default function InquiriesPage() {
   });
 
   const totalPages = Math.max(1, Math.ceil(filteredInquiries.length / itemsPerPage));
-  if (currentPage > totalPages) setCurrentPage(totalPages);
+  useEffect(() => {
+    if (currentPage > totalPages) setCurrentPage(totalPages);
+  }, [currentPage, totalPages]);
   const paginatedInquiries = filteredInquiries.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage

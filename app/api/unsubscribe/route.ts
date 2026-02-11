@@ -18,7 +18,8 @@ export async function GET(request: NextRequest) {
   const updated = await updateSubscriptionStatus(email, false);
 
   if (!updated) {
-    return NextResponse.json({ error: 'Email not found' }, { status: 404 });
+    // Use same error message as invalid token to prevent email enumeration
+    return NextResponse.json({ error: 'Invalid or expired unsubscribe link' }, { status: 403 });
   }
 
   // Redirect to the unsubscribe confirmation page

@@ -134,6 +134,7 @@ export default function PetitionForm() {
               value={formData.name}
               onChange={handleChange}
               required
+              maxLength={100}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
               placeholder="Your full name"
             />

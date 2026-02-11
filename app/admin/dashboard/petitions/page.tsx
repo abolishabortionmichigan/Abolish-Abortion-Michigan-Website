@@ -76,7 +76,10 @@ export default function PetitionsPage() {
     try {
       const ids = Array.from(selectedIds);
       const results = await Promise.allSettled(ids.map((id) => deleteSignature(id)));
-      const succeeded = new Set(ids.filter((_, i) => results[i].status === 'fulfilled'));
+      const succeeded = new Set(ids.filter((_, i) => {
+        const r = results[i];
+        return r.status === 'fulfilled' && !('error' in (r.value ?? {}));
+      }));
       const failed = ids.length - succeeded.size;
       setSignatures((prev) => prev.filter((s) => !succeeded.has(s.id)));
       setSelectedIds(new Set());
@@ -121,7 +124,9 @@ export default function PetitionsPage() {
   });
 
   const totalPages = Math.max(1, Math.ceil(filteredSignatures.length / itemsPerPage));
-  if (currentPage > totalPages) setCurrentPage(totalPages);
+  useEffect(() => {
+    if (currentPage > totalPages) setCurrentPage(totalPages);
+  }, [currentPage, totalPages]);
   const paginatedSignatures = filteredSignatures.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
