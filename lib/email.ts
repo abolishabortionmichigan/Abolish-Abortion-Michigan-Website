@@ -670,6 +670,131 @@ const petitionNotificationEmailHtml = (petition: PetitionData) => {
   `;
 };
 
+// ===== SUBSCRIBER WELCOME / NOTIFICATION EMAILS =====
+
+export const sendSubscriberWelcomeEmail = async (email: string) => {
+  if (!EMAIL_PASSWORD) {
+    return { success: false, error: 'Email not configured' };
+  }
+
+  const transporter = createTransporter();
+  const safeEmail = escapeHtml(email);
+
+  try {
+    const info = await transporter.sendMail({
+      from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
+      to: email,
+      subject: 'Welcome to Abolish Abortion Michigan Updates',
+      html: `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="font-family: 'Georgia', 'Times New Roman', serif; line-height: 1.6; color: #333333; background-color: #f5f5f5; margin: 0; padding: 0;">
+  <table cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f5f5f5">
+    <tr>
+      <td align="center" style="padding: 20px 0;">
+        <table cellpadding="0" cellspacing="0" border="0" width="600" style="border-radius: 8px; overflow: hidden; background-color: #fff; max-width: 600px;">
+          <tr>
+            <td bgcolor="#1a1a2e" style="padding: 30px 20px; text-align: center;">
+              <div style="font-size: 24px; font-weight: bold; color: #d4af37; letter-spacing: 1px;">Abolish Abortion Michigan</div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 35px 40px;">
+              <h1 style="color: #1a1a2e; font-size: 24px; margin-top: 0; margin-bottom: 25px;">Welcome!</h1>
+              <p>Thank you for subscribing to updates from Abolish Abortion Michigan.</p>
+              <p>You will receive emails when we publish new articles and important updates about our efforts to end abortion in Michigan.</p>
+
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="${BASE_URL}/the-petition" style="display: inline-block; background-color: #8b0000; color: #ffffff !important; text-decoration: none; padding: 14px 30px; border-radius: 4px; font-weight: bold; font-size: 16px;">Sign the Petition</a>
+              </div>
+
+              <p style="margin-top: 25px;">In Christ,<br><strong>Abolish Abortion Michigan</strong></p>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#1a1a2e" style="padding: 25px; text-align: center; font-size: 13px; color: #cccccc;">
+              <p style="margin: 0 0 10px 0;">&copy; ${new Date().getFullYear()} Abolish Abortion Michigan. All rights reserved.</p>
+              <p style="margin: 0;"><a href="${BASE_URL}" style="color: #d4af37; text-decoration: none;">abolishabortionmichigan.com</a></p>
+            </td>
+          </tr>
+          ${unsubscribeFooterHtml(email)}
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`,
+    });
+
+    return { success: true, messageId: info.messageId };
+  } catch (error) {
+    console.error('Error sending subscriber welcome email:', error);
+    return { success: false, error: 'Failed to send email' };
+  }
+};
+
+export const sendNewSubscriberNotification = async (email: string) => {
+  if (!EMAIL_PASSWORD || !NOTIFICATION_EMAIL) {
+    return { success: false, error: 'Email not configured' };
+  }
+
+  const transporter = createTransporter();
+  const safeEmail = escapeHtml(email);
+
+  try {
+    const info = await transporter.sendMail({
+      from: `"AAM Website" <${EMAIL_USER}>`,
+      to: NOTIFICATION_EMAIL,
+      subject: `New Newsletter Subscriber: ${safeEmail}`,
+      html: `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f5f5f5; margin: 0; padding: 0;">
+  <table cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f5f5f5">
+    <tr>
+      <td align="center" style="padding: 20px 0;">
+        <table cellpadding="0" cellspacing="0" border="0" width="600" style="border-radius: 8px; overflow: hidden; background-color: #fff; max-width: 600px;">
+          <tr>
+            <td bgcolor="#1a1a2e" style="padding: 20px; text-align: center;">
+              <div style="font-size: 20px; font-weight: bold; color: #d4af37;">New Subscriber</div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 30px;">
+              <p>A new subscriber signed up via the website footer:</p>
+              <div style="padding: 15px; background-color: #f9f9f9; border-left: 4px solid #d4af37; border-radius: 4px; margin: 15px 0;">
+                <strong>Email:</strong> <a href="mailto:${safeEmail}" style="color: #8b0000;">${safeEmail}</a>
+              </div>
+              <div style="text-align: center; margin-top: 25px;">
+                <a href="${BASE_URL}/admin/dashboard/subscribers" style="display: inline-block; background-color: #1a1a2e; color: #ffffff !important; text-decoration: none; padding: 12px 25px; border-radius: 4px; font-weight: bold;">View Subscribers</a>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#f0f0f0" style="text-align: center; padding: 15px; color: #666; font-size: 12px;">
+              <p style="margin: 0;">This is an automated notification from the AAM Website.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`,
+    });
+
+    return { success: true, messageId: info.messageId };
+  } catch (error) {
+    console.error('Error sending new subscriber notification:', error);
+    return { success: false, error: 'Failed to send email' };
+  }
+};
+
 // ===== NEWSLETTER EMAILS =====
 
 export const sendNewsletterEmail = async (article: ArticleData, subscriber: SubscriberData) => {

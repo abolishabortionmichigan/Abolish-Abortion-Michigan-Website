@@ -12,7 +12,7 @@ import {
 import { headers } from 'next/headers';
 import { getAuthToken, verifyToken } from './auth-actions';
 import { checkRateLimit } from '@/lib/rate-limit';
-import { sendPetitionConfirmationEmail, sendPetitionNotificationEmail } from '@/lib/email';
+import { sendPetitionConfirmationEmail, sendPetitionNotificationEmail, sendSubscriberWelcomeEmail, sendNewSubscriberNotification } from '@/lib/email';
 
 async function isAdmin(): Promise<boolean> {
   const token = await getAuthToken();
@@ -190,6 +190,12 @@ export async function subscribeToNewsletter(data: {
       email: data.email,
       subscribed: true,
     });
+
+    // Send welcome email to subscriber and notification to admin
+    await Promise.all([
+      sendSubscriberWelcomeEmail(data.email),
+      sendNewSubscriberNotification(data.email),
+    ]);
 
     return { success: true };
   } catch (error) {
