@@ -6,6 +6,7 @@ import {
 import { sendInquiryConfirmationEmail, sendInquiryNotificationEmail } from '@/lib/email';
 import { getAuthToken, verifyToken } from '@/lib/actions/auth-actions';
 import { checkRateLimit } from '@/lib/rate-limit';
+import { validateCsrf } from '@/lib/csrf';
 
 export async function GET() {
   const token = await getAuthToken();
@@ -22,6 +23,9 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  const csrfError = validateCsrf(request);
+  if (csrfError) return csrfError;
+
   try {
     // Rate limit form submissions (10 per 15 min per IP)
     const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';

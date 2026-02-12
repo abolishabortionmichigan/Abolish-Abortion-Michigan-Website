@@ -134,13 +134,12 @@ export async function updateNewsArticle(id: string, data: Partial<NewsArticle>) 
     }
 
     // Check if article is being published for the first time
-    let wasPublished = false;
+    // Default to true (safe: skip newsletter) so lookup failures don't send duplicates
+    let wasPublished = true;
     if (data.published === true) {
       const existing = await getNewsArticleBySlug(id);
       if (existing && !existing.published) {
         wasPublished = false; // It wasn't published before, so this is a new publish
-      } else {
-        wasPublished = true; // Already published, skip newsletter
       }
     }
 

@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import CTABanner from '@/components/CTABanner';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Abolitionism and the Kingdom of God - Abolish Abortion Michigan',
@@ -21,6 +22,8 @@ export default function KingdomOfGodPage() {
           <p className="text-sm md:text-base tracking-[0.3em] uppercase text-gray-300">His Kingdom is one that shall not be destroyed</p>
         </div>
       </section>
+
+      <Breadcrumbs items={[{ label: 'The Gospel', href: '/the-gospel' }, { label: 'Abolitionism & the Kingdom of God' }]} />
 
       {/* Content */}
       <section className="bg-white py-16">
@@ -114,6 +117,7 @@ export default function KingdomOfGodPage() {
                 title="Abolitionism and the Kingdom of God"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
+                loading="lazy"
                 className="w-full h-full rounded-lg"
               />
             </div>

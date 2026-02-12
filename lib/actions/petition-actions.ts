@@ -97,7 +97,7 @@ export async function signPetition(data: {
 
     // Check if already signed
     if (await hasAlreadySigned(data.email)) {
-      return { error: 'This email has already signed the petition' };
+      return { error: 'Thank you! Your petition submission has been received.' };
     }
 
     const newSignature = await createSignature({

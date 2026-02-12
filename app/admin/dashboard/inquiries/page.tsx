@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
+import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import { Loader2, RefreshCw, Search, Trash, Eye, Download } from 'lucide-react';
 import { fetchInquiries, updateInquiry, deleteInquiry } from '@/lib/actions/inquiry-actions';
 import { Inquiry } from '@/types';
@@ -24,6 +25,7 @@ export default function InquiriesPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [bulkDeleting, setBulkDeleting] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState<{ open: boolean; title: string; description: string; onConfirm: () => void }>({ open: false, title: '', description: '', onConfirm: () => {} });
   const [selectedInquiry, setSelectedInquiry] = useState<Inquiry | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const itemsPerPage = 25;
@@ -54,17 +56,22 @@ export default function InquiriesPage() {
     setModalOpen(true);
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this inquiry?')) return;
-
-    try {
-      const res = await deleteInquiry(id);
-      if (!('error' in res)) {
-        setInquiries(inquiries.filter((i) => i.id !== id));
-      }
-    } catch (err) {
-      console.error('Delete error:', err);
-    }
+  const handleDelete = (id: string) => {
+    setConfirmDialog({
+      open: true,
+      title: 'Delete Inquiry',
+      description: 'Are you sure you want to delete this inquiry?',
+      onConfirm: async () => {
+        try {
+          const res = await deleteInquiry(id);
+          if (!('error' in res)) {
+            setInquiries(inquiries.filter((i) => i.id !== id));
+          }
+        } catch (err) {
+          console.error('Delete error:', err);
+        }
+      },
+    });
   };
 
   const toggleSelect = (id: string) => {
@@ -83,27 +90,34 @@ export default function InquiriesPage() {
     }
   };
 
-  const handleBulkDelete = async () => {
+  const handleBulkDelete = () => {
     if (selectedIds.size === 0) return;
-    if (!confirm(`Are you sure you want to delete ${selectedIds.size} inquiry${selectedIds.size !== 1 ? 'ies' : ''}?`)) return;
 
-    setBulkDeleting(true);
-    try {
-      const ids = Array.from(selectedIds);
-      const results = await Promise.allSettled(ids.map((id) => deleteInquiry(id)));
-      const succeeded = new Set(ids.filter((_, i) => {
-        const r = results[i];
-        return r.status === 'fulfilled' && !('error' in (r.value ?? {}));
-      }));
-      const failed = ids.length - succeeded.size;
-      setInquiries((prev) => prev.filter((i) => !succeeded.has(i.id)));
-      setSelectedIds(new Set());
-      if (failed > 0) alert(`${failed} inquiry${failed !== 1 ? 'ies' : ''} failed to delete.`);
-    } catch (err) {
-      console.error('Bulk delete error:', err);
-    } finally {
-      setBulkDeleting(false);
-    }
+    const count = selectedIds.size;
+    setConfirmDialog({
+      open: true,
+      title: 'Delete Inquiries',
+      description: `Are you sure you want to delete ${count} inquiry${count !== 1 ? 'ies' : ''}?`,
+      onConfirm: async () => {
+        setBulkDeleting(true);
+        try {
+          const ids = Array.from(selectedIds);
+          const results = await Promise.allSettled(ids.map((id) => deleteInquiry(id)));
+          const succeeded = new Set(ids.filter((_, i) => {
+            const r = results[i];
+            return r.status === 'fulfilled' && !('error' in (r.value ?? {}));
+          }));
+          const failed = ids.length - succeeded.size;
+          setInquiries((prev) => prev.filter((i) => !succeeded.has(i.id)));
+          setSelectedIds(new Set());
+          if (failed > 0) alert(`${failed} inquiry${failed !== 1 ? 'ies' : ''} failed to delete.`);
+        } catch (err) {
+          console.error('Bulk delete error:', err);
+        } finally {
+          setBulkDeleting(false);
+        }
+      },
+    });
   };
 
   const handleExportCSV = () => {
@@ -378,6 +392,15 @@ export default function InquiriesPage() {
         onClose={() => setModalOpen(false)}
         inquiry={selectedInquiry}
         onUpdate={loadInquiries}
+      />
+
+      <ConfirmDialog
+        open={confirmDialog.open}
+        onOpenChange={(open) => setConfirmDialog((prev) => ({ ...prev, open }))}
+        title={confirmDialog.title}
+        description={confirmDialog.description}
+        confirmLabel="Delete"
+        onConfirm={confirmDialog.onConfirm}
       />
     </div>
   );

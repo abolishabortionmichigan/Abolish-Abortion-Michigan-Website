@@ -9,6 +9,7 @@ import {
   DialogDescription,
   DialogFooter,
 } from '@/components/ui/dialog';
+import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -34,6 +35,7 @@ export default function InquiryModal({ open, onClose, inquiry, onUpdate }: Inqui
   const [replySending, setReplySending] = useState(false);
   const [replySent, setReplySent] = useState(false);
   const [replyError, setReplyError] = useState('');
+  const [confirmDialog, setConfirmDialog] = useState<{ open: boolean; title: string; description: string; onConfirm: () => void }>({ open: false, title: '', description: '', onConfirm: () => {} });
 
   useEffect(() => {
     if (inquiry) {
@@ -62,21 +64,28 @@ export default function InquiryModal({ open, onClose, inquiry, onUpdate }: Inqui
     }
   };
 
-  const handleDelete = async () => {
-    if (!inquiry || !confirm('Are you sure you want to delete this inquiry?')) return;
+  const handleDelete = () => {
+    if (!inquiry) return;
 
-    setIsSubmitting(true);
-    try {
-      const res = await deleteInquiry(inquiry.id);
-      if (!('error' in res)) {
-        onUpdate();
-        onClose();
-      }
-    } catch (error) {
-      console.error('Delete error:', error);
-    } finally {
-      setIsSubmitting(false);
-    }
+    setConfirmDialog({
+      open: true,
+      title: 'Delete Inquiry',
+      description: 'Are you sure you want to delete this inquiry?',
+      onConfirm: async () => {
+        setIsSubmitting(true);
+        try {
+          const res = await deleteInquiry(inquiry.id);
+          if (!('error' in res)) {
+            onUpdate();
+            onClose();
+          }
+        } catch (error) {
+          console.error('Delete error:', error);
+        } finally {
+          setIsSubmitting(false);
+        }
+      },
+    });
   };
 
   const handleReply = async () => {
@@ -250,6 +259,15 @@ export default function InquiryModal({ open, onClose, inquiry, onUpdate }: Inqui
           </div>
         </DialogFooter>
       </DialogContent>
+
+      <ConfirmDialog
+        open={confirmDialog.open}
+        onOpenChange={(open) => setConfirmDialog((prev) => ({ ...prev, open }))}
+        title={confirmDialog.title}
+        description={confirmDialog.description}
+        confirmLabel="Delete"
+        onConfirm={confirmDialog.onConfirm}
+      />
     </Dialog>
   );
 }

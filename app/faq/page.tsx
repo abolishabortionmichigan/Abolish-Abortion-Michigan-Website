@@ -15,8 +15,26 @@ const faqContent = faqItems.map((item) => ({
 }));
 
 export default function FAQPage() {
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.title,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.content.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim(),
+      },
+    })),
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+
       {/* Hero Section */}
       <section className="bg-[#1a1a1a] text-white py-24 md:py-32">
         <div className="max-w-4xl mx-auto px-4 text-center">

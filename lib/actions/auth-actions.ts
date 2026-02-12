@@ -82,7 +82,7 @@ export async function loginUser(email: string, password: string) {
     const adminEmail = getRequiredEnv('ADMIN_EMAIL');
     const adminPasswordHash = getRequiredEnv('ADMIN_PASSWORD_HASH');
 
-    if (email !== adminEmail) {
+    if (email.toLowerCase() !== adminEmail.toLowerCase()) {
       return { error: 'Invalid credentials' };
     }
 
@@ -108,7 +108,7 @@ export async function loginUser(email: string, password: string) {
       },
     };
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('Login error:', error instanceof Error ? error.message : 'Unknown error');
     return { error: 'Login failed. Please try again.' };
   }
 }

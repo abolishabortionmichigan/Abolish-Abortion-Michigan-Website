@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import CTABanner from '@/components/CTABanner';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Abolitionist, Not Pro-Life - Abolish Abortion Michigan',
@@ -21,6 +22,8 @@ export default function AbolitionistNotProLifePage() {
           <p className="text-sm md:text-base tracking-[0.3em] uppercase text-gray-300">Being pro-life is not the same as seeking to abolish abortion</p>
         </div>
       </section>
+
+      <Breadcrumbs items={[{ label: 'What We Believe', href: '/what-we-believe' }, { label: 'Abolitionist, Not Pro-Life' }]} />
 
       {/* Content */}
       <section className="bg-white py-16">

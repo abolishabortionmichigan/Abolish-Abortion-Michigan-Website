@@ -22,7 +22,7 @@ export async function getAllGalleryPhotos(): Promise<GalleryPhoto[]> {
       });
       return photos.map(mapPhoto);
     } catch (error) {
-      console.error('Error fetching gallery photos:', error);
+      console.error('Error fetching gallery photos:', error instanceof Error ? error.message : 'Unknown error');
       return [];
     }
   }
@@ -35,7 +35,7 @@ export async function getGalleryPhotoById(id: string): Promise<GalleryPhoto | nu
       const photo = await prisma.galleryPhoto.findUnique({ where: { id } });
       return photo ? mapPhoto(photo) : null;
     } catch (error) {
-      console.error('Error fetching gallery photo:', error);
+      console.error('Error fetching gallery photo:', error instanceof Error ? error.message : 'Unknown error');
       return null;
     }
   }
@@ -54,7 +54,7 @@ export async function createGalleryPhoto(data: { url: string; caption?: string; 
       });
       return mapPhoto(photo);
     } catch (error) {
-      console.error('Error creating gallery photo:', error);
+      console.error('Error creating gallery photo:', error instanceof Error ? error.message : 'Unknown error');
       throw error;
     }
   }
@@ -83,7 +83,7 @@ export async function updateGalleryPhoto(id: string, data: Partial<GalleryPhoto>
       });
       return mapPhoto(photo);
     } catch (error) {
-      console.error('Error updating gallery photo:', error);
+      console.error('Error updating gallery photo:', error instanceof Error ? error.message : 'Unknown error');
       return null;
     }
   }
@@ -100,7 +100,7 @@ export async function deleteGalleryPhoto(id: string): Promise<boolean> {
       await prisma.galleryPhoto.delete({ where: { id } });
       return true;
     } catch (error) {
-      console.error('Error deleting gallery photo:', error);
+      console.error('Error deleting gallery photo:', error instanceof Error ? error.message : 'Unknown error');
       return false;
     }
   }
@@ -116,7 +116,7 @@ export async function getGalleryPhotoCount(): Promise<number> {
     try {
       return await prisma.galleryPhoto.count();
     } catch (error) {
-      console.error('Error counting gallery photos:', error);
+      console.error('Error counting gallery photos:', error instanceof Error ? error.message : 'Unknown error');
       return 0;
     }
   }

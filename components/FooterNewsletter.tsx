@@ -30,7 +30,7 @@ export default function FooterNewsletter() {
   return (
     <div>
       <h3 className="text-lg font-bold tracking-wider mb-4">STAY INFORMED</h3>
-      <p className="text-gray-400 text-sm mb-4">
+      <p className="text-gray-300 text-sm mb-4">
         Get updates on abolition efforts in Michigan.
       </p>
 
@@ -50,11 +50,12 @@ export default function FooterNewsletter() {
             aria-hidden="true"
           />
 
+          <label htmlFor="footer-newsletter-email" className="block text-sm text-gray-300 mb-1">Email address</label>
           <div className="flex gap-2">
             <input
+              id="footer-newsletter-email"
               type="email"
               placeholder="Your email"
-              aria-label="Email address for newsletter"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required

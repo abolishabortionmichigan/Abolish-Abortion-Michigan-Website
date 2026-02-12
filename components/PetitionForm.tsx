@@ -13,7 +13,7 @@ export default function PetitionForm() {
     subscribed: true,
     website: '', // honeypot field
   });
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [status, setStatus] = useState<'idle' | 'confirming' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [signatureCount, setSignatureCount] = useState(0);
 
@@ -30,8 +30,13 @@ export default function PetitionForm() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleConfirm = (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage('');
+    setStatus('confirming');
+  };
+
+  const handleSubmit = async () => {
     setStatus('submitting');
     setErrorMessage('');
 
@@ -108,7 +113,30 @@ export default function PetitionForm() {
         )}
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4" aria-describedby={status === 'error' ? 'petition-error' : undefined}>
+      {status === 'confirming' && (
+        <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-6 mb-4 text-center">
+          <p className="text-gray-800 font-medium mb-2">Please confirm your signature</p>
+          <p className="text-gray-600 text-sm mb-4">
+            You are signing the petition as <strong>{formData.name}</strong> ({formData.email})
+          </p>
+          <div className="flex justify-center gap-3">
+            <button
+              onClick={() => setStatus('idle')}
+              className="px-6 py-2 border border-gray-300 rounded font-medium text-gray-700 hover:bg-gray-100 transition-colors"
+            >
+              Go Back
+            </button>
+            <button
+              onClick={handleSubmit}
+              className="px-6 py-2 bg-red-600 text-white font-bold rounded hover:bg-red-700 transition-colors"
+            >
+              CONFIRM &amp; SIGN
+            </button>
+          </div>
+        </div>
+      )}
+
+      <form onSubmit={handleConfirm} className="space-y-4" aria-describedby={status === 'error' ? 'petition-error' : undefined}>
         {/* Honeypot field - hidden from real users */}
         <div className="absolute opacity-0 top-0 left-0 h-0 w-0 -z-10" aria-hidden="true">
           <label htmlFor="pet-website">Website</label>
@@ -227,7 +255,7 @@ export default function PetitionForm() {
         <div className="text-center pt-4">
           <button
             type="submit"
-            disabled={status === 'submitting'}
+            disabled={status === 'submitting' || status === 'confirming'}
             className="px-8 py-4 bg-red-600 text-white font-bold text-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {status === 'submitting' ? 'SIGNING...' : 'SIGN THE PETITION'}

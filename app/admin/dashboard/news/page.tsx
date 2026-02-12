@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
+import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import { Loader2, RefreshCw, Search, Plus, Edit, Trash, Download } from 'lucide-react';
 import { fetchNewsArticles, deleteNewsArticle } from '@/lib/actions/news-actions';
 import { NewsArticle } from '@/types';
@@ -18,6 +19,7 @@ export default function NewsManagementPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [bulkDeleting, setBulkDeleting] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState<{ open: boolean; title: string; description: string; onConfirm: () => void }>({ open: false, title: '', description: '', onConfirm: () => {} });
   const [selectedArticle, setSelectedArticle] = useState<NewsArticle | null>(null);
   const itemsPerPage = 25;
   const [modalOpen, setModalOpen] = useState(false);
@@ -56,17 +58,22 @@ export default function NewsManagementPage() {
     setModalOpen(true);
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this article?')) return;
-
-    try {
-      const res = await deleteNewsArticle(id);
-      if (!('error' in res)) {
-        setArticles(articles.filter((a) => a.id !== id));
-      }
-    } catch (err) {
-      console.error('Delete error:', err);
-    }
+  const handleDelete = (id: string) => {
+    setConfirmDialog({
+      open: true,
+      title: 'Delete Article',
+      description: 'Are you sure you want to delete this article?',
+      onConfirm: async () => {
+        try {
+          const res = await deleteNewsArticle(id);
+          if (!('error' in res)) {
+            setArticles(articles.filter((a) => a.id !== id));
+          }
+        } catch (err) {
+          console.error('Delete error:', err);
+        }
+      },
+    });
   };
 
   const toggleSelect = (id: string) => {
@@ -85,27 +92,34 @@ export default function NewsManagementPage() {
     }
   };
 
-  const handleBulkDelete = async () => {
+  const handleBulkDelete = () => {
     if (selectedIds.size === 0) return;
-    if (!confirm(`Are you sure you want to delete ${selectedIds.size} article${selectedIds.size !== 1 ? 's' : ''}?`)) return;
 
-    setBulkDeleting(true);
-    try {
-      const ids = Array.from(selectedIds);
-      const results = await Promise.allSettled(ids.map((id) => deleteNewsArticle(id)));
-      const succeeded = new Set(ids.filter((_, i) => {
-        const r = results[i];
-        return r.status === 'fulfilled' && !('error' in (r.value ?? {}));
-      }));
-      const failed = ids.length - succeeded.size;
-      setArticles((prev) => prev.filter((a) => !succeeded.has(a.id)));
-      setSelectedIds(new Set());
-      if (failed > 0) alert(`${failed} article${failed !== 1 ? 's' : ''} failed to delete.`);
-    } catch (err) {
-      console.error('Bulk delete error:', err);
-    } finally {
-      setBulkDeleting(false);
-    }
+    const count = selectedIds.size;
+    setConfirmDialog({
+      open: true,
+      title: 'Delete Articles',
+      description: `Are you sure you want to delete ${count} article${count !== 1 ? 's' : ''}?`,
+      onConfirm: async () => {
+        setBulkDeleting(true);
+        try {
+          const ids = Array.from(selectedIds);
+          const results = await Promise.allSettled(ids.map((id) => deleteNewsArticle(id)));
+          const succeeded = new Set(ids.filter((_, i) => {
+            const r = results[i];
+            return r.status === 'fulfilled' && !('error' in (r.value ?? {}));
+          }));
+          const failed = ids.length - succeeded.size;
+          setArticles((prev) => prev.filter((a) => !succeeded.has(a.id)));
+          setSelectedIds(new Set());
+          if (failed > 0) alert(`${failed} article${failed !== 1 ? 's' : ''} failed to delete.`);
+        } catch (err) {
+          console.error('Bulk delete error:', err);
+        } finally {
+          setBulkDeleting(false);
+        }
+      },
+    });
   };
 
   const handleExportCSV = () => {
@@ -369,6 +383,15 @@ export default function NewsManagementPage() {
         article={selectedArticle}
         isCreating={isCreating}
         onSave={loadArticles}
+      />
+
+      <ConfirmDialog
+        open={confirmDialog.open}
+        onOpenChange={(open) => setConfirmDialog((prev) => ({ ...prev, open }))}
+        title={confirmDialog.title}
+        description={confirmDialog.description}
+        confirmLabel="Delete"
+        onConfirm={confirmDialog.onConfirm}
       />
     </div>
   );

@@ -45,7 +45,7 @@ export async function sendBroadcast(data: {
 
     return result;
   } catch (error) {
-    console.error('Error sending broadcast:', error);
+    console.error('Error sending broadcast:', error instanceof Error ? error.message : 'Unknown error');
     return { error: 'Failed to send broadcast' };
   }
 }
