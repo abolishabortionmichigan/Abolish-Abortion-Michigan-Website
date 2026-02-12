@@ -58,6 +58,15 @@ html {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .news-card {
+    transition: none;
+  }
+  .news-card:hover {
+    transform: none;
+  }
+}
+
 /* Red text highlight class */
 .text-highlight {
   color: #dc2626;

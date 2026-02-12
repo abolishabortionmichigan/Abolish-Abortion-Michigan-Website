@@ -6,6 +6,7 @@ import {
 } from '@/lib/data/news-store';
 import { getAuthToken, verifyToken } from '@/lib/actions/auth-actions';
 import { sanitizeHtml } from '@/lib/sanitize';
+import { validateCsrf } from '@/lib/csrf';
 
 async function isAdmin(): Promise<boolean> {
   const token = await getAuthToken();
@@ -32,6 +33,9 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const csrfError = validateCsrf(request);
+  if (csrfError) return csrfError;
+
   if (!await isAdmin()) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }

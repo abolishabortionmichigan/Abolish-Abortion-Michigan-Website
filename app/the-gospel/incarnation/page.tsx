@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import CTABanner from '@/components/CTABanner';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'The Incarnation - Abolish Abortion Michigan',
@@ -22,6 +23,8 @@ export default function IncarnationPage() {
         </div>
       </section>
 
+      <Breadcrumbs items={[{ label: 'The Gospel', href: '/the-gospel' }, { label: 'The Incarnation' }]} />
+
       {/* Content */}
       <section className="bg-white py-16">
         <div className="max-w-4xl mx-auto px-4">
@@ -39,6 +42,7 @@ export default function IncarnationPage() {
                 title="The Incarnation"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
+                loading="lazy"
                 className="w-full h-full rounded-lg"
               />
             </div>
@@ -87,6 +91,7 @@ export default function IncarnationPage() {
                 title="Abortion and the Incarnation of Christ"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
+                loading="lazy"
                 className="w-full h-full rounded-lg"
               />
             </div>

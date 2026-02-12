@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import { Loader2, RefreshCw, Search, Trash, Download, UserX, Users } from 'lucide-react';
 import { fetchSubscribers, unsubscribeUser, deleteSubscriber } from '@/lib/actions/subscriber-actions';
 import { PetitionSignature } from '@/types';
@@ -16,6 +17,7 @@ export default function SubscribersPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [bulkDeleting, setBulkDeleting] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState<{ open: boolean; title: string; description: string; confirmLabel: string; variant: 'danger' | 'warning'; onConfirm: () => void }>({ open: false, title: '', description: '', confirmLabel: 'Confirm', variant: 'danger', onConfirm: () => {} });
   const itemsPerPage = 25;
 
   const loadSubscribers = async () => {
@@ -39,30 +41,44 @@ export default function SubscribersPage() {
     loadSubscribers();
   }, []);
 
-  const handleUnsubscribe = async (email: string, id: string) => {
-    if (!confirm(`Unsubscribe ${email}? They will no longer receive newsletters.`)) return;
-
-    try {
-      const res = await unsubscribeUser(email);
-      if (!('error' in res)) {
-        setSubscribers(subscribers.filter((s) => s.id !== id));
-      }
-    } catch (err) {
-      console.error('Unsubscribe error:', err);
-    }
+  const handleUnsubscribe = (email: string, id: string) => {
+    setConfirmDialog({
+      open: true,
+      title: 'Unsubscribe User',
+      description: `Unsubscribe ${email}? They will no longer receive newsletters.`,
+      confirmLabel: 'Unsubscribe',
+      variant: 'warning',
+      onConfirm: async () => {
+        try {
+          const res = await unsubscribeUser(email);
+          if (!('error' in res)) {
+            setSubscribers(subscribers.filter((s) => s.id !== id));
+          }
+        } catch (err) {
+          console.error('Unsubscribe error:', err);
+        }
+      },
+    });
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Delete this subscriber entirely? This removes their petition signature too.')) return;
-
-    try {
-      const res = await deleteSubscriber(id);
-      if (!('error' in res)) {
-        setSubscribers(subscribers.filter((s) => s.id !== id));
-      }
-    } catch (err) {
-      console.error('Delete error:', err);
-    }
+  const handleDelete = (id: string) => {
+    setConfirmDialog({
+      open: true,
+      title: 'Delete Subscriber',
+      description: 'Delete this subscriber entirely? This removes their petition signature too.',
+      confirmLabel: 'Delete',
+      variant: 'danger',
+      onConfirm: async () => {
+        try {
+          const res = await deleteSubscriber(id);
+          if (!('error' in res)) {
+            setSubscribers(subscribers.filter((s) => s.id !== id));
+          }
+        } catch (err) {
+          console.error('Delete error:', err);
+        }
+      },
+    });
   };
 
   const toggleSelect = (id: string) => {
@@ -81,27 +97,36 @@ export default function SubscribersPage() {
     }
   };
 
-  const handleBulkUnsubscribe = async () => {
+  const handleBulkUnsubscribe = () => {
     if (selectedIds.size === 0) return;
-    if (!confirm(`Unsubscribe ${selectedIds.size} user${selectedIds.size !== 1 ? 's' : ''}? They will no longer receive newsletters.`)) return;
 
-    setBulkDeleting(true);
-    try {
-      const toUnsubscribe = subscribers.filter((s) => selectedIds.has(s.id));
-      const results = await Promise.allSettled(toUnsubscribe.map((s) => unsubscribeUser(s.email)));
-      const succeededEmails = new Set(toUnsubscribe.filter((_, i) => {
-        const r = results[i];
-        return r.status === 'fulfilled' && !('error' in (r.value ?? {}));
-      }).map((s) => s.id));
-      const failed = toUnsubscribe.length - succeededEmails.size;
-      setSubscribers((prev) => prev.filter((s) => !succeededEmails.has(s.id)));
-      setSelectedIds(new Set());
-      if (failed > 0) alert(`${failed} user${failed !== 1 ? 's' : ''} failed to unsubscribe.`);
-    } catch (err) {
-      console.error('Bulk unsubscribe error:', err);
-    } finally {
-      setBulkDeleting(false);
-    }
+    const count = selectedIds.size;
+    setConfirmDialog({
+      open: true,
+      title: 'Unsubscribe Users',
+      description: `Unsubscribe ${count} user${count !== 1 ? 's' : ''}? They will no longer receive newsletters.`,
+      confirmLabel: 'Unsubscribe',
+      variant: 'warning',
+      onConfirm: async () => {
+        setBulkDeleting(true);
+        try {
+          const toUnsubscribe = subscribers.filter((s) => selectedIds.has(s.id));
+          const results = await Promise.allSettled(toUnsubscribe.map((s) => unsubscribeUser(s.email)));
+          const succeededEmails = new Set(toUnsubscribe.filter((_, i) => {
+            const r = results[i];
+            return r.status === 'fulfilled' && !('error' in (r.value ?? {}));
+          }).map((s) => s.id));
+          const failed = toUnsubscribe.length - succeededEmails.size;
+          setSubscribers((prev) => prev.filter((s) => !succeededEmails.has(s.id)));
+          setSelectedIds(new Set());
+          if (failed > 0) alert(`${failed} user${failed !== 1 ? 's' : ''} failed to unsubscribe.`);
+        } catch (err) {
+          console.error('Bulk unsubscribe error:', err);
+        } finally {
+          setBulkDeleting(false);
+        }
+      },
+    });
   };
 
   const handleExportCSV = () => {
@@ -377,6 +402,16 @@ export default function SubscribersPage() {
           </Button>
         </div>
       )}
+
+      <ConfirmDialog
+        open={confirmDialog.open}
+        onOpenChange={(open) => setConfirmDialog((prev) => ({ ...prev, open }))}
+        title={confirmDialog.title}
+        description={confirmDialog.description}
+        confirmLabel={confirmDialog.confirmLabel}
+        variant={confirmDialog.variant}
+        onConfirm={confirmDialog.onConfirm}
+      />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import CTABanner from '@/components/CTABanner';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Abolitionism and The Great Commission - Abolish Abortion Michigan',
@@ -21,6 +22,8 @@ export default function GreatCommissionPage() {
           <p className="text-sm md:text-base tracking-[0.3em] uppercase text-gray-300">The Great Commission Without Abolition is Dead</p>
         </div>
       </section>
+
+      <Breadcrumbs items={[{ label: 'The Gospel', href: '/the-gospel' }, { label: 'The Great Commission' }]} />
 
       {/* Content */}
       <section className="bg-white py-16">

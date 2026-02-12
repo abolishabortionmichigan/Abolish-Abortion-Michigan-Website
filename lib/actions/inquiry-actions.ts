@@ -108,7 +108,7 @@ export async function replyToInquiry(inquiryId: string, message: string) {
 
     return { success: true };
   } catch (error) {
-    console.error('Error replying to inquiry:', error);
+    console.error('Error replying to inquiry:', error instanceof Error ? error.message : 'Unknown error');
     return { error: 'Failed to send reply' };
   }
 }
@@ -155,27 +155,29 @@ export async function createInquiry(data: Omit<Inquiry, 'id' | 'status' | 'creat
 
     const newInquiry = await createInquiryData(data);
 
-    // Send emails (non-blocking)
-    Promise.all([
-      sendInquiryConfirmationEmail({
-        id: newInquiry.id,
-        name: newInquiry.name,
-        email: newInquiry.email,
-        subject: newInquiry.subject,
-        message: newInquiry.message,
-        created_at: newInquiry.created_at || '',
-      }),
-      sendInquiryNotificationEmail({
-        id: newInquiry.id,
-        name: newInquiry.name,
-        email: newInquiry.email,
-        subject: newInquiry.subject,
-        message: newInquiry.message,
-        created_at: newInquiry.created_at || '',
-      }),
-    ]).catch((error) => {
-      console.error('Error sending inquiry emails:', error);
-    });
+    // Send emails — awaited so serverless doesn't terminate before delivery
+    try {
+      await Promise.all([
+        sendInquiryConfirmationEmail({
+          id: newInquiry.id,
+          name: newInquiry.name,
+          email: newInquiry.email,
+          subject: newInquiry.subject,
+          message: newInquiry.message,
+          created_at: newInquiry.created_at || '',
+        }),
+        sendInquiryNotificationEmail({
+          id: newInquiry.id,
+          name: newInquiry.name,
+          email: newInquiry.email,
+          subject: newInquiry.subject,
+          message: newInquiry.message,
+          created_at: newInquiry.created_at || '',
+        }),
+      ]);
+    } catch (emailError) {
+      console.error('Error sending inquiry emails:', emailError);
+    }
 
     return newInquiry;
   } catch (error) {

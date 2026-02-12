@@ -84,7 +84,7 @@ export const sendInquiryConfirmationEmail = async (inquiry: InquiryData) => {
     // Email sent successfully
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error('Error sending confirmation email:', error);
+    console.error('Error sending confirmation email:', error instanceof Error ? error.message : 'Unknown error');
     return { success: false, error: 'Failed to send email' };
   }
 };
@@ -150,7 +150,7 @@ export const sendInquiryReplyEmail = async (data: { to: string; name: string; su
 
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error('Error sending reply email:', error);
+    console.error('Error sending reply email:', error instanceof Error ? error.message : 'Unknown error');
     return { success: false, error: 'Failed to send reply' };
   }
 };
@@ -175,7 +175,7 @@ export const sendInquiryNotificationEmail = async (inquiry: InquiryData) => {
     // Email sent successfully
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error('Error sending notification email:', error);
+    console.error('Error sending notification email:', error instanceof Error ? error.message : 'Unknown error');
     return { success: false, error: 'Failed to send email' };
   }
 };
@@ -476,18 +476,33 @@ const inquiryNotificationEmailHtml = (inquiry: InquiryData) => {
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://abolishabortionmichigan.com';
 
-export function generateUnsubscribeToken(email: string): string {
+function getTokenMonth(date: Date = new Date()): string {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+}
+
+export function generateUnsubscribeToken(email: string, month?: string): string {
   const secret = process.env.JWT_SECRET;
   if (!secret) throw new Error('JWT_SECRET is required for unsubscribe tokens');
-  return createHmac('sha256', secret).update(email.toLowerCase()).digest('hex');
+  const m = month || getTokenMonth();
+  return createHmac('sha256', secret).update(`${email.toLowerCase()}:${m}`).digest('hex');
 }
 
 export function verifyUnsubscribeToken(email: string, token: string): boolean {
-  const expected = generateUnsubscribeToken(email);
-  const expectedBuf = Buffer.from(expected, 'utf-8');
-  const tokenBuf = Buffer.from(token, 'utf-8');
-  if (expectedBuf.length !== tokenBuf.length) return false;
-  return timingSafeEqual(expectedBuf, tokenBuf);
+  // Accept tokens from the current month and the previous month
+  const now = new Date();
+  const currentMonth = getTokenMonth(now);
+  const prev = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  const previousMonth = getTokenMonth(prev);
+
+  for (const month of [currentMonth, previousMonth]) {
+    const expected = generateUnsubscribeToken(email, month);
+    const expectedBuf = Buffer.from(expected, 'utf-8');
+    const tokenBuf = Buffer.from(token, 'utf-8');
+    if (expectedBuf.length === tokenBuf.length && timingSafeEqual(expectedBuf, tokenBuf)) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function getUnsubscribeUrl(email: string): string {
@@ -526,7 +541,7 @@ export const sendPetitionConfirmationEmail = async (petition: PetitionData) => {
 
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error('Error sending petition confirmation email:', error);
+    console.error('Error sending petition confirmation email:', error instanceof Error ? error.message : 'Unknown error');
     return { success: false, error: 'Failed to send email' };
   }
 };
@@ -549,7 +564,7 @@ export const sendPetitionNotificationEmail = async (petition: PetitionData) => {
 
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error('Error sending petition notification email:', error);
+    console.error('Error sending petition notification email:', error instanceof Error ? error.message : 'Unknown error');
     return { success: false, error: 'Failed to send email' };
   }
 };
@@ -741,7 +756,7 @@ export const sendSubscriberWelcomeEmail = async (email: string) => {
 
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error('Error sending subscriber welcome email:', error);
+    console.error('Error sending subscriber welcome email:', error instanceof Error ? error.message : 'Unknown error');
     return { success: false, error: 'Failed to send email' };
   }
 };
@@ -799,7 +814,7 @@ export const sendNewSubscriberNotification = async (email: string) => {
 
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error('Error sending new subscriber notification:', error);
+    console.error('Error sending new subscriber notification:', error instanceof Error ? error.message : 'Unknown error');
     return { success: false, error: 'Failed to send email' };
   }
 };
@@ -823,7 +838,7 @@ export const sendNewsletterEmail = async (article: ArticleData, subscriber: Subs
 
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error(`Error sending newsletter to ${subscriber.email}:`, error);
+    console.error('Error sending newsletter:', error instanceof Error ? error.message : 'Unknown error');
     return { success: false, error: 'Failed to send email' };
   }
 };
@@ -924,7 +939,7 @@ export const sendBroadcastEmail = async (subject: string, body: string, subscrib
 
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error(`Error sending broadcast to ${subscriber.email}:`, error);
+    console.error('Error sending broadcast:', error instanceof Error ? error.message : 'Unknown error');
     return { success: false, error: 'Failed to send email' };
   }
 };
@@ -1005,7 +1020,7 @@ export const sendNewsletterNotification = async (article: ArticleData, sent: num
 
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error('Error sending newsletter notification:', error);
+    console.error('Error sending newsletter notification:', error instanceof Error ? error.message : 'Unknown error');
     return { success: false, error: 'Failed to send email' };
   }
 };
@@ -1069,7 +1084,7 @@ export const sendBroadcastNotification = async (subject: string, sent: number, f
 
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error('Error sending broadcast notification:', error);
+    console.error('Error sending broadcast notification:', error instanceof Error ? error.message : 'Unknown error');
     return { success: false, error: 'Failed to send email' };
   }
 };

@@ -13,13 +13,13 @@ export default function Footer() {
             <h3 className="text-lg font-bold tracking-wider mb-6">WHY?</h3>
             <blockquote className="text-gray-300 text-sm mb-6">
               <p className="italic">&ldquo;You shall love your neighbor as yourself.&rdquo;</p>
-              <cite className="block text-right text-gray-400 mt-2 not-italic">-Mark 12:31</cite>
+              <cite className="block text-right text-gray-300 mt-2 not-italic">-Mark 12:31</cite>
             </blockquote>
             <blockquote className="text-gray-300 text-sm">
               <p className="italic">
                 &ldquo;Learn to do good; seek justice, correct oppression; bring justice to the fatherless, plead the widow&apos;s cause.&rdquo;
               </p>
-              <cite className="block text-right text-gray-400 mt-2 not-italic">-Isaiah 1:17</cite>
+              <cite className="block text-right text-gray-300 mt-2 not-italic">-Isaiah 1:17</cite>
             </blockquote>
           </div>
 
@@ -27,7 +27,7 @@ export default function Footer() {
           <div className="text-center flex flex-col items-center justify-center">
             <h3 className="text-lg font-bold tracking-wider mb-6">ABOLISH ABORTION MICHIGAN</h3>
             <Image
-              src="/images/aa-logo.png"
+              src="/images/aa-logo.webp"
               alt="Abolish Abortion Michigan Logo"
               width={120}
               height={120}
@@ -58,17 +58,17 @@ export default function Footer() {
       <div className="border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="text-center">
-            <p className="text-sm text-gray-400 mb-2">
+            <p className="text-sm text-gray-300 mb-2">
               &copy; {new Date().getFullYear()} Abolish Abortion Michigan. All Rights Reserved.
             </p>
-            <p className="text-sm text-gray-400 mb-4">
+            <p className="text-sm text-gray-300 mb-4">
               Credit to{' '}
               <Link href="https://abolishabortionnc.com" className="text-red-500 hover:text-red-400 underline transition-colors">
                 Abolish Abortion NC
               </Link>{' '}
               for allowing us to derive their work onto this website.
             </p>
-            <p className="text-sm text-gray-400 mb-6">
+            <p className="text-sm text-gray-300 mb-6">
               Please read the{' '}
               <Link href="/non-violence-statement" className="text-red-500 hover:text-red-400 transition-colors">
                 non-violence statement
@@ -89,7 +89,7 @@ export default function Footer() {
                 href="https://facebook.com/abolishabortionmichigan"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-gray-300 hover:text-white transition-colors"
                 aria-label="Facebook"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -100,7 +100,7 @@ export default function Footer() {
                 href="https://twitter.com/abolishabortionmi"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-gray-300 hover:text-white transition-colors"
                 aria-label="X (Twitter)"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -111,7 +111,7 @@ export default function Footer() {
                 href="https://instagram.com/abolishabortionmichigan"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-gray-300 hover:text-white transition-colors"
                 aria-label="Instagram"
               >
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">

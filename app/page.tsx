@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import CTABanner from '@/components/CTABanner';
 import NewsCard from '@/components/NewsCard';
 import { statistics } from '@/lib/content';
@@ -10,25 +11,49 @@ export const metadata: Metadata = {
   description: 'Abolitionists in Michigan devoted to establishing justice and equal protection for our preborn neighbors. Join the movement to abolish abortion.',
 };
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 300; // ISR: revalidate every 5 minutes
 
 export default async function HomePage() {
-  const articles = await getAllNewsArticles(true);
-  const latestNews = articles.slice(0, 3);
+  let latestNews: Awaited<ReturnType<typeof getAllNewsArticles>> = [];
+  try {
+    const articles = await getAllNewsArticles(true);
+    latestNews = articles.slice(0, 3);
+  } catch {
+    // Database unavailable at build time; ISR will populate on first request
+  }
+
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Abolish Abortion Michigan',
+    url: 'https://abolishabortionmichigan.com',
+    logo: 'https://abolishabortionmichigan.com/images/aa-logo.webp',
+    description: 'Abolitionists in Michigan devoted to establishing justice and equal protection for our preborn neighbors.',
+    sameAs: [
+      'https://facebook.com/abolishabortionmichigan',
+      'https://twitter.com/abolishabortionmi',
+      'https://instagram.com/abolishabortionmichigan',
+    ],
+  };
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+
       {/* Hero Section */}
       <section className="relative bg-[#1a1a1a] text-white py-20 md:py-32">
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-black/60" />
         <div className="relative max-w-7xl mx-auto px-4 text-center">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/aa-logo.png"
+          <Image
+            src="/images/aa-logo.webp"
             alt="Abolish Abortion Michigan"
             width={176}
             height={176}
             className="h-32 md:h-44 w-auto mx-auto mb-6 invert"
+            priority
           />
           <h1 className="sr-only">Abolish Abortion Michigan</h1>
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8">

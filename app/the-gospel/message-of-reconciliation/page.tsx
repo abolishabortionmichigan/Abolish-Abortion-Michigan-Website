@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import CTABanner from '@/components/CTABanner';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Message of Reconciliation - Abolish Abortion Michigan',
@@ -21,6 +22,8 @@ export default function MessageOfReconciliationPage() {
           <p className="text-sm md:text-base tracking-[0.3em] uppercase text-gray-300">In Christ, God is reconciling the world to himself</p>
         </div>
       </section>
+
+      <Breadcrumbs items={[{ label: 'The Gospel', href: '/the-gospel' }, { label: 'Message of Reconciliation' }]} />
 
       {/* Content */}
       <section className="bg-white py-16">

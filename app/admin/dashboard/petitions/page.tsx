@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import { Loader2, RefreshCw, Search, Trash, Download, FileText } from 'lucide-react';
 import { fetchSignatures, deleteSignature } from '@/lib/actions/petition-actions';
 import { PetitionSignature } from '@/types';
@@ -16,6 +17,7 @@ export default function PetitionsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [bulkDeleting, setBulkDeleting] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState<{ open: boolean; title: string; description: string; onConfirm: () => void }>({ open: false, title: '', description: '', onConfirm: () => {} });
   const itemsPerPage = 25;
 
   const loadSignatures = async () => {
@@ -39,17 +41,22 @@ export default function PetitionsPage() {
     loadSignatures();
   }, []);
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to remove this signature?')) return;
-
-    try {
-      const res = await deleteSignature(id);
-      if (!('error' in res)) {
-        setSignatures(signatures.filter((s) => s.id !== id));
-      }
-    } catch (err) {
-      console.error('Delete error:', err);
-    }
+  const handleDelete = (id: string) => {
+    setConfirmDialog({
+      open: true,
+      title: 'Remove Signature',
+      description: 'Are you sure you want to remove this signature?',
+      onConfirm: async () => {
+        try {
+          const res = await deleteSignature(id);
+          if (!('error' in res)) {
+            setSignatures(signatures.filter((s) => s.id !== id));
+          }
+        } catch (err) {
+          console.error('Delete error:', err);
+        }
+      },
+    });
   };
 
   const toggleSelect = (id: string) => {
@@ -68,27 +75,34 @@ export default function PetitionsPage() {
     }
   };
 
-  const handleBulkDelete = async () => {
+  const handleBulkDelete = () => {
     if (selectedIds.size === 0) return;
-    if (!confirm(`Are you sure you want to delete ${selectedIds.size} signature${selectedIds.size !== 1 ? 's' : ''}?`)) return;
 
-    setBulkDeleting(true);
-    try {
-      const ids = Array.from(selectedIds);
-      const results = await Promise.allSettled(ids.map((id) => deleteSignature(id)));
-      const succeeded = new Set(ids.filter((_, i) => {
-        const r = results[i];
-        return r.status === 'fulfilled' && !('error' in (r.value ?? {}));
-      }));
-      const failed = ids.length - succeeded.size;
-      setSignatures((prev) => prev.filter((s) => !succeeded.has(s.id)));
-      setSelectedIds(new Set());
-      if (failed > 0) alert(`${failed} signature${failed !== 1 ? 's' : ''} failed to delete.`);
-    } catch (err) {
-      console.error('Bulk delete error:', err);
-    } finally {
-      setBulkDeleting(false);
-    }
+    const count = selectedIds.size;
+    setConfirmDialog({
+      open: true,
+      title: 'Delete Signatures',
+      description: `Are you sure you want to delete ${count} signature${count !== 1 ? 's' : ''}?`,
+      onConfirm: async () => {
+        setBulkDeleting(true);
+        try {
+          const ids = Array.from(selectedIds);
+          const results = await Promise.allSettled(ids.map((id) => deleteSignature(id)));
+          const succeeded = new Set(ids.filter((_, i) => {
+            const r = results[i];
+            return r.status === 'fulfilled' && !('error' in (r.value ?? {}));
+          }));
+          const failed = ids.length - succeeded.size;
+          setSignatures((prev) => prev.filter((s) => !succeeded.has(s.id)));
+          setSelectedIds(new Set());
+          if (failed > 0) alert(`${failed} signature${failed !== 1 ? 's' : ''} failed to delete.`);
+        } catch (err) {
+          console.error('Bulk delete error:', err);
+        } finally {
+          setBulkDeleting(false);
+        }
+      },
+    });
   };
 
   const handleExportCSV = () => {
@@ -356,6 +370,15 @@ export default function PetitionsPage() {
           </Button>
         </div>
       )}
+
+      <ConfirmDialog
+        open={confirmDialog.open}
+        onOpenChange={(open) => setConfirmDialog((prev) => ({ ...prev, open }))}
+        title={confirmDialog.title}
+        description={confirmDialog.description}
+        confirmLabel="Delete"
+        onConfirm={confirmDialog.onConfirm}
+      />
     </div>
   );
 }

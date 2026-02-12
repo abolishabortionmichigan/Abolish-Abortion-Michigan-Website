@@ -2,31 +2,28 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import { Loader2, RefreshCw, Plus, Trash, Edit, ImageIcon, Download } from 'lucide-react';
 import {
   fetchGalleryPhotos,
-  createGalleryPhoto,
-  updateGalleryPhoto,
   deleteGalleryPhoto,
 } from '@/lib/actions/gallery-actions';
 import { GalleryPhoto } from '@/types';
 import Image from 'next/image';
+import GalleryModal from '../../components/gallery-modal';
 
 export default function GalleryManagementPage() {
   const [photos, setPhotos] = useState<GalleryPhoto[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [showForm, setShowForm] = useState(false);
-  const [editingPhoto, setEditingPhoto] = useState<GalleryPhoto | null>(null);
-  const [formUrl, setFormUrl] = useState('');
-  const [formCaption, setFormCaption] = useState('');
-  const [formOrder, setFormOrder] = useState('0');
-  const [saving, setSaving] = useState(false);
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [bulkDeleting, setBulkDeleting] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState<{ open: boolean; title: string; description: string; onConfirm: () => void }>({ open: false, title: '', description: '', onConfirm: () => {} });
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedPhoto, setSelectedPhoto] = useState<GalleryPhoto | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
   const itemsPerPage = 24;
 
   // Clamp currentPage when photos are deleted
@@ -56,58 +53,16 @@ export default function GalleryManagementPage() {
     loadPhotos();
   }, []);
 
-  const resetForm = () => {
-    setFormUrl('');
-    setFormCaption('');
-    setFormOrder('0');
-    setEditingPhoto(null);
-    setShowForm(false);
-  };
-
   const handleAdd = () => {
-    resetForm();
-    setShowForm(true);
+    setSelectedPhoto(null);
+    setIsCreating(true);
+    setModalOpen(true);
   };
 
   const handleEdit = (photo: GalleryPhoto) => {
-    setEditingPhoto(photo);
-    setFormUrl(photo.url);
-    setFormCaption(photo.caption || '');
-    setFormOrder(String(photo.sortOrder || 0));
-    setShowForm(true);
-  };
-
-  const handleSave = async () => {
-    if (!formUrl.trim()) return;
-
-    setSaving(true);
-    try {
-      if (editingPhoto) {
-        const res = await updateGalleryPhoto(editingPhoto.id, {
-          url: formUrl.trim(),
-          caption: formCaption.trim() || undefined,
-          sortOrder: parseInt(formOrder) || 0,
-        });
-        if (!('error' in res)) {
-          await loadPhotos();
-          resetForm();
-        }
-      } else {
-        const res = await createGalleryPhoto({
-          url: formUrl.trim(),
-          caption: formCaption.trim() || undefined,
-          sortOrder: parseInt(formOrder) || 0,
-        });
-        if (!('error' in res)) {
-          await loadPhotos();
-          resetForm();
-        }
-      }
-    } catch (err) {
-      console.error('Save error:', err);
-    } finally {
-      setSaving(false);
-    }
+    setSelectedPhoto(photo);
+    setIsCreating(false);
+    setModalOpen(true);
   };
 
   const handleExportCSV = () => {
@@ -140,37 +95,49 @@ export default function GalleryManagementPage() {
     });
   };
 
-  const handleBulkDelete = async () => {
+  const handleBulkDelete = () => {
     if (selectedIds.size === 0) return;
-    if (!confirm(`Are you sure you want to delete ${selectedIds.size} photo${selectedIds.size !== 1 ? 's' : ''}?`)) return;
 
-    setBulkDeleting(true);
-    try {
-      const ids = Array.from(selectedIds);
-      const results = await Promise.allSettled(ids.map((id) => deleteGalleryPhoto(id)));
-      const succeeded = new Set(ids.filter((_, i) => results[i].status === 'fulfilled'));
-      const failed = ids.length - succeeded.size;
-      setPhotos((prev) => prev.filter((p) => !succeeded.has(p.id)));
-      setSelectedIds(new Set());
-      if (failed > 0) alert(`${failed} photo${failed !== 1 ? 's' : ''} failed to delete.`);
-    } catch (err) {
-      console.error('Bulk delete error:', err);
-    } finally {
-      setBulkDeleting(false);
-    }
+    const count = selectedIds.size;
+    setConfirmDialog({
+      open: true,
+      title: 'Delete Photos',
+      description: `Are you sure you want to delete ${count} photo${count !== 1 ? 's' : ''}?`,
+      onConfirm: async () => {
+        setBulkDeleting(true);
+        try {
+          const ids = Array.from(selectedIds);
+          const results = await Promise.allSettled(ids.map((id) => deleteGalleryPhoto(id)));
+          const succeeded = new Set(ids.filter((_, i) => results[i].status === 'fulfilled'));
+          const failed = ids.length - succeeded.size;
+          setPhotos((prev) => prev.filter((p) => !succeeded.has(p.id)));
+          setSelectedIds(new Set());
+          if (failed > 0) alert(`${failed} photo${failed !== 1 ? 's' : ''} failed to delete.`);
+        } catch (err) {
+          console.error('Bulk delete error:', err);
+        } finally {
+          setBulkDeleting(false);
+        }
+      },
+    });
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this photo?')) return;
-
-    try {
-      const res = await deleteGalleryPhoto(id);
-      if (!('error' in res)) {
-        setPhotos(photos.filter((p) => p.id !== id));
-      }
-    } catch (err) {
-      console.error('Delete error:', err);
-    }
+  const handleDelete = (id: string) => {
+    setConfirmDialog({
+      open: true,
+      title: 'Delete Photo',
+      description: 'Are you sure you want to delete this photo?',
+      onConfirm: async () => {
+        try {
+          const res = await deleteGalleryPhoto(id);
+          if (!('error' in res)) {
+            setPhotos(photos.filter((p) => p.id !== id));
+          }
+        } catch (err) {
+          console.error('Delete error:', err);
+        }
+      },
+    });
   };
 
   return (
@@ -191,85 +158,6 @@ export default function GalleryManagementPage() {
         </div>
       </div>
 
-      {/* Add/Edit Form */}
-      {showForm && (
-        <div className="bg-white rounded-lg border p-4 sm:p-6 space-y-4">
-          <h2 className="text-lg font-semibold">
-            {editingPhoto ? 'Edit Photo' : 'Add New Photo'}
-          </h2>
-          <div className="space-y-3">
-            <div>
-              <label htmlFor="gallery-url" className="block text-sm font-medium text-gray-700 mb-1">Image URL *</label>
-              <Input
-                id="gallery-url"
-                placeholder="https://example.com/photo.jpg"
-                value={formUrl}
-                onChange={(e) => setFormUrl(e.target.value)}
-              />
-              <p className="text-xs text-gray-500 mt-1">
-                Enter the full URL of the image. You can use image hosting services like Imgur, Cloudinary, or direct links.
-              </p>
-            </div>
-            <div>
-              <label htmlFor="gallery-caption" className="block text-sm font-medium text-gray-700 mb-1">Caption</label>
-              <Input
-                id="gallery-caption"
-                placeholder="Photo description (optional)"
-                value={formCaption}
-                onChange={(e) => setFormCaption(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="gallery-order" className="block text-sm font-medium text-gray-700 mb-1">Sort Order</label>
-              <Input
-                id="gallery-order"
-                type="number"
-                placeholder="0"
-                value={formOrder}
-                onChange={(e) => setFormOrder(e.target.value)}
-                className="w-24"
-              />
-              <p className="text-xs text-gray-500 mt-1">Lower numbers appear first</p>
-            </div>
-
-            {/* Preview */}
-            {formUrl && (
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Preview</label>
-                <div className="relative w-32 h-32 bg-gray-100 rounded-lg overflow-hidden">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={formUrl}
-                    alt="Preview"
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).style.display = 'none';
-                    }}
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-          <div className="flex gap-2 pt-2">
-            <Button onClick={handleSave} disabled={saving || !formUrl.trim()}>
-              {saving ? (
-                <>
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Saving...
-                </>
-              ) : editingPhoto ? (
-                'Update Photo'
-              ) : (
-                'Add Photo'
-              )}
-            </Button>
-            <Button variant="outline" onClick={resetForm}>
-              Cancel
-            </Button>
-          </div>
-        </div>
-      )}
-
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-600 rounded-lg p-4">
           <p>Error fetching photos. Please try again.</p>
@@ -285,7 +173,7 @@ export default function GalleryManagementPage() {
         </div>
       )}
 
-      {!loading && !error && photos.length === 0 && !showForm && (
+      {!loading && !error && photos.length === 0 && (
         <div className="text-center py-12 bg-gray-50 rounded-lg">
           <ImageIcon className="h-12 w-12 mx-auto text-gray-400 mb-4" />
           <h3 className="text-lg font-medium">No photos yet</h3>
@@ -419,6 +307,23 @@ export default function GalleryManagementPage() {
         )}
         </>
       )}
+
+      <GalleryModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        photo={selectedPhoto}
+        isCreating={isCreating}
+        onSave={loadPhotos}
+      />
+
+      <ConfirmDialog
+        open={confirmDialog.open}
+        onOpenChange={(open) => setConfirmDialog((prev) => ({ ...prev, open }))}
+        title={confirmDialog.title}
+        description={confirmDialog.description}
+        confirmLabel="Delete"
+        onConfirm={confirmDialog.onConfirm}
+      />
     </div>
   );
 }

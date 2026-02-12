@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import CTABanner from '@/components/CTABanner';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Components of an Abolition Bill - Abolish Abortion Michigan',
@@ -21,6 +22,8 @@ export default function ComponentsOfAbolitionBillPage() {
           <p className="text-sm md:text-base tracking-[0.3em] uppercase text-gray-300">Key differences between abolitionist and pro-life legislation</p>
         </div>
       </section>
+
+      <Breadcrumbs items={[{ label: 'Abolition Bills', href: '/abolition-bills' }, { label: 'Components of an Abolition Bill' }]} />
 
       {/* Content */}
       <section className="bg-white py-16">
@@ -70,6 +73,7 @@ export default function ComponentsOfAbolitionBillPage() {
                 title="Components of an Abolition Bill"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
+                loading="lazy"
                 className="w-full h-full rounded-lg"
               />
             </div>

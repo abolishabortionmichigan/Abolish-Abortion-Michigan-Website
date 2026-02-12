@@ -1,7 +1,9 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect, useRef, useCallback } from 'react';
+import FocusTrap from 'focus-trap-react';
 
 interface NavItem {
   label: string;
@@ -55,7 +57,8 @@ export default function MobileNav({ isOpen, onClose, navItems }: MobileNavProps)
   if (!isOpen) return null;
 
   return (
-    <>
+    <FocusTrap focusTrapOptions={{ initialFocus: false, allowOutsideClick: true, escapeDeactivates: false }}>
+      <div>
       {/* Overlay */}
       <div
         className="fixed inset-0 bg-black/50 z-40"
@@ -79,10 +82,11 @@ export default function MobileNav({ isOpen, onClose, navItems }: MobileNavProps)
         {/* Logo */}
         <div className="px-6 py-4 border-b border-gray-800">
           <Link href="/" onClick={onClose} className="flex items-center gap-2">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/aa-logo.png"
+            <Image
+              src="/images/aa-logo.webp"
               alt="Abolish Abortion Michigan logo"
+              width={32}
+              height={32}
               className="h-8 w-auto invert"
             />
             <div className="leading-tight text-white">
@@ -160,6 +164,7 @@ export default function MobileNav({ isOpen, onClose, navItems }: MobileNavProps)
           ))}
         </nav>
       </div>
-    </>
+      </div>
+    </FocusTrap>
   );
 }

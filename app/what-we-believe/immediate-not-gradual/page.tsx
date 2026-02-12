@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import CTABanner from '@/components/CTABanner';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Immediate, Not Gradual - Abolish Abortion Michigan',
@@ -21,6 +22,8 @@ export default function ImmediateNotGradualPage() {
           <p className="text-sm md:text-base tracking-[0.3em] uppercase text-gray-300">Abortion Cannot Be Abolished by Allowing it All Along the Way</p>
         </div>
       </section>
+
+      <Breadcrumbs items={[{ label: 'What We Believe', href: '/what-we-believe' }, { label: 'Immediate, Not Gradual' }]} />
 
       {/* Content */}
       <section className="bg-white py-16">

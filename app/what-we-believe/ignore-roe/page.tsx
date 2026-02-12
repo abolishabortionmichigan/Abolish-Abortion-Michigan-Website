@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import CTABanner from '@/components/CTABanner';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Ignore Roe - Abolish Abortion Michigan',
@@ -21,6 +22,8 @@ export default function IgnoreRoePage() {
           <p className="text-sm md:text-base tracking-[0.3em] uppercase text-gray-300">The Supreme Court is not the supreme law of the land</p>
         </div>
       </section>
+
+      <Breadcrumbs items={[{ label: 'What We Believe', href: '/what-we-believe' }, { label: 'Ignore Roe' }]} />
 
       {/* Content */}
       <section className="bg-white py-16">

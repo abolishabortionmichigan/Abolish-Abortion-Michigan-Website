@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState } from 'react';
 import MobileNav from './MobileNav';
 
@@ -64,9 +65,8 @@ export default function Header() {
         <div className="flex items-center justify-between h-14">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/aa-logo.png"
+            <Image
+              src="/images/aa-logo.webp"
               alt="Abolish Abortion Michigan logo"
               width={36}
               height={36}

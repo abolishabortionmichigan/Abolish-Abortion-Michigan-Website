@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import CTABanner from '@/components/CTABanner';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'The Gospel - Abolish Abortion Michigan',
@@ -21,6 +22,8 @@ export default function GospelPage() {
           <p className="text-sm md:text-base tracking-[0.3em] uppercase text-gray-300">The Gospel is the Power of God for Salvation to Everyone who Believes</p>
         </div>
       </section>
+
+      <Breadcrumbs items={[{ label: 'The Gospel', href: '/the-gospel' }, { label: 'The Gospel' }]} />
 
       {/* Content */}
       <section className="bg-white py-16">
