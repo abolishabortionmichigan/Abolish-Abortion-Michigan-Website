@@ -8,6 +8,8 @@ import { getAuthToken, verifyToken } from '@/lib/actions/auth-actions';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { validateCsrf } from '@/lib/csrf';
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export async function GET() {
   const token = await getAuthToken();
   if (!token) {
@@ -55,8 +57,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) {
+    if (!EMAIL_REGEX.test(data.email)) {
       return NextResponse.json({ error: 'Invalid email format' }, { status: 400 });
     }
 

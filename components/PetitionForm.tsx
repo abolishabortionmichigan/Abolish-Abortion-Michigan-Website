@@ -136,6 +136,7 @@ export default function PetitionForm() {
               onChange={handleChange}
               required
               maxLength={100}
+              autoComplete="name"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
               placeholder="Your full name"
             />
@@ -152,6 +153,7 @@ export default function PetitionForm() {
               value={formData.email}
               onChange={handleChange}
               required
+              autoComplete="email"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
               placeholder="your@email.com"
             />
@@ -169,6 +171,7 @@ export default function PetitionForm() {
               name="city"
               value={formData.city}
               onChange={handleChange}
+              autoComplete="address-level2"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
               placeholder="Your city"
             />
@@ -200,6 +203,7 @@ export default function PetitionForm() {
               name="zipcode"
               value={formData.zipcode}
               onChange={handleChange}
+              autoComplete="postal-code"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
               placeholder="12345"
               maxLength={10}

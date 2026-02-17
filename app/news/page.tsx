@@ -11,9 +11,12 @@ export const metadata: Metadata = {
 // ISR: revalidate every 5 minutes
 export const revalidate = 300;
 
+const HTML_TAG_REGEX = /<[^>]*>/g;
+const WHITESPACE_REGEX = /\s+/;
+
 function getReadingTime(html: string): string {
-  const text = html.replace(/<[^>]*>/g, '');
-  const words = text.split(/\s+/).filter(Boolean).length;
+  const text = html.replace(HTML_TAG_REGEX, '');
+  const words = text.split(WHITESPACE_REGEX).filter(Boolean).length;
   const minutes = Math.max(1, Math.round(words / 200));
   return `${minutes} min read`;
 }

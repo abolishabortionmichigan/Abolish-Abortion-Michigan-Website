@@ -13,6 +13,8 @@ import { sendInquiryConfirmationEmail, sendInquiryNotificationEmail, sendInquiry
 import { headers } from 'next/headers';
 import { checkRateLimit } from '@/lib/rate-limit';
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 async function isAdmin(): Promise<boolean> {
   const token = await getAuthToken();
   if (!token) return false;
@@ -148,8 +150,7 @@ export async function createInquiry(data: Omit<Inquiry, 'id' | 'status' | 'creat
     }
 
     // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) {
+    if (!EMAIL_REGEX.test(data.email)) {
       return { error: 'Invalid email format' };
     }
 

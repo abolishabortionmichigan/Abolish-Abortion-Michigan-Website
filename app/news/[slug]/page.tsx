@@ -8,9 +8,12 @@ import NewsCard from '@/components/NewsCard';
 import { getNewsArticleBySlug, getAllNewsArticles } from '@/lib/data/news-store';
 import { sanitizeHtml } from '@/lib/sanitize';
 
+const HTML_TAG_REGEX = /<[^>]*>/g;
+const WHITESPACE_REGEX = /\s+/;
+
 function getReadingTime(html: string): string {
-  const text = html.replace(/<[^>]*>/g, '');
-  const words = text.split(/\s+/).filter(Boolean).length;
+  const text = html.replace(HTML_TAG_REGEX, '');
+  const words = text.split(WHITESPACE_REGEX).filter(Boolean).length;
   const minutes = Math.max(1, Math.round(words / 200));
   return `${minutes} min read`;
 }
@@ -40,6 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: article.excerpt,
       type: 'article',
       publishedTime: article.created_at ? new Date(article.created_at).toISOString() : undefined,
+      images: article.image ? [article.image] : undefined,
     },
   };
 }

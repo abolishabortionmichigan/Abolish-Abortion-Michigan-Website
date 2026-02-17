@@ -145,6 +145,7 @@ export default function ContactPage() {
                     onChange={handleChange}
                     required
                     maxLength={100}
+                    autoComplete="name"
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
                   />
                 </div>
@@ -161,6 +162,7 @@ export default function ContactPage() {
                     onChange={handleChange}
                     required
                     maxLength={254}
+                    autoComplete="email"
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-red-500 focus:border-transparent"
                   />
                 </div>

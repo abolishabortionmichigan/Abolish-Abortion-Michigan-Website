@@ -34,7 +34,10 @@ export async function getSignatureById(id: string): Promise<PetitionSignature | 
 
 export async function hasAlreadySigned(email: string): Promise<boolean> {
   if (isDatabaseConnected) {
-    const sig = await prisma.petitionSignature.findUnique({ where: { email: email.toLowerCase() } });
+    const sig = await prisma.petitionSignature.findUnique({
+      where: { email: email.toLowerCase() },
+      select: { id: true },
+    });
     return !!sig;
   }
   return memoryStore.some((s) => s.email.toLowerCase() === email.toLowerCase());

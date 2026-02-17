@@ -19,6 +19,8 @@ import { getAuthToken, verifyToken } from './auth-actions';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { sendPetitionConfirmationEmail, sendPetitionNotificationEmail, sendSubscriberWelcomeEmail, sendNewSubscriberNotification } from '@/lib/email';
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 async function isAdmin(): Promise<boolean> {
   const token = await getAuthToken();
   if (!token) return false;
@@ -95,8 +97,7 @@ export async function signPetition(data: {
     }
 
     // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) {
+    if (!EMAIL_REGEX.test(data.email)) {
       return { error: 'Invalid email format' };
     }
 
@@ -178,8 +179,7 @@ export async function subscribeToNewsletter(data: {
       return { error: 'Email must be 254 characters or less' };
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) {
+    if (!EMAIL_REGEX.test(data.email)) {
       return { error: 'Invalid email format' };
     }
 

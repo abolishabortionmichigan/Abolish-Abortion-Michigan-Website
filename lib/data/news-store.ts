@@ -133,6 +133,7 @@ export async function slugExists(slug: string, excludeId?: string): Promise<bool
         slug,
         ...(excludeId ? { NOT: { id: excludeId } } : {}),
       },
+      select: { id: true },
     });
     return !!item;
   }
