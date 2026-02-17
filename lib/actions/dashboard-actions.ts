@@ -3,8 +3,9 @@
 import { getAuthToken, verifyToken } from './auth-actions';
 import { getAllInquiries } from '@/lib/data/inquiry-store';
 import { getAllNewsArticles } from '@/lib/data/news-store';
-import { getAllSignatures, getSignatureCount, getSubscriberCount } from '@/lib/data/petition-store';
+import { getAllSignatures, getSignatureCount, getSubscriberCount, getSubscribedEmails } from '@/lib/data/petition-store';
 import { getAllGalleryPhotos, getGalleryPhotoCount } from '@/lib/data/gallery-store';
+import { getActiveSubscriberEmails } from '@/lib/data/subscriber-store';
 import { DashboardStats } from '@/types';
 
 async function isAdmin(): Promise<boolean> {
@@ -26,7 +27,16 @@ export async function getDashboardStats(): Promise<DashboardStats | { error: str
     const newsArticles = await getAllNewsArticles(false);
     const signatureCount = await getSignatureCount();
     const photoCount = await getGalleryPhotoCount();
-    const subscriberCount = await getSubscriberCount();
+
+    // Count unique subscribers across both tables
+    const [petitionSubs, newsletterSubs] = await Promise.all([
+      getSubscribedEmails(),
+      getActiveSubscriberEmails(),
+    ]);
+    const uniqueEmails = new Set<string>();
+    for (const s of petitionSubs) uniqueEmails.add(s.email.toLowerCase());
+    for (const s of newsletterSubs) uniqueEmails.add(s.email.toLowerCase());
+    const subscriberCount = uniqueEmails.size;
 
     const stats: DashboardStats = {
       totalInquiries: inquiries.length,

@@ -81,9 +81,7 @@ html {
   transition: all 0.2s ease;
 }
 
-.dropdown:hover .dropdown-content,
-.dropdown:focus-within .dropdown-content,
-.dropdown-content:hover {
+.dropdown-content.dropdown-open {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);

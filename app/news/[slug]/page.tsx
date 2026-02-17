@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import CTABanner from '@/components/CTABanner';
-import ShareButtons from './share-buttons';
+import ShareButtons from '@/components/ShareButtons';
 import NewsCard from '@/components/NewsCard';
 import { getNewsArticleBySlug, getAllNewsArticles } from '@/lib/data/news-store';
 import { sanitizeHtml } from '@/lib/sanitize';
@@ -21,7 +21,8 @@ interface Props {
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://abolishabortionmichigan.com';
 
-export const dynamic = 'force-dynamic';
+// ISR: revalidate every hour (individual articles change less frequently)
+export const revalidate = 3600;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
@@ -153,6 +154,7 @@ export default async function NewsArticlePage({ params }: Props) {
             <ShareButtons
               url={`${BASE_URL}/news/${slug}`}
               title={article.title}
+              description={article.excerpt}
             />
           </div>
         </div>

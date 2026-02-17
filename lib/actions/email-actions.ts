@@ -2,6 +2,7 @@
 
 import { getAuthToken, verifyToken } from './auth-actions';
 import { getSubscribedEmails } from '@/lib/data/petition-store';
+import { getActiveSubscriberEmails } from '@/lib/data/subscriber-store';
 import { sendBroadcastToAll, sendBroadcastNotification } from '@/lib/email';
 import { sanitizeHtml } from '@/lib/sanitize';
 
@@ -31,7 +32,29 @@ export async function sendBroadcast(data: {
       return { error: 'Subject must be 200 characters or less' };
     }
 
-    const subscribers = await getSubscribedEmails();
+    // Query both tables and deduplicate by email
+    const [petitionSubs, newsletterSubs] = await Promise.all([
+      getSubscribedEmails(),
+      getActiveSubscriberEmails(),
+    ]);
+
+    const seen = new Set<string>();
+    const subscribers: typeof petitionSubs = [];
+    for (const sub of petitionSubs) {
+      const key = sub.email.toLowerCase();
+      if (!seen.has(key)) {
+        seen.add(key);
+        subscribers.push(sub);
+      }
+    }
+    for (const sub of newsletterSubs) {
+      const key = sub.email.toLowerCase();
+      if (!seen.has(key)) {
+        seen.add(key);
+        // Wrap in the shape expected by sendBroadcastToAll
+        subscribers.push({ id: '', name: '', email: sub.email, subscribed: true, created_at: '' } as typeof petitionSubs[0]);
+      }
+    }
 
     if (subscribers.length === 0) {
       return { error: 'No subscribers to send to' };

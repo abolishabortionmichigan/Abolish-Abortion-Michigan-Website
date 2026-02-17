@@ -8,8 +8,8 @@ export const metadata: Metadata = {
   description: 'Latest news and updates from Abolish Abortion Michigan.',
 };
 
-// Ensure page is dynamically rendered to show latest articles
-export const dynamic = 'force-dynamic';
+// ISR: revalidate every 5 minutes
+export const revalidate = 300;
 
 function getReadingTime(html: string): string {
   const text = html.replace(/<[^>]*>/g, '');
@@ -19,18 +19,20 @@ function getReadingTime(html: string): string {
 }
 
 export default async function NewsPage() {
-  // Get published articles only
-  const articles = await getAllNewsArticles(true);
-
-  // Serialize for client component
-  const serialized = articles.map((a) => ({
-    title: a.title,
-    excerpt: a.excerpt,
-    slug: a.slug,
-    image: a.image,
-    created_at: a.created_at ? new Date(a.created_at).toISOString() : undefined,
-    readingTime: getReadingTime(a.content),
-  }));
+  let serialized: { title: string; excerpt: string; slug: string; image?: string; created_at?: string; readingTime: string }[] = [];
+  try {
+    const articles = await getAllNewsArticles(true);
+    serialized = articles.map((a) => ({
+      title: a.title,
+      excerpt: a.excerpt,
+      slug: a.slug,
+      image: a.image || undefined,
+      created_at: a.created_at ? new Date(a.created_at).toISOString() : undefined,
+      readingTime: getReadingTime(a.content),
+    }));
+  } catch {
+    // Database unavailable at build time; ISR will populate on first request
+  }
 
   return (
     <>

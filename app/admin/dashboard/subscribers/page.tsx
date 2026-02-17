@@ -6,11 +6,22 @@ import { Input } from '@/components/ui/input';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import { Loader2, RefreshCw, Search, Trash, Download, UserX, Users } from 'lucide-react';
 import { fetchSubscribers, unsubscribeUser, deleteSubscriber } from '@/lib/actions/subscriber-actions';
-import { PetitionSignature } from '@/types';
 import { formatDate } from '@/lib/utils';
 
+interface SubscriberRow {
+  id: string;
+  email: string;
+  name?: string;
+  source: string;
+  subscribed: boolean;
+  created_at: string;
+  city?: string;
+  state?: string;
+  zipcode?: string;
+}
+
 export default function SubscribersPage() {
-  const [subscribers, setSubscribers] = useState<PetitionSignature[]>([]);
+  const [subscribers, setSubscribers] = useState<SubscriberRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -132,7 +143,7 @@ export default function SubscribersPage() {
   const handleExportCSV = () => {
     const headers = ['Name', 'Email', 'City', 'State', 'Zip Code', 'Date Subscribed'];
     const rows = filteredSubscribers.map((s) => [
-      s.name.replace(/"/g, '""'),
+      (s.name || 'Newsletter Subscriber').replace(/"/g, '""'),
       s.email,
       (s.city || '').replace(/"/g, '""'),
       s.state || '',
@@ -281,7 +292,7 @@ export default function SubscribersPage() {
                       </td>
                       <td className="p-4">
                         <div>
-                          <p className="font-medium">{sub.name}</p>
+                          <p className="font-medium">{sub.name || 'Newsletter Subscriber'}</p>
                           <p className="text-sm text-gray-500 truncate max-w-[200px] md:hidden">{sub.email}</p>
                         </div>
                       </td>

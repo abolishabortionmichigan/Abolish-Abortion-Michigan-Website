@@ -9,6 +9,11 @@ import {
   deleteSignature as deleteSignatureData,
   updateSubscriptionStatus,
 } from '@/lib/data/petition-store';
+import {
+  getSubscriberByEmail,
+  createSubscriber,
+  updateSubscriberStatus,
+} from '@/lib/data/subscriber-store';
 import { headers } from 'next/headers';
 import { getAuthToken, verifyToken } from './auth-actions';
 import { checkRateLimit } from '@/lib/rate-limit';
@@ -178,18 +183,23 @@ export async function subscribeToNewsletter(data: {
       return { error: 'Invalid email format' };
     }
 
-    // If already in system, just make sure they're subscribed
+    // Check Subscriber table first
+    const existingSubscriber = await getSubscriberByEmail(data.email);
+    if (existingSubscriber) {
+      if (!existingSubscriber.subscribed) {
+        await updateSubscriberStatus(data.email, true);
+      }
+      return { success: true };
+    }
+
+    // Check PetitionSignature table
     if (await hasAlreadySigned(data.email)) {
       await updateSubscriptionStatus(data.email, true);
       return { success: true };
     }
 
-    // Create new subscriber-only record
-    await createSignature({
-      name: 'Newsletter Subscriber',
-      email: data.email,
-      subscribed: true,
-    });
+    // Create new Subscriber record (NOT PetitionSignature)
+    await createSubscriber(data.email);
 
     // Send welcome email to subscriber and notification to admin
     await Promise.all([

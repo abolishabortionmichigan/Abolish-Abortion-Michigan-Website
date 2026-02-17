@@ -31,7 +31,7 @@ export default async function HomePage() {
     description: 'Abolitionists in Michigan devoted to establishing justice and equal protection for our preborn neighbors.',
     sameAs: [
       'https://facebook.com/abolishabortionmichigan',
-      'https://twitter.com/abolishabortionmi',
+      'https://x.com/AbolitionMI',
       'https://instagram.com/abolishabortionmichigan',
     ],
   };

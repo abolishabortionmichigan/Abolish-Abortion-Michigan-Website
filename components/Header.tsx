@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { usePathname } from 'next/navigation';
 import MobileNav from './MobileNav';
 
 const navItems = [
@@ -58,6 +59,32 @@ const navItems = [
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const pathname = usePathname();
+  const dropdownTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Close dropdown on route change
+  useEffect(() => {
+    setActiveDropdown(null);
+  }, [pathname]);
+
+  const handleDropdownEnter = useCallback((label: string) => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+      dropdownTimeoutRef.current = null;
+    }
+    setActiveDropdown(label);
+  }, []);
+
+  const handleDropdownLeave = useCallback(() => {
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setActiveDropdown(null);
+    }, 150);
+  }, []);
+
+  const handleLinkClick = useCallback(() => {
+    setActiveDropdown(null);
+  }, []);
 
   return (
     <header className="bg-[#1a1a1a] text-white sticky top-0 z-50">
@@ -88,11 +115,18 @@ export default function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center" aria-label="Main navigation">
             {navItems.map((item) => (
-              <div key={item.label} className="relative dropdown">
+              <div
+                key={item.label}
+                className="relative"
+                onMouseEnter={item.dropdown ? () => handleDropdownEnter(item.label) : undefined}
+                onMouseLeave={item.dropdown ? handleDropdownLeave : undefined}
+              >
                 <Link
                   href={item.href}
                   className="px-3 py-4 text-[11px] font-semibold hover:text-red-500 transition-colors flex items-center tracking-wide whitespace-nowrap"
                   aria-haspopup={item.dropdown ? 'true' : undefined}
+                  aria-expanded={item.dropdown ? activeDropdown === item.label : undefined}
+                  onClick={handleLinkClick}
                 >
                   {item.label}
                   {item.dropdown && (
@@ -102,13 +136,18 @@ export default function Header() {
                   )}
                 </Link>
                 {item.dropdown && (
-                  <div className="dropdown-content absolute left-0 top-full bg-[#1a1a1a] min-w-[220px] py-2 shadow-lg border-t border-red-600" role="menu" aria-label={`${item.label} submenu`}>
+                  <div
+                    className={`dropdown-content absolute left-0 top-full bg-[#1a1a1a] min-w-[220px] py-2 shadow-lg border-t border-red-600 ${activeDropdown === item.label ? 'dropdown-open' : ''}`}
+                    role="menu"
+                    aria-label={`${item.label} submenu`}
+                  >
                     {item.dropdown.map((subItem) => (
                       <Link
                         key={subItem.label}
                         href={subItem.href}
                         className="block px-4 py-2 text-xs hover:bg-[#2a2a2a] hover:text-red-500 transition-colors"
                         role="menuitem"
+                        onClick={handleLinkClick}
                       >
                         {subItem.label}
                       </Link>

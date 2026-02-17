@@ -102,7 +102,7 @@ export default function ContactPage() {
                       </svg>
                     </a>
                     <a
-                      href="https://twitter.com/abolishabortionmi"
+                      href="https://x.com/AbolitionMI"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-gray-600 hover:text-red-600 transition-colors"

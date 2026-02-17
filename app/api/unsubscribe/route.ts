@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyUnsubscribeToken } from '@/lib/email';
 import { updateSubscriptionStatus } from '@/lib/data/petition-store';
+import { updateSubscriberStatus } from '@/lib/data/subscriber-store';
 
 // GET: Redirect to confirmation page (email links land here)
 export async function GET(request: NextRequest) {
@@ -32,9 +33,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid or expired unsubscribe link' }, { status: 403 });
     }
 
-    const updated = await updateSubscriptionStatus(email, false);
+    // Update both tables — user may be in either or both
+    const [petitionUpdated, subscriberUpdated] = await Promise.all([
+      updateSubscriptionStatus(email, false),
+      updateSubscriberStatus(email, false),
+    ]);
 
-    if (!updated) {
+    if (!petitionUpdated && !subscriberUpdated) {
       return NextResponse.json({ error: 'Invalid or expired unsubscribe link' }, { status: 403 });
     }
 
