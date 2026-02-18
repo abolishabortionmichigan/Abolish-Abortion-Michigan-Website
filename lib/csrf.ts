@@ -50,8 +50,11 @@ export function validateCsrf(request: NextRequest): NextResponse | null {
     return null;
   }
 
-  // Vercel preview deployments
-  if (origin.endsWith('.vercel.app')) {
+  // Vercel preview deployments (project-specific only)
+  if (
+    origin.endsWith('.vercel.app') &&
+    new URL(origin).hostname.includes('abolish-abortion-michigan')
+  ) {
     return null;
   }
 
