@@ -1,0 +1,317 @@
+REMAINING FIXES - AAM Website
+==============================
+Last updated: 2026-02-11
+Source: Two comprehensive code audits + Lighthouse reports (mobile & desktop)
+
+Current Lighthouse Scores (post-fixes):
+  Mobile:  Performance 79 | Accessibility 100 | Best Practices 100 | SEO 100
+  Desktop: Performance 100 | Accessibility 100 | Best Practices 100 | SEO 100
+
+
+================================================================================
+SECTION 1: LIGHTHOUSE MOBILE PERFORMANCE (Score: 79)
+================================================================================
+These are architectural/infrastructure issues. No simple code fixes.
+
+[ARCH] Total Blocking Time: 730ms
+  - Next.js JavaScript bundle execution on throttled mobile CPUs
+  - Fix: Code-splitting, reducing client components, or lazy-loading sections
+
+[ARCH] Unused JavaScript: ~28 KiB
+  - A Next.js framework chunk (_next/static/chunks/aee6c77...)
+  - Not your code — this is framework overhead
+
+[ARCH] Main-thread work: 2.8s
+  - JavaScript parsing and execution under mobile CPU throttling
+  - Fix: Reduce client-side JS, convert more components to server components
+
+[ARCH] Back/forward cache blocked
+  - Caused by `cache-control: no-store` from `export const dynamic = 'force-dynamic'`
+  - This is intentional — the home page needs fresh news data
+  - Fix: Switch to ISR with `revalidate` instead of `force-dynamic`
+
+[EASY] Image delivery: ~150 KiB savings
+  - Logo served as PNG; converting to WebP/AVIF would save ~150 KiB
+  - Fix: Convert /public/images/aa-logo.png to WebP format
+
+[ARCH] Legacy JavaScript: ~14 KiB
+  - Next.js polyfills for older browser compatibility
+  - Fix: Update browserslist targets if older browsers aren't needed
+
+[ARCH] Render-blocking requests
+  - Font files and CSS loaded synchronously
+  - Fix: Preload critical fonts, defer non-critical CSS
+
+
+================================================================================
+SECTION 2: BACKEND AUDIT — UNFIXED ITEMS
+================================================================================
+
+--- HIGH ---
+
+[H1] Unsubscribe tokens never expire
+  File: lib/email.ts (generateUnsubscribeToken function)
+  Issue: HMAC of email address has no timestamp component — tokens are valid forever
+  Fix: Add a timestamp to the HMAC payload (e.g., HMAC(email + ":" + monthYear))
+       and validate that the token is not older than X months
+
+--- MEDIUM ---
+
+[M1] In-memory rate limiting ineffective in serverless
+  File: lib/rate-limit.ts
+  Issue: Rate limiter uses an in-memory Map. In Vercel serverless, each cold start
+         gets fresh memory, completely bypassing rate limits. Multi-instance deploys
+         also have separate state per instance.
+  Fix: Use Redis, Upstash, or Vercel KV for persistent rate limit storage
+
+[M2] No field validation on inquiry PATCH API
+  File: app/api/inquiries/[id]/route.ts:27-31
+  Issue: allowedFields restricts which fields can be updated, but doesn't validate
+         types or lengths of values. Status can be set to arbitrary strings.
+  Fix: Add type/length validation and an enum for status values
+
+[M3] No field validation on news PATCH data
+  File: app/api/news/[slug]/route.ts:52-64
+  Issue: PATCH handler receives arbitrary JSON and passes to updateNewsArticle()
+         without an allowlist of fields or length validation
+  Fix: Add an allowlist and length limits matching the POST handler
+
+[M4] Duplicated inquiry creation code
+  Files: app/api/inquiries/route.ts + lib/actions/inquiry-actions.ts
+  Issue: Inquiry creation exists in both the API route and server action with
+         different behavior (API route awaits emails; action fires and forgets)
+  Fix: Consolidate into one shared function or remove the API route if unused
+
+[M5] No CSRF protection beyond SameSite cookies
+  Issue: Relies solely on sameSite: 'strict' cookies. Older browsers may not
+         enforce SameSite. API routes lack CSRF tokens or origin checking.
+  Fix: Add Origin/Referer header validation on API routes, or migrate
+       all mutations to server actions (which have built-in CSRF protection)
+
+[M6] Missing await on fire-and-forget emails (serverless risk)
+  File: lib/actions/inquiry-actions.ts:159
+  Issue: Promise.all([...]).catch(...) called without await. In serverless,
+         the execution context may be destroyed before emails finish sending.
+  Fix: Either await the emails or use a background job queue
+
+[M7] Missing await on pingSitemapToSearchEngines()
+  File: lib/actions/news-actions.ts:115, 167
+  Issue: Async function called without await — HTTP requests may never complete
+         in serverless environments
+  Fix: Await the call or accept that it may silently fail
+
+[M8] Flawed first-publish detection logic
+  File: lib/actions/news-actions.ts:138-144
+  Issue: If the existing article lookup fails (returns undefined), wasPublished
+         stays false, so the newsletter would be sent even for already-published
+         articles whose lookup errored
+  Fix: Default wasPublished to true (safe default) or handle the undefined case
+
+--- LOW ---
+
+[L1] No rate limit on auth verify endpoint
+  File: app/api/auth/verify/route.ts
+  Fix: Add rate limiting to prevent token enumeration
+
+[L2] No auth check on logout endpoint
+  File: app/api/auth/logout/route.ts
+  Fix: Verify auth before processing (low impact — deleting own cookie is a no-op)
+
+[L3] Hardcoded placeholder stats in dashboard API route
+  File: app/api/dashboard/stats/route.ts:17-22
+  Issue: Returns hardcoded values instead of real data. Likely dead code since
+         the dashboard uses getDashboardStats() server action instead.
+  Fix: Delete this route if unused, or wire it to real data
+
+[L4] No length validation on inquiry API route fields
+  File: app/api/inquiries/route.ts
+  Fix: Add maxLength checks matching the frontend limits
+
+[L5] Overly permissive email regex
+  File: app/api/inquiries/route.ts:54
+  Fix: Use a stricter regex or a validation library
+
+[L6] No length validation on news article fields
+  Files: app/api/news/route.ts, lib/actions/news-actions.ts
+  Fix: Add maxLength for title, slug, excerpt, content
+
+[L7] No slug format validation
+  File: app/api/news/route.ts:51
+  Fix: Validate slug matches /^[a-z0-9-]+$/ pattern
+
+[L8] Unsubscribe uses GET for state-changing operation
+  File: app/api/unsubscribe/route.ts
+  Issue: GET requests can be triggered by link prefetch, email scanners, etc.
+  Fix: Change to POST with a confirmation page, or accept the risk since
+       HMAC tokens prevent unauthorized use
+
+[L9] No input length validation on unsubscribe params
+  File: app/api/unsubscribe/route.ts:7-8
+  Fix: Add maxLength checks on email and token query params
+
+[L10] No error handling in feed.xml
+  File: app/feed.xml/route.ts
+  Fix: Add try/catch to return a valid empty feed on error
+
+[L11] No length limits on gallery photo fields
+  File: lib/actions/gallery-actions.ts
+  Fix: Add maxLength for URL and caption
+
+[L12] updateInquiry passes data without field filtering
+  File: lib/actions/inquiry-actions.ts:37-44
+  Fix: Add an allowedFields filter at the action boundary
+
+[L13] No state field validation in petition
+  File: lib/actions/petition-actions.ts:87-89
+  Fix: Validate against US state abbreviations or add length limit
+
+[L14] Petition emails block the response
+  File: lib/actions/petition-actions.ts:120-123
+  Issue: Uses await Promise.all for emails, unlike inquiry (fire-and-forget)
+  Fix: Make fire-and-forget to improve response time
+
+[L15] No audit logging on bulk data export
+  File: lib/actions/dashboard-actions.ts:46-64
+  Fix: Log when admin exports all PII data
+
+[L16] No body length limit on broadcast emails
+  File: lib/actions/email-actions.ts:30-31
+  Fix: Add a maxLength check on the body field
+
+[L17] Email comparison not case-insensitive in login
+  File: lib/actions/auth-actions.ts:81
+  Fix: Lowercase both email and adminEmail before comparing
+
+[L18] Login error logged with full error object
+  File: lib/actions/auth-actions.ts:107
+  Fix: Log only error.message, not the full object
+
+[L19] Subscriber email logged on newsletter failure
+  File: lib/email.ts:825
+  Fix: Redact or hash the email in the log message
+
+[L20] setInterval in module scope (serverless concern)
+  File: lib/rate-limit.ts:12
+  Fix: Use a different cleanup strategy or accept the trade-off
+
+[L21] Prisma null cast when DATABASE_URL is missing
+  File: lib/prisma.ts:19
+  Fix: Throw a clear "database not configured" error instead of null cast
+
+[L22] User data (email, role) persisted to localStorage
+  File: store/use-user.ts:17-19
+  Fix: Remove persistence or exclude email from persisted state
+
+
+================================================================================
+SECTION 3: FRONTEND AUDIT — UNFIXED ITEMS
+================================================================================
+
+--- MEDIUM ---
+
+[FM1] Two inconsistent ShareButtons components
+  Files: components/ShareButtons.tsx + app/news/[slug]/share-buttons.tsx
+  Issue: Two separate implementations with different props, styling, and
+         accessibility patterns. Code duplication risk.
+  Fix: Consolidate into one shared component
+
+[FM2] Decorative header lines look like a hamburger menu
+  File: components/Header.tsx:77-80
+  Issue: Three lines next to "MICHIGAN" resemble a hamburger icon but aren't
+         interactive. Could confuse users.
+  Fix: Restyle to be less hamburger-like, or remove
+
+[FM3] Admin news modal has no content preview/sanitization warning
+  File: app/admin/components/news-modal.tsx:175-183
+  Issue: Content textarea accepts raw HTML with no preview of sanitized output
+  Fix: Add a preview pane showing sanitized HTML
+
+[FM4] CSS :has() selector for admin layout
+  File: app/globals.css:98-105
+  Issue: body:has(#admin-area) hides public header/footer on admin pages.
+         Very old browsers don't support :has() — admin pages would show
+         both public and admin navigation.
+  Fix: Accept (widely supported now) or use a different layout strategy
+
+--- LOW ---
+
+[FL1] Header logo uses native <img> instead of next/image
+  File: components/Header.tsx:68
+  Fix: Switch to Next.js Image component for auto-optimization
+
+[FL2] Footer external link has no external indicator
+  File: components/Footer.tsx:66
+  Fix: Add "(opens in new tab)" visually hidden text or an external link icon
+
+[FL3] GalleryImage missing sizes attribute
+  File: components/GalleryImage.tsx:17-23
+  Fix: Add sizes prop for responsive image loading
+
+[FL4] NewsCard missing sizes attribute on fill Images
+  File: components/NewsCard.tsx:27, 57
+  Fix: Add sizes prop to both Image components
+
+[FL5] NewsCard renders duplicate DOM for mobile and desktop
+  File: components/NewsCard.tsx:23-50
+  Issue: Same content rendered twice (sm:hidden + hidden sm:block)
+  Fix: Use a single responsive layout or CSS-only approach
+
+[FL6] PetitionForm zipcode has no pattern validation
+  File: components/PetitionForm.tsx:195-201
+  Fix: Add pattern="\d{5}(-\d{4})?" for US zip code format
+
+[FL7] ShareButtons setTimeout not cleaned up on unmount
+  File: components/ShareButtons.tsx:40
+  Fix: Store timeout ref and clear on unmount (minimal impact)
+
+[FL8] Admin news modal publish confirmation not focus-trapped
+  File: app/admin/components/news-modal.tsx:237-264
+  Fix: Add role="dialog", aria-modal="true", focus trap, Escape to dismiss
+
+[FL9] Admin logout has no confirmation dialog
+  File: app/admin/components/layout/app-sidebar.tsx:117
+  Fix: Add "Are you sure?" confirmation before logging out
+
+[FL10] Dashboard CSV export doesn't escape newlines
+  File: app/admin/dashboard/page.tsx:116
+  Issue: If inquiry messages contain newlines, CSV will be malformed
+  Fix: Escape newlines within field values in the q() helper
+
+[FL11] Admin email page body textarea has no maxLength
+  File: app/admin/dashboard/email/page.tsx:257-265
+  Fix: Add maxLength to prevent extremely large email bodies
+
+[FL12] Related news section fetches all articles
+  File: app/news/[slug]/page.tsx:66-67
+  Issue: getAllNewsArticles(true) fetches everything, then takes 3
+  Fix: Add a query parameter to limit results at the database level
+
+[FL13] News article OG image missing runtime export
+  File: app/news/[slug]/opengraph-image.tsx
+  Fix: Add `export const runtime = 'edge'` to match root OG image
+
+
+================================================================================
+SECTION 4: PRIORITY RECOMMENDATIONS
+================================================================================
+
+If you want to tackle these in the future, here's a suggested priority order:
+
+TOP PRIORITY (security/reliability):
+  1. [M1]  Persistent rate limiting (Redis/Upstash) — critical for production
+  2. [H1]  Expiring unsubscribe tokens — security best practice
+  3. [M8]  Fix first-publish detection logic — could send duplicate newsletters
+  4. [M6]  Await emails in serverless — emails may silently fail
+
+MEDIUM PRIORITY (code quality):
+  5. [FM1] Consolidate ShareButtons components
+  6. [M4]  Remove duplicate inquiry creation code
+  7. [L3]  Delete dead dashboard stats API route
+  8. [L17] Case-insensitive email comparison in login
+  9. [FL10] Fix CSV export newline escaping
+
+LOW PRIORITY (polish):
+  10. [EASY] Convert logo PNG to WebP (saves ~150 KiB on mobile)
+  11. [FL3-FL4] Add sizes attributes to Image components
+  12. Various maxLength and validation additions (L4-L16)
+  13. Admin UI improvements (FL8, FL9, FM3)
