@@ -57,11 +57,17 @@ const navItems = [
   { label: 'CONTACT US', href: '/contact' },
 ];
 
+function isCurrentPage(pathname: string, href: string): boolean {
+  if (href === '/') return pathname === '/';
+  return pathname === href || pathname.startsWith(href + '/');
+}
+
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const pathname = usePathname();
   const dropdownTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const menuItemRefs = useRef<Map<string, HTMLAnchorElement[]>>(new Map());
 
   // Close dropdown on route change
   useEffect(() => {
@@ -85,6 +91,57 @@ export default function Header() {
   const handleLinkClick = useCallback(() => {
     setActiveDropdown(null);
   }, []);
+
+  const setMenuItemRef = useCallback((label: string, index: number, el: HTMLAnchorElement | null) => {
+    if (!el) return;
+    const refs = menuItemRefs.current.get(label) || [];
+    refs[index] = el;
+    menuItemRefs.current.set(label, refs);
+  }, []);
+
+  const focusMenuItem = useCallback((label: string, index: number) => {
+    const refs = menuItemRefs.current.get(label);
+    refs?.[index]?.focus();
+  }, []);
+
+  const handleTriggerKeyDown = useCallback((e: React.KeyboardEvent, item: typeof navItems[0]) => {
+    if (!item.dropdown) return;
+    if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActiveDropdown(item.label);
+      // Focus first menu item after dropdown opens
+      requestAnimationFrame(() => focusMenuItem(item.label, 0));
+    }
+  }, [focusMenuItem]);
+
+  const handleMenuKeyDown = useCallback((e: React.KeyboardEvent, label: string, itemCount: number) => {
+    const refs = menuItemRefs.current.get(label);
+    if (!refs) return;
+    const currentIndex = refs.indexOf(e.target as HTMLAnchorElement);
+
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        focusMenuItem(label, currentIndex < itemCount - 1 ? currentIndex + 1 : 0);
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        focusMenuItem(label, currentIndex > 0 ? currentIndex - 1 : itemCount - 1);
+        break;
+      case 'Home':
+        e.preventDefault();
+        focusMenuItem(label, 0);
+        break;
+      case 'End':
+        e.preventDefault();
+        focusMenuItem(label, itemCount - 1);
+        break;
+      case 'Escape':
+        e.preventDefault();
+        setActiveDropdown(null);
+        break;
+    }
+  }, [focusMenuItem]);
 
   return (
     <header className="bg-[#1a1a1a] text-white sticky top-0 z-50">
@@ -126,7 +183,9 @@ export default function Header() {
                   className="px-3 py-4 text-[11px] font-semibold hover:text-red-500 transition-colors flex items-center tracking-wide whitespace-nowrap"
                   aria-haspopup={item.dropdown ? 'true' : undefined}
                   aria-expanded={item.dropdown ? activeDropdown === item.label : undefined}
+                  aria-current={isCurrentPage(pathname, item.href) ? 'page' : undefined}
                   onClick={handleLinkClick}
+                  onKeyDown={(e) => handleTriggerKeyDown(e, item)}
                 >
                   {item.label}
                   {item.dropdown && (
@@ -140,13 +199,15 @@ export default function Header() {
                     className={`dropdown-content absolute left-0 top-full bg-[#1a1a1a] min-w-[220px] py-2 shadow-lg border-t border-red-600 ${activeDropdown === item.label ? 'dropdown-open' : ''}`}
                     role="menu"
                     aria-label={`${item.label} submenu`}
+                    onKeyDown={(e) => handleMenuKeyDown(e, item.label, item.dropdown!.length)}
                   >
-                    {item.dropdown.map((subItem) => (
+                    {item.dropdown.map((subItem, index) => (
                       <Link
                         key={subItem.label}
                         href={subItem.href}
                         className="block px-4 py-2 text-xs hover:bg-[#2a2a2a] hover:text-red-500 transition-colors"
                         role="menuitem"
+                        ref={(el) => setMenuItemRef(item.label, index, el)}
                         onClick={handleLinkClick}
                       >
                         {subItem.label}
@@ -159,6 +220,7 @@ export default function Header() {
             <Link
               href="/donate"
               className="ml-2 px-6 py-4 bg-red-700 text-white text-xs font-bold hover:bg-red-800 transition-colors tracking-wide"
+              aria-current={pathname === '/donate' ? 'page' : undefined}
             >
               DONATE
             </Link>

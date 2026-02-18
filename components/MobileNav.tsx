@@ -57,7 +57,7 @@ export default function MobileNav({ isOpen, onClose, navItems }: MobileNavProps)
   if (!isOpen) return null;
 
   return (
-    <FocusTrap focusTrapOptions={{ initialFocus: false, allowOutsideClick: true, escapeDeactivates: false }}>
+    <FocusTrap focusTrapOptions={{ initialFocus: false, allowOutsideClick: true, escapeDeactivates: true }}>
       <div>
       {/* Overlay */}
       <div

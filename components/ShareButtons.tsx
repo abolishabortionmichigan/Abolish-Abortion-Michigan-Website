@@ -25,20 +25,7 @@ export default function ShareButtons({
 
   const handleCopyLink = async () => {
     try {
-      if (navigator.clipboard && window.isSecureContext) {
-        await navigator.clipboard.writeText(shareUrl);
-      } else {
-        // Fallback for non-secure contexts
-        const textarea = document.createElement('textarea');
-        textarea.value = shareUrl;
-        textarea.style.position = 'fixed';
-        textarea.style.opacity = '0';
-        document.body.appendChild(textarea);
-        textarea.focus();
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
-      }
+      await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -55,7 +42,7 @@ export default function ShareButtons({
           href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#1877F2] text-white hover:opacity-80 transition-opacity"
+          className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-[#1877F2] text-white hover:opacity-80 transition-opacity"
           aria-label="Share on Facebook"
         >
           <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -68,7 +55,7 @@ export default function ShareButtons({
           href={`https://x.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-black text-white hover:opacity-80 transition-opacity"
+          className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-black text-white hover:opacity-80 transition-opacity"
           aria-label="Share on X"
         >
           <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -79,7 +66,7 @@ export default function ShareButtons({
         {/* Email */}
         <a
           href={`mailto:?subject=${encodedTitle}&body=${encodedDescription}%0A%0A${encodedUrl}`}
-          className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-600 text-white hover:opacity-80 transition-opacity"
+          className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-gray-600 text-white hover:opacity-80 transition-opacity"
           aria-label="Share via email"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
@@ -90,7 +77,7 @@ export default function ShareButtons({
         {/* Copy Link */}
         <button
           onClick={handleCopyLink}
-          className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors"
+          className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors"
           aria-label={copied ? 'Link copied!' : 'Copy link'}
         >
           {copied ? (

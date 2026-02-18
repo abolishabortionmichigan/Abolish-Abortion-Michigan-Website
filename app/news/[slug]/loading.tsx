@@ -1,3 +1,5 @@
+const widths = [90, 100, 75, 95, 85, 100, 80, 88];
+
 export default function Loading() {
   return (
     <>
@@ -12,11 +14,11 @@ export default function Loading() {
       {/* Content skeleton */}
       <section className="bg-white py-12">
         <div className="max-w-3xl mx-auto px-4 space-y-4">
-          {Array.from({ length: 8 }).map((_, i) => (
+          {widths.map((w, i) => (
             <div
               key={i}
               className="h-4 bg-gray-200 rounded animate-pulse"
-              style={{ width: `${75 + Math.random() * 25}%` }}
+              style={{ width: `${w}%` }}
             />
           ))}
         </div>

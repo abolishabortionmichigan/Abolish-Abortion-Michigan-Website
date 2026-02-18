@@ -87,6 +87,19 @@ html {
   transform: translateY(0);
 }
 
+/* Global focus indicator for keyboard navigation */
+:focus-visible {
+  outline: 2px solid #dc2626;
+  outline-offset: 2px;
+}
+
+/* Dropdown reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .dropdown-content {
+    transition: none;
+  }
+}
+
 /* FAQ section anchor offset for sticky header */
 .faq-section {
   scroll-margin-top: 100px;

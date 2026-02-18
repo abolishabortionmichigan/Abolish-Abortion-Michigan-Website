@@ -92,7 +92,7 @@ export default async function MediaPage() {
               <p className="text-gray-700 mb-4">
                 Materials to help your church speak out for the preborn, including sermon outlines and bulletin inserts.
               </p>
-              <span className="text-gray-400">Coming Soon</span>
+              <span className="text-gray-500">Coming Soon</span>
             </div>
 
             <div className="border border-gray-200 p-6 rounded-lg">
@@ -100,7 +100,7 @@ export default async function MediaPage() {
               <p className="text-gray-700 mb-4">
                 Flyers, brochures, and signs for outreach and awareness events.
               </p>
-              <span className="text-gray-400">Coming Soon</span>
+              <span className="text-gray-500">Coming Soon</span>
             </div>
 
             <div className="border border-gray-200 p-6 rounded-lg">
@@ -108,7 +108,7 @@ export default async function MediaPage() {
               <p className="text-gray-700 mb-4">
                 Share-ready images and graphics for your social media platforms.
               </p>
-              <span className="text-gray-400">Coming Soon</span>
+              <span className="text-gray-500">Coming Soon</span>
             </div>
 
             <div className="border border-gray-200 p-6 rounded-lg">
@@ -116,7 +116,7 @@ export default async function MediaPage() {
               <p className="text-gray-700 mb-4">
                 Information about abortion, abolition, and how to engage in conversations on these topics.
               </p>
-              <span className="text-gray-400">Coming Soon</span>
+              <span className="text-gray-500">Coming Soon</span>
             </div>
           </div>
         </div>

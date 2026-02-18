@@ -67,7 +67,7 @@ export default function GospelPage() {
               </Link>
             </div>
 
-            <p className="text-sm text-gray-400 italic">
+            <p className="text-sm text-gray-500 italic">
               This content was originally published by Abolish Abortion California, and is used by permission. Abolish Abortion Michigan is not formally affiliated with Abolish Abortion California, but shares its abolitionist mission and principles.
             </p>
           </div>

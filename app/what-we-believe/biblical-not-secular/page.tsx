@@ -89,7 +89,7 @@ export default function BiblicalNotSecularPage() {
               </Link>
             </div>
 
-            <p className="text-sm text-gray-400 italic">
+            <p className="text-sm text-gray-500 italic">
               This content was originally published by <a href="https://freethestates.org/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Free the States</a>, and is used by permission. Abolish Abortion Michigan is not formally affiliated with <a href="https://freethestates.org/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Free the States</a>, but shares its abolitionist mission and principles.
             </p>
           </div>
