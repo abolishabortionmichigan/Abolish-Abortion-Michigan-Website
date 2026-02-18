@@ -112,6 +112,7 @@ Check the GitHub repo for:
 - [ ] `app/news/[slug]/loading.tsx` -- is Math.random() replaced with a deterministic array?
 - [ ] Do `app/what-we-believe/loading.tsx` and `app/the-gospel/loading.tsx` exist?
 - [ ] Does the homepage use ISR (`export const revalidate = 300`)?
+- [ ] Does `app/media/page.tsx` use ISR (`export const revalidate = 300`) instead of `force-dynamic`?
 
 ---
 
@@ -205,4 +206,5 @@ For reference, the previous audit found these as the only remaining nice-to-have
 - Missing COOP/CORP headers (very minor)
 - CSP uses 'unsafe-inline' instead of nonces (complex with Next.js)
 - In-memory rate limiter resets on cold starts (adequate for current traffic)
-- Media page is 1.5s vs 300ms for other pages (dynamic DB query)
+
+Note: The media page was previously slow (1.5s) due to `force-dynamic`, but has been fixed with ISR (`revalidate = 300`) and should now load in ~300ms like other pages. Verify this is the case.

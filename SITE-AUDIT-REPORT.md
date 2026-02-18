@@ -106,14 +106,14 @@
 | Metric | Result | Status |
 |---|---|---|
 | Page load times (TTFB+transfer) | 232ms-370ms for all static pages | PASS |
-| Media page load | 1.5s (dynamic DB query for gallery) | WARNING (minor) |
+| Media page load | ISR with 5min revalidation (was 1.5s with force-dynamic, now cached) | PASS |
 | HTML sizes | 45-67KB typical, FAQ 117KB (19 items, acceptable) | PASS |
 | Static asset caching | `Cache-Control: public, max-age=31536000, immutable` on JS/CSS chunks | PASS |
 | Page caching | `x-vercel-cache: HIT`, ETags present | PASS |
 | Compression | Content served via Vercel CDN (brotli/gzip) | PASS |
 | Image optimization | AVIF/WebP formats configured, proper deviceSizes/imageSizes | PASS |
 | JS code splitting | Turbopack code splitting with content-hashed chunk names | PASS |
-| ISR/SSG | Homepage: 5min revalidation. All content pages: fully static (SSG) | PASS |
+| ISR/SSG | Homepage + Media: 5min revalidation. All other content pages: fully static (SSG) | PASS |
 | Loading skeletons | Present for /, /news, /media, /the-petition, /what-we-believe, /the-gospel, /news/[slug] | PASS |
 | No Math.random() in SSR | loading.tsx uses deterministic widths array | PASS |
 | Tree shaking | `optimizePackageImports: ['lucide-react']` in next.config.ts | PASS |
@@ -252,7 +252,6 @@ These are optional enhancements, not issues:
 1. **Add COOP/CORP headers** -- `Cross-Origin-Opener-Policy: same-origin` and `Cross-Origin-Resource-Policy: same-origin` in vercel.json for additional Spectre isolation
 2. **CSP nonces** -- Replace `'unsafe-inline'` in script-src with nonces (complex with Next.js, very low risk as-is)
 3. **Persistent rate limiter** -- Current in-memory rate limiter resets on serverless cold starts; Upstash Redis would be more robust (adequate for current traffic)
-4. **Media page caching** -- Add ISR revalidation to reduce 1.5s load time from dynamic DB query
 
 ---
 
