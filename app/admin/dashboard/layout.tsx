@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter, usePathname } from 'next/navigation';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useLayoutEffect, useState } from 'react';
 import { useUserStore } from '@/store/use-user';
 import { checkAuthStatus } from '@/lib/actions/auth-actions';
 import { Loader2 } from 'lucide-react';
@@ -43,6 +43,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     doCheck();
   }, []);
 
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   if (isCheckingAuth) {
     return (
