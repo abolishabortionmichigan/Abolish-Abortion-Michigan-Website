@@ -287,7 +287,7 @@ export default function GalleryManagementPage() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => { setCurrentPage((p) => Math.max(1, p - 1)); setSelectedIds(new Set()); }}
+              onClick={() => { setCurrentPage((p) => Math.max(1, p - 1)); setSelectedIds(new Set()); const el = document.querySelector('[data-admin-scroll]'); if (el) el.scrollTop = 0; }}
               disabled={currentPage === 1}
             >
               Previous
@@ -298,7 +298,7 @@ export default function GalleryManagementPage() {
             <Button
               variant="outline"
               size="sm"
-              onClick={() => { setCurrentPage((p) => Math.min(Math.ceil(photos.length / itemsPerPage), p + 1)); setSelectedIds(new Set()); }}
+              onClick={() => { setCurrentPage((p) => Math.min(Math.ceil(photos.length / itemsPerPage), p + 1)); setSelectedIds(new Set()); const el = document.querySelector('[data-admin-scroll]'); if (el) el.scrollTop = 0; }}
               disabled={currentPage === Math.ceil(photos.length / itemsPerPage)}
             >
               Next
