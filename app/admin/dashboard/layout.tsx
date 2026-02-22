@@ -68,7 +68,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       <AppSidebar />
       <div className="flex-1 overflow-hidden flex flex-col">
         <AppHeader />
-        <div ref={scrollRef} className="flex-1 overflow-auto">
+        <div ref={scrollRef} data-admin-scroll className="flex-1 overflow-auto">
           <div className="max-w-7xl mx-auto p-4 md:p-6 min-h-[calc(100vh-200px)]">
             {children}
           </div>

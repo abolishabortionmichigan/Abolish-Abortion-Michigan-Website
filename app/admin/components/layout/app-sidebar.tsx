@@ -27,6 +27,12 @@ interface NavItemProps {
   onClick?: () => void;
 }
 
+const resetAdminScroll = () => {
+  window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+  const el = document.querySelector('[data-admin-scroll]') as HTMLElement | null;
+  if (el) el.scrollTop = 0;
+};
+
 const NavItem = ({ href, icon: Icon, label, isCollapsed, onClick }: NavItemProps) => {
   const pathname = usePathname();
   const isActive = pathname === href;
@@ -34,7 +40,7 @@ const NavItem = ({ href, icon: Icon, label, isCollapsed, onClick }: NavItemProps
   return (
     <Link
       href={href}
-      onClick={onClick}
+      onClick={() => { resetAdminScroll(); onClick?.(); }}
       className={cn(
         'flex items-center gap-3 rounded-md px-3 py-2 font-medium transition-colors',
         isActive
