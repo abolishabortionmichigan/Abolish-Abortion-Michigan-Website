@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://abolishabortionmichigan.com';
+
 const ALLOWED_ORIGINS = [
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://abolishabortionmichigan.com',
+  siteUrl,
+  // Support both www and non-www variants
+  siteUrl.includes('://www.') ? siteUrl.replace('://www.', '://') : siteUrl.replace('://', '://www.'),
   'http://localhost:3000',
   'http://localhost:3001',
 ];
