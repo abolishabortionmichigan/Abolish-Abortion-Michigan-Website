@@ -1,6 +1,9 @@
+import { readFile } from 'fs/promises';
+import { join } from 'path';
 import { ImageResponse } from 'next/og';
 import { getNewsArticleBySlug } from '@/lib/data/news-store';
 
+export const runtime = 'nodejs';
 export const alt = 'Abolish Abortion Michigan';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
@@ -18,6 +21,9 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
       })
     : '';
 
+  const logoData = await readFile(join(process.cwd(), 'public/images/aa-logo.png'));
+  const logoBase64 = `data:image/png;base64,${logoData.toString('base64')}`;
+
   return new ImageResponse(
     (
       <div
@@ -29,22 +35,35 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
           flexDirection: 'column',
           justifyContent: 'space-between',
           padding: '60px',
+          position: 'relative',
+          overflow: 'hidden',
         }}
       >
-        {/* Top: Branding */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div
-            style={{
-              width: '8px',
-              height: '32px',
-              background: '#dc2626',
-              borderRadius: '4px',
-            }}
+        {/* Top red accent line */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '5px',
+            background: '#dc2626',
+            display: 'flex',
+          }}
+        />
+
+        {/* Top: Logo + Branding */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <img
+            src={logoBase64}
+            width={36}
+            height={44}
+            style={{ filter: 'invert(1)' }}
           />
           <span
             style={{
               color: '#9ca3af',
-              fontSize: '24px',
+              fontSize: '22px',
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
             }}
@@ -70,10 +89,6 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
               fontWeight: 700,
               lineHeight: 1.2,
               margin: 0,
-              display: '-webkit-box',
-              WebkitLineClamp: 3,
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
             }}
           >
             {title}

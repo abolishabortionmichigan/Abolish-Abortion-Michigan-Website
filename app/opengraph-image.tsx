@@ -1,11 +1,16 @@
 import { ImageResponse } from 'next/og';
+import { readFile } from 'fs/promises';
+import { join } from 'path';
 
-export const runtime = 'edge';
-export const alt = 'Abolish Abortion Michigan';
+export const runtime = 'nodejs';
+export const alt = 'Abolish Abortion Michigan — Equal Protection for the Preborn';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
-export default function Image() {
+export default async function Image() {
+  const logoData = await readFile(join(process.cwd(), 'public/images/aa-logo.png'));
+  const logoBase64 = `data:image/png;base64,${logoData.toString('base64')}`;
+
   return new ImageResponse(
     (
       <div
@@ -14,62 +19,153 @@ export default function Image() {
           width: '100%',
           height: '100%',
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '60px',
+          position: 'relative',
+          overflow: 'hidden',
         }}
       >
+        {/* Subtle diagonal accent */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            width: '400px',
+            height: '100%',
+            background: 'linear-gradient(135deg, transparent 0%, rgba(220,38,38,0.08) 100%)',
+            display: 'flex',
+          }}
+        />
+
+        {/* Top red accent line */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '5px',
+            background: '#dc2626',
+            display: 'flex',
+          }}
+        />
+
+        {/* Main content */}
         <div
           style={{
             display: 'flex',
-            flexDirection: 'column',
             alignItems: 'center',
-            gap: '24px',
+            width: '100%',
+            height: '100%',
+            padding: '60px 80px',
+            gap: '60px',
           }}
         >
-          <h1
-            style={{
-              color: 'white',
-              fontSize: '72px',
-              fontWeight: 900,
-              textAlign: 'center',
-              lineHeight: 1.1,
-              margin: 0,
-            }}
-          >
-            ABOLISH ABORTION
-          </h1>
+          {/* Logo */}
           <div
             style={{
-              width: '80px',
-              height: '4px',
-              background: '#dc2626',
-            }}
-          />
-          <h2
-            style={{
-              color: '#dc2626',
-              fontSize: '48px',
-              fontWeight: 700,
-              textAlign: 'center',
-              margin: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
             }}
           >
-            MICHIGAN
-          </h2>
-          <p
+            <img
+              src={logoBase64}
+              width={180}
+              height={222}
+              style={{ filter: 'invert(1)' }}
+            />
+          </div>
+
+          {/* Text content */}
+          <div
             style={{
-              color: '#9ca3af',
-              fontSize: '24px',
-              textAlign: 'center',
-              marginTop: '16px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '16px',
+              flex: 1,
+            }}
+          >
+            <div
+              style={{
+                color: 'white',
+                fontSize: '56px',
+                fontWeight: 900,
+                lineHeight: 1.05,
+                letterSpacing: '-0.02em',
+              }}
+            >
+              ABOLISH
+            </div>
+            <div
+              style={{
+                color: 'white',
+                fontSize: '56px',
+                fontWeight: 900,
+                lineHeight: 1.05,
+                letterSpacing: '-0.02em',
+              }}
+            >
+              ABORTION
+            </div>
+            <div
+              style={{
+                color: '#dc2626',
+                fontSize: '56px',
+                fontWeight: 900,
+                lineHeight: 1.05,
+                letterSpacing: '-0.02em',
+              }}
+            >
+              MICHIGAN
+            </div>
+
+            <div
+              style={{
+                width: '60px',
+                height: '3px',
+                background: '#dc2626',
+                marginTop: '8px',
+              }}
+            />
+
+            <div
+              style={{
+                color: '#9ca3af',
+                fontSize: '20px',
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                marginTop: '4px',
+              }}
+            >
+              Equal Protection for the Preborn
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom URL bar */}
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: '48px',
+            background: 'rgba(0,0,0,0.4)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <div
+            style={{
+              color: '#6b7280',
+              fontSize: '16px',
               letterSpacing: '0.15em',
-              textTransform: 'uppercase',
             }}
           >
-            Immediate and Total Abolition
-          </p>
+            abolishabortionmichigan.com
+          </div>
         </div>
       </div>
     ),
