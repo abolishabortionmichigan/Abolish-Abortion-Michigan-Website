@@ -4,7 +4,7 @@ import CTABanner from '@/components/CTABanner';
 import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Components of an Abolition Bill - Abolish Abortion Michigan',
+  title: 'Components of an Abolition Bill',
   description: 'Key differences between abolitionist and pro-life legislation. Learn the five essential components of a bill that truly abolishes abortion.',
 };
 

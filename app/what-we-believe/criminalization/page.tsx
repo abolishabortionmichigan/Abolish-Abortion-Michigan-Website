@@ -4,7 +4,7 @@ import CTABanner from '@/components/CTABanner';
 import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Criminalizing Abortion - Abolish Abortion Michigan',
+  title: 'Criminalizing Abortion',
   description: 'Establishing justice for the preborn requires criminalization. If abortion is murder, it ought to be treated as such.',
 };
 

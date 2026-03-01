@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Current Abolition Bills - Abolish Abortion Michigan',
+  title: 'Current Abolition Bills',
   description: 'View current abolition bills being supported across the United States.',
 };
 

@@ -4,7 +4,7 @@ import CTABanner from '@/components/CTABanner';
 import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'No Exceptions - Abolish Abortion Michigan',
+  title: 'No Exceptions',
   description: 'Abortion is murder, always and everywhere. We demand no exceptions - no compromise on the dehumanization of the preborn.',
 };
 

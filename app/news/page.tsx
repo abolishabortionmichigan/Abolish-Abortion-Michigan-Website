@@ -4,7 +4,7 @@ import { getAllNewsArticles } from '@/lib/data/news-store';
 import NewsSearch from './news-search';
 
 export const metadata: Metadata = {
-  title: 'News - Abolish Abortion Michigan',
+  title: 'News',
   description: 'Latest news and updates from Abolish Abortion Michigan.',
 };
 

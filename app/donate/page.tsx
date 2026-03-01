@@ -3,7 +3,7 @@ import Link from 'next/link';
 import CTABanner from '@/components/CTABanner';
 
 export const metadata: Metadata = {
-  title: 'Donate - Abolish Abortion Michigan',
+  title: 'Donate',
   description: 'Support the work of Abolish Abortion Michigan through your generous donation.',
 };
 

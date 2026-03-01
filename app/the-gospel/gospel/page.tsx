@@ -4,7 +4,7 @@ import CTABanner from '@/components/CTABanner';
 import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'The Gospel - Abolish Abortion Michigan',
+  title: 'The Gospel',
   description: 'The Gospel is the power of God for salvation to everyone who believes. Romans 1:16.',
 };
 

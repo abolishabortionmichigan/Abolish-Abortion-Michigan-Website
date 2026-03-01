@@ -4,7 +4,7 @@ import { faqItems } from '@/lib/content';
 import { sanitizeHtml } from '@/lib/sanitize';
 
 export const metadata: Metadata = {
-  title: 'FAQ - Abolish Abortion Michigan',
+  title: 'FAQ',
   description: 'Frequently asked questions about abortion abolition, pro-life arguments, and common objections answered.',
 };
 

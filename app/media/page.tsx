@@ -4,7 +4,7 @@ import CTABanner from '@/components/CTABanner';
 import { getAllGalleryPhotos } from '@/lib/data/gallery-store';
 
 export const metadata: Metadata = {
-  title: 'Media - Abolish Abortion Michigan',
+  title: 'Media',
   description: 'Photos, videos, and resources from Abolish Abortion Michigan events and activism.',
 };
 

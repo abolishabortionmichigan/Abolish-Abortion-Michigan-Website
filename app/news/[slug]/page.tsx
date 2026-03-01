@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `${article.title} - Abolish Abortion Michigan`,
+    title: `${article.title}`,
     description: article.excerpt,
     openGraph: {
       title: article.title,

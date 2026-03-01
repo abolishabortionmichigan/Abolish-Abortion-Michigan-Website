@@ -7,7 +7,7 @@ import { statistics } from '@/lib/content';
 import { getAllNewsArticles } from '@/lib/data/news-store';
 
 export const metadata: Metadata = {
-  title: 'Abolish Abortion Michigan - Equal Protection for the Preborn',
+  title: 'Equal Protection for the Preborn',
   description: 'Abolitionists in Michigan devoted to establishing justice and equal protection for our preborn neighbors. Join the movement to abolish abortion.',
 };
 

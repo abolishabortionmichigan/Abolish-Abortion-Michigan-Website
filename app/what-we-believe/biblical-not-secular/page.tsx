@@ -4,7 +4,7 @@ import CTABanner from '@/components/CTABanner';
 import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Biblical, Not Secular - Abolish Abortion Michigan',
+  title: 'Biblical, Not Secular',
   description: 'Our opposition to abortion is grounded in biblical principles, not secular arguments. The duty is ours, the results belong to God.',
 };
 

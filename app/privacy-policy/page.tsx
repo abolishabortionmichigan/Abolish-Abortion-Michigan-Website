@@ -3,7 +3,7 @@ import Link from 'next/link';
 import CTABanner from '@/components/CTABanner';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy - Abolish Abortion Michigan',
+  title: 'Privacy Policy',
   description: 'Privacy policy for the Abolish Abortion Michigan website.',
 };
 

@@ -4,7 +4,7 @@ import CTABanner from '@/components/CTABanner';
 import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'The Incarnation - Abolish Abortion Michigan',
+  title: 'The Incarnation',
   description: 'The Word became flesh and dwelt among us. The Son of God appeared to destroy the works of the devil.',
 };
 

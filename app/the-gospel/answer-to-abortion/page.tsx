@@ -4,7 +4,7 @@ import CTABanner from '@/components/CTABanner';
 import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'The Answer to Abortion - Abolish Abortion Michigan',
+  title: 'The Answer to Abortion',
   description: 'The Gospel of Jesus Christ is the answer to abortion and the key to abolition.',
 };
 

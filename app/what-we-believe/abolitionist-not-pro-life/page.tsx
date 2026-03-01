@@ -4,7 +4,7 @@ import CTABanner from '@/components/CTABanner';
 import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Abolitionist, Not Pro-Life - Abolish Abortion Michigan',
+  title: 'Abolitionist, Not Pro-Life',
   description: 'Being pro-life is not the same as seeking to abolish abortion. Learn the difference between abolitionism and the pro-life movement.',
 };
 

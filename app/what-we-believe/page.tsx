@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import CTABanner from '@/components/CTABanner';
 
 export const metadata: Metadata = {
-  title: 'What We Believe - Abolish Abortion Michigan',
+  title: 'What We Believe',
   description: 'Our statement of faith and beliefs about abortion, abolition, and the sanctity of human life.',
 };
 

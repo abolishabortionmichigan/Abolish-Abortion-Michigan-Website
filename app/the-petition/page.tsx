@@ -5,7 +5,7 @@ import ShareButtons from '@/components/ShareButtons';
 import SignatureCount from '@/components/SignatureCount';
 
 export const metadata: Metadata = {
-  title: 'The Petition - Abolish Abortion Michigan',
+  title: 'The Petition',
   description: 'Sign the petition calling for the immediate abolition of abortion in Michigan.',
 };
 
