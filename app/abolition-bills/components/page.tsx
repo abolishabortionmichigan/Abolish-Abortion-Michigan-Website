@@ -37,16 +37,16 @@ export default function ComponentsOfAbolitionBillPage() {
               className="w-full my-8 rounded-lg"
             />
 
-            <h3 className="text-xl font-bold mt-8 mb-4">1) Abolition Bills Outlaw Abortion from Conception</h3>
+            <h3 className="text-xl font-bold mt-8 mb-4">1) Abolition Bills Outlaw Abortion from Fertilization</h3>
 
             <p>
-              First and foremost, an abolition bill establishes that there is no right to murder a preborn human being at any point. An abolition bill does not regulate which preborn human beings are old enough to be protected by law &ndash; it outlaws abortion itself. Any law regarding the legality of abortion which fails to outlaw the murder of preborn human beings from conception legitimizes the murder of some children and is therefore iniquitous and entirely unacceptable.
+              First and foremost, an abolition bill establishes that there is no right to murder a preborn human being at any point. An abolition bill does not regulate which preborn human beings are old enough to be protected by law &ndash; it outlaws abortion itself. Any law regarding the legality of abortion which fails to outlaw the murder of preborn human beings from fertilization legitimizes the murder of some children and is therefore iniquitous and entirely unacceptable.
             </p>
 
             <h3 className="text-xl font-bold mt-8 mb-4">2) Abolition Bills Do Not Include Any Exceptions for Abortion</h3>
 
             <p>
-              An abolition bill does not leave any preborn humans unprotected by law, unlike many pro-life bills which include exceptions allowing for abortion; for instance, in the case of rape. Isaiah 10 says &ldquo;Woe to those who make iniquitous decrees&rdquo; which &ldquo;make the fatherless prey.&rdquo; There&apos;s no one more fatherless than the child conceived in rape. It&apos;s unacceptable to allow for the murder of a baby because of the crime of the father. On top of being iniquitous, allowances for abortion in certain scenarios undermines the whole case against abortion. If abortion is murder, it doesn&apos;t stop being murder because of the circumstances of the baby&apos;s conception. More info about the importance of allowing for no exceptions can be found <Link href="/what-we-believe/no-exceptions" className="text-red-600 hover:underline">here</Link>.
+              An abolition bill does not leave any preborn humans unprotected by law, unlike many pro-life bills which include exceptions allowing for abortion; for instance, in the case of rape. Isaiah 10 says &ldquo;Woe to those who make iniquitous decrees&rdquo; which &ldquo;make the fatherless prey.&rdquo; There&apos;s no one more fatherless than the child conceived in rape. It&apos;s unacceptable to allow for the murder of a baby because of the crime of the father. On top of being iniquitous, allowances for abortion in certain scenarios undermines the whole case against abortion. If abortion is murder, it doesn&apos;t stop being murder because of the circumstances of the baby&apos;s fertilization. More info about the importance of allowing for no exceptions can be found <Link href="/what-we-believe/no-exceptions" className="text-red-600 hover:underline">here</Link>.
             </p>
 
             <h3 className="text-xl font-bold mt-8 mb-4">3) Abolition Bills Criminalize Abortion Itself and Establish Equal Justice for the Preborn</h3>

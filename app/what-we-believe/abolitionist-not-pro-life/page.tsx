@@ -85,7 +85,7 @@ export default function AbolitionistNotProLifePage() {
             <h3 className="text-xl font-bold mt-8 mb-4">Two Examples</h3>
 
             <p>
-              <a href="https://freethestates.org/" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Free the States</a>&apos; James Silberman met with the office of Ohio State Senator Andrew Brenner in April 2019. James explained to Brenner&apos;s aide the importance of introducing and passing a bill that nullifies Roe and treats abortion like murder from the moment of conception. At the end of James&apos; presentation, Brenner&apos;s aide said, &ldquo;This was very interesting, but it&apos;s Senator Brenner personal religious conviction that life begins at a heartbeat.&rdquo; Where did Senator Brenner learn that unbiblical, unscientific, dehumanizing nonsense? He learned it from the Heartbeat Bill which had just passed in Ohio a few months earlier.
+              <a href="https://freethestates.org/" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Free the States</a>&apos; James Silberman met with the office of Ohio State Senator Andrew Brenner in April 2019. James explained to Brenner&apos;s aide the importance of introducing and passing a bill that nullifies Roe and treats abortion like murder from the moment of fertilization. At the end of James&apos; presentation, Brenner&apos;s aide said, &ldquo;This was very interesting, but it&apos;s Senator Brenner personal religious conviction that life begins at a heartbeat.&rdquo; Where did Senator Brenner learn that unbiblical, unscientific, dehumanizing nonsense? He learned it from the Heartbeat Bill which had just passed in Ohio a few months earlier.
             </p>
 
             <p>

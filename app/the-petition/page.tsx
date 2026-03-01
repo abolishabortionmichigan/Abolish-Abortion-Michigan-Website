@@ -33,7 +33,7 @@ export default function ThePetitionPage() {
 
             <div className="prose prose-lg max-w-none text-gray-700">
               <p className="mb-4">
-                <strong>WHEREAS,</strong> all human beings are created in the image of God and possess inherent dignity and worth from the moment of conception;
+                <strong>WHEREAS,</strong> all human beings are created in the image of God and possess inherent dignity and worth from the moment of fertilization;
               </p>
               <p className="mb-4">
                 <strong>WHEREAS,</strong> the intentional killing of an innocent human being is murder, regardless of age, location, or stage of development;
@@ -53,7 +53,7 @@ export default function ThePetitionPage() {
               <ol className="list-decimal pl-6 space-y-2 mb-6">
                 <li>Defines abortion as the intentional killing of a preborn human being</li>
                 <li>Criminalizes abortion as murder, with appropriate penalties</li>
-                <li>Provides equal protection under the law for all human beings from the moment of conception</li>
+                <li>Provides equal protection under the law for all human beings from the moment of fertilization</li>
                 <li>Contains no exceptions for rape, incest, or any other circumstance</li>
                 <li>Declares null and void any federal law, regulation, or court opinion that purports to permit abortion</li>
               </ol>

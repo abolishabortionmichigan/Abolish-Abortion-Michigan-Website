@@ -32,7 +32,7 @@ export default function NonViolenceStatementPage() {
             </p>
 
             <p className="text-gray-700 mb-6">
-              We believe that human life is sacred from conception to natural death. This conviction applies to all human beings—including abortionists, abortion clinic workers, and all others involved in the abortion industry. They, too, bear the image of God and are loved by Him.
+              We believe that human life is sacred from fertilization to natural death. This conviction applies to all human beings—including abortionists, abortion clinic workers, and all others involved in the abortion industry. They, too, bear the image of God and are loved by Him.
             </p>
 
             <h3 className="text-xl font-bold mt-8 mb-4">We Affirm:</h3>

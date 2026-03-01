@@ -116,7 +116,7 @@ export default async function HomePage() {
             Abortion is the murder, the sacrifice, of tiny neighbors who have not yet been born. This great atrocity must be abolished.
           </p>
           <p className="text-lg text-gray-700 leading-relaxed">
-            We believe that every human being bears the image of God from the moment of conception and deserves equal protection under the law. We call upon the State of Michigan to recognize the God-given right to life for all human beings and to abolish the practice of abortion entirely.
+            We believe that every human being bears the image of God from the moment of fertilization and deserves equal protection under the law. We call upon the State of Michigan to recognize the God-given right to life for all human beings and to abolish the practice of abortion entirely.
           </p>
         </div>
       </section>
@@ -148,7 +148,7 @@ export default async function HomePage() {
               <ul className="space-y-4">
                 <li className="flex items-start">
                   <svg className="w-5 h-5 text-red-700 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
-                  <span>Human life begins at conception</span>
+                  <span>Human life begins at fertilization</span>
                 </li>
                 <li className="flex items-start">
                   <svg className="w-5 h-5 text-red-700 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>

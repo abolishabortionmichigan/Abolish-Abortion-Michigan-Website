@@ -27,10 +27,10 @@ export const statistics = {
 // FAQ items with full content from screenshots
 export const faqItems = [
   {
-    id: 'human-life-conception',
-    title: 'Does the Life of a Human Being Begin at Conception?',
+    id: 'human-life-fertilization',
+    title: 'Does the Life of a Human Being Begin at Fertilization?',
     content: `
-      <p>According to the God who created the universe and all humanity, humans are a unique kind of creation. He has explicitly stated that murder is evil at any age. He Himself took on human flesh and was knit together in His mother's womb from conception (Psalm 139:13-16, Luke 1:31).</p>
+      <p>According to the God who created the universe and all humanity, humans are a unique kind of creation. He has explicitly stated that murder is evil at any age. He Himself took on human flesh and was knit together in His mother's womb from fertilization (Psalm 139:13-16, Luke 1:31).</p>
       <p>Scientific consensus affirms this:</p>
       <ul class="list-disc pl-6 space-y-2">
         <li>At fertilization, a new, genetically distinct human organism comes into existence</li>
@@ -48,7 +48,7 @@ export const faqItems = [
       <p>Response:</p>
       <ol class="list-decimal pl-6 space-y-2">
         <li>Every human being is a "clump of cells." This description applies equally to adults.</li>
-        <li>The unborn child has unique human DNA from the moment of conception.</li>
+        <li>The unborn child has unique human DNA from the moment of fertilization.</li>
         <li>The unborn child has a heartbeat as early as 6 weeks.</li>
         <li>The unborn child can feel pain and responds to stimuli.</li>
       </ol>
@@ -83,7 +83,7 @@ export const faqItems = [
         <li>Many women who have abortions after rape report additional trauma, not healing.</li>
         <li>We should punish rapists, not innocent children.</li>
       </ol>
-      <p class="mt-4"><span class="text-highlight">The circumstances of conception do not determine a person's value or right to life.</span></p>
+      <p class="mt-4"><span class="text-highlight">The circumstances of fertilization do not determine a person's value or right to life.</span></p>
     `,
   },
   {
@@ -231,7 +231,7 @@ export const faqItems = [
         <li>Incremental bills concede that some babies can be legally killed.</li>
         <li>A heartbeat bill says it's OK to kill a baby before the heartbeat. A 20-week ban says it's OK to kill a baby before 20 weeks.</li>
         <li>These bills have not worked. After 50 years of incrementalism, abortion is still legal.</li>
-        <li>Abolition is the only strategy that treats all human beings equally from conception.</li>
+        <li>Abolition is the only strategy that treats all human beings equally from fertilization.</li>
         <li>Would we have accepted incremental abolition of slavery? "Only 3/5 of slaves can be freed this year"?</li>
       </ol>
       <p class="mt-4"><span class="text-highlight">Equal justice requires equal protection. We cannot negotiate away the right to life of any human being.</span></p>

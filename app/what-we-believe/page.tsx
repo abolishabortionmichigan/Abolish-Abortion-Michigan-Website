@@ -75,7 +75,7 @@ export default function WhatWeBelievePage() {
               <span className="text-red-600 font-semibold">We believe abortion is the intentional killing of an innocent human being</span> and is therefore murder, a grave sin against God and humanity.
             </p>
             <p>
-              We believe human life begins at conception, when a new human being with unique DNA comes into existence. From that moment, every human being bears the image of God and has inherent dignity and worth.
+              We believe human life begins at fertilization, when a new human being with unique DNA comes into existence. From that moment, every human being bears the image of God and has inherent dignity and worth.
             </p>
             <p>
               We believe there are no circumstances that justify the intentional killing of an innocent human being. This includes cases of rape, incest, disability, or any other circumstance.
@@ -108,7 +108,7 @@ export default function WhatWeBelievePage() {
             <ul className="list-disc pl-6 space-y-2">
               <li>Define abortion as the intentional killing of a preborn human being</li>
               <li>Criminalize abortion as murder, with no exceptions</li>
-              <li>Provide equal protection under the law for all human beings from conception</li>
+              <li>Provide equal protection under the law for all human beings from fertilization</li>
               <li>Nullify any federal law, regulation, or court opinion that permits abortion</li>
             </ul>
             <p className="mt-4">
