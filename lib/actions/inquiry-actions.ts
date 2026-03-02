@@ -120,7 +120,7 @@ export async function createInquiry(data: Omit<Inquiry, 'id' | 'status' | 'creat
     // Rate limit form submissions (10 per 15 min per IP)
     const hdrs = await headers();
     const ip = hdrs.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
-    const limit = checkRateLimit(`inquiry:${ip}`, 10);
+    const limit = await checkRateLimit(`inquiry:${ip}`, 10);
     if (!limit.allowed) {
       return { error: `Too many submissions. Try again in ${limit.retryAfterSeconds} seconds.` };
     }

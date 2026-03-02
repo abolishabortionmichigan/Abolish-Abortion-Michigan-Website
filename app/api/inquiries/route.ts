@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
   try {
     // Rate limit form submissions (10 per 15 min per IP)
     const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
-    const limit = checkRateLimit(`inquiry:${ip}`, 10);
+    const limit = await checkRateLimit(`inquiry:${ip}`, 10);
     if (!limit.allowed) {
       return NextResponse.json({ error: `Too many submissions. Try again in ${limit.retryAfterSeconds} seconds.` }, { status: 429 });
     }

@@ -59,7 +59,7 @@ export async function signPetition(data: {
     // Rate limit form submissions (10 per 15 min per IP)
     const hdrs = await headers();
     const ip = hdrs.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
-    const limit = checkRateLimit(`petition:${ip}`, 10);
+    const limit = await checkRateLimit(`petition:${ip}`, 10);
     if (!limit.allowed) {
       return { error: `Too many submissions. Try again in ${limit.retryAfterSeconds} seconds.` };
     }
@@ -161,7 +161,7 @@ export async function subscribeToNewsletter(data: {
     // Rate limit
     const hdrs = await headers();
     const ip = hdrs.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
-    const limit = checkRateLimit(`subscribe:${ip}`, 5);
+    const limit = await checkRateLimit(`subscribe:${ip}`, 5);
     if (!limit.allowed) {
       return { error: `Too many attempts. Try again in ${limit.retryAfterSeconds} seconds.` };
     }

@@ -29,7 +29,7 @@ async function getClientIp(): Promise<string> {
 
 export async function verifyAccessCode(code: string) {
   const ip = await getClientIp();
-  const limit = checkRateLimit(`access:${ip}`);
+  const limit = await checkRateLimit(`access:${ip}`);
   if (!limit.allowed) {
     return { valid: false, error: `Too many attempts. Try again in ${limit.retryAfterSeconds} seconds.` };
   }
@@ -74,7 +74,7 @@ export async function removeAuthToken() {
 export async function loginUser(email: string, password: string) {
   try {
     const ip = await getClientIp();
-    const limit = checkRateLimit(`login:${ip}`);
+    const limit = await checkRateLimit(`login:${ip}`);
     if (!limit.allowed) {
       return { error: `Too many login attempts. Try again in ${limit.retryAfterSeconds} seconds.` };
     }
