@@ -844,17 +844,28 @@ export const sendNewsletterEmail = async (article: ArticleData, subscriber: Subs
 };
 
 export const sendNewsletterToAll = async (article: ArticleData, subscribers: SubscriberData[]): Promise<{ sent: number; failed: number }> => {
+  if (!EMAIL_PASSWORD) {
+    return { sent: 0, failed: subscribers.length };
+  }
+
+  const transporter = createTransporter();
   let sent = 0;
   let failed = 0;
 
   for (const subscriber of subscribers) {
-    const result = await sendNewsletterEmail(article, subscriber);
-    if (result.success) {
+    try {
+      await transporter.sendMail({
+        from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
+        to: subscriber.email,
+        subject: sanitizeSubject(`New Article: ${article.title}`),
+        html: newsletterEmailHtml(article, subscriber),
+      });
       sent++;
-    } else {
+    } catch (error) {
+      console.error(`Error sending newsletter to ${subscriber.email}:`, error instanceof Error ? error.message : 'Unknown error');
       failed++;
     }
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 200));
   }
 
   return { sent, failed };
@@ -945,17 +956,28 @@ export const sendBroadcastEmail = async (subject: string, body: string, subscrib
 };
 
 export const sendBroadcastToAll = async (subject: string, body: string, subscribers: SubscriberData[]): Promise<{ sent: number; failed: number }> => {
+  if (!EMAIL_PASSWORD) {
+    return { sent: 0, failed: subscribers.length };
+  }
+
+  const transporter = createTransporter();
   let sent = 0;
   let failed = 0;
 
   for (const subscriber of subscribers) {
-    const result = await sendBroadcastEmail(subject, body, subscriber);
-    if (result.success) {
+    try {
+      await transporter.sendMail({
+        from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
+        to: subscriber.email,
+        subject: sanitizeSubject(subject),
+        html: broadcastEmailHtml(subject, body, subscriber),
+      });
       sent++;
-    } else {
+    } catch (error) {
+      console.error(`Error sending broadcast to ${subscriber.email}:`, error instanceof Error ? error.message : 'Unknown error');
       failed++;
     }
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 200));
   }
 
   return { sent, failed };
