@@ -50,9 +50,24 @@ const EMAIL_PASSWORD = process.env.EMAIL_PASSWORD;
 const EMAIL_HOST = process.env.EMAIL_HOST || 'smtp.gmail.com';
 const EMAIL_PORT = parseInt(process.env.EMAIL_PORT || '587', 10);
 
-// Create reusable transporter
+// Create transporter for single emails
 const createTransporter = () => {
   return nodemailer.createTransport({
+    host: EMAIL_HOST,
+    port: EMAIL_PORT,
+    secure: EMAIL_PORT === 465,
+    auth: {
+      user: EMAIL_USER,
+      pass: EMAIL_PASSWORD,
+    },
+  });
+};
+
+// Create pooled transporter for bulk sends — reuses one SMTP connection
+const createPooledTransporter = () => {
+  return nodemailer.createTransport({
+    pool: true,
+    maxConnections: 1,
     host: EMAIL_HOST,
     port: EMAIL_PORT,
     secure: EMAIL_PORT === 465,
@@ -848,24 +863,28 @@ export const sendNewsletterToAll = async (article: ArticleData, subscribers: Sub
     return { sent: 0, failed: subscribers.length };
   }
 
-  const transporter = createTransporter();
+  const transporter = createPooledTransporter();
   let sent = 0;
   let failed = 0;
 
-  for (const subscriber of subscribers) {
-    try {
-      await transporter.sendMail({
-        from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
-        to: subscriber.email,
-        subject: sanitizeSubject(`New Article: ${article.title}`),
-        html: newsletterEmailHtml(article, subscriber),
-      });
-      sent++;
-    } catch (error) {
-      console.error(`Error sending newsletter to ${subscriber.email}:`, error instanceof Error ? error.message : 'Unknown error');
-      failed++;
+  try {
+    for (const subscriber of subscribers) {
+      try {
+        await transporter.sendMail({
+          from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
+          to: subscriber.email,
+          subject: sanitizeSubject(`New Article: ${article.title}`),
+          html: newsletterEmailHtml(article, subscriber),
+        });
+        sent++;
+      } catch (error) {
+        console.error(`Error sending newsletter to ${subscriber.email}:`, error instanceof Error ? error.message : 'Unknown error');
+        failed++;
+      }
+      await new Promise((resolve) => setTimeout(resolve, 200));
     }
-    await new Promise((resolve) => setTimeout(resolve, 200));
+  } finally {
+    transporter.close();
   }
 
   return { sent, failed };
@@ -960,24 +979,28 @@ export const sendBroadcastToAll = async (subject: string, body: string, subscrib
     return { sent: 0, failed: subscribers.length };
   }
 
-  const transporter = createTransporter();
+  const transporter = createPooledTransporter();
   let sent = 0;
   let failed = 0;
 
-  for (const subscriber of subscribers) {
-    try {
-      await transporter.sendMail({
-        from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
-        to: subscriber.email,
-        subject: sanitizeSubject(subject),
-        html: broadcastEmailHtml(subject, body, subscriber),
-      });
-      sent++;
-    } catch (error) {
-      console.error(`Error sending broadcast to ${subscriber.email}:`, error instanceof Error ? error.message : 'Unknown error');
-      failed++;
+  try {
+    for (const subscriber of subscribers) {
+      try {
+        await transporter.sendMail({
+          from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
+          to: subscriber.email,
+          subject: sanitizeSubject(subject),
+          html: broadcastEmailHtml(subject, body, subscriber),
+        });
+        sent++;
+      } catch (error) {
+        console.error(`Error sending broadcast to ${subscriber.email}:`, error instanceof Error ? error.message : 'Unknown error');
+        failed++;
+      }
+      await new Promise((resolve) => setTimeout(resolve, 200));
     }
-    await new Promise((resolve) => setTimeout(resolve, 200));
+  } finally {
+    transporter.close();
   }
 
   return { sent, failed };
