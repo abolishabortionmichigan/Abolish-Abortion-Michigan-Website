@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useId } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -23,6 +23,7 @@ interface PinDialogProps {
 }
 
 export function PinDialog({ open, onOpenChange, title, description, onVerified, loading }: PinDialogProps) {
+  const inputId = useId();
   const [pin, setPin] = useState('');
   const [error, setError] = useState('');
   const [verifying, setVerifying] = useState(false);
@@ -81,12 +82,12 @@ export function PinDialog({ open, onOpenChange, title, description, onVerified, 
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="admin-pin" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor={inputId} className="block text-sm font-medium text-gray-700 mb-1">
               Enter 4-digit admin PIN
             </label>
             <input
               ref={inputRef}
-              id="admin-pin"
+              id={inputId}
               type="password"
               inputMode="numeric"
               maxLength={4}
