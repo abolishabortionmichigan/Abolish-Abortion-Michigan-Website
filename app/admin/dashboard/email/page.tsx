@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { PinDialog } from '@/components/ui/pin-dialog';
-import { Send, Users, AlertCircle, CheckCircle2, Bold, Italic, Link, Heading2, Pilcrow, List, ListOrdered, CornerDownLeft, Eye, PenLine } from 'lucide-react';
+import { Send, Users, AlertCircle, CheckCircle2, Bold, Italic, Link, Heading2, Pilcrow, List, ListOrdered, CornerDownLeft, Eye, PenLine, ImageIcon } from 'lucide-react';
 import { sendBroadcast } from '@/lib/actions/email-actions';
 import { getDashboardStats } from '@/lib/actions/dashboard-actions';
 import { sanitizeHtml } from '@/lib/sanitize';
@@ -123,6 +123,27 @@ export default function EmailBroadcastPage() {
         }
         break;
       }
+      case 'image': {
+        const imgUrl = window.prompt('Enter image URL:');
+        if (imgUrl) {
+          try {
+            const parsed = new URL(imgUrl);
+            if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
+              const alt = window.prompt('Enter alt text (description of image):', '') || '';
+              const width = window.prompt('Enter width in pixels (optional, e.g. 600):', '');
+              const safeUrl = imgUrl.replace(/"/g, '&quot;');
+              const safeAlt = alt.replace(/"/g, '&quot;');
+              const widthAttr = width && /^\d+$/.test(width) ? ` width="${width}"` : '';
+              insertTag(ta, `<img src="${safeUrl}" alt="${safeAlt}"${widthAttr} style="max-width:100%;height:auto;" />`, '', body, setBody);
+            } else {
+              alert('Only http and https URLs are allowed.');
+            }
+          } catch {
+            alert('Please enter a valid image URL (e.g. https://example.com/photo.jpg).');
+          }
+        }
+        break;
+      }
     }
   };
 
@@ -130,6 +151,7 @@ export default function EmailBroadcastPage() {
     { action: 'bold', icon: Bold, label: 'Bold' },
     { action: 'italic', icon: Italic, label: 'Italic' },
     { action: 'link', icon: Link, label: 'Link' },
+    { action: 'image', icon: ImageIcon, label: 'Image' },
     { action: 'heading', icon: Heading2, label: 'Heading' },
     { action: 'paragraph', icon: Pilcrow, label: 'Paragraph' },
     { action: 'ul', icon: List, label: 'Bullet List' },

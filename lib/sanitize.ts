@@ -28,7 +28,7 @@ export function sanitizeHtml(dirty: string): string {
     ],
     allowedAttributes: {
       'a': ['href', 'title', 'target', 'rel'],
-      'img': ['src', 'alt', 'title', 'width', 'height'],
+      'img': ['src', 'alt', 'title', 'width', 'height', 'style'],
       '*': ['class'],
     },
     allowedSchemes: ['http', 'https', 'mailto'],
