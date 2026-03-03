@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loader2, AlertTriangle } from 'lucide-react';
+import { PinDialog } from '@/components/ui/pin-dialog';
 import { createGalleryPhoto, updateGalleryPhoto } from '@/lib/actions/gallery-actions';
 import { GalleryPhoto } from '@/types';
 
@@ -29,6 +30,7 @@ export default function GalleryModal({ open, onClose, photo, isCreating, onSave 
   const [formCaption, setFormCaption] = useState('');
   const [formOrder, setFormOrder] = useState('0');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPinDialog, setShowPinDialog] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
@@ -44,13 +46,17 @@ export default function GalleryModal({ open, onClose, photo, isCreating, onSave 
     setErrorMessage('');
   }, [photo, isCreating, open]);
 
-  const handleSubmit = async () => {
+  const handleSubmitClick = () => {
     setErrorMessage('');
     if (!formUrl.trim()) {
       setErrorMessage('Image URL is required.');
       return;
     }
 
+    setShowPinDialog(true);
+  };
+
+  const handleSubmit = async () => {
     setIsSubmitting(true);
     try {
       let res;
@@ -162,7 +168,7 @@ export default function GalleryModal({ open, onClose, photo, isCreating, onSave 
           <Button variant="outline" onClick={onClose} disabled={isSubmitting}>
             Cancel
           </Button>
-          <Button onClick={handleSubmit} disabled={isSubmitting || !formUrl.trim()}>
+          <Button onClick={handleSubmitClick} disabled={isSubmitting || !formUrl.trim()}>
             {isSubmitting ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin mr-2" />
@@ -176,6 +182,15 @@ export default function GalleryModal({ open, onClose, photo, isCreating, onSave 
           </Button>
         </DialogFooter>
       </DialogContent>
+
+      <PinDialog
+        open={showPinDialog}
+        onOpenChange={setShowPinDialog}
+        title={isCreating ? 'Confirm Add Photo' : 'Confirm Edit Photo'}
+        description="Enter your admin PIN to save this photo."
+        onVerified={handleSubmit}
+        loading={isSubmitting}
+      />
     </Dialog>
   );
 }

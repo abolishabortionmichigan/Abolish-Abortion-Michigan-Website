@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Loader2, Trash, Reply, Send, CheckCircle2 } from 'lucide-react';
+import { PinDialog } from '@/components/ui/pin-dialog';
 import { updateInquiry, deleteInquiry, replyToInquiry } from '@/lib/actions/inquiry-actions';
 import { Inquiry } from '@/types';
 import { formatDate } from '@/lib/utils';
@@ -35,6 +36,7 @@ export default function InquiryModal({ open, onClose, inquiry, onUpdate }: Inqui
   const [replySending, setReplySending] = useState(false);
   const [replySent, setReplySent] = useState(false);
   const [replyError, setReplyError] = useState('');
+  const [showPinDialog, setShowPinDialog] = useState(false);
   const [confirmDialog, setConfirmDialog] = useState<{ open: boolean; title: string; description: string; onConfirm: () => void }>({ open: false, title: '', description: '', onConfirm: () => {} });
 
   useEffect(() => {
@@ -86,6 +88,11 @@ export default function InquiryModal({ open, onClose, inquiry, onUpdate }: Inqui
         }
       },
     });
+  };
+
+  const handleReplyClick = () => {
+    if (!inquiry || !replyMessage.trim()) return;
+    setShowPinDialog(true);
   };
 
   const handleReply = async () => {
@@ -211,7 +218,7 @@ export default function InquiryModal({ open, onClose, inquiry, onUpdate }: Inqui
                 </Button>
                 <Button
                   size="sm"
-                  onClick={handleReply}
+                  onClick={handleReplyClick}
                   disabled={replySending || !replyMessage.trim()}
                   className="bg-red-600 hover:bg-red-700 text-white"
                 >
@@ -259,6 +266,15 @@ export default function InquiryModal({ open, onClose, inquiry, onUpdate }: Inqui
           </div>
         </DialogFooter>
       </DialogContent>
+
+      <PinDialog
+        open={showPinDialog}
+        onOpenChange={setShowPinDialog}
+        title="Confirm Reply"
+        description={`Enter your admin PIN to send a reply to ${inquiry.name}.`}
+        onVerified={handleReply}
+        loading={replySending}
+      />
 
       <ConfirmDialog
         open={confirmDialog.open}

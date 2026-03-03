@@ -14,6 +14,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Loader2, AlertTriangle } from 'lucide-react';
+import { PinDialog } from '@/components/ui/pin-dialog';
 import { createNewsArticle, updateNewsArticle } from '@/lib/actions/news-actions';
 import { NewsArticle } from '@/types';
 import { slugify } from '@/lib/utils';
@@ -36,6 +37,7 @@ export default function NewsModal({ open, onClose, article, isCreating, onSave }
     published: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPinDialog, setShowPinDialog] = useState(false);
   const [showPublishConfirm, setShowPublishConfirm] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -73,13 +75,17 @@ export default function NewsModal({ open, onClose, article, isCreating, onSave }
   const willSendNewsletter =
     formData.published && (isCreating || (article && !article.published));
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     setErrorMessage('');
     if (!formData.title || !formData.excerpt || !formData.content) {
       setErrorMessage('Please fill in all required fields.');
       return;
     }
 
+    setShowPinDialog(true);
+  };
+
+  const handlePinVerified = async () => {
     if (willSendNewsletter) {
       setShowPublishConfirm(true);
       return;
@@ -232,6 +238,15 @@ export default function NewsModal({ open, onClose, article, isCreating, onSave }
           </Button>
         </DialogFooter>
       </DialogContent>
+
+      <PinDialog
+        open={showPinDialog}
+        onOpenChange={setShowPinDialog}
+        title={isCreating ? 'Confirm Article Creation' : 'Confirm Article Update'}
+        description="Enter your admin PIN to save this article."
+        onVerified={handlePinVerified}
+        loading={isSubmitting}
+      />
 
       {/* Publish Confirmation Dialog */}
       {showPublishConfirm && (
