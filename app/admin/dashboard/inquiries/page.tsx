@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
+import { PinDialog } from '@/components/ui/pin-dialog';
 import { Loader2, RefreshCw, Search, Trash, Eye, Download } from 'lucide-react';
 import { fetchInquiries, updateInquiry, deleteInquiry } from '@/lib/actions/inquiry-actions';
 import { Inquiry } from '@/types';
@@ -25,6 +26,7 @@ export default function InquiriesPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [bulkDeleting, setBulkDeleting] = useState(false);
+  const [showPinDialog, setShowPinDialog] = useState(false);
   const [confirmDialog, setConfirmDialog] = useState<{ open: boolean; title: string; description: string; onConfirm: () => void }>({ open: false, title: '', description: '', onConfirm: () => {} });
   const [selectedInquiry, setSelectedInquiry] = useState<Inquiry | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -177,7 +179,7 @@ export default function InquiriesPage() {
               className="pl-10"
             />
           </div>
-          <Button variant="outline" size="icon" onClick={handleExportCSV} disabled={loading || inquiries.length === 0} title="Export CSV">
+          <Button variant="outline" size="icon" onClick={() => setShowPinDialog(true)} disabled={loading || inquiries.length === 0} title="Export CSV">
             <Download className="h-4 w-4" />
           </Button>
           <Button variant="outline" size="icon" onClick={loadInquiries} disabled={loading}>
@@ -401,6 +403,14 @@ export default function InquiriesPage() {
         description={confirmDialog.description}
         confirmLabel="Delete"
         onConfirm={confirmDialog.onConfirm}
+      />
+
+      <PinDialog
+        open={showPinDialog}
+        onOpenChange={setShowPinDialog}
+        title="Export Inquiry Data"
+        description="Enter your admin PIN to export inquiry data."
+        onVerified={handleExportCSV}
       />
     </div>
   );

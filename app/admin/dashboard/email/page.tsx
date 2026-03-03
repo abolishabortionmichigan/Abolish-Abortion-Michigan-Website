@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { PinDialog } from '@/components/ui/pin-dialog';
 import { Send, Users, AlertCircle, CheckCircle2, Bold, Italic, Link, Heading2, Pilcrow, List, ListOrdered, CornerDownLeft, Eye, PenLine } from 'lucide-react';
 import { sendBroadcast } from '@/lib/actions/email-actions';
 import { getDashboardStats } from '@/lib/actions/dashboard-actions';
@@ -57,7 +58,6 @@ export default function EmailBroadcastPage() {
   };
 
   const handleConfirmSend = async () => {
-    setShowConfirm(false);
     setSending(true);
     setResult(null);
 
@@ -357,35 +357,14 @@ export default function EmailBroadcastPage() {
         </CardContent>
       </Card>
 
-      {/* Confirmation Dialog */}
-      {showConfirm && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
-            <h3 className="text-lg font-bold mb-2">Confirm Broadcast</h3>
-            <p className="text-gray-600 mb-1">
-              You are about to send this email to <strong>{subscriberCount ?? '...'}</strong> subscriber{subscriberCount !== 1 ? 's' : ''}.
-            </p>
-            <p className="text-gray-600 mb-4">
-              <strong>Subject:</strong> {subject}
-            </p>
-            <p className="text-sm text-gray-500 mb-6">
-              This action cannot be undone. Each subscriber will receive an individual email with an unsubscribe link.
-            </p>
-            <div className="flex gap-3 justify-end">
-              <Button variant="outline" onClick={() => setShowConfirm(false)}>
-                Cancel
-              </Button>
-              <Button
-                onClick={handleConfirmSend}
-                className="bg-red-600 hover:bg-red-700 text-white"
-              >
-                <Send size={16} className="mr-2" />
-                Send Now
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
+      <PinDialog
+        open={showConfirm}
+        onOpenChange={setShowConfirm}
+        title="Confirm Broadcast"
+        description={`Send "${subject}" to ${subscriberCount ?? '...'} subscriber${subscriberCount !== 1 ? 's' : ''}. This action cannot be undone.`}
+        onVerified={handleConfirmSend}
+        loading={sending}
+      />
     </div>
   );
 }

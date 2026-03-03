@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
+import { PinDialog } from '@/components/ui/pin-dialog';
 import { Loader2, RefreshCw, Search, Trash, Download, UserX, Users } from 'lucide-react';
 import { fetchSubscribers, unsubscribeUser, deleteSubscriber } from '@/lib/actions/subscriber-actions';
 import { formatDate } from '@/lib/utils';
@@ -28,6 +29,7 @@ export default function SubscribersPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [bulkDeleting, setBulkDeleting] = useState(false);
+  const [showPinDialog, setShowPinDialog] = useState(false);
   const [confirmDialog, setConfirmDialog] = useState<{ open: boolean; title: string; description: string; confirmLabel: string; variant: 'danger' | 'warning'; onConfirm: () => void }>({ open: false, title: '', description: '', confirmLabel: 'Confirm', variant: 'danger', onConfirm: () => {} });
   const itemsPerPage = 25;
 
@@ -204,7 +206,7 @@ export default function SubscribersPage() {
           <Button variant="outline" size="icon" onClick={loadSubscribers} disabled={loading} title="Refresh">
             <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
           </Button>
-          <Button variant="outline" size="icon" onClick={handleExportCSV} disabled={loading || subscribers.length === 0} title="Export CSV">
+          <Button variant="outline" size="icon" onClick={() => setShowPinDialog(true)} disabled={loading || subscribers.length === 0} title="Export CSV">
             <Download className="h-4 w-4" />
           </Button>
         </div>
@@ -422,6 +424,14 @@ export default function SubscribersPage() {
         confirmLabel={confirmDialog.confirmLabel}
         variant={confirmDialog.variant}
         onConfirm={confirmDialog.onConfirm}
+      />
+
+      <PinDialog
+        open={showPinDialog}
+        onOpenChange={setShowPinDialog}
+        title="Export Subscriber Data"
+        description="Enter your admin PIN to export subscriber data."
+        onVerified={handleExportCSV}
       />
     </div>
   );

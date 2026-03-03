@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
+import { PinDialog } from '@/components/ui/pin-dialog';
 import { Loader2, RefreshCw, Search, Trash, Download, FileText } from 'lucide-react';
 import { fetchSignatures, deleteSignature } from '@/lib/actions/petition-actions';
 import { PetitionSignature } from '@/types';
@@ -17,6 +18,7 @@ export default function PetitionsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [bulkDeleting, setBulkDeleting] = useState(false);
+  const [showPinDialog, setShowPinDialog] = useState(false);
   const [confirmDialog, setConfirmDialog] = useState<{ open: boolean; title: string; description: string; onConfirm: () => void }>({ open: false, title: '', description: '', onConfirm: () => {} });
   const itemsPerPage = 25;
 
@@ -172,7 +174,7 @@ export default function PetitionsPage() {
           <Button variant="outline" size="icon" onClick={loadSignatures} disabled={loading} title="Refresh">
             <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
           </Button>
-          <Button variant="outline" size="icon" onClick={handleExportCSV} disabled={loading || signatures.length === 0} title="Export CSV">
+          <Button variant="outline" size="icon" onClick={() => setShowPinDialog(true)} disabled={loading || signatures.length === 0} title="Export CSV">
             <Download className="h-4 w-4" />
           </Button>
         </div>
@@ -378,6 +380,14 @@ export default function PetitionsPage() {
         description={confirmDialog.description}
         confirmLabel="Delete"
         onConfirm={confirmDialog.onConfirm}
+      />
+
+      <PinDialog
+        open={showPinDialog}
+        onOpenChange={setShowPinDialog}
+        title="Export Petition Data"
+        description="Enter your admin PIN to export petition signatures."
+        onVerified={handleExportCSV}
       />
     </div>
   );

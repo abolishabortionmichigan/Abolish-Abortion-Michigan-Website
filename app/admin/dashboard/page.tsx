@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Mail, Newspaper, FileText, ImageIcon, RefreshCw, ArrowUpRight, Users, Download } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
+import { PinDialog } from '@/components/ui/pin-dialog';
 import Link from 'next/link';
 import { getDashboardStats, exportAllData } from '@/lib/actions/dashboard-actions';
 import { DashboardStats } from '@/types';
@@ -40,6 +41,7 @@ export default function DashboardPage() {
   const [data, setData] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [exporting, setExporting] = useState(false);
+  const [showPinDialog, setShowPinDialog] = useState(false);
   const [error, setError] = useState(false);
 
   const stats = [
@@ -177,7 +179,7 @@ export default function DashboardPage() {
       <div className="flex items-center justify-between gap-2">
         <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Dashboard</h1>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={handleExportAll} disabled={exporting || loading} className="flex-shrink-0">
+          <Button variant="outline" size="sm" onClick={() => setShowPinDialog(true)} disabled={exporting || loading} className="flex-shrink-0">
             <Download size={14} className={exporting ? 'animate-pulse' : ''} />
             <span className="ml-2 hidden sm:inline">{exporting ? 'Exporting...' : 'Export All'}</span>
           </Button>
@@ -241,6 +243,15 @@ export default function DashboardPage() {
           </Card>
         ))}
       </div>
+
+      <PinDialog
+        open={showPinDialog}
+        onOpenChange={setShowPinDialog}
+        title="Confirm Data Export"
+        description="Enter your admin PIN to export all site data."
+        onVerified={handleExportAll}
+        loading={exporting}
+      />
     </div>
   );
 }

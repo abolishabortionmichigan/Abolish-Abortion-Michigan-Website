@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
+import { PinDialog } from '@/components/ui/pin-dialog';
 import { Loader2, RefreshCw, Search, Plus, Edit, Trash, Download } from 'lucide-react';
 import { fetchNewsArticles, deleteNewsArticle } from '@/lib/actions/news-actions';
 import { NewsArticle } from '@/types';
@@ -19,6 +20,7 @@ export default function NewsManagementPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [bulkDeleting, setBulkDeleting] = useState(false);
+  const [showPinDialog, setShowPinDialog] = useState(false);
   const [confirmDialog, setConfirmDialog] = useState<{ open: boolean; title: string; description: string; onConfirm: () => void }>({ open: false, title: '', description: '', onConfirm: () => {} });
   const [selectedArticle, setSelectedArticle] = useState<NewsArticle | null>(null);
   const itemsPerPage = 25;
@@ -177,7 +179,7 @@ export default function NewsManagementPage() {
               className="pl-10"
             />
           </div>
-          <Button variant="outline" size="icon" onClick={handleExportCSV} disabled={loading || articles.length === 0} title="Export CSV">
+          <Button variant="outline" size="icon" onClick={() => setShowPinDialog(true)} disabled={loading || articles.length === 0} title="Export CSV">
             <Download className="h-4 w-4" />
           </Button>
           <Button variant="outline" size="icon" onClick={loadArticles} disabled={loading}>
@@ -392,6 +394,14 @@ export default function NewsManagementPage() {
         description={confirmDialog.description}
         confirmLabel="Delete"
         onConfirm={confirmDialog.onConfirm}
+      />
+
+      <PinDialog
+        open={showPinDialog}
+        onOpenChange={setShowPinDialog}
+        title="Export News Data"
+        description="Enter your admin PIN to export news articles."
+        onVerified={handleExportCSV}
       />
     </div>
   );

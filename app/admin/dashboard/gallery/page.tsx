@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
+import { PinDialog } from '@/components/ui/pin-dialog';
 import { Loader2, RefreshCw, Plus, Trash, Edit, ImageIcon, Download } from 'lucide-react';
 import {
   fetchGalleryPhotos,
@@ -20,6 +21,7 @@ export default function GalleryManagementPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [bulkDeleting, setBulkDeleting] = useState(false);
+  const [showPinDialog, setShowPinDialog] = useState(false);
   const [confirmDialog, setConfirmDialog] = useState<{ open: boolean; title: string; description: string; onConfirm: () => void }>({ open: false, title: '', description: '', onConfirm: () => {} });
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState<GalleryPhoto | null>(null);
@@ -145,7 +147,7 @@ export default function GalleryManagementPage() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
         <h1 className="text-xl sm:text-2xl font-bold">Photo Gallery</h1>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="icon" onClick={handleExportCSV} disabled={loading || photos.length === 0} title="Export CSV">
+          <Button variant="outline" size="icon" onClick={() => setShowPinDialog(true)} disabled={loading || photos.length === 0} title="Export CSV">
             <Download className="h-4 w-4" />
           </Button>
           <Button variant="outline" size="icon" onClick={loadPhotos} disabled={loading}>
@@ -323,6 +325,14 @@ export default function GalleryManagementPage() {
         description={confirmDialog.description}
         confirmLabel="Delete"
         onConfirm={confirmDialog.onConfirm}
+      />
+
+      <PinDialog
+        open={showPinDialog}
+        onOpenChange={setShowPinDialog}
+        title="Export Gallery Data"
+        description="Enter your admin PIN to export gallery data."
+        onVerified={handleExportCSV}
       />
     </div>
   );
