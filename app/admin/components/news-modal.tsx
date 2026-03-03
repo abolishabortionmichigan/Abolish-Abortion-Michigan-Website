@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -12,10 +12,10 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Loader2, AlertTriangle } from 'lucide-react';
+import { Loader2, AlertTriangle, Bold, Italic, Link, Heading2, Pilcrow, List, ListOrdered, CornerDownLeft, ImageIcon, PenLine, Eye, Quote, Code } from 'lucide-react';
 import { PinDialog } from '@/components/ui/pin-dialog';
 import { createNewsArticle, updateNewsArticle } from '@/lib/actions/news-actions';
+import { sanitizeHtml } from '@/lib/sanitize';
 import { NewsArticle } from '@/types';
 import { slugify } from '@/lib/utils';
 
@@ -25,6 +25,29 @@ interface NewsModalProps {
   article: NewsArticle | null;
   isCreating: boolean;
   onSave: () => void;
+}
+
+function insertTag(
+  textarea: HTMLTextAreaElement,
+  before: string,
+  after: string,
+  content: string,
+  setContent: (v: string) => void
+) {
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const selected = content.substring(start, end);
+  const replacement = before + (selected || 'text') + after;
+  const newContent = content.substring(0, start) + replacement + content.substring(end);
+  setContent(newContent);
+
+  requestAnimationFrame(() => {
+    textarea.focus();
+    const cursorPos = selected
+      ? start + replacement.length
+      : start + before.length + 4;
+    textarea.setSelectionRange(cursorPos, cursorPos);
+  });
 }
 
 export default function NewsModal({ open, onClose, article, isCreating, onSave }: NewsModalProps) {
@@ -40,6 +63,8 @@ export default function NewsModal({ open, onClose, article, isCreating, onSave }
   const [showPinDialog, setShowPinDialog] = useState(false);
   const [showPublishConfirm, setShowPublishConfirm] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [activeTab, setActiveTab] = useState<'compose' | 'preview'>('compose');
+  const contentRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (article && !isCreating) {
@@ -61,6 +86,7 @@ export default function NewsModal({ open, onClose, article, isCreating, onSave }
         published: false,
       });
     }
+    setActiveTab('compose');
   }, [article, isCreating, open]);
 
   const handleTitleChange = (value: string) => {
@@ -69,6 +95,10 @@ export default function NewsModal({ open, onClose, article, isCreating, onSave }
       title: value,
       slug: isCreating ? slugify(value) : prev.slug,
     }));
+  };
+
+  const setContent = (value: string) => {
+    setFormData((prev) => ({ ...prev, content: value }));
   };
 
   // Check if publishing will trigger a newsletter send
@@ -131,87 +161,273 @@ export default function NewsModal({ open, onClose, article, isCreating, onSave }
     }
   };
 
+  const handleToolbar = (action: string) => {
+    const ta = contentRef.current;
+    if (!ta) return;
+
+    switch (action) {
+      case 'bold':
+        insertTag(ta, '<strong>', '</strong>', formData.content, setContent);
+        break;
+      case 'italic':
+        insertTag(ta, '<em>', '</em>', formData.content, setContent);
+        break;
+      case 'h2':
+        insertTag(ta, '<h2>', '</h2>', formData.content, setContent);
+        break;
+      case 'h3':
+        insertTag(ta, '<h3>', '</h3>', formData.content, setContent);
+        break;
+      case 'paragraph':
+        insertTag(ta, '<p>', '</p>', formData.content, setContent);
+        break;
+      case 'ul':
+        insertTag(ta, '<ul>\n  <li>', '</li>\n</ul>', formData.content, setContent);
+        break;
+      case 'ol':
+        insertTag(ta, '<ol>\n  <li>', '</li>\n</ol>', formData.content, setContent);
+        break;
+      case 'br':
+        insertTag(ta, '<br>', '', formData.content, setContent);
+        break;
+      case 'blockquote':
+        insertTag(ta, '<blockquote>', '</blockquote>', formData.content, setContent);
+        break;
+      case 'code':
+        insertTag(ta, '<pre><code>', '</code></pre>', formData.content, setContent);
+        break;
+      case 'hr':
+        insertTag(ta, '<hr>', '', formData.content, setContent);
+        break;
+      case 'link': {
+        const url = window.prompt('Enter URL:');
+        if (url) {
+          try {
+            const parsed = new URL(url);
+            if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
+              const safeUrl = url.replace(/"/g, '&quot;');
+              insertTag(ta, `<a href="${safeUrl}">`, '</a>', formData.content, setContent);
+            } else {
+              alert('Only http and https URLs are allowed.');
+            }
+          } catch {
+            alert('Please enter a valid URL (e.g. https://example.com).');
+          }
+        }
+        break;
+      }
+      case 'image': {
+        const imgUrl = window.prompt('Enter image URL:');
+        if (imgUrl) {
+          try {
+            const parsed = new URL(imgUrl);
+            if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
+              const alt = window.prompt('Enter alt text (description of image):', '') || '';
+              const width = window.prompt('Enter width in pixels (optional, e.g. 800):', '');
+              const safeUrl = imgUrl.replace(/"/g, '&quot;');
+              const safeAlt = alt.replace(/"/g, '&quot;');
+              const widthAttr = width && /^\d+$/.test(width) ? ` width="${width}"` : '';
+              insertTag(ta, `<img src="${safeUrl}" alt="${safeAlt}"${widthAttr} style="max-width:100%;height:auto;" />`, '', formData.content, setContent);
+            } else {
+              alert('Only http and https URLs are allowed.');
+            }
+          } catch {
+            alert('Please enter a valid image URL (e.g. https://example.com/photo.jpg).');
+          }
+        }
+        break;
+      }
+    }
+  };
+
+  const toolbarButtons = [
+    { action: 'bold', icon: Bold, label: 'Bold' },
+    { action: 'italic', icon: Italic, label: 'Italic' },
+    { action: 'link', icon: Link, label: 'Link' },
+    { action: 'image', icon: ImageIcon, label: 'Image' },
+    { action: 'h2', icon: Heading2, label: 'Heading 2' },
+    { action: 'paragraph', icon: Pilcrow, label: 'Paragraph' },
+    { action: 'ul', icon: List, label: 'Bullet List' },
+    { action: 'ol', icon: ListOrdered, label: 'Ordered List' },
+    { action: 'blockquote', icon: Quote, label: 'Blockquote' },
+    { action: 'br', icon: CornerDownLeft, label: 'Line Break' },
+  ];
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{isCreating ? 'Create New Article' : 'Edit Article'}</DialogTitle>
-          <DialogDescription>
-            {isCreating ? 'Fill in the details for your new article' : 'Update the article details'}
-          </DialogDescription>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div>
+              <DialogTitle>{isCreating ? 'Create New Article' : 'Edit Article'}</DialogTitle>
+              <DialogDescription>
+                {isCreating ? 'Fill in the details for your new article' : 'Update the article details'}
+              </DialogDescription>
+            </div>
+            <div className="flex w-full sm:w-auto bg-gray-100 rounded-lg p-1">
+              <button
+                type="button"
+                onClick={() => setActiveTab('compose')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                  activeTab === 'compose' ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                <PenLine size={14} />
+                Compose
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('preview')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                  activeTab === 'preview' ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                <Eye size={14} />
+                Preview
+              </button>
+            </div>
+          </div>
         </DialogHeader>
 
-        <div className="space-y-4">
-          <div>
-            <Label htmlFor="title">Title *</Label>
-            <Input
-              id="title"
-              value={formData.title}
-              onChange={(e) => handleTitleChange(e.target.value)}
-              placeholder="Article title"
-              className="mt-1"
-            />
-          </div>
+        {activeTab === 'compose' ? (
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="title">Title *</Label>
+              <Input
+                id="title"
+                value={formData.title}
+                onChange={(e) => handleTitleChange(e.target.value)}
+                placeholder="Article title"
+                className="mt-1"
+              />
+            </div>
 
-          <div>
-            <Label htmlFor="slug">Slug</Label>
-            <Input
-              id="slug"
-              value={formData.slug}
-              onChange={(e) => setFormData((prev) => ({ ...prev, slug: e.target.value }))}
-              placeholder="article-url-slug"
-              className="mt-1"
-            />
-          </div>
+            <div>
+              <Label htmlFor="slug">Slug</Label>
+              <Input
+                id="slug"
+                value={formData.slug}
+                onChange={(e) => setFormData((prev) => ({ ...prev, slug: e.target.value }))}
+                placeholder="article-url-slug"
+                className="mt-1"
+              />
+            </div>
 
-          <div>
-            <Label htmlFor="excerpt">Excerpt *</Label>
-            <Textarea
-              id="excerpt"
-              value={formData.excerpt}
-              onChange={(e) => setFormData((prev) => ({ ...prev, excerpt: e.target.value }))}
-              placeholder="Brief summary of the article"
-              rows={2}
-              className="mt-1"
-            />
-          </div>
+            <div>
+              <Label htmlFor="excerpt">Excerpt *</Label>
+              <textarea
+                id="excerpt"
+                value={formData.excerpt}
+                onChange={(e) => setFormData((prev) => ({ ...prev, excerpt: e.target.value }))}
+                placeholder="Brief summary of the article"
+                rows={2}
+                className="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm"
+              />
+            </div>
 
-          <div>
-            <Label htmlFor="content">Content *</Label>
-            <Textarea
-              id="content"
-              value={formData.content}
-              onChange={(e) => setFormData((prev) => ({ ...prev, content: e.target.value }))}
-              placeholder="Full article content (HTML supported)"
-              rows={10}
-              className="mt-1"
-            />
-          </div>
+            <div>
+              <Label>Content *</Label>
 
-          <div>
-            <Label htmlFor="image">Featured Image URL</Label>
-            <Input
-              id="image"
-              value={formData.image}
-              onChange={(e) => setFormData((prev) => ({ ...prev, image: e.target.value }))}
-              placeholder="/images/article-image.jpg"
-              className="mt-1"
-            />
-          </div>
+              {/* Toolbar */}
+              <div className="flex flex-wrap gap-1 p-2 bg-gray-50 border border-gray-300 border-b-0 rounded-t-md mt-1">
+                {toolbarButtons.map((btn) => (
+                  <button
+                    key={btn.action}
+                    type="button"
+                    onClick={() => handleToolbar(btn.action)}
+                    title={btn.label}
+                    className="p-1.5 rounded hover:bg-gray-200 text-gray-600 hover:text-gray-900 transition-colors"
+                  >
+                    <btn.icon size={16} />
+                  </button>
+                ))}
+              </div>
 
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              id="published"
-              checked={formData.published}
-              onChange={(e) => setFormData((prev) => ({ ...prev, published: e.target.checked }))}
-              className="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-500"
-            />
-            <Label htmlFor="published" className="font-normal">
-              Publish immediately
-            </Label>
+              <textarea
+                ref={contentRef}
+                id="content"
+                value={formData.content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder="Full article content (HTML supported)"
+                rows={14}
+                className="w-full px-3 py-2 border border-gray-300 rounded-b-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent font-mono text-sm"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="image">Featured Image URL</Label>
+              <Input
+                id="image"
+                value={formData.image}
+                onChange={(e) => setFormData((prev) => ({ ...prev, image: e.target.value }))}
+                placeholder="https://example.com/image.jpg"
+                className="mt-1"
+              />
+            </div>
+
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                id="published"
+                checked={formData.published}
+                onChange={(e) => setFormData((prev) => ({ ...prev, published: e.target.checked }))}
+                className="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-500"
+              />
+              <Label htmlFor="published" className="font-normal">
+                Publish immediately
+              </Label>
+            </div>
           </div>
-        </div>
+        ) : (
+          /* Preview Tab */
+          <div className="space-y-4">
+            {/* Article Preview */}
+            <div className="border rounded-lg overflow-hidden">
+              {/* Hero */}
+              <div className="relative bg-[#1a1a1a] text-white py-10 px-6 text-center">
+                {formData.image && (
+                  <div className="absolute inset-0 opacity-30">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={formData.image} alt="" className="w-full h-full object-cover" />
+                  </div>
+                )}
+                <div className="relative">
+                  <p className="text-gray-400 text-sm mb-2">
+                    {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                  </p>
+                  <h1 className="text-2xl font-bold">{formData.title || '(No title)'}</h1>
+                </div>
+              </div>
+
+              {/* Excerpt */}
+              <div className="px-6 py-4 bg-gray-50 border-b">
+                <p className="text-gray-600 italic text-sm">{formData.excerpt || '(No excerpt)'}</p>
+              </div>
+
+              {/* Content */}
+              <div className="px-6 py-6">
+                {formData.content ? (
+                  <article
+                    className="prose prose-sm max-w-none prose-headings:text-[#1a1a1a] prose-a:text-red-600 prose-a:no-underline hover:prose-a:underline prose-img:max-w-full prose-img:h-auto prose-img:rounded-lg"
+                    dangerouslySetInnerHTML={{ __html: sanitizeHtml(formData.content) }}
+                  />
+                ) : (
+                  <p className="text-gray-400 italic">(No content yet)</p>
+                )}
+              </div>
+            </div>
+
+            <div className="flex justify-end">
+              <Button
+                type="button"
+                onClick={() => setActiveTab('compose')}
+                variant="outline"
+              >
+                Back to Compose
+              </Button>
+            </div>
+          </div>
+        )}
 
         {errorMessage && (
           <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-md text-red-700 text-sm">
