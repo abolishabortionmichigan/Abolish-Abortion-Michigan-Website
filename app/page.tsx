@@ -128,13 +128,13 @@ export default async function HomePage() {
             <div>
               <h2 className="text-3xl font-bold mb-6">What is Abolition?</h2>
               <p className="text-gray-700 mb-4">
-                Abolition is the immediate and unconditional end to abortion. It stands in contrast to the incremental approach that has dominated the pro-life movement for 50 years.
+                Abolition is the immediate and unconditional legal end, to a legal but immoral practice. It stands in contrast to the incremental approach to abortion that has dominated the pro-life movement for over fifty years.
               </p>
               <p className="text-gray-700 mb-4">
                 While incrementalism seeks to regulate and restrict abortion, abolition demands its total criminalization as the murder that it is. We do not accept any exceptions—not for rape, incest, or any other circumstance.
               </p>
               <p className="text-gray-700 mb-6">
-                Just as William Wilberforce and others worked to abolish the slave trade, we work to abolish abortion—not to make it rarer, safer, or more regulated, but to end it completely.
+                Just as William Wilberforce, and others worked to abolish the slave trade, we work to abolish abortion—not to make it rarer, safer, or more regulated, but to end legal homicide completely.
               </p>
               <Link
                 href="/what-we-believe"
