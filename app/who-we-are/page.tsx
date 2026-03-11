@@ -65,7 +65,7 @@ export default function WhoWeArePage() {
 
           <h2 className="text-3xl font-bold mb-6">What Makes Us Different</h2>
           <p className="text-gray-700 mb-4">
-            Unlike traditional pro-life organizations that have spent 50 years trying to regulate abortion, we call for its immediate abolition. We believe that:
+            Unlike traditional pro-life organizations that have spent fifty years trying to regulate abortion, we call for its immediate abolition. We believe that:
           </p>
           <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-8">
             <li>Abortion is murder and should be treated as such under the law</li>
