@@ -84,21 +84,21 @@ export default async function HomePage() {
           <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
             Every statistic represents a precious life lost to abortion. These are not just numbers—they are our neighbors, created in the image of God.
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-2xl sm:text-4xl md:text-5xl font-bold text-red-700 mb-2">{statistics.totalAbortions}</div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
+            <div className="text-center min-w-0">
+              <div className="text-2xl sm:text-3xl md:text-2xl lg:text-4xl xl:text-5xl font-bold text-red-700 mb-2 break-words">{statistics.totalAbortions}</div>
               <div className="text-gray-600 text-sm md:text-base">Total Abortions Since 1973</div>
             </div>
-            <div className="text-center">
-              <div className="text-2xl sm:text-4xl md:text-5xl font-bold text-red-700 mb-2">{statistics.yearlyAbortions}</div>
+            <div className="text-center min-w-0">
+              <div className="text-2xl sm:text-3xl md:text-2xl lg:text-4xl xl:text-5xl font-bold text-red-700 mb-2 break-words">{statistics.yearlyAbortions}</div>
               <div className="text-gray-600 text-sm md:text-base">Abortions Per Year</div>
             </div>
-            <div className="text-center">
-              <div className="text-2xl sm:text-4xl md:text-5xl font-bold text-red-700 mb-2">{statistics.dailyAbortions}</div>
+            <div className="text-center min-w-0">
+              <div className="text-2xl sm:text-3xl md:text-2xl lg:text-4xl xl:text-5xl font-bold text-red-700 mb-2 break-words">{statistics.dailyAbortions}</div>
               <div className="text-gray-600 text-sm md:text-base">Abortions Per Day</div>
             </div>
-            <div className="text-center">
-              <div className="text-2xl sm:text-4xl md:text-5xl font-bold text-red-700 mb-2">{statistics.sinceRoeOverturned}</div>
+            <div className="text-center min-w-0">
+              <div className="text-2xl sm:text-3xl md:text-2xl lg:text-4xl xl:text-5xl font-bold text-red-700 mb-2 break-words">{statistics.sinceRoeOverturned}</div>
               <div className="text-gray-600 text-sm md:text-base">Since Prop 3 Passed</div>
             </div>
           </div>
