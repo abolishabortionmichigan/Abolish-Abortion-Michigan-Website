@@ -1,6 +1,7 @@
 'use server';
 
 import { PetitionSignature } from '@/types';
+import { getPostHogClient } from '@/lib/posthog-server';
 import {
   getAllSignatures,
   getSignatureCount,
@@ -127,6 +128,17 @@ export async function signPetition(data: {
       sendPetitionConfirmationEmail(petitionData),
       sendPetitionNotificationEmail(petitionData),
     ]);
+
+    const posthog = getPostHogClient();
+    posthog.capture({
+      distinctId: newSignature.id,
+      event: 'petition_signature_created',
+      properties: {
+        state: data.state || 'MI',
+        subscribed_to_newsletter: data.subscribed || false,
+      },
+    });
+    await posthog.flush();
 
     return newSignature;
   } catch (error) {

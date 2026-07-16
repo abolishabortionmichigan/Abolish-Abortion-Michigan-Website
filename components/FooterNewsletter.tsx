@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { subscribeToNewsletter } from '@/lib/actions/petition-actions';
+import posthog from 'posthog-js';
 
 export default function FooterNewsletter() {
   const [email, setEmail] = useState('');
@@ -22,6 +23,7 @@ export default function FooterNewsletter() {
       setStatus('error');
       setErrorMsg(res.error);
     } else {
+      posthog.capture('newsletter_subscribed', { source: 'footer' });
       setStatus('success');
       setEmail('');
     }

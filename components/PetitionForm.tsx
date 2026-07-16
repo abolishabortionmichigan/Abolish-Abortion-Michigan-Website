@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { signPetition, getPublicSignatureCount } from '@/lib/actions/petition-actions';
+import posthog from 'posthog-js';
 
 export default function PetitionForm() {
   const [formData, setFormData] = useState({
@@ -43,6 +44,10 @@ export default function PetitionForm() {
         setStatus('error');
         setErrorMessage(result.error);
       } else {
+        posthog.capture('petition_signed', {
+          state: formData.state,
+          subscribed_to_newsletter: formData.subscribed,
+        });
         setStatus('success');
         setSignatureCount((prev) => prev + 1);
         window.scrollTo({ top: 0, behavior: 'smooth' });

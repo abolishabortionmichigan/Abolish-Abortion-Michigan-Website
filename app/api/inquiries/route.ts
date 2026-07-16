@@ -3,6 +3,7 @@ import {
   getAllInquiries,
   createInquiry,
 } from '@/lib/data/inquiry-store';
+import { getPostHogClient } from '@/lib/posthog-server';
 import { sendInquiryConfirmationEmail, sendInquiryNotificationEmail } from '@/lib/email';
 import { getAuthToken, verifyToken } from '@/lib/actions/auth-actions';
 import { checkRateLimit } from '@/lib/rate-limit';
@@ -93,6 +94,16 @@ export async function POST(request: NextRequest) {
         created_at: newInquiry.created_at || '',
       }),
     ]);
+
+    const posthog = getPostHogClient();
+    posthog.capture({
+      distinctId: newInquiry.id,
+      event: 'inquiry_created',
+      properties: {
+        subject: newInquiry.subject,
+      },
+    });
+    await posthog.flush();
 
     return NextResponse.json(newInquiry, { status: 201 });
   } catch (error) {
