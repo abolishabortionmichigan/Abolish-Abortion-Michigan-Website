@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import CTABanner from '@/components/CTABanner';
+import { socialLinks } from '@/lib/content';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -41,9 +42,9 @@ export default function ContactPage() {
 
       setStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '', website: '' });
-    } catch (err) {
+    } catch {
       setStatus('error');
-      setErrorMessage(err instanceof Error ? err.message : 'Failed to send message. Please try again.');
+      setErrorMessage('Failed to send message. Please try again.');
     }
   };
 
@@ -93,7 +94,7 @@ export default function ContactPage() {
                     Connect with us and other abolitionists on Signal for real-time updates and discussion.
                   </p>
                   <a
-                    href="https://signal.group/#CjQKIJKnCRVq5FifD0RNYPlovNABQHbeXnUqGWGciHeg16WYEhDJ8AInsNGnXU7dpn1B-M7X"
+                    href={socialLinks.signalGroup}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-gray-600 hover:text-red-600 transition-colors inline-block"
@@ -109,7 +110,7 @@ export default function ContactPage() {
                   <h3 className="font-semibold mb-2">Follow Us</h3>
                   <div className="flex space-x-4">
                     <a
-                      href="https://facebook.com/abolishabortionmichigan"
+                      href={socialLinks.facebook}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-gray-600 hover:text-red-600 transition-colors"
@@ -120,7 +121,7 @@ export default function ContactPage() {
                       </svg>
                     </a>
                     <a
-                      href="https://x.com/AbolitionMI"
+                      href={socialLinks.x}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-gray-600 hover:text-red-600 transition-colors"

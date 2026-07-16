@@ -43,7 +43,7 @@ export default function SubscribersPage() {
       } else {
         setSubscribers(res);
       }
-    } catch (err) {
+    } catch {
       setError(true);
     } finally {
       setLoading(false);

@@ -12,7 +12,12 @@ function escapeXml(str: string): string {
 }
 
 export async function GET() {
-  const articles = await getAllNewsArticles(true);
+  let articles: Awaited<ReturnType<typeof getAllNewsArticles>> = [];
+  try {
+    articles = await getAllNewsArticles(true);
+  } catch (error) {
+    console.error('Feed: failed to load articles, serving empty feed:', error instanceof Error ? error.message : 'Unknown error');
+  }
 
   const items = articles.map((article) => {
     const pubDate = article.created_at

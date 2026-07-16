@@ -37,7 +37,7 @@ export default function NewsManagementPage() {
       } else {
         setArticles(res);
       }
-    } catch (err) {
+    } catch {
       setError(true);
     } finally {
       setLoading(false);

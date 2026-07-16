@@ -24,6 +24,15 @@ export const statistics = {
   sinceRoeOverturned: '50,000+',
 };
 
+// Social links — single source of truth referenced by Footer, Contact,
+// and homepage JSON-LD. Update here to change everywhere.
+export const socialLinks = {
+  facebook: 'https://facebook.com/abolishabortionmichigan',
+  x: 'https://x.com/AbolitionMI',
+  instagram: 'https://instagram.com/abolishabortionmichigan',
+  signalGroup: 'https://signal.group/#CjQKIJKnCRVq5FifD0RNYPlovNABQHbeXnUqGWGciHeg16WYEhDJ8AInsNGnXU7dpn1B-M7X',
+};
+
 // FAQ items with full content from screenshots
 export const faqItems = [
   {

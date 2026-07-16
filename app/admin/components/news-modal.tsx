@@ -12,7 +12,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Loader2, AlertTriangle, Bold, Italic, Link, Heading2, Pilcrow, List, ListOrdered, CornerDownLeft, ImageIcon, PenLine, Eye, Quote, Code } from 'lucide-react';
+import { Loader2, AlertTriangle, Bold, Italic, Link, Heading2, Pilcrow, List, ListOrdered, CornerDownLeft, ImageIcon, PenLine, Eye, Quote } from 'lucide-react';
 import { PinDialog } from '@/components/ui/pin-dialog';
 import { createNewsArticle, updateNewsArticle } from '@/lib/actions/news-actions';
 import { sanitizeHtml } from '@/lib/sanitize';

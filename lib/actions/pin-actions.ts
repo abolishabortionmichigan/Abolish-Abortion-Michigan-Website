@@ -2,7 +2,8 @@
 
 import { headers } from 'next/headers';
 import { getAuthToken, verifyToken } from './auth-actions';
-import { checkRateLimit } from '@/lib/rate-limit';
+import { checkRateLimitStrict } from '@/lib/rate-limit';
+import { getClientIpFromHeaders } from '@/lib/client-ip';
 
 async function isAdmin(): Promise<boolean> {
   const token = await getAuthToken();
@@ -26,8 +27,8 @@ export async function verifyPin(
   }
 
   const hdrs = await headers();
-  const ip = hdrs.get('x-forwarded-for')?.split(',')[0]?.trim() || hdrs.get('x-real-ip') || 'unknown';
-  const limit = await checkRateLimit(`pin:${ip}`, 5);
+  const ip = getClientIpFromHeaders(hdrs);
+  const limit = await checkRateLimitStrict(`pin:${ip}`, 5);
   if (!limit.allowed) {
     return { valid: false, error: `Too many attempts. Try again in ${limit.retryAfterSeconds} seconds.` };
   }

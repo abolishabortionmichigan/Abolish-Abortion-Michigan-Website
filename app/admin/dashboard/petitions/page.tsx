@@ -32,7 +32,7 @@ export default function PetitionsPage() {
       } else {
         setSignatures(res);
       }
-    } catch (err) {
+    } catch {
       setError(true);
     } finally {
       setLoading(false);

@@ -47,12 +47,14 @@ export async function generateOGImage(title: string, subtitle?: string) {
             gap: '24px',
           }}
         >
-          {/* Logo */}
+          {/* Logo — satori renders raw <img>; next/image doesn't apply here */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={logoBase64}
             width={80}
             height={99}
             style={{ filter: 'invert(1)' }}
+            alt=""
           />
 
           {/* Page title */}

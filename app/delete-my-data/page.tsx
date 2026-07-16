@@ -79,9 +79,9 @@ export default function DeleteMyDataPage() {
       setStatus('success');
       setFormData({ name: '', email: '', details: '', website: '' });
       setDataTypes({ petition: false, inquiry: false, subscription: false });
-    } catch (err) {
+    } catch {
       setStatus('error');
-      setErrorMessage(err instanceof Error ? err.message : 'Failed to submit request. Please try again.');
+      setErrorMessage('Failed to submit request. Please try again.');
     }
   };
 

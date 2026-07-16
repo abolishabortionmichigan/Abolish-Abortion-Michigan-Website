@@ -7,12 +7,6 @@ function sanitizeSubject(str: string): string {
   return str.replace(/[\r\n]+/g, ' ').trim();
 }
 
-interface EmailPayload {
-  to: string;
-  subject: string;
-  html: string;
-}
-
 interface InquiryData {
   id: string;
   name: string;
@@ -113,14 +107,13 @@ export const sendInquiryReplyEmail = async (data: { to: string; name: string; su
 
   const transporter = createTransporter();
   const safeName = escapeHtml(data.name);
-  const safeSubject = escapeHtml(data.subject);
 
   try {
     const info = await transporter.sendMail({
       from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
       to: data.to,
       bcc: NOTIFICATION_EMAIL,
-      subject: sanitizeSubject(`Re: ${safeSubject || 'Your Inquiry'}`),
+      subject: sanitizeSubject(`Re: ${data.subject || 'Your Inquiry'}`),
       html: `
 <!DOCTYPE html>
 <html>
@@ -183,7 +176,7 @@ export const sendInquiryNotificationEmail = async (inquiry: InquiryData) => {
     const info = await transporter.sendMail({
       from: `"AAM Website" <${EMAIL_USER}>`,
       to: NOTIFICATION_EMAIL,
-      subject: sanitizeSubject(`New Inquiry: ${inquiry.subject ? escapeHtml(inquiry.subject) : 'General Inquiry'}`),
+      subject: sanitizeSubject(`New Inquiry: ${inquiry.subject || 'General Inquiry'}`),
       html: inquiryNotificationEmailHtml(inquiry),
     });
 
@@ -573,7 +566,7 @@ export const sendPetitionNotificationEmail = async (petition: PetitionData) => {
     const info = await transporter.sendMail({
       from: `"AAM Website" <${EMAIL_USER}>`,
       to: NOTIFICATION_EMAIL,
-      subject: sanitizeSubject(`New Petition Signature: ${escapeHtml(petition.name)}`),
+      subject: sanitizeSubject(`New Petition Signature: ${petition.name}`),
       html: petitionNotificationEmailHtml(petition),
     });
 
@@ -717,7 +710,6 @@ export const sendSubscriberWelcomeEmail = async (email: string) => {
   }
 
   const transporter = createTransporter();
-  const safeEmail = escapeHtml(email);
 
   try {
     const info = await transporter.sendMail({
@@ -788,7 +780,7 @@ export const sendNewSubscriberNotification = async (email: string) => {
     const info = await transporter.sendMail({
       from: `"AAM Website" <${EMAIL_USER}>`,
       to: NOTIFICATION_EMAIL,
-      subject: `New Newsletter Subscriber: ${safeEmail}`,
+      subject: sanitizeSubject(`New Newsletter Subscriber: ${email}`),
       html: `
 <!DOCTYPE html>
 <html>
@@ -1018,7 +1010,7 @@ export const sendNewsletterNotification = async (article: ArticleData, sent: num
     const info = await transporter.sendMail({
       from: `"AAM Website" <${EMAIL_USER}>`,
       to: NOTIFICATION_EMAIL,
-      subject: sanitizeSubject(`Newsletter Sent: ${escapeHtml(article.title)}`),
+      subject: sanitizeSubject(`Newsletter Sent: ${article.title}`),
       html: `
 <!DOCTYPE html>
 <html>
@@ -1082,7 +1074,7 @@ export const sendBroadcastNotification = async (subject: string, sent: number, f
     const info = await transporter.sendMail({
       from: `"AAM Website" <${EMAIL_USER}>`,
       to: NOTIFICATION_EMAIL,
-      subject: sanitizeSubject(`Broadcast Sent: ${escapeHtml(subject)}`),
+      subject: sanitizeSubject(`Broadcast Sent: ${subject}`),
       html: `
 <!DOCTYPE html>
 <html>

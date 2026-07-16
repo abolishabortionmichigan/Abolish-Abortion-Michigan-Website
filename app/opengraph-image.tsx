@@ -69,11 +69,14 @@ export default async function Image() {
               flexShrink: 0,
             }}
           >
+            {/* satori renders raw <img>; next/image doesn't apply here */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={logoBase64}
               width={180}
               height={222}
               style={{ filter: 'invert(1)' }}
+              alt=""
             />
           </div>
 

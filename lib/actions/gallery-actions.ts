@@ -19,7 +19,7 @@ async function isAdmin(): Promise<boolean> {
 export async function fetchGalleryPhotos() {
   try {
     return await getAllGalleryPhotos();
-  } catch (error) {
+  } catch {
     return { error: 'Failed to fetch gallery photos' };
   }
 }
@@ -51,7 +51,7 @@ export async function createGalleryPhoto(data: { url: string; caption?: string; 
     });
 
     return newPhoto;
-  } catch (error) {
+  } catch {
     return { error: 'Failed to create gallery photo' };
   }
 }
@@ -70,7 +70,7 @@ export async function updateGalleryPhoto(id: string, data: { url?: string; capti
     }
 
     return updated;
-  } catch (error) {
+  } catch {
     return { error: 'Failed to update gallery photo' };
   }
 }
@@ -89,7 +89,7 @@ export async function deleteGalleryPhoto(id: string) {
     }
 
     return { success: true };
-  } catch (error) {
+  } catch {
     return { error: 'Failed to delete gallery photo' };
   }
 }

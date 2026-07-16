@@ -50,7 +50,7 @@ export async function fetchNewsArticles(publishedOnly = false) {
     }
 
     return await getAllNewsArticles(publishedOnly);
-  } catch (error) {
+  } catch {
     return { error: 'Failed to fetch news' };
   }
 }
@@ -72,7 +72,7 @@ export async function fetchNewsArticle(slug: string) {
     }
 
     return article;
-  } catch (error) {
+  } catch {
     return { error: 'Failed to fetch article' };
   }
 }
@@ -116,7 +116,7 @@ export async function createNewsArticle(data: Omit<NewsArticle, 'id' | 'created_
     }
 
     return newArticle;
-  } catch (error) {
+  } catch {
     return { error: 'Failed to create article' };
   }
 }
@@ -167,7 +167,7 @@ export async function updateNewsArticle(id: string, data: Partial<NewsArticle>) 
     }
 
     return updated;
-  } catch (error) {
+  } catch {
     return { error: 'Failed to update article' };
   }
 }
@@ -186,7 +186,7 @@ export async function deleteNewsArticle(id: string) {
     }
 
     return { success: true };
-  } catch (error) {
+  } catch {
     return { error: 'Failed to delete article' };
   }
 }

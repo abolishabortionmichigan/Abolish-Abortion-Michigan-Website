@@ -30,10 +30,11 @@ export default function SecureLoginPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      setIsCheckingAuth(true);
+    let cancelled = false;
+    (async () => {
       try {
         const res = await checkAuthStatus();
+        if (cancelled) return;
         if (res.authorized) {
           if (res.user?.role === 'admin') {
             router.push('/admin/dashboard');
@@ -45,11 +46,11 @@ export default function SecureLoginPage() {
       } catch {
         await logout();
       } finally {
-        setIsCheckingAuth(false);
+        if (!cancelled) setIsCheckingAuth(false);
       }
-    };
-
-    checkAuth();
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleAccessCode = async (e: React.FormEvent) => {
@@ -96,7 +97,7 @@ export default function SecureLoginPage() {
           router.push('/');
         }
       }
-    } catch (err) {
+    } catch {
       setError(true);
     } finally {
       setIsLoading(false);
@@ -225,11 +226,12 @@ export default function SecureLoginPage() {
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2"
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
                     {showPassword ? (
-                      <Eye className="h-4 w-4 text-gray-400" />
-                    ) : (
                       <EyeOff className="h-4 w-4 text-gray-400" />
+                    ) : (
+                      <Eye className="h-4 w-4 text-gray-400" />
                     )}
                   </button>
                 </div>

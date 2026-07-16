@@ -17,6 +17,7 @@ import {
 import { headers } from 'next/headers';
 import { getAuthToken, verifyToken } from './auth-actions';
 import { checkRateLimit } from '@/lib/rate-limit';
+import { getClientIpFromHeaders } from '@/lib/client-ip';
 import { sendPetitionConfirmationEmail, sendPetitionNotificationEmail, sendSubscriberWelcomeEmail, sendNewSubscriberNotification } from '@/lib/email';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -41,7 +42,7 @@ export async function fetchSignatures() {
     }
 
     return await getAllSignatures();
-  } catch (error) {
+  } catch {
     return { error: 'Failed to fetch signatures' };
   }
 }
@@ -58,7 +59,7 @@ export async function signPetition(data: {
   try {
     // Rate limit form submissions (10 per 15 min per IP)
     const hdrs = await headers();
-    const ip = hdrs.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+    const ip = getClientIpFromHeaders(hdrs);
     const limit = await checkRateLimit(`petition:${ip}`, 10);
     if (!limit.allowed) {
       return { error: `Too many submissions. Try again in ${limit.retryAfterSeconds} seconds.` };
@@ -129,7 +130,7 @@ export async function signPetition(data: {
     ]);
 
     return newSignature;
-  } catch (error) {
+  } catch {
     return { error: 'Failed to sign petition' };
   }
 }
@@ -148,7 +149,7 @@ export async function deleteSignature(id: string) {
     }
 
     return { success: true };
-  } catch (error) {
+  } catch {
     return { error: 'Failed to delete signature' };
   }
 }
@@ -160,7 +161,7 @@ export async function subscribeToNewsletter(data: {
   try {
     // Rate limit
     const hdrs = await headers();
-    const ip = hdrs.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+    const ip = getClientIpFromHeaders(hdrs);
     const limit = await checkRateLimit(`subscribe:${ip}`, 5);
     if (!limit.allowed) {
       return { error: `Too many attempts. Try again in ${limit.retryAfterSeconds} seconds.` };
@@ -208,7 +209,7 @@ export async function subscribeToNewsletter(data: {
     ]);
 
     return { success: true };
-  } catch (error) {
+  } catch {
     return { error: 'Failed to subscribe' };
   }
 }

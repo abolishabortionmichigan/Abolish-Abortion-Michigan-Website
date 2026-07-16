@@ -17,10 +17,11 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   const { logout, setUser } = useUserStore();
 
   useEffect(() => {
-    const doCheck = async () => {
-      setIsCheckingAuth(true);
+    let cancelled = false;
+    (async () => {
       try {
         const res = await checkAuthStatus();
+        if (cancelled) return;
 
         if (res.authorized) {
           if (res.user) {
@@ -31,17 +32,17 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           }
         } else {
           await logout();
-          router.push('/manage-7x9k');
+          if (!cancelled) router.push('/manage-7x9k');
         }
       } catch {
         await logout();
-        router.push('/manage-7x9k');
+        if (!cancelled) router.push('/manage-7x9k');
       } finally {
-        setIsCheckingAuth(false);
+        if (!cancelled) setIsCheckingAuth(false);
       }
-    };
-
-    doCheck();
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useLayoutEffect(() => {

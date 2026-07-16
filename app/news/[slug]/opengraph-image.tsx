@@ -54,11 +54,14 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
 
         {/* Top: Logo + Branding */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          {/* satori renders raw <img>; next/image doesn't apply here */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={logoBase64}
             width={36}
             height={44}
             style={{ filter: 'invert(1)' }}
+            alt=""
           />
           <span
             style={{

@@ -31,7 +31,7 @@ export async function fetchInquiries() {
     }
 
     return await getAllInquiries();
-  } catch (error) {
+  } catch {
     return { error: 'Failed to fetch inquiries' };
   }
 }
@@ -50,7 +50,7 @@ export async function updateInquiry(id: string, data: Partial<Inquiry>) {
     }
 
     return updated;
-  } catch (error) {
+  } catch {
     return { error: 'Failed to update inquiry' };
   }
 }
@@ -69,7 +69,7 @@ export async function deleteInquiry(id: string) {
     }
 
     return { success: true };
-  } catch (error) {
+  } catch {
     return { error: 'Failed to delete inquiry' };
   }
 }
@@ -181,7 +181,7 @@ export async function createInquiry(data: Omit<Inquiry, 'id' | 'status' | 'creat
     }
 
     return newInquiry;
-  } catch (error) {
+  } catch {
     return { error: 'Failed to submit inquiry' };
   }
 }

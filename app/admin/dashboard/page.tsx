@@ -99,7 +99,7 @@ export default function DashboardPage() {
       } else {
         setData(res);
       }
-    } catch (err) {
+    } catch {
       setError(true);
     } finally {
       setLoading(false);

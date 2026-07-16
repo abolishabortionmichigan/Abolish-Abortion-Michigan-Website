@@ -4,7 +4,8 @@ import { cookies, headers } from 'next/headers';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { timingSafeEqual } from 'crypto';
-import { checkRateLimit } from '@/lib/rate-limit';
+import { checkRateLimitStrict } from '@/lib/rate-limit';
+import { getClientIpFromHeaders } from '@/lib/client-ip';
 
 function getRequiredEnv(name: string): string {
   const value = process.env[name];
@@ -24,12 +25,12 @@ function getJwtSecret(): string {
 
 async function getClientIp(): Promise<string> {
   const hdrs = await headers();
-  return hdrs.get('x-forwarded-for')?.split(',')[0]?.trim() || hdrs.get('x-real-ip') || 'unknown';
+  return getClientIpFromHeaders(hdrs);
 }
 
 export async function verifyAccessCode(code: string) {
   const ip = await getClientIp();
-  const limit = await checkRateLimit(`access:${ip}`);
+  const limit = await checkRateLimitStrict(`access:${ip}`);
   if (!limit.allowed) {
     return { valid: false, error: `Too many attempts. Try again in ${limit.retryAfterSeconds} seconds.` };
   }
@@ -74,7 +75,7 @@ export async function removeAuthToken() {
 export async function loginUser(email: string, password: string) {
   try {
     const ip = await getClientIp();
-    const limit = await checkRateLimit(`login:${ip}`);
+    const limit = await checkRateLimitStrict(`login:${ip}`);
     if (!limit.allowed) {
       return { error: `Too many login attempts. Try again in ${limit.retryAfterSeconds} seconds.` };
     }

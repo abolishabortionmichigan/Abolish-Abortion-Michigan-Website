@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { ConfirmDialog } from '@/components/ui/confirm-dialog';
 import { PinDialog } from '@/components/ui/pin-dialog';
 import { Loader2, RefreshCw, Search, Trash, Eye, Download } from 'lucide-react';
-import { fetchInquiries, updateInquiry, deleteInquiry } from '@/lib/actions/inquiry-actions';
+import { fetchInquiries, deleteInquiry } from '@/lib/actions/inquiry-actions';
 import { Inquiry } from '@/types';
 import { formatDate } from '@/lib/utils';
 import InquiryModal from '../../components/inquiry-modal';
@@ -42,7 +42,7 @@ export default function InquiriesPage() {
       } else {
         setInquiries(res);
       }
-    } catch (err) {
+    } catch {
       setError(true);
     } finally {
       setLoading(false);

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import FooterNewsletter from './FooterNewsletter';
+import { socialLinks } from '@/lib/content';
 
 export default function Footer() {
   return (
@@ -86,7 +87,7 @@ export default function Footer() {
             {/* Social Icons */}
             <div className="flex justify-center space-x-4">
               <a
-                href="https://facebook.com/abolishabortionmichigan"
+                href={socialLinks.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-300 hover:text-white transition-colors"
@@ -97,7 +98,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://x.com/AbolitionMI"
+                href={socialLinks.x}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-300 hover:text-white transition-colors"
@@ -108,7 +109,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://instagram.com/abolishabortionmichigan"
+                href={socialLinks.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-300 hover:text-white transition-colors"

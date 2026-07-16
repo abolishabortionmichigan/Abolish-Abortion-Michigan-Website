@@ -9,7 +9,6 @@ import {
   getAllSubscribers,
   updateSubscriberStatus,
   deleteSubscriberById,
-  getSubscriberByEmail,
 } from '@/lib/data/subscriber-store';
 import { getAuthToken, verifyToken } from './auth-actions';
 
@@ -69,7 +68,7 @@ export async function fetchSubscribers() {
     }
 
     return combined;
-  } catch (error) {
+  } catch {
     return { error: 'Failed to fetch subscribers' };
   }
 }
@@ -92,7 +91,7 @@ export async function unsubscribeUser(email: string) {
     }
 
     return { success: true };
-  } catch (error) {
+  } catch {
     return { error: 'Failed to unsubscribe user' };
   }
 }
@@ -112,7 +111,7 @@ export async function deleteSubscriber(id: string) {
     if (subscriberDeleted) return { success: true };
 
     return { error: 'Subscriber not found' };
-  } catch (error) {
+  } catch {
     return { error: 'Failed to delete subscriber' };
   }
 }

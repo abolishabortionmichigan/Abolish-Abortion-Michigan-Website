@@ -14,7 +14,10 @@ model User {
   email            String    @unique
   password         String
   name             String?
-  role             String    @default("admin")
+  // Default role is "member" so a future user-creation flow doesn't
+  // silently mint admins. The single admin account is bootstrapped via
+  // ADMIN_EMAIL / ADMIN_PASSWORD_HASH env vars, not through this table.
+  role             String    @default("member")
   resetToken       String?
   resetTokenExpiry DateTime?
   created_at       DateTime  @default(now())

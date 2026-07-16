@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 interface ShareButtonsProps {
   url?: string;
@@ -14,11 +14,8 @@ export default function ShareButtons({
   description = 'Sign the petition calling for the immediate abolition of abortion in Michigan.',
 }: ShareButtonsProps) {
   const [copied, setCopied] = useState(false);
-  const [shareUrl, setShareUrl] = useState(url || '');
-
-  useEffect(() => {
-    if (!url) setShareUrl(window.location.href);
-  }, [url]);
+  // Derive shareUrl from prop or window at render time (safe: this is a client component).
+  const shareUrl = url || (typeof window !== 'undefined' ? window.location.href : '');
   const encodedUrl = encodeURIComponent(shareUrl);
   const encodedTitle = encodeURIComponent(title);
   const encodedDescription = encodeURIComponent(description);

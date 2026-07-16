@@ -25,8 +25,16 @@ function toTitleCase(str: string) {
 
 export default function MobileNav({ isOpen, onClose, navItems }: MobileNavProps) {
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const drawerRef = useRef<HTMLDivElement>(null);
+
+  // Reset expanded items when the drawer opens (React 19 derived-state reset).
+  if (isOpen !== prevIsOpen) {
+    setPrevIsOpen(isOpen);
+    if (isOpen && expandedItems.length > 0) {
+      setExpandedItems([]);
+    }
+  }
 
   const toggleExpanded = (label: string) => {
     setExpandedItems((prev) =>
@@ -34,10 +42,9 @@ export default function MobileNav({ isOpen, onClose, navItems }: MobileNavProps)
     );
   };
 
-  // Reset expanded items and focus close button on open
+  // Focus the close button after the drawer becomes visible.
   useEffect(() => {
     if (isOpen) {
-      setExpandedItems([]);
       closeButtonRef.current?.focus();
     }
   }, [isOpen]);

@@ -2,7 +2,7 @@ import prisma, { isDatabaseConnected } from '@/lib/prisma';
 import { GalleryPhoto } from '@/types';
 
 // In-memory fallback
-let memoryPhotos: GalleryPhoto[] = [];
+const memoryPhotos: GalleryPhoto[] = [];
 
 function mapPhoto(photo: { id: string; url: string; caption: string | null; sortOrder: number; created_at: Date }): GalleryPhoto {
   return {

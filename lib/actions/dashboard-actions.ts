@@ -3,7 +3,7 @@
 import { getAuthToken, verifyToken } from './auth-actions';
 import { getAllInquiries } from '@/lib/data/inquiry-store';
 import { getAllNewsArticles } from '@/lib/data/news-store';
-import { getAllSignatures, getSignatureCount, getSubscriberCount, getSubscribedEmails } from '@/lib/data/petition-store';
+import { getAllSignatures, getSignatureCount, getSubscribedEmails } from '@/lib/data/petition-store';
 import { getAllGalleryPhotos, getGalleryPhotoCount } from '@/lib/data/gallery-store';
 import { getActiveSubscriberEmails } from '@/lib/data/subscriber-store';
 import { DashboardStats } from '@/types';
@@ -48,7 +48,7 @@ export async function getDashboardStats(): Promise<DashboardStats | { error: str
     };
 
     return stats;
-  } catch (error) {
+  } catch {
     return { error: 'Failed to fetch dashboard stats' };
   }
 }
@@ -68,7 +68,7 @@ export async function exportAllData() {
     ]);
 
     return { inquiries, articles, signatures, photos };
-  } catch (error) {
+  } catch {
     return { error: 'Failed to export data' };
   }
 }

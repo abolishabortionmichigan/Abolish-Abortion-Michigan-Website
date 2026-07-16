@@ -16,20 +16,25 @@ async function isAdmin(): Promise<boolean> {
 }
 
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const publishedOnly = searchParams.get('published') === 'true';
+  try {
+    const { searchParams } = new URL(request.url);
+    const publishedOnly = searchParams.get('published') === 'true';
 
-  if (publishedOnly) {
-    return NextResponse.json(await getAllNewsArticles(true));
+    if (publishedOnly) {
+      return NextResponse.json(await getAllNewsArticles(true));
+    }
+
+    // For admin view, verify auth
+    if (!await isAdmin()) {
+      // Return only published articles for non-admins
+      return NextResponse.json(await getAllNewsArticles(true));
+    }
+
+    return NextResponse.json(await getAllNewsArticles(false));
+  } catch (error) {
+    console.error('GET /api/news failed, returning empty list:', error instanceof Error ? error.message : 'Unknown error');
+    return NextResponse.json([]);
   }
-
-  // For admin view, verify auth
-  if (!await isAdmin()) {
-    // Return only published articles for non-admins
-    return NextResponse.json(await getAllNewsArticles(true));
-  }
-
-  return NextResponse.json(await getAllNewsArticles(false));
 }
 
 export async function POST(request: NextRequest) {

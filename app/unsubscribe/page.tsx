@@ -1,61 +1,47 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Suspense, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
-export default function UnsubscribePage() {
-  const [email, setEmail] = useState('');
-  const [token, setToken] = useState('');
-  const [status, setStatus] = useState<'loading' | 'confirm' | 'processing' | 'success' | 'error' | 'invalid'>('loading');
+type Status = 'confirm' | 'processing' | 'success' | 'error' | 'invalid';
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const emailParam = params.get('email');
-    const tokenParam = params.get('token');
-    const successParam = params.get('success');
+function UnsubscribeContent() {
+  const searchParams = useSearchParams();
+  const email = searchParams.get('email') ?? '';
+  const token = searchParams.get('token') ?? '';
+  const successParam = searchParams.get('success');
 
-    // Legacy: support old flow where API already unsubscribed via GET
-    if (successParam === 'true') {
-      setStatus('success');
-      return;
-    }
+  const [override, setOverride] = useState<Status | null>(null);
 
-    if (!emailParam || !tokenParam) {
-      setStatus('invalid');
-      return;
-    }
-
-    setEmail(emailParam);
-    setToken(tokenParam);
-    setStatus('confirm');
-  }, []);
+  let status: Status;
+  if (override) {
+    status = override;
+  } else if (successParam === 'true') {
+    status = 'success';
+  } else if (!email || !token) {
+    status = 'invalid';
+  } else {
+    status = 'confirm';
+  }
 
   const handleUnsubscribe = async () => {
-    setStatus('processing');
+    setOverride('processing');
     try {
       const res = await fetch('/api/unsubscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, token }),
       });
-
-      if (res.ok) {
-        setStatus('success');
-      } else {
-        setStatus('error');
-      }
+      setOverride(res.ok ? 'success' : 'error');
     } catch {
-      setStatus('error');
+      setOverride('error');
     }
   };
 
   return (
     <section className="bg-[#1a1a1a] text-white min-h-[60vh] flex items-center justify-center">
       <div className="max-w-lg mx-auto px-4 text-center py-24">
-        {status === 'loading' && (
-          <p className="text-gray-300">Loading...</p>
-        )}
-
         {status === 'invalid' && (
           <>
             <h1 className="text-3xl md:text-4xl font-bold mb-6">Invalid Link</h1>
@@ -143,5 +129,17 @@ export default function UnsubscribePage() {
         )}
       </div>
     </section>
+  );
+}
+
+export default function UnsubscribePage() {
+  return (
+    <Suspense fallback={
+      <section className="bg-[#1a1a1a] text-white min-h-[60vh] flex items-center justify-center">
+        <p className="text-gray-300">Loading...</p>
+      </section>
+    }>
+      <UnsubscribeContent />
+    </Suspense>
   );
 }

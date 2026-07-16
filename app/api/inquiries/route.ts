@@ -7,6 +7,7 @@ import { sendInquiryConfirmationEmail, sendInquiryNotificationEmail } from '@/li
 import { getAuthToken, verifyToken } from '@/lib/actions/auth-actions';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { validateCsrf } from '@/lib/csrf';
+import { getClientIp } from '@/lib/client-ip';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -30,7 +31,7 @@ export async function POST(request: NextRequest) {
 
   try {
     // Rate limit form submissions (10 per 15 min per IP)
-    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+    const ip = getClientIp(request);
     const limit = await checkRateLimit(`inquiry:${ip}`, 10);
     if (!limit.allowed) {
       return NextResponse.json({ error: `Too many submissions. Try again in ${limit.retryAfterSeconds} seconds.` }, { status: 429 });
@@ -95,7 +96,7 @@ export async function POST(request: NextRequest) {
     ]);
 
     return NextResponse.json(newInquiry, { status: 201 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to create inquiry' }, { status: 500 });
   }
 }

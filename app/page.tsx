@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import CTABanner from '@/components/CTABanner';
 import NewsCard from '@/components/NewsCard';
-import { statistics } from '@/lib/content';
+import { statistics, socialLinks } from '@/lib/content';
 import { getAllNewsArticles } from '@/lib/data/news-store';
 
 export const metadata: Metadata = {
@@ -29,11 +29,7 @@ export default async function HomePage() {
     url: 'https://abolishabortionmichigan.com',
     logo: 'https://abolishabortionmichigan.com/images/aa-logo.webp',
     description: 'Abolitionists in Michigan devoted to establishing justice and equal protection for our preborn neighbors.',
-    sameAs: [
-      'https://facebook.com/abolishabortionmichigan',
-      'https://x.com/AbolitionMI',
-      'https://instagram.com/abolishabortionmichigan',
-    ],
+    sameAs: [socialLinks.facebook, socialLinks.x, socialLinks.instagram],
   };
 
   return (

@@ -54,12 +54,26 @@ export function validateCsrf(request: NextRequest): NextResponse | null {
     return null;
   }
 
-  // Vercel preview deployments (project-specific only)
-  if (
-    origin.endsWith('.vercel.app') &&
-    new URL(origin).hostname.includes('abolish-abortion-michigan')
-  ) {
-    return null;
+  // Vercel preview deployments — only allow when explicitly opted in via env.
+  // Set VERCEL_PREVIEW_PROJECT_SLUG to your Vercel project slug (e.g.
+  // "abolish-abortion-michigan-website"). Preview URLs then match:
+  //   <slug>-<branch|hash>-<team>.vercel.app
+  // The trailing dash after the slug is REQUIRED so a hostile project like
+  // "<slug>-attacker.vercel.app" cannot bypass by including the slug as a
+  // substring/prefix.
+  const previewSlug = process.env.VERCEL_PREVIEW_PROJECT_SLUG;
+  if (previewSlug) {
+    try {
+      const hostname = new URL(origin).hostname;
+      if (
+        hostname.endsWith('.vercel.app') &&
+        hostname.startsWith(`${previewSlug}-`)
+      ) {
+        return null;
+      }
+    } catch {
+      // Fall through to 403
+    }
   }
 
   return NextResponse.json(

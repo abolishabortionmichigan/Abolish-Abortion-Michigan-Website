@@ -44,7 +44,7 @@ export default function GalleryManagementPage() {
       } else {
         setPhotos(res);
       }
-    } catch (err) {
+    } catch {
       setError(true);
     } finally {
       setLoading(false);

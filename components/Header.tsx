@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
 import MobileNav from './MobileNav';
 
@@ -66,13 +66,18 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const pathname = usePathname();
+  const [prevPathname, setPrevPathname] = useState(pathname);
   const dropdownTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const menuItemRefs = useRef<Map<string, HTMLAnchorElement[]>>(new Map());
 
-  // Close dropdown on route change
-  useEffect(() => {
-    setActiveDropdown(null);
-  }, [pathname]);
+  // Close dropdown on route change. React 19 pattern: derived-state reset
+  // via useState + conditional setState during render (not an effect).
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
+    if (activeDropdown !== null) {
+      setActiveDropdown(null);
+    }
+  }
 
   const handleDropdownEnter = useCallback((label: string) => {
     if (dropdownTimeoutRef.current) {
