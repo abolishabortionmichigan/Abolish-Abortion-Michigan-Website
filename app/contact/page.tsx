@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import CTABanner from '@/components/CTABanner';
+import posthog from 'posthog-js';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -39,6 +40,9 @@ export default function ContactPage() {
         throw new Error(error.error || 'Failed to send message');
       }
 
+      posthog.capture('contact_form_submitted', {
+        subject: formData.subject || 'General Inquiry',
+      });
       setStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '', website: '' });
     } catch (err) {
