@@ -29,7 +29,7 @@ export default function FooterNewsletter() {
 
   return (
     <div>
-      <h3 className="text-lg font-bold tracking-wider mb-4">STAY INFORMED</h3>
+      <h2 className="text-lg font-bold tracking-wider mb-4">STAY INFORMED</h2>
       <p className="text-gray-300 text-sm mb-4">
         Get updates on abolition efforts in Michigan.
       </p>

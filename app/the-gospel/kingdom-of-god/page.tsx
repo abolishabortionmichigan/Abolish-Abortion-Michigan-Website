@@ -54,7 +54,7 @@ export default function KingdomOfGodPage() {
                 </p>
 
                 <p>
-                  At the heart of all that we do as abolitionists, as the people of God, is the Gospel call and cry, &ldquo;Repent for the Kingdom of God is at Hand!&rdquo; What drives abolitionism is a desire to do justice, love mercy, and walk humbly with our God (<a href="https://biblia.com/bible/esv/micah/6/8" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Micah 6:8</a>). We seek to bring justice to the fatherless and help to the helpless (<a href="https://biblia.com/bible/esv/isaiah/1/16-17" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Isaiah 1:16-17</a>). Our desire is to consistently practice what the New Testament calls pure and undefiled religion: to look after the orphaned and widows in their affliction, and to keep ourselves unstained by the world (<a href="https://biblia.com/bible/esv/james/1/27" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">James 1:27</a>).
+                  At the heart of all that we do as abolitionists, as the people of God, is the Gospel call and cry, &ldquo;Repent for the Kingdom of God is at Hand!&rdquo; What drives abolitionism is a desire to do justice, love mercy, and walk humbly with our God (<a href="https://biblia.com/bible/esv/micah/6/8" target="_blank" rel="noopener noreferrer" className="text-red-700 underline hover:no-underline">Micah 6:8</a>). We seek to bring justice to the fatherless and help to the helpless (<a href="https://biblia.com/bible/esv/isaiah/1/16-17" target="_blank" rel="noopener noreferrer" className="text-red-700 underline hover:no-underline">Isaiah 1:16-17</a>). Our desire is to consistently practice what the New Testament calls pure and undefiled religion: to look after the orphaned and widows in their affliction, and to keep ourselves unstained by the world (<a href="https://biblia.com/bible/esv/james/1/27" target="_blank" rel="noopener noreferrer" className="text-red-700 underline hover:no-underline">James 1:27</a>).
                 </p>
               </div>
               <div className="w-2/3 max-w-[220px] mx-auto md:max-w-none md:w-1/3">
@@ -91,7 +91,7 @@ export default function KingdomOfGodPage() {
             </blockquote>
 
             <p>
-              As Wilberforce believed that Christianity must be outwardly practiced and not just preached, we see our work as part of the general call upon all Christians to be salt and light in this depraved and darkened world. If Christians hold a belief to be true, such as the belief that all human beings are loved by God and possess inherent worth, we believe that Christians are obliged to act on such beliefs. We believe that Christians are called to not only &ldquo;abhor evil and hold fast to what is good&rdquo; (<a href="https://biblia.com/bible/esv/romans/12/9" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Romans 12:9</a>) but also to expose it (<a href="https://biblia.com/bible/esv/ephesians/5/11" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Ephesians 5:11</a>) and destroy the ungodly speculations which allow and encourage it (<a href="https://biblia.com/bible/esv/2-corinthians/10/5" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">2 Corinthians 10:5</a>).
+              As Wilberforce believed that Christianity must be outwardly practiced and not just preached, we see our work as part of the general call upon all Christians to be salt and light in this depraved and darkened world. If Christians hold a belief to be true, such as the belief that all human beings are loved by God and possess inherent worth, we believe that Christians are obliged to act on such beliefs. We believe that Christians are called to not only &ldquo;abhor evil and hold fast to what is good&rdquo; (<a href="https://biblia.com/bible/esv/romans/12/9" target="_blank" rel="noopener noreferrer" className="text-red-700 underline hover:no-underline">Romans 12:9</a>) but also to expose it (<a href="https://biblia.com/bible/esv/ephesians/5/11" target="_blank" rel="noopener noreferrer" className="text-red-700 underline hover:no-underline">Ephesians 5:11</a>) and destroy the ungodly speculations which allow and encourage it (<a href="https://biblia.com/bible/esv/2-corinthians/10/5" target="_blank" rel="noopener noreferrer" className="text-red-700 underline hover:no-underline">2 Corinthians 10:5</a>).
             </p>
 
             <p>
@@ -114,7 +114,7 @@ export default function KingdomOfGodPage() {
 
             <div className="my-8 aspect-video">
               <iframe
-                src="https://www.youtube.com/embed/ELYaw0oMrVE"
+                src="https://www.youtube-nocookie.com/embed/ELYaw0oMrVE"
                 title="Abolitionism and the Kingdom of God"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
@@ -139,10 +139,10 @@ export default function KingdomOfGodPage() {
 
           {/* Navigation */}
           <div className="mt-12 pt-8 border-t border-gray-200 flex justify-between">
-            <Link href="/the-gospel/gospel" className="text-red-600 font-semibold hover:underline">
+            <Link href="/the-gospel/gospel" className="text-red-700 font-semibold underline hover:no-underline">
               &larr; The Gospel
             </Link>
-            <Link href="/the-gospel/great-commission" className="text-red-600 font-semibold hover:underline">
+            <Link href="/the-gospel/great-commission" className="text-red-700 font-semibold underline hover:no-underline">
               The Great Commission &rarr;
             </Link>
           </div>

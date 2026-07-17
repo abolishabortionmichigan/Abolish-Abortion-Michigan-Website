@@ -11,7 +11,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-8">
           {/* WHY? Section */}
           <div>
-            <h3 className="text-lg font-bold tracking-wider mb-6">WHY?</h3>
+            <h2 className="text-lg font-bold tracking-wider mb-6">WHY?</h2>
             <blockquote className="text-gray-300 text-sm mb-6">
               <p className="italic">&ldquo;You shall love your neighbor as yourself.&rdquo;</p>
               <cite className="block text-right text-gray-300 mt-2 not-italic">-Mark 12:31</cite>
@@ -26,7 +26,7 @@ export default function Footer() {
 
           {/* Center Logo Section */}
           <div className="text-center flex flex-col items-center justify-center">
-            <h3 className="text-lg font-bold tracking-wider mb-6">ABOLISH ABORTION MICHIGAN</h3>
+            <h2 className="text-lg font-bold tracking-wider mb-6">ABOLISH ABORTION MICHIGAN</h2>
             <Image
               src="/images/aa-logo.webp"
               alt="Abolish Abortion Michigan Logo"
@@ -38,7 +38,7 @@ export default function Footer() {
 
           {/* MISSION Section */}
           <div>
-            <h3 className="text-lg font-bold tracking-wider mb-6">MISSION</h3>
+            <h2 className="text-lg font-bold tracking-wider mb-6">MISSION</h2>
             <p className="text-gray-300 text-sm leading-relaxed">
               Abolitionists in Michigan are devoted to showing mercy and establishing justice for our preborn neighbors being led to the slaughter. We seek to be used by God to bring an end to abortion in the United States and around the world, and to be used by Him to proclaim the gospel to as many people as we can, wherever we can, whenever we can. We bring the gospel into conflict with a culture that openly promotes the murder of children through means of agitation and assistance. We are committed to non-violent agitation, preaching, pleading, and information dissemination via community outreach, social media, and other means to abolish abortion.
             </p>

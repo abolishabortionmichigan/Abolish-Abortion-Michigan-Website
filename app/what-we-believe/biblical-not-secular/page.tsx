@@ -42,7 +42,7 @@ export default function BiblicalNotSecularPage() {
             </p>
 
             <p>
-              Successful human rights campaigns <a href="https://youtube.com/watch?v=RAP6sHsNXS0&amp;t=" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">throughout history</a> have been built on this foundation. Perhaps the best articulation of what it means to bring the Gospel into conflict with the evil of the age comes from slavery abolitionist William Lloyd Garrison when he said, &ldquo;My fanaticism is to make Christianity the enemy of all that is sinful.&rdquo;
+              Successful human rights campaigns <a href="https://youtube.com/watch?v=RAP6sHsNXS0&amp;t=" target="_blank" rel="noopener noreferrer" className="text-red-700 underline hover:no-underline">throughout history</a> have been built on this foundation. Perhaps the best articulation of what it means to bring the Gospel into conflict with the evil of the age comes from slavery abolitionist William Lloyd Garrison when he said, &ldquo;My fanaticism is to make Christianity the enemy of all that is sinful.&rdquo;
             </p>
 
             <p>
@@ -50,7 +50,7 @@ export default function BiblicalNotSecularPage() {
             </p>
 
             <p>
-              This duty, as all moral obligations, is grounded in God&apos;s revealed word. Proverbs 24 tells us to rescue those being led to slaughter and in Isaiah 10, God warns the Hebrew leaders, &ldquo;Woe to those who decree iniquitous decrees.&rdquo; As for how to rescue those lead to slaughter, pro-life incrementalists are content to compromise in an attempt to save some babies, but these compromises are the definition of iniquitous decrees. They all allow for abortion as long as the baby is young enough. <a href="https://biblia.com/bible/esv/romans/3/8" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Romans 3:8</a> rebukes those who would do evil that good may come, which is literally the strategy of the pro-life establishment. As abolitionists who take God&apos;s word seriously, we never write laws which make the fatherless prey and there&apos;s no one more fatherless than the child conceived in rape. The pro-life movement has long been content to write laws allowing for the murder of the most fatherless among us because of the crimes of their fathers. Woe unto them for this great and wicked compromise (<a href="https://biblia.com/bible/esv/isaiah/10/1-2" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Isaiah 10:1-2</a>).
+              This duty, as all moral obligations, is grounded in God&apos;s revealed word. Proverbs 24 tells us to rescue those being led to slaughter and in Isaiah 10, God warns the Hebrew leaders, &ldquo;Woe to those who decree iniquitous decrees.&rdquo; As for how to rescue those lead to slaughter, pro-life incrementalists are content to compromise in an attempt to save some babies, but these compromises are the definition of iniquitous decrees. They all allow for abortion as long as the baby is young enough. <a href="https://biblia.com/bible/esv/romans/3/8" target="_blank" rel="noopener noreferrer" className="text-red-700 underline hover:no-underline">Romans 3:8</a> rebukes those who would do evil that good may come, which is literally the strategy of the pro-life establishment. As abolitionists who take God&apos;s word seriously, we never write laws which make the fatherless prey and there&apos;s no one more fatherless than the child conceived in rape. The pro-life movement has long been content to write laws allowing for the murder of the most fatherless among us because of the crimes of their fathers. Woe unto them for this great and wicked compromise (<a href="https://biblia.com/bible/esv/isaiah/10/1-2" target="_blank" rel="noopener noreferrer" className="text-red-700 underline hover:no-underline">Isaiah 10:1-2</a>).
             </p>
 
             <h3 className="text-xl font-bold mt-8 mb-4">Moses, The First Abolitionist</h3>
@@ -63,13 +63,13 @@ export default function BiblicalNotSecularPage() {
             />
 
             <p>
-              Moses was a prototypical abolitionist. With his people suffering under a tyrant, Pharaoh offered all sorts of deals to Moses. He offered to let some of the Hebrews go, he offered to let the Hebrews go for a certain amount of time, and he even offered to let all the Hebrews go free permanently so long as they left their animals &ndash; to which Moses replied, &ldquo;Not a hoof shall be left behind&rdquo; (<a href="https://biblia.com/bible/esv/exodus/10/24-26" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Exodus 10:24-26</a>).
+              Moses was a prototypical abolitionist. With his people suffering under a tyrant, Pharaoh offered all sorts of deals to Moses. He offered to let some of the Hebrews go, he offered to let the Hebrews go for a certain amount of time, and he even offered to let all the Hebrews go free permanently so long as they left their animals &ndash; to which Moses replied, &ldquo;Not a hoof shall be left behind&rdquo; (<a href="https://biblia.com/bible/esv/exodus/10/24-26" target="_blank" rel="noopener noreferrer" className="text-red-700 underline hover:no-underline">Exodus 10:24-26</a>).
             </p>
 
             <div className="bg-gray-100 p-6 rounded-lg my-8">
               <h3 className="text-xl font-bold mb-4">Where They Conflict, Obey God Rather Than Man</h3>
               <p>
-                Among many other verses, <a href="https://biblia.com/bible/esv/acts/5/29" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">Acts 5:29</a> teaches us that when presented with the choice between obeying God or obeying man, we obey God. So when the supreme court orders our state to allow the mass murder of preborn children, we boldly bring the Gospel into conflict with the court&apos;s rebellion against God.
+                Among many other verses, <a href="https://biblia.com/bible/esv/acts/5/29" target="_blank" rel="noopener noreferrer" className="text-red-700 underline hover:no-underline">Acts 5:29</a> teaches us that when presented with the choice between obeying God or obeying man, we obey God. So when the supreme court orders our state to allow the mass murder of preborn children, we boldly bring the Gospel into conflict with the court&apos;s rebellion against God.
               </p>
             </div>
 
@@ -97,10 +97,10 @@ export default function BiblicalNotSecularPage() {
 
           {/* Navigation */}
           <div className="mt-12 pt-8 border-t border-gray-200 flex justify-between">
-            <Link href="/what-we-believe/abolitionist-not-pro-life" className="text-red-600 font-semibold hover:underline">
+            <Link href="/what-we-believe/abolitionist-not-pro-life" className="text-red-700 font-semibold underline hover:no-underline">
               &larr; Abolitionist, Not Pro-Life
             </Link>
-            <Link href="/what-we-believe/immediate-not-gradual" className="text-red-600 font-semibold hover:underline">
+            <Link href="/what-we-believe/immediate-not-gradual" className="text-red-700 font-semibold underline hover:no-underline">
               Immediate, Not Gradual &rarr;
             </Link>
           </div>

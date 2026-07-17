@@ -52,8 +52,12 @@ export default function NewsSearch({ articles }: { articles: Article[] }) {
 
       {/* Results */}
       {filtered.length > 0 ? (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((article) => (
+        <>
+          {/* Visually-hidden H2 so the H3 headings inside each NewsCard have
+              a proper parent in the outline (fixes Lighthouse heading-order). */}
+          <h2 className="sr-only">News Articles</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filtered.map((article) => (
             <NewsCard
               key={article.slug}
               title={article.title}
@@ -72,7 +76,8 @@ export default function NewsSearch({ articles }: { articles: Article[] }) {
               readingTime={article.readingTime}
             />
           ))}
-        </div>
+          </div>
+        </>
       ) : searchTerm ? (
         <div className="text-center py-12">
           <h2 className="text-2xl font-bold mb-4">No Results</h2>
