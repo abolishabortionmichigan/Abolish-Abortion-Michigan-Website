@@ -1,0 +1,64 @@
+# Automated PageSpeed / Lighthouse reports for abolishabortionmichigan.com.
+# Runs the same audit as pagespeed.web.dev — on a schedule and on demand — so
+# no more exporting PDFs by hand.
+#
+# HOW TO READ THE RESULTS:
+#   Repo -> Actions tab -> "Lighthouse audit" -> latest run. Scores (with
+#   shareable report links, live ~7 days) are in the "Run Lighthouse" step.
+#
+# HOW TO RUN IT NOW: Actions tab -> "Lighthouse audit" -> "Run workflow".
+#
+# The thresholds in lighthouserc.json are "warn" only, so a dip is surfaced
+# but never fails the run (nothing here can block a deploy or break the site).
+
+name: Lighthouse audit
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "0 13 * * 1" # Mondays 13:00 UTC (~8-9am ET)
+
+permissions:
+  contents: read
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Lighthouse
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            https://www.abolishabortionmichigan.com/
+            https://www.abolishabortionmichigan.com/who-we-are
+            https://www.abolishabortionmichigan.com/what-we-believe
+            https://www.abolishabortionmichigan.com/what-we-believe/abolitionist-not-pro-life
+            https://www.abolishabortionmichigan.com/what-we-believe/biblical-not-secular
+            https://www.abolishabortionmichigan.com/what-we-believe/immediate-not-gradual
+            https://www.abolishabortionmichigan.com/what-we-believe/no-exceptions
+            https://www.abolishabortionmichigan.com/what-we-believe/ignore-roe
+            https://www.abolishabortionmichigan.com/what-we-believe/criminalization
+            https://www.abolishabortionmichigan.com/the-gospel
+            https://www.abolishabortionmichigan.com/the-gospel/gospel
+            https://www.abolishabortionmichigan.com/the-gospel/kingdom-of-god
+            https://www.abolishabortionmichigan.com/the-gospel/great-commission
+            https://www.abolishabortionmichigan.com/the-gospel/message-of-reconciliation
+            https://www.abolishabortionmichigan.com/the-gospel/answer-to-abortion
+            https://www.abolishabortionmichigan.com/the-gospel/incarnation
+            https://www.abolishabortionmichigan.com/the-petition
+            https://www.abolishabortionmichigan.com/abolition-bills
+            https://www.abolishabortionmichigan.com/abolition-bills/components
+            https://www.abolishabortionmichigan.com/abolition-bills/current-bills
+            https://www.abolishabortionmichigan.com/news
+            https://www.abolishabortionmichigan.com/faq
+            https://www.abolishabortionmichigan.com/media
+            https://www.abolishabortionmichigan.com/contact
+            https://www.abolishabortionmichigan.com/donate
+            https://www.abolishabortionmichigan.com/non-violence-statement
+            https://www.abolishabortionmichigan.com/privacy-policy
+            https://www.abolishabortionmichigan.com/delete-my-data
+          configPath: ./lighthouserc.json
+          uploadArtifacts: true
+          temporaryPublicStorage: true
