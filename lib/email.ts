@@ -1,10 +1,54 @@
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 import { createHmac, timingSafeEqual } from 'crypto';
 import { escapeHtml } from './sanitize';
 
 // Strip newlines from email subjects to prevent header injection
 function sanitizeSubject(str: string): string {
   return str.replace(/[\r\n]+/g, ' ').trim();
+}
+
+// Single Resend client — the HTTP SDK is stateless so a shared instance is fine.
+let resendClient: Resend | null = null;
+function getResend(): Resend | null {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) return null;
+  if (!resendClient) resendClient = new Resend(key);
+  return resendClient;
+}
+
+// Thin wrapper so the sender call sites read almost identically to the old
+// nodemailer ones, and so we can normalize Resend's { data, error } shape into
+// the { success, messageId?, error } contract callers already handle.
+async function send(opts: {
+  from: string;
+  to: string | undefined;
+  subject: string;
+  html: string;
+  bcc?: string;
+  replyTo?: string;
+}): Promise<{ success: true; messageId?: string } | { success: false; error: string }> {
+  if (!opts.to) {
+    console.warn('send(): missing "to" address, skipping.');
+    return { success: false, error: 'Recipient not configured' };
+  }
+  const resend = getResend();
+  if (!resend) {
+    console.warn('RESEND_API_KEY not configured. Skipping email send.');
+    return { success: false, error: 'Email not configured' };
+  }
+  const { data, error } = await resend.emails.send({
+    from: opts.from,
+    to: opts.to,
+    subject: opts.subject,
+    html: opts.html,
+    ...(opts.bcc ? { bcc: opts.bcc } : {}),
+    ...(opts.replyTo ? { replyTo: opts.replyTo } : {}),
+  });
+  if (error) {
+    console.error('Resend send error:', error.message || String(error));
+    return { success: false, error: 'Failed to send email' };
+  }
+  return { success: true, messageId: data?.id };
 }
 
 interface InquiryData {
@@ -36,54 +80,24 @@ interface SubscriberData {
   email: string;
 }
 
-// Get email configuration from environment variables
+// Get email configuration from environment variables.
+// RESEND_FROM must be a verified-domain address in the Resend dashboard
+// (e.g. "Abolish Abortion Michigan <noreply@abolishabortionmichigan.com>").
+// Falls back to a sensible default constructed from ADMIN_EMAIL.
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 const NOTIFICATION_EMAIL = process.env.NOTIFICATION_EMAIL || ADMIN_EMAIL;
-const EMAIL_USER = process.env.EMAIL_USER || ADMIN_EMAIL;
-const EMAIL_PASSWORD = process.env.EMAIL_PASSWORD;
-const EMAIL_HOST = process.env.EMAIL_HOST || 'smtp.gmail.com';
-const EMAIL_PORT = parseInt(process.env.EMAIL_PORT || '587', 10);
-
-// Create transporter for single emails
-const createTransporter = () => {
-  return nodemailer.createTransport({
-    host: EMAIL_HOST,
-    port: EMAIL_PORT,
-    secure: EMAIL_PORT === 465,
-    auth: {
-      user: EMAIL_USER,
-      pass: EMAIL_PASSWORD,
-    },
-  });
-};
-
-// Create pooled transporter for bulk sends — reuses one SMTP connection
-const createPooledTransporter = () => {
-  return nodemailer.createTransport({
-    pool: true,
-    maxConnections: 1,
-    host: EMAIL_HOST,
-    port: EMAIL_PORT,
-    secure: EMAIL_PORT === 465,
-    auth: {
-      user: EMAIL_USER,
-      pass: EMAIL_PASSWORD,
-    },
-  });
-};
+const FROM_EMAIL =
+  process.env.RESEND_FROM ||
+  (ADMIN_EMAIL ? `Abolish Abortion Michigan <${ADMIN_EMAIL}>` : 'noreply@abolishabortionmichigan.com');
+const FROM_NOTIFICATIONS =
+  process.env.RESEND_FROM_NOTIFICATIONS ||
+  (ADMIN_EMAIL ? `AAM Website <${ADMIN_EMAIL}>` : FROM_EMAIL);
 
 // Send inquiry confirmation email to the user
 export const sendInquiryConfirmationEmail = async (inquiry: InquiryData) => {
-  if (!EMAIL_PASSWORD) {
-    console.warn('Email password not configured. Skipping email send.');
-    return { success: false, error: 'Email not configured' };
-  }
-
-  const transporter = createTransporter();
-
   try {
-    const info = await transporter.sendMail({
-      from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
+    const _info = await send({
+      from: FROM_EMAIL,
       to: inquiry.email,
       bcc: NOTIFICATION_EMAIL,
       subject: `Thank You for Contacting Abolish Abortion Michigan`,
@@ -91,7 +105,7 @@ export const sendInquiryConfirmationEmail = async (inquiry: InquiryData) => {
     });
 
     // Email sent successfully
-    return { success: true, messageId: info.messageId };
+    return _info;
   } catch (error) {
     console.error('Error sending confirmation email:', error instanceof Error ? error.message : 'Unknown error');
     return { success: false, error: 'Failed to send email' };
@@ -100,17 +114,11 @@ export const sendInquiryConfirmationEmail = async (inquiry: InquiryData) => {
 
 // Send reply email to inquiry sender
 export const sendInquiryReplyEmail = async (data: { to: string; name: string; subject: string; message: string }) => {
-  if (!EMAIL_PASSWORD) {
-    console.warn('Email password not configured. Skipping email send.');
-    return { success: false, error: 'Email not configured' };
-  }
-
-  const transporter = createTransporter();
   const safeName = escapeHtml(data.name);
 
   try {
-    const info = await transporter.sendMail({
-      from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
+    const _info = await send({
+      from: FROM_EMAIL,
       to: data.to,
       bcc: NOTIFICATION_EMAIL,
       subject: sanitizeSubject(`Re: ${data.subject || 'Your Inquiry'}`),
@@ -156,7 +164,7 @@ export const sendInquiryReplyEmail = async (data: { to: string; name: string; su
       `,
     });
 
-    return { success: true, messageId: info.messageId };
+    return _info;
   } catch (error) {
     console.error('Error sending reply email:', error instanceof Error ? error.message : 'Unknown error');
     return { success: false, error: 'Failed to send reply' };
@@ -165,23 +173,16 @@ export const sendInquiryReplyEmail = async (data: { to: string; name: string; su
 
 // Send notification email to admin when new inquiry is received
 export const sendInquiryNotificationEmail = async (inquiry: InquiryData) => {
-  if (!EMAIL_PASSWORD) {
-    console.warn('Email password not configured. Skipping email send.');
-    return { success: false, error: 'Email not configured' };
-  }
-
-  const transporter = createTransporter();
-
   try {
-    const info = await transporter.sendMail({
-      from: `"AAM Website" <${EMAIL_USER}>`,
+    const _info = await send({
+      from: FROM_NOTIFICATIONS,
       to: NOTIFICATION_EMAIL,
       subject: sanitizeSubject(`New Inquiry: ${inquiry.subject || 'General Inquiry'}`),
       html: inquiryNotificationEmailHtml(inquiry),
     });
 
     // Email sent successfully
-    return { success: true, messageId: info.messageId };
+    return _info;
   } catch (error) {
     console.error('Error sending notification email:', error instanceof Error ? error.message : 'Unknown error');
     return { success: false, error: 'Failed to send email' };
@@ -532,22 +533,15 @@ function unsubscribeFooterHtml(email: string): string {
 // ===== PETITION EMAILS =====
 
 export const sendPetitionConfirmationEmail = async (petition: PetitionData) => {
-  if (!EMAIL_PASSWORD) {
-    console.warn('Email password not configured. Skipping email send.');
-    return { success: false, error: 'Email not configured' };
-  }
-
-  const transporter = createTransporter();
-
   try {
-    const info = await transporter.sendMail({
-      from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
+    const _info = await send({
+      from: FROM_EMAIL,
       to: petition.email,
       subject: 'Thank You for Signing the Petition!',
       html: petitionConfirmationEmailHtml(petition),
     });
 
-    return { success: true, messageId: info.messageId };
+    return _info;
   } catch (error) {
     console.error('Error sending petition confirmation email:', error instanceof Error ? error.message : 'Unknown error');
     return { success: false, error: 'Failed to send email' };
@@ -555,22 +549,15 @@ export const sendPetitionConfirmationEmail = async (petition: PetitionData) => {
 };
 
 export const sendPetitionNotificationEmail = async (petition: PetitionData) => {
-  if (!EMAIL_PASSWORD) {
-    console.warn('Email password not configured. Skipping email send.');
-    return { success: false, error: 'Email not configured' };
-  }
-
-  const transporter = createTransporter();
-
   try {
-    const info = await transporter.sendMail({
-      from: `"AAM Website" <${EMAIL_USER}>`,
+    const _info = await send({
+      from: FROM_NOTIFICATIONS,
       to: NOTIFICATION_EMAIL,
       subject: sanitizeSubject(`New Petition Signature: ${petition.name}`),
       html: petitionNotificationEmailHtml(petition),
     });
 
-    return { success: true, messageId: info.messageId };
+    return _info;
   } catch (error) {
     console.error('Error sending petition notification email:', error instanceof Error ? error.message : 'Unknown error');
     return { success: false, error: 'Failed to send email' };
@@ -705,15 +692,9 @@ const petitionNotificationEmailHtml = (petition: PetitionData) => {
 // ===== SUBSCRIBER WELCOME / NOTIFICATION EMAILS =====
 
 export const sendSubscriberWelcomeEmail = async (email: string) => {
-  if (!EMAIL_PASSWORD) {
-    return { success: false, error: 'Email not configured' };
-  }
-
-  const transporter = createTransporter();
-
   try {
-    const info = await transporter.sendMail({
-      from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
+    const _info = await send({
+      from: FROM_EMAIL,
       to: email,
       subject: 'Welcome to Abolish Abortion Michigan Updates',
       html: `
@@ -761,7 +742,7 @@ export const sendSubscriberWelcomeEmail = async (email: string) => {
 </html>`,
     });
 
-    return { success: true, messageId: info.messageId };
+    return _info;
   } catch (error) {
     console.error('Error sending subscriber welcome email:', error instanceof Error ? error.message : 'Unknown error');
     return { success: false, error: 'Failed to send email' };
@@ -769,16 +750,11 @@ export const sendSubscriberWelcomeEmail = async (email: string) => {
 };
 
 export const sendNewSubscriberNotification = async (email: string) => {
-  if (!EMAIL_PASSWORD || !NOTIFICATION_EMAIL) {
-    return { success: false, error: 'Email not configured' };
-  }
-
-  const transporter = createTransporter();
   const safeEmail = escapeHtml(email);
 
   try {
-    const info = await transporter.sendMail({
-      from: `"AAM Website" <${EMAIL_USER}>`,
+    const _info = await send({
+      from: FROM_NOTIFICATIONS,
       to: NOTIFICATION_EMAIL,
       subject: sanitizeSubject(`New Newsletter Subscriber: ${email}`),
       html: `
@@ -819,7 +795,7 @@ export const sendNewSubscriberNotification = async (email: string) => {
 </html>`,
     });
 
-    return { success: true, messageId: info.messageId };
+    return _info;
   } catch (error) {
     console.error('Error sending new subscriber notification:', error instanceof Error ? error.message : 'Unknown error');
     return { success: false, error: 'Failed to send email' };
@@ -829,21 +805,15 @@ export const sendNewSubscriberNotification = async (email: string) => {
 // ===== NEWSLETTER EMAILS =====
 
 export const sendNewsletterEmail = async (article: ArticleData, subscriber: SubscriberData) => {
-  if (!EMAIL_PASSWORD) {
-    return { success: false, error: 'Email not configured' };
-  }
-
-  const transporter = createTransporter();
-
   try {
-    const info = await transporter.sendMail({
-      from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
+    const _info = await send({
+      from: FROM_EMAIL,
       to: subscriber.email,
       subject: sanitizeSubject(`New Article: ${article.title}`),
       html: newsletterEmailHtml(article, subscriber),
     });
 
-    return { success: true, messageId: info.messageId };
+    return _info;
   } catch (error) {
     console.error('Error sending newsletter:', error instanceof Error ? error.message : 'Unknown error');
     return { success: false, error: 'Failed to send email' };
@@ -851,32 +821,22 @@ export const sendNewsletterEmail = async (article: ArticleData, subscriber: Subs
 };
 
 export const sendNewsletterToAll = async (article: ArticleData, subscribers: SubscriberData[]): Promise<{ sent: number; failed: number }> => {
-  if (!EMAIL_PASSWORD) {
-    return { sent: 0, failed: subscribers.length };
-  }
-
-  const transporter = createPooledTransporter();
   let sent = 0;
   let failed = 0;
 
-  try {
-    for (const subscriber of subscribers) {
-      try {
-        await transporter.sendMail({
-          from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
+  for (const subscriber of subscribers) {
+      const r = await send({
+          from: FROM_EMAIL,
           to: subscriber.email,
           subject: sanitizeSubject(`New Article: ${article.title}`),
           html: newsletterEmailHtml(article, subscriber),
         });
-        sent++;
-      } catch (error) {
-        console.error(`Error sending newsletter to ${subscriber.email}:`, error instanceof Error ? error.message : 'Unknown error');
+      if (r.success) sent++;
+      else {
+        console.error(`Error sending newsletter to ${subscriber.email}:`, r.error);
         failed++;
       }
       await new Promise((resolve) => setTimeout(resolve, 200));
-    }
-  } finally {
-    transporter.close();
   }
 
   return { sent, failed };
@@ -945,21 +905,15 @@ const newsletterEmailHtml = (article: ArticleData, subscriber: SubscriberData) =
 // ===== BROADCAST EMAILS =====
 
 export const sendBroadcastEmail = async (subject: string, body: string, subscriber: SubscriberData) => {
-  if (!EMAIL_PASSWORD) {
-    return { success: false, error: 'Email not configured' };
-  }
-
-  const transporter = createTransporter();
-
   try {
-    const info = await transporter.sendMail({
-      from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
+    const _info = await send({
+      from: FROM_EMAIL,
       to: subscriber.email,
       subject: sanitizeSubject(subject),
       html: broadcastEmailHtml(subject, body, subscriber),
     });
 
-    return { success: true, messageId: info.messageId };
+    return _info;
   } catch (error) {
     console.error('Error sending broadcast:', error instanceof Error ? error.message : 'Unknown error');
     return { success: false, error: 'Failed to send email' };
@@ -967,32 +921,22 @@ export const sendBroadcastEmail = async (subject: string, body: string, subscrib
 };
 
 export const sendBroadcastToAll = async (subject: string, body: string, subscribers: SubscriberData[]): Promise<{ sent: number; failed: number }> => {
-  if (!EMAIL_PASSWORD) {
-    return { sent: 0, failed: subscribers.length };
-  }
-
-  const transporter = createPooledTransporter();
   let sent = 0;
   let failed = 0;
 
-  try {
-    for (const subscriber of subscribers) {
-      try {
-        await transporter.sendMail({
-          from: `"Abolish Abortion Michigan" <${EMAIL_USER}>`,
+  for (const subscriber of subscribers) {
+      const r = await send({
+          from: FROM_EMAIL,
           to: subscriber.email,
           subject: sanitizeSubject(subject),
           html: broadcastEmailHtml(subject, body, subscriber),
         });
-        sent++;
-      } catch (error) {
-        console.error(`Error sending broadcast to ${subscriber.email}:`, error instanceof Error ? error.message : 'Unknown error');
+      if (r.success) sent++;
+      else {
+        console.error(`Error sending broadcast to ${subscriber.email}:`, r.error);
         failed++;
       }
       await new Promise((resolve) => setTimeout(resolve, 200));
-    }
-  } finally {
-    transporter.close();
   }
 
   return { sent, failed };
@@ -1000,15 +944,9 @@ export const sendBroadcastToAll = async (subject: string, body: string, subscrib
 
 // Send admin notification after newsletter is sent
 export const sendNewsletterNotification = async (article: ArticleData, sent: number, failed: number) => {
-  if (!EMAIL_PASSWORD || !NOTIFICATION_EMAIL) {
-    return { success: false, error: 'Email not configured' };
-  }
-
-  const transporter = createTransporter();
-
   try {
-    const info = await transporter.sendMail({
-      from: `"AAM Website" <${EMAIL_USER}>`,
+    const _info = await send({
+      from: FROM_NOTIFICATIONS,
       to: NOTIFICATION_EMAIL,
       subject: sanitizeSubject(`Newsletter Sent: ${article.title}`),
       html: `
@@ -1055,7 +993,7 @@ export const sendNewsletterNotification = async (article: ArticleData, sent: num
 </html>`,
     });
 
-    return { success: true, messageId: info.messageId };
+    return _info;
   } catch (error) {
     console.error('Error sending newsletter notification:', error instanceof Error ? error.message : 'Unknown error');
     return { success: false, error: 'Failed to send email' };
@@ -1064,15 +1002,9 @@ export const sendNewsletterNotification = async (article: ArticleData, sent: num
 
 // Send admin notification after broadcast is sent
 export const sendBroadcastNotification = async (subject: string, sent: number, failed: number) => {
-  if (!EMAIL_PASSWORD || !NOTIFICATION_EMAIL) {
-    return { success: false, error: 'Email not configured' };
-  }
-
-  const transporter = createTransporter();
-
   try {
-    const info = await transporter.sendMail({
-      from: `"AAM Website" <${EMAIL_USER}>`,
+    const _info = await send({
+      from: FROM_NOTIFICATIONS,
       to: NOTIFICATION_EMAIL,
       subject: sanitizeSubject(`Broadcast Sent: ${subject}`),
       html: `
@@ -1119,7 +1051,7 @@ export const sendBroadcastNotification = async (subject: string, sent: number, f
 </html>`,
     });
 
-    return { success: true, messageId: info.messageId };
+    return _info;
   } catch (error) {
     console.error('Error sending broadcast notification:', error instanceof Error ? error.message : 'Unknown error');
     return { success: false, error: 'Failed to send email' };

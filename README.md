@@ -26,7 +26,8 @@ Required in production (set in the Vercel dashboard under Environment Variables 
 | `ADMIN_PASSWORD_HASH` | bcrypt hash of admin password. Generate: `node -e "require('bcryptjs').hash('your-password', 10).then(console.log)"` |
 | `ADMIN_ACCESS_CODE` | Access-code gate shown before the login form (≥12 random chars). |
 | `ADMIN_PIN` | Short PIN gating high-impact admin actions (broadcast emails, exports). |
-| `EMAIL_USER`, `EMAIL_PASSWORD` | SMTP creds (Gmail: use an App Password). |
+| `RESEND_API_KEY` | Resend API key (transactional email). From resend.com dashboard after verifying the sending domain. |
+| `RESEND_FROM` | Optional — verified from address, e.g. `Abolish Abortion Michigan <noreply@abolishabortionmichigan.com>`. Defaults to `ADMIN_EMAIL`. |
 | `NEXT_PUBLIC_SITE_URL` | Canonical site URL, e.g. `https://abolishabortionmichigan.com` (no trailing slash). |
 | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | Rate-limit store (Upstash console). |
 
@@ -35,9 +36,16 @@ Optional (defaults noted):
 | Var | Default |
 |---|---|
 | `NOTIFICATION_EMAIL` | Falls back to `ADMIN_EMAIL` |
-| `EMAIL_HOST` | `smtp.gmail.com` |
-| `EMAIL_PORT` | `587` |
 | `VERCEL_PREVIEW_PROJECT_SLUG` | (unset) — set to your Vercel project slug to allow CSRF from preview URLs like `<slug>-<branch>-<team>.vercel.app` |
+
+Observability (recommended — leave unset to disable that integration):
+
+| Var | Purpose |
+|---|---|
+| `NEXT_PUBLIC_POSTHOG_KEY`, `NEXT_PUBLIC_POSTHOG_HOST` | PostHog product analytics + session replay (posthog.com) |
+| `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_DSN` | Sentry error tracking (same DSN, both scopes) |
+| `SENTRY_ORG`, `SENTRY_PROJECT`, `SENTRY_AUTH_TOKEN` | Sentry source-map upload (build-time only) |
+| `NEXT_PUBLIC_GSC_VERIFICATION` | Google Search Console site-verification code |
 
 ## Admin
 

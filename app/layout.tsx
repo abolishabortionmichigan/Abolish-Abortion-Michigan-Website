@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { PostHogProvider } from "@/components/PostHogProvider";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -21,6 +23,11 @@ export const metadata: Metadata = {
   },
   description: "Abolish Abortion Michigan is dedicated to the immediate and total abolition of human abortion in the state of Michigan.",
   keywords: ["abolish abortion", "Michigan", "pro-life", "abolition", "end abortion"],
+  verification: {
+    // Set NEXT_PUBLIC_GSC_VERIFICATION in Vercel to the code Google Search
+    // Console provides. Falsy value → verification meta tag simply omitted.
+    google: process.env.NEXT_PUBLIC_GSC_VERIFICATION || undefined,
+  },
   openGraph: {
     // No static `title` here — Next merges per-page `title` (plus template)
     // into openGraph.title automatically, so /donate shares as "Donate | ..."
@@ -52,16 +59,19 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.zeffy.com" />
       </head>
       <body className={`${montserrat.variable} font-sans antialiased min-h-screen flex flex-col`}>
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-red-600 focus:text-white focus:font-bold focus:rounded"
-        >
-          Skip to main content
-        </a>
-        <Header />
-        <main id="main-content" className="flex-1">{children}</main>
-        <Footer />
-        <Analytics />
+        <PostHogProvider>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-red-600 focus:text-white focus:font-bold focus:rounded"
+          >
+            Skip to main content
+          </a>
+          <Header />
+          <main id="main-content" className="flex-1">{children}</main>
+          <Footer />
+          <Analytics />
+          <SpeedInsights />
+        </PostHogProvider>
       </body>
     </html>
   );

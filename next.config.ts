@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withSentryConfig } from "@sentry/nextjs";
 
 const securityHeaders = [
   { key: 'X-Content-Type-Options', value: 'nosniff' },
@@ -9,7 +10,9 @@ const securityHeaders = [
   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()' },
   {
     key: 'Content-Security-Policy',
-    value: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self' data:; connect-src 'self' https:; frame-src 'self' https://www.youtube.com https://www.zeffy.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+    // connect-src includes both self (for the PostHog /ingest rewrite) and
+    // Sentry's ingest hosts. script/img/font retain their previous scope.
+    value: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self' data:; connect-src 'self' https: https://*.ingest.sentry.io https://*.ingest.us.sentry.io; frame-src 'self' https://www.youtube.com https://www.zeffy.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
   },
   { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
   { key: 'Cross-Origin-Resource-Policy', value: 'same-origin' },
@@ -17,13 +20,34 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // PostHog's `/decide` and other endpoints use trailing slashes that Next
+  // would otherwise 308 to a non-trailing form, breaking the client.
+  skipTrailingSlashRedirect: true,
   async redirects() {
     return [
       { source: '/petition', destination: '/the-petition', permanent: true },
     ];
   },
+  async rewrites() {
+    // PostHog reverse-proxy so its script/api load from our origin (dodges
+    // most ad-blockers, keeps CSP tight, and lets us cache the static
+    // recorder bundle for a year — same pattern as MRA).
+    return [
+      { source: '/ingest/static/:path*', destination: 'https://us-assets.i.posthog.com/static/:path*' },
+      { source: '/ingest/array/:path*', destination: 'https://us-assets.i.posthog.com/array/:path*' },
+      { source: '/ingest/:path*', destination: 'https://us.i.posthog.com/:path*' },
+    ];
+  },
   async headers() {
     return [
+      {
+        // PostHog's proxied static assets are version-pinned via ?v=, so safe
+        // to cache immutably for a year; a PostHog upgrade busts the URL.
+        source: '/ingest/static/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
       {
         source: '/(.*)',
         headers: securityHeaders,
@@ -62,4 +86,16 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  // Sentry org/project. Update these to your Sentry project once created.
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  // Only log source-map upload output in CI (Vercel build)
+  silent: !process.env.CI,
+  // Widen source-map upload so stack traces resolve to real code
+  widenClientFileUpload: true,
+  webpack: {
+    // Strip Sentry's own debug logger calls from client bundles
+    treeshake: { removeDebugLogging: true },
+  },
+});
