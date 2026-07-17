@@ -3,6 +3,7 @@
 import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { capture } from '@/lib/analytics';
 
 type Status = 'confirm' | 'processing' | 'success' | 'error' | 'invalid';
 
@@ -33,7 +34,12 @@ function UnsubscribeContent() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, token }),
       });
-      setOverride(res.ok ? 'success' : 'error');
+      if (res.ok) {
+        capture('email_unsubscribed');
+        setOverride('success');
+      } else {
+        setOverride('error');
+      }
     } catch {
       setOverride('error');
     }

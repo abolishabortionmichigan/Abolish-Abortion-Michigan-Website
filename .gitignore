@@ -43,9 +43,15 @@ yarn-error.log*
 # Throwaway audit tooling (Lighthouse/axe/screenshots + isolated node_modules)
 audit-scripts/
 
+# Local editor/agent tooling and one-shot wizard outputs
+.claude/
+posthog-setup-report.md
+sentry-wizard-installation-error-*.log
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
 
 # Sentry Config File
 .env.sentry-build-plugin
+.env.local

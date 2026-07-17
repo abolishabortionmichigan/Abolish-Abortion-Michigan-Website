@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { capture } from '@/lib/analytics';
 
 interface ShareButtonsProps {
   url?: string;
@@ -25,6 +26,7 @@ export default function ShareButtons({
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+      capture('petition_shared', { platform: 'copy_link' });
     } catch {
       // Silently fail if clipboard access is denied
     }
@@ -39,6 +41,7 @@ export default function ShareButtons({
           href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => capture('petition_shared', { platform: 'facebook' })}
           className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-[#1877F2] text-white hover:opacity-80 transition-opacity"
           aria-label="Share on Facebook"
         >
@@ -52,6 +55,7 @@ export default function ShareButtons({
           href={`https://x.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => capture('petition_shared', { platform: 'x' })}
           className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-black text-white hover:opacity-80 transition-opacity"
           aria-label="Share on X"
         >
@@ -63,6 +67,7 @@ export default function ShareButtons({
         {/* Email */}
         <a
           href={`mailto:?subject=${encodedTitle}&body=${encodedDescription}%0A%0A${encodedUrl}`}
+          onClick={() => capture('petition_shared', { platform: 'email' })}
           className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-gray-600 text-white hover:opacity-80 transition-opacity"
           aria-label="Share via email"
         >
