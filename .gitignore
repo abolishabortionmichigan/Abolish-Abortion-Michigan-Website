@@ -46,3 +46,6 @@ audit-scripts/
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Sentry Config File
+.env.sentry-build-plugin
