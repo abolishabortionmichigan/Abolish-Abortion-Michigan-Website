@@ -1,6 +1,7 @@
 'use client';
 
 import { capture } from '@/lib/analytics';
+import { withUtm } from '@/lib/utm';
 
 interface DonateButtonProps {
   href: string;
@@ -17,9 +18,18 @@ interface DonateButtonProps {
  * else on /donate stays server-rendered.
  */
 export default function DonateButton({ href, label, source, className }: DonateButtonProps) {
+  // UTM-tag the Zeffy hand-off so Zeffy's own reports (and PostHog on the
+  // return trip, if the user comes back) can attribute the donation to the
+  // exact button they clicked.
+  const tagged = withUtm(href, {
+    source: 'aam_website',
+    medium: 'cta',
+    campaign: 'donate',
+    content: source,
+  });
   return (
     <a
-      href={href}
+      href={tagged}
       target="_blank"
       rel="noopener noreferrer"
       onClick={() => capture('donate_clicked', { source })}

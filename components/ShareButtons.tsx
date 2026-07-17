@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { capture } from '@/lib/analytics';
+import { withUtm } from '@/lib/utm';
 
 interface ShareButtonsProps {
   url?: string;
@@ -16,14 +17,22 @@ export default function ShareButtons({
 }: ShareButtonsProps) {
   const [copied, setCopied] = useState(false);
   // Derive shareUrl from prop or window at render time (safe: this is a client component).
-  const shareUrl = url || (typeof window !== 'undefined' ? window.location.href : '');
-  const encodedUrl = encodeURIComponent(shareUrl);
+  const rawUrl = url || (typeof window !== 'undefined' ? window.location.href : '');
+  // Per-platform UTM-tagged share URLs so PostHog attributes referred visits
+  // back to the exact channel that drove them.
+  const fbUrl = rawUrl ? withUtm(rawUrl, { source: 'facebook', medium: 'share', campaign: 'petition' }) : '';
+  const xUrl = rawUrl ? withUtm(rawUrl, { source: 'x', medium: 'share', campaign: 'petition' }) : '';
+  const emailUrl = rawUrl ? withUtm(rawUrl, { source: 'email', medium: 'share', campaign: 'petition' }) : '';
+  const copyShareUrl = rawUrl ? withUtm(rawUrl, { source: 'copy_link', medium: 'share', campaign: 'petition' }) : '';
+  const encodedFb = encodeURIComponent(fbUrl);
+  const encodedX = encodeURIComponent(xUrl);
+  const encodedEmail = encodeURIComponent(emailUrl);
   const encodedTitle = encodeURIComponent(title);
   const encodedDescription = encodeURIComponent(description);
 
   const handleCopyLink = async () => {
     try {
-      await navigator.clipboard.writeText(shareUrl);
+      await navigator.clipboard.writeText(copyShareUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
       capture('petition_shared', { platform: 'copy_link' });
@@ -38,7 +47,7 @@ export default function ShareButtons({
       <div className="flex items-center gap-3">
         {/* Facebook */}
         <a
-          href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
+          href={`https://www.facebook.com/sharer/sharer.php?u=${encodedFb}`}
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => capture('petition_shared', { platform: 'facebook' })}
@@ -52,7 +61,7 @@ export default function ShareButtons({
 
         {/* X (Twitter) */}
         <a
-          href={`https://x.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`}
+          href={`https://x.com/intent/tweet?url=${encodedX}&text=${encodedTitle}`}
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => capture('petition_shared', { platform: 'x' })}
@@ -66,7 +75,7 @@ export default function ShareButtons({
 
         {/* Email */}
         <a
-          href={`mailto:?subject=${encodedTitle}&body=${encodedDescription}%0A%0A${encodedUrl}`}
+          href={`mailto:?subject=${encodedTitle}&body=${encodedDescription}%0A%0A${encodedEmail}`}
           onClick={() => capture('petition_shared', { platform: 'email' })}
           className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-gray-600 text-white hover:opacity-80 transition-opacity"
           aria-label="Share via email"

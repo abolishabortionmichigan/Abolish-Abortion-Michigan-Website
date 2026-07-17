@@ -4,6 +4,7 @@ import { useState } from 'react';
 import CTABanner from '@/components/CTABanner';
 import { socialLinks } from '@/lib/content';
 import { capture } from '@/lib/analytics';
+import { withUtm } from '@/lib/utm';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -96,7 +97,7 @@ export default function ContactPage() {
                     Connect with us and other abolitionists on Signal for real-time updates and discussion.
                   </p>
                   <a
-                    href={socialLinks.signalGroup}
+                    href={withUtm(socialLinks.signalGroup, { source: 'contact_page', medium: 'invite', campaign: 'signal_group' })}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => capture('signal_group_clicked', { source: 'contact' })}

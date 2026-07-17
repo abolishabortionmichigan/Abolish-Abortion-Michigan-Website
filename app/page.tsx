@@ -23,14 +23,52 @@ export default async function HomePage() {
     // Database unavailable at build time; ISR will populate on first request
   }
 
+  // Proper NGO schema with Michigan location signal — helps Google understand
+  // this is a Michigan-specific advocacy nonprofit (not a generic org) so it
+  // becomes eligible for Knowledge Panel + local SERP treatments.
   const organizationSchema = {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
+    '@type': 'NGO',
     name: 'Abolish Abortion Michigan',
+    alternateName: 'AAM',
     url: 'https://abolishabortionmichigan.com',
     logo: 'https://abolishabortionmichigan.com/images/aa-logo.webp',
-    description: 'Abolitionists in Michigan devoted to establishing justice and equal protection for our preborn neighbors.',
-    sameAs: [socialLinks.facebook, socialLinks.x, socialLinks.instagram],
+    description:
+      'Abolitionists in Michigan devoted to establishing justice and equal protection for our preborn neighbors. We call for the immediate and total abolition of abortion in the state of Michigan.',
+    slogan: 'Equal protection for the preborn.',
+    areaServed: {
+      '@type': 'State',
+      name: 'Michigan',
+      containedInPlace: { '@type': 'Country', name: 'United States' },
+    },
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '3665 S Lakeshore Dr, Suite 4',
+      addressLocality: 'St Joseph',
+      addressRegion: 'MI',
+      postalCode: '49085',
+      addressCountry: 'US',
+    },
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'General Inquiry',
+      email: 'admin@abolishabortionmichigan.com',
+      url: 'https://abolishabortionmichigan.com/contact',
+      availableLanguage: 'English',
+      areaServed: 'US-MI',
+    },
+    sameAs: [
+      socialLinks.facebook,
+      socialLinks.x,
+      socialLinks.instagram,
+    ],
+    knowsAbout: [
+      'abortion abolition',
+      'equal protection for the preborn',
+      'Michigan legislation',
+      'pro-life advocacy',
+      'Christian abolitionism',
+    ],
   };
 
   return (
