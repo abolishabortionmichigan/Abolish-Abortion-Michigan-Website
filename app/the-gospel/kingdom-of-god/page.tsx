@@ -6,7 +6,7 @@ import LiteYouTube from '@/components/LiteYouTube';
 
 export const metadata: Metadata = {
   title: 'Abolitionism and the Kingdom of God',
-  description: 'Abolitionism and the Kingdom of God are inseparably connected. His Kingdom is one that shall not be destroyed.',
+  description: 'Abolitionism and the Kingdom of God are inseparable. Read why ending abortion is part of what it means to bring God’s Kingdom to bear on our culture.',
   alternates: { canonical: '/the-gospel/kingdom-of-god' },
 };
 

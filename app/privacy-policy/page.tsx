@@ -4,7 +4,7 @@ import CTABanner from '@/components/CTABanner';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
-  description: 'Privacy policy for the Abolish Abortion Michigan website.',
+  description: 'How Abolish Abortion Michigan collects, uses, and protects your personal data — including petition signatures, contact inquiries, and email subscriptions.',
   alternates: { canonical: '/privacy-policy' },
 };
 

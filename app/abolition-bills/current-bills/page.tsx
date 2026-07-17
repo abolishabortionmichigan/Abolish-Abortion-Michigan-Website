@@ -4,7 +4,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Current Abolition Bills',
-  description: 'View current abolition bills being supported across the United States.',
+  description: 'Track abolition-of-abortion bills currently active in Michigan and across the United States — sponsors, status, and how to support each one.',
   alternates: { canonical: '/abolition-bills/current-bills' },
 };
 

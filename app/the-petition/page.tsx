@@ -6,7 +6,7 @@ import SignatureCount from '@/components/SignatureCount';
 
 export const metadata: Metadata = {
   title: 'The Petition',
-  description: 'Sign the petition calling for the immediate abolition of abortion in Michigan.',
+  description: 'Add your name to the petition calling on the Michigan Legislature to abolish abortion completely — no exceptions, no compromise, no delay.',
   alternates: { canonical: '/the-petition' },
 };
 

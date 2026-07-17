@@ -3,7 +3,7 @@ import CTABanner from '@/components/CTABanner';
 
 export const metadata: Metadata = {
   title: 'Who We Are',
-  description: 'Learn about Abolish Abortion Michigan, our mission, and our commitment to ending abortion in Michigan.',
+  description: 'Meet the Christian abolitionists of Abolish Abortion Michigan — our mission, statement of faith, and commitment to ending abortion in the state completely.',
   alternates: { canonical: '/who-we-are' },
 };
 

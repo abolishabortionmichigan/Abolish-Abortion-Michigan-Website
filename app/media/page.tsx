@@ -6,7 +6,7 @@ import { socialLinks } from '@/lib/content';
 
 export const metadata: Metadata = {
   title: 'Media',
-  description: 'Photos, videos, and resources from Abolish Abortion Michigan events and activism.',
+  description: 'Photos, videos, and downloadable resources from Abolish Abortion Michigan events, outreach, and legislative advocacy across the state.',
   alternates: { canonical: '/media' },
 };
 

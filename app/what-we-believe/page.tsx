@@ -3,7 +3,7 @@ import CTABanner from '@/components/CTABanner';
 
 export const metadata: Metadata = {
   title: 'What We Believe',
-  description: 'Our statement of faith and beliefs about abortion, abolition, and the sanctity of human life.',
+  description: 'Where Abolish Abortion Michigan stands on abortion, abolition, and the image of God from fertilization — with no exceptions and no compromise.',
   alternates: { canonical: '/what-we-believe' },
 };
 

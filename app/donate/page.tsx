@@ -5,7 +5,7 @@ import DonateButton from '@/components/DonateButton';
 
 export const metadata: Metadata = {
   title: 'Donate',
-  description: 'Support the work of Abolish Abortion Michigan through your generous donation.',
+  description: 'Donate to Abolish Abortion Michigan. 100% of your gift funds education, legislative advocacy, and outreach across the state — no processing fees, secure via Zeffy.',
   alternates: { canonical: '/donate' },
 };
 

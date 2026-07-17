@@ -6,7 +6,7 @@ import LiteYouTube from '@/components/LiteYouTube';
 
 export const metadata: Metadata = {
   title: 'The Incarnation',
-  description: 'The Word became flesh and dwelt among us. The Son of God appeared to destroy the works of the devil.',
+  description: 'The Word became flesh and dwelt among us. Christ Himself was knit together in a womb from fertilization — the theological ground for abolishing abortion.',
   alternates: { canonical: '/the-gospel/incarnation' },
 };
 

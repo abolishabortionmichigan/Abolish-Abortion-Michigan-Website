@@ -7,6 +7,9 @@ import {
 import { getAuthToken, verifyToken } from '@/lib/actions/auth-actions';
 import { sanitizeHtml } from '@/lib/sanitize';
 import { validateCsrf } from '@/lib/csrf';
+import { pingIndexNow } from '@/lib/indexnow';
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.abolishabortionmichigan.com';
 
 async function isAdmin(): Promise<boolean> {
   const token = await getAuthToken();
@@ -65,6 +68,16 @@ export async function POST(request: NextRequest) {
       image: data.image || '',
       published: data.published || false,
     });
+
+    // Ping IndexNow (Bing/Yandex/DuckDuckGo) if the article shipped public.
+    // Fire-and-forget: doesn't block the response and swallows failures.
+    if (newArticle.published) {
+      pingIndexNow([
+        `${SITE_URL}/news/${newArticle.slug}`,
+        `${SITE_URL}/news`,
+        `${SITE_URL}/news-sitemap.xml`,
+      ]);
+    }
 
     return NextResponse.json(newArticle, { status: 201 });
   } catch {

@@ -8,6 +8,9 @@ import {
 import { getAuthToken, verifyToken } from '@/lib/actions/auth-actions';
 import { sanitizeHtml } from '@/lib/sanitize';
 import { validateCsrf } from '@/lib/csrf';
+import { pingIndexNow } from '@/lib/indexnow';
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.abolishabortionmichigan.com';
 
 async function isAdmin(): Promise<boolean> {
   const token = await getAuthToken();
@@ -99,6 +102,25 @@ export async function PATCH(
 
     if (!updated) {
       return NextResponse.json({ error: 'Article not found' }, { status: 404 });
+    }
+
+    // Fire IndexNow when EITHER a draft goes public OR a public article is
+    // edited. Uses the new slug if the article was renamed.
+    const nowPublic = updated.published;
+    const justPublished = nowPublic && !existingArticle.published;
+    const editedWhilePublic = nowPublic && existingArticle.published;
+    if (justPublished || editedWhilePublic) {
+      const urls = [
+        `${SITE_URL}/news/${updated.slug}`,
+        `${SITE_URL}/news`,
+        `${SITE_URL}/news-sitemap.xml`,
+      ];
+      // If the slug changed on an already-public article, also flag the old
+      // URL so Bing knows to drop the stale entry.
+      if (existingArticle.published && updated.slug !== existingArticle.slug) {
+        urls.push(`${SITE_URL}/news/${existingArticle.slug}`);
+      }
+      pingIndexNow(urls);
     }
 
     return NextResponse.json(updated);

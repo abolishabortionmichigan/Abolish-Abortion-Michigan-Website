@@ -3,7 +3,7 @@ import CTABanner from '@/components/CTABanner';
 
 export const metadata: Metadata = {
   title: 'Non-Violence Statement',
-  description: 'Our commitment to peaceful, lawful activism in the fight to abolish abortion.',
+  description: 'Abolish Abortion Michigan is committed to peaceful, lawful activism. We condemn violence against any person and pursue legislative and Gospel-driven change.',
   alternates: { canonical: '/non-violence-statement' },
 };
 

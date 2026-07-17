@@ -71,11 +71,35 @@ export default async function HomePage() {
     ],
   };
 
+  // WebSite + SearchAction — tells Google that /news?q= is our internal search
+  // endpoint. Makes AAM eligible for the Sitelinks Searchbox on brand SERPs.
+  // Google requires WebSite (not WebPage) and the exact `{search_term_string}`
+  // token; the `?q=` param must round-trip through NewsSearch.
+  const websiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Abolish Abortion Michigan',
+    url: 'https://abolishabortionmichigan.com',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate:
+          'https://abolishabortionmichigan.com/news?q={search_term_string}',
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
       />
 
       {/* Hero Section */}

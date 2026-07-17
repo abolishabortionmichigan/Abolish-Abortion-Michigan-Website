@@ -5,7 +5,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'The Answer to Abortion',
-  description: 'The Gospel of Jesus Christ is the answer to abortion and the key to abolition.',
+  description: 'The Gospel of Jesus Christ is the only answer to abortion — offering forgiveness for the sin of it, and the power to end it. Read why abolition begins with Christ.',
   alternates: { canonical: '/the-gospel/answer-to-abortion' },
 };
 

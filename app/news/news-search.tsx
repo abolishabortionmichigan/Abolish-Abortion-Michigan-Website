@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import NewsCard from '@/components/NewsCard';
 
 interface Article {
@@ -13,7 +14,19 @@ interface Article {
 }
 
 export default function NewsSearch({ articles }: { articles: Article[] }) {
-  const [searchTerm, setSearchTerm] = useState('');
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  // Seed from `?q=` so the Google Sitelinks Searchbox (which points at
+  // /news?q={search_term_string}) lands on a pre-filtered view.
+  const [searchTerm, setSearchTerm] = useState(searchParams?.get('q') ?? '');
+
+  // Keep the URL query string in sync with the input so users can share links.
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams?.toString() ?? '');
+    if (searchTerm) params.set('q', searchTerm); else params.delete('q');
+    const qs = params.toString();
+    router.replace(qs ? `/news?${qs}` : '/news', { scroll: false });
+  }, [searchTerm, router, searchParams]);
 
   const filtered = articles.filter((article) => {
     if (!searchTerm) return true;

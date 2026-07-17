@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Contact Us',
-  description: 'Get in touch with Abolish Abortion Michigan. Ask questions, volunteer, or request a speaker.',
+  description: 'Contact Abolish Abortion Michigan — ask a question, volunteer with our team, request a speaker for your church, or join our Signal group for updates.',
   alternates: { canonical: '/contact' },
 };
 

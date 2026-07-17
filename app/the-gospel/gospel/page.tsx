@@ -5,7 +5,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'The Gospel',
-  description: 'The Gospel is the power of God for salvation to everyone who believes. Romans 1:16.',
+  description: 'The Gospel of Jesus Christ — the power of God for salvation to everyone who believes. Why abolitionists proclaim it as the answer to every sin, including abortion.',
   alternates: { canonical: '/the-gospel/gospel' },
 };
 

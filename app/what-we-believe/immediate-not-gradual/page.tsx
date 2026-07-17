@@ -5,7 +5,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Immediate, Not Gradual',
-  description: 'Abortion cannot be abolished by allowing it all along the way. The time for justice is always now.',
+  description: 'Why abolition must be immediate, not gradual. Incremental pro-life bills concede that some preborn children can be legally killed — abolition never does.',
   alternates: { canonical: '/what-we-believe/immediate-not-gradual' },
 };
 

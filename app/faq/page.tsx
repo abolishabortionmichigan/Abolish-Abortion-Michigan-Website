@@ -5,7 +5,7 @@ import { sanitizeHtml } from '@/lib/sanitize';
 
 export const metadata: Metadata = {
   title: 'FAQ',
-  description: 'Frequently asked questions about abortion abolition, pro-life arguments, and common objections answered.',
+  description: 'Answers to the most common pro-choice objections and questions about abortion abolition — bodily autonomy, rape exception, back-alley abortions, and more.',
   alternates: { canonical: '/faq' },
 };
 

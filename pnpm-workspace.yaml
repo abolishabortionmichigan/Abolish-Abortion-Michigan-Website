@@ -1,0 +1,13 @@
+allowBuilds:
+  '@prisma/client': set this to true or false
+  '@prisma/engines': set this to true or false
+  '@sentry/cli': set this to true or false
+  core-js: set this to true or false
+  prisma: set this to true or false
+  sharp: set this to true or false
+  unrs-resolver: set this to true or false
+minimumReleaseAgeExclude:
+  - '@posthog/core@1.43.1'
+  - '@posthog/types@1.397.0'
+  - posthog-js@1.404.0
+  - posthog-node@5.45.2

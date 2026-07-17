@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Delete My Data',
-  description: 'Request deletion of your personal data from Abolish Abortion Michigan. Exercise your right to have your petition signature, contact inquiries, or email subscription removed.',
+  description: 'Request deletion of your petition signature, contact inquiries, or email subscription from Abolish Abortion Michigan. We respond within 30 days.',
   alternates: { canonical: '/delete-my-data' },
 };
 
