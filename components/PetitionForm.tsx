@@ -93,7 +93,7 @@ export default function PetitionForm() {
 
       {signatureCount > 0 && (
         <p className="text-center text-gray-600 mb-4">
-          <span className="font-semibold text-red-600">{signatureCount.toLocaleString()}</span> {signatureCount === 1 ? 'person has' : 'people have'} already signed
+          <span className="font-semibold text-red-700">{signatureCount.toLocaleString()}</span> {signatureCount === 1 ? 'person has' : 'people have'} already signed
         </p>
       )}
 
@@ -223,7 +223,7 @@ export default function PetitionForm() {
           />
           <label htmlFor="subscribed" className="text-gray-700">
             <span className="font-medium">Keep me updated!</span>
-            <span className="block text-sm text-gray-500 mt-1">
+            <span className="block text-sm text-gray-600 mt-1">
               Receive email updates when new articles are published and occasional reminders about supporting our mission through donations.
             </span>
           </label>
@@ -239,7 +239,7 @@ export default function PetitionForm() {
           </button>
         </div>
 
-        <p className="text-sm text-gray-500 text-center">
+        <p className="text-sm text-gray-600 text-center">
           By signing, you agree to have your name added to the petition presented to the Michigan Legislature.
         </p>
       </form>

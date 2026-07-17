@@ -5,6 +5,7 @@ import CTABanner from '@/components/CTABanner';
 export const metadata: Metadata = {
   title: 'Donate',
   description: 'Support the work of Abolish Abortion Michigan through your generous donation.',
+  alternates: { canonical: '/donate' },
 };
 
 const ZEFFY_URL = 'https://www.zeffy.com/en-US/donation-form/abolish-abortion-michigan';
@@ -129,7 +130,7 @@ export default function DonatePage() {
                   <h5 className="font-semibold mb-2">Other Options</h5>
                   <p className="text-sm text-gray-600">
                     For stock donations, corporate matching, or other giving options, please{' '}
-                    <Link href="/contact" className="text-red-600 hover:underline">
+                    <Link href="/contact" className="text-red-700 underline hover:no-underline">
                       contact us
                     </Link>.
                   </p>
@@ -168,7 +169,7 @@ export default function DonatePage() {
             </div>
             <p className="text-gray-600 mb-4">
               Have questions about donating?{' '}
-              <Link href="/contact" className="text-red-600 hover:text-red-700">
+              <Link href="/contact" className="text-red-700 underline hover:no-underline">
                 Contact us
               </Link>.
             </p>

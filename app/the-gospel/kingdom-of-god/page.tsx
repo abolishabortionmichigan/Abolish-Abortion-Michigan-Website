@@ -6,6 +6,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 export const metadata: Metadata = {
   title: 'Abolitionism and the Kingdom of God',
   description: 'Abolitionism and the Kingdom of God are inseparably connected. His Kingdom is one that shall not be destroyed.',
+  alternates: { canonical: '/the-gospel/kingdom-of-god' },
 };
 
 export default function KingdomOfGodPage() {

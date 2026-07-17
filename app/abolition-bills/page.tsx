@@ -5,6 +5,7 @@ import CTABanner from '@/components/CTABanner';
 export const metadata: Metadata = {
   title: 'Abolition Bills',
   description: 'Information about abolition bills in Michigan, including HB 4671 and other legislation to end abortion.',
+  alternates: { canonical: '/abolition-bills' },
 };
 
 export default function AbolitionBillsPage() {

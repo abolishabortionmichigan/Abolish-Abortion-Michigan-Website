@@ -6,6 +6,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 export const metadata: Metadata = {
   title: 'Abolitionist, Not Pro-Life',
   description: 'Being pro-life is not the same as seeking to abolish abortion. Learn the difference between abolitionism and the pro-life movement.',
+  alternates: { canonical: '/what-we-believe/abolitionist-not-pro-life' },
 };
 
 export default function AbolitionistNotProLifePage() {

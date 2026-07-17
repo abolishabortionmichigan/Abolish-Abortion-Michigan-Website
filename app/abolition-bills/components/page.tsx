@@ -6,6 +6,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 export const metadata: Metadata = {
   title: 'Components of an Abolition Bill',
   description: 'Key differences between abolitionist and pro-life legislation. Learn the five essential components of a bill that truly abolishes abortion.',
+  alternates: { canonical: '/abolition-bills/components' },
 };
 
 export default function ComponentsOfAbolitionBillPage() {

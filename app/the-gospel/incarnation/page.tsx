@@ -6,6 +6,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 export const metadata: Metadata = {
   title: 'The Incarnation',
   description: 'The Word became flesh and dwelt among us. The Son of God appeared to destroy the works of the devil.',
+  alternates: { canonical: '/the-gospel/incarnation' },
 };
 
 export default function IncarnationPage() {

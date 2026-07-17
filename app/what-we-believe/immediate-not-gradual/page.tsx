@@ -6,6 +6,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 export const metadata: Metadata = {
   title: 'Immediate, Not Gradual',
   description: 'Abortion cannot be abolished by allowing it all along the way. The time for justice is always now.',
+  alternates: { canonical: '/what-we-believe/immediate-not-gradual' },
 };
 
 export default function ImmediateNotGradualPage() {

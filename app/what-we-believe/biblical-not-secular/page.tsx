@@ -6,6 +6,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 export const metadata: Metadata = {
   title: 'Biblical, Not Secular',
   description: 'Our opposition to abortion is grounded in biblical principles, not secular arguments. The duty is ours, the results belong to God.',
+  alternates: { canonical: '/what-we-believe/biblical-not-secular' },
 };
 
 export default function BiblicalNotSecularPage() {

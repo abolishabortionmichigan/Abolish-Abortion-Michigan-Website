@@ -37,7 +37,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: `Too many submissions. Try again in ${limit.retryAfterSeconds} seconds.` }, { status: 429 });
     }
 
-    const data = await request.json();
+    let data;
+    try {
+      data = await request.json();
+    } catch {
+      return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+    }
 
     if (!data.name || !data.email || !data.message) {
       return NextResponse.json({ error: 'Name, email, and message are required' }, { status: 400 });

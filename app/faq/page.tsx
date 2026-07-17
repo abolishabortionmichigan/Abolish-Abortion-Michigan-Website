@@ -6,6 +6,7 @@ import { sanitizeHtml } from '@/lib/sanitize';
 export const metadata: Metadata = {
   title: 'FAQ',
   description: 'Frequently asked questions about abortion abolition, pro-life arguments, and common objections answered.',
+  alternates: { canonical: '/faq' },
 };
 
 const faqContent = faqItems.map((item) => ({

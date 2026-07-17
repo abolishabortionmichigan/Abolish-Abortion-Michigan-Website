@@ -5,6 +5,7 @@ import CTABanner from '@/components/CTABanner';
 export const metadata: Metadata = {
   title: 'Privacy Policy',
   description: 'Privacy policy for the Abolish Abortion Michigan website.',
+  alternates: { canonical: '/privacy-policy' },
 };
 
 export default function PrivacyPolicyPage() {
@@ -59,8 +60,9 @@ export default function PrivacyPolicyPage() {
           <h2>Third-Party Services</h2>
           <p>We use the following third-party services:</p>
           <ul>
-            <li><strong>Vercel</strong> &mdash; website hosting, deployment, and content delivery</li>
+            <li><strong>Vercel</strong> &mdash; website hosting, deployment, and content delivery. We also use Vercel Web Analytics, which collects anonymized page-view and usage data without setting any cookies or storing any personally identifiable information.</li>
             <li><strong>Neon</strong> &mdash; secure database hosting</li>
+            <li><strong>Upstash</strong> &mdash; rate-limiting service (uses your IP address transiently to prevent form abuse; not stored beyond the rate-limit window)</li>
             <li><strong>Zeffy</strong> &mdash; donation processing (when you choose to donate, you are directed to Zeffy&apos;s platform which has its own privacy policy)</li>
           </ul>
           <p>

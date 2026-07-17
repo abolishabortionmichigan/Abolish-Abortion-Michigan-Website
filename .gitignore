@@ -32,12 +32,16 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # generated prisma client
 /lib/generated
 
 # vercel
 .vercel
+
+# Throwaway audit tooling (Lighthouse/axe/screenshots + isolated node_modules)
+audit-scripts/
 
 # typescript
 *.tsbuildinfo

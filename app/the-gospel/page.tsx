@@ -5,6 +5,7 @@ import CTABanner from '@/components/CTABanner';
 export const metadata: Metadata = {
   title: 'The Gospel',
   description: 'The good news of Jesus Christ and how to be saved. There is forgiveness for all sins through faith in Christ.',
+  alternates: { canonical: '/the-gospel' },
 };
 
 export default function TheGospelPage() {

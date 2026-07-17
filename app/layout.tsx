@@ -22,7 +22,9 @@ export const metadata: Metadata = {
   description: "Abolish Abortion Michigan is dedicated to the immediate and total abolition of human abortion in the state of Michigan.",
   keywords: ["abolish abortion", "Michigan", "pro-life", "abolition", "end abortion"],
   openGraph: {
-    title: "Abolish Abortion Michigan",
+    // No static `title` here — Next merges per-page `title` (plus template)
+    // into openGraph.title automatically, so /donate shares as "Donate | ..."
+    // rather than the generic site name.
     description: "Dedicated to the immediate and total abolition of human abortion in Michigan.",
     type: "website",
     locale: "en_US",
@@ -30,7 +32,6 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Abolish Abortion Michigan",
     description: "Dedicated to the immediate and total abolition of human abortion in Michigan.",
   },
 };

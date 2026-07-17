@@ -6,6 +6,7 @@ import NewsSearch from './news-search';
 export const metadata: Metadata = {
   title: 'News',
   description: 'Latest news and updates from Abolish Abortion Michigan.',
+  alternates: { canonical: '/news' },
 };
 
 // ISR: revalidate every 5 minutes

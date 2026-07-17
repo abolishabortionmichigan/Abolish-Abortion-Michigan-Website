@@ -6,6 +6,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 export const metadata: Metadata = {
   title: 'Abolitionism and The Great Commission',
   description: 'The Great Commission without abolition is dead. If faith without works is dead, what kind of faith refuses to help end the murder of preborn children?',
+  alternates: { canonical: '/the-gospel/great-commission' },
 };
 
 export default function GreatCommissionPage() {

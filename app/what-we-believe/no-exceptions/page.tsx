@@ -6,6 +6,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 export const metadata: Metadata = {
   title: 'No Exceptions',
   description: 'Abortion is murder, always and everywhere. We demand no exceptions - no compromise on the dehumanization of the preborn.',
+  alternates: { canonical: '/what-we-believe/no-exceptions' },
 };
 
 export default function NoExceptionsPage() {

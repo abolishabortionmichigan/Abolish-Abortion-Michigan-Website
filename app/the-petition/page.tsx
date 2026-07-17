@@ -7,6 +7,7 @@ import SignatureCount from '@/components/SignatureCount';
 export const metadata: Metadata = {
   title: 'The Petition',
   description: 'Sign the petition calling for the immediate abolition of abortion in Michigan.',
+  alternates: { canonical: '/the-petition' },
 };
 
 export default function ThePetitionPage() {
@@ -73,19 +74,19 @@ export default function ThePetitionPage() {
             <h3 className="text-2xl font-bold mb-6">Why Sign?</h3>
             <ul className="space-y-4 text-gray-700">
               <li className="flex items-start">
-                <span className="text-red-600 mr-3 mt-1">&#10003;</span>
+                <span className="text-red-700 mr-3 mt-1" aria-hidden="true">&#10003;</span>
                 <span>Show your elected officials that the people of Michigan demand equal protection for the preborn</span>
               </li>
               <li className="flex items-start">
-                <span className="text-red-600 mr-3 mt-1">&#10003;</span>
+                <span className="text-red-700 mr-3 mt-1" aria-hidden="true">&#10003;</span>
                 <span>Join a growing movement calling for immediate abolition, not more regulation</span>
               </li>
               <li className="flex items-start">
-                <span className="text-red-600 mr-3 mt-1">&#10003;</span>
+                <span className="text-red-700 mr-3 mt-1" aria-hidden="true">&#10003;</span>
                 <span>Take a public stand for the right to life of every human being</span>
               </li>
               <li className="flex items-start">
-                <span className="text-red-600 mr-3 mt-1">&#10003;</span>
+                <span className="text-red-700 mr-3 mt-1" aria-hidden="true">&#10003;</span>
                 <span>Receive updates on abolition efforts in Michigan</span>
               </li>
             </ul>

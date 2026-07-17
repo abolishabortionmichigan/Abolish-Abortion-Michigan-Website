@@ -5,6 +5,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 export const metadata: Metadata = {
   title: 'Current Abolition Bills',
   description: 'View current abolition bills being supported across the United States.',
+  alternates: { canonical: '/abolition-bills/current-bills' },
 };
 
 export default function CurrentBillsPage() {

@@ -118,7 +118,7 @@ export default function DeleteMyDataPage() {
             </p>
             <p className="text-gray-700">
               For more information about how we handle your data, please see our{' '}
-              <Link href="/privacy-policy" className="text-red-600 hover:underline">
+              <Link href="/privacy-policy" className="text-red-700 underline hover:no-underline">
                 Privacy Policy
               </Link>
               .

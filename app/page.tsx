@@ -9,6 +9,7 @@ import { getAllNewsArticles } from '@/lib/data/news-store';
 export const metadata: Metadata = {
   title: 'Equal Protection for the Preborn',
   description: 'Abolitionists in Michigan devoted to establishing justice and equal protection for our preborn neighbors. Join the movement to abolish abortion.',
+  alternates: { canonical: '/' },
 };
 
 export const revalidate = 300; // ISR: revalidate every 5 minutes

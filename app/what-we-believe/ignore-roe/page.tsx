@@ -6,6 +6,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 export const metadata: Metadata = {
   title: 'Ignore Roe',
   description: 'The Supreme Court is not the supreme law of the land. Roe v. Wade was legally null and void from its inception.',
+  alternates: { canonical: '/what-we-believe/ignore-roe' },
 };
 
 export default function IgnoreRoePage() {

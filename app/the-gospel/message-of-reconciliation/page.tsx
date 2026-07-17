@@ -6,6 +6,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 export const metadata: Metadata = {
   title: 'Message of Reconciliation',
   description: 'In Christ, God is reconciling the world to himself. We are ambassadors of Christ, imploring you to be reconciled to God.',
+  alternates: { canonical: '/the-gospel/message-of-reconciliation' },
 };
 
 export default function MessageOfReconciliationPage() {

@@ -6,6 +6,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 export const metadata: Metadata = {
   title: 'Criminalizing Abortion',
   description: 'Establishing justice for the preborn requires criminalization. If abortion is murder, it ought to be treated as such.',
+  alternates: { canonical: '/what-we-believe/criminalization' },
 };
 
 export default function CriminalizationPage() {

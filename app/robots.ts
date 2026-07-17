@@ -8,7 +8,10 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/admin/', '/api/', '/login', '/manage-7x9k', '/unsubscribe'],
+        // Note: /manage-7x9k intentionally NOT listed here — the admin login page
+        // sets `robots: { index: false }` on its own metadata instead, so we don't
+        // disclose the obscured URL through a publicly-readable robots.txt.
+        disallow: ['/admin/', '/api/', '/unsubscribe'],
       },
     ],
     sitemap: `${BASE_URL}/sitemap.xml`,
