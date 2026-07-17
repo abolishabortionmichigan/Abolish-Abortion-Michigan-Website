@@ -1,6 +1,7 @@
 'use client';
 
 import { capture } from '@/lib/analytics';
+import { fireAdsConversion } from '@/lib/google-ads';
 import { withUtm } from '@/lib/utm';
 
 interface DonateButtonProps {
@@ -32,7 +33,10 @@ export default function DonateButton({ href, label, source, className }: DonateB
       href={tagged}
       target="_blank"
       rel="noopener noreferrer"
-      onClick={() => capture('donate_clicked', { source })}
+      onClick={() => {
+        capture('donate_clicked', { source });
+        fireAdsConversion('donate');
+      }}
       className={className}
     >
       {label}

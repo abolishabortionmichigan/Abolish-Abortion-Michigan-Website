@@ -4,6 +4,7 @@ import { useState } from 'react';
 import CTABanner from '@/components/CTABanner';
 import { socialLinks } from '@/lib/content';
 import { capture } from '@/lib/analytics';
+import { fireAdsConversion } from '@/lib/google-ads';
 import { withUtm } from '@/lib/utm';
 
 export default function ContactPage() {
@@ -44,6 +45,7 @@ export default function ContactPage() {
 
       setStatus('success');
       capture('inquiry_submitted', { subject: formData.subject || 'general' });
+      fireAdsConversion('inquiry');
       setFormData({ name: '', email: '', subject: '', message: '', website: '' });
     } catch {
       setStatus('error');

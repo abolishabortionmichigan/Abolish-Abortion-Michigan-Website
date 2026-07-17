@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { subscribeToNewsletter } from '@/lib/actions/petition-actions';
 import { capture } from '@/lib/analytics';
+import { fireAdsConversion } from '@/lib/google-ads';
 
 export default function FooterNewsletter() {
   const [email, setEmail] = useState('');
@@ -26,6 +27,7 @@ export default function FooterNewsletter() {
       setStatus('success');
       setEmail('');
       capture('newsletter_subscribed', { source: 'footer' });
+      fireAdsConversion('newsletter');
     }
   };
 

@@ -6,6 +6,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { PostHogProvider } from "@/components/PostHogProvider";
+import GoogleAdsScript from "@/components/GoogleAdsScript";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -71,6 +72,7 @@ export default function RootLayout({
           <Footer />
           <Analytics />
           <SpeedInsights />
+          <GoogleAdsScript />
         </PostHogProvider>
       </body>
     </html>

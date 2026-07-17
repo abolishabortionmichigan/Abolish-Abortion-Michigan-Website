@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { signPetition, getPublicSignatureCount } from '@/lib/actions/petition-actions';
 import { capture } from '@/lib/analytics';
+import { fireAdsConversion } from '@/lib/google-ads';
 
 export default function PetitionForm() {
   const [formData, setFormData] = useState({
@@ -50,6 +51,7 @@ export default function PetitionForm() {
           state: formData.state,
           subscribed: formData.subscribed,
         });
+        fireAdsConversion('petition');
         window.scrollTo({ top: 0, behavior: 'smooth' });
         setFormData({
           name: '',

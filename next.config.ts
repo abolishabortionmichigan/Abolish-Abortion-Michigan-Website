@@ -12,7 +12,7 @@ const securityHeaders = [
     key: 'Content-Security-Policy',
     // connect-src includes both self (for the PostHog /ingest rewrite) and
     // Sentry's ingest hosts. script/img/font retain their previous scope.
-    value: "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self' data:; connect-src 'self' https: https://*.ingest.sentry.io https://*.ingest.us.sentry.io; frame-src 'self' https://www.youtube.com https://www.zeffy.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+    value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self' data:; connect-src 'self' https: https://*.ingest.sentry.io https://*.ingest.us.sentry.io https://www.google-analytics.com https://www.googleadservices.com https://googleads.g.doubleclick.net; frame-src 'self' https://www.youtube.com https://www.zeffy.com https://td.doubleclick.net; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
   },
   { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
   { key: 'Cross-Origin-Resource-Policy', value: 'same-origin' },
