@@ -5,6 +5,7 @@ import Image from 'next/image';
 import CTABanner from '@/components/CTABanner';
 import ShareButtons from '@/components/ShareButtons';
 import NewsCard from '@/components/NewsCard';
+import Breadcrumbs from '@/components/Breadcrumbs';
 import { getNewsArticleBySlug, getAllNewsArticles } from '@/lib/data/news-store';
 import { sanitizeHtml } from '@/lib/sanitize';
 
@@ -67,6 +68,7 @@ export default async function NewsArticlePage({ params }: Props) {
     : '';
 
   const readingTime = getReadingTime(article.content);
+  const wordCount = article.content.replace(HTML_TAG_REGEX, '').split(WHITESPACE_REGEX).filter(Boolean).length;
 
   // Get related articles (other published articles, excluding current)
   const allArticles = await getAllNewsArticles(true);
@@ -74,12 +76,18 @@ export default async function NewsArticlePage({ params }: Props) {
     .filter((a) => a.slug !== slug)
     .slice(0, 3);
 
+  // Enhanced NewsArticle schema: adds publisher.logo (required for Google
+  // News eligibility), articleSection, wordCount, inLanguage, and absolute
+  // image URLs (Google-News rich-results best practice).
+  const absoluteImage = article.image
+    ? (article.image.startsWith('http') ? article.image : `${BASE_URL}${article.image}`)
+    : undefined;
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'NewsArticle',
     headline: article.title,
     description: article.excerpt,
-    ...(article.image ? { image: [article.image] } : {}),
+    ...(absoluteImage ? { image: [absoluteImage] } : {}),
     datePublished: article.created_at ? new Date(article.created_at).toISOString() : undefined,
     dateModified: article.updated_at
       ? new Date(article.updated_at).toISOString()
@@ -95,11 +103,21 @@ export default async function NewsArticlePage({ params }: Props) {
       '@type': 'Organization',
       name: 'Abolish Abortion Michigan',
       url: BASE_URL,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${BASE_URL}/images/aa-logo.webp`,
+        width: 176,
+        height: 176,
+      },
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': `${BASE_URL}/news/${slug}`,
     },
+    articleSection: 'News',
+    inLanguage: 'en-US',
+    wordCount,
+    isAccessibleForFree: true,
   };
 
   return (
@@ -139,6 +157,8 @@ export default async function NewsArticlePage({ params }: Props) {
           />
         </div>
       )}
+
+      <Breadcrumbs items={[{ label: 'News', href: '/news' }, { label: article.title }]} />
 
       {/* Article Content */}
       <section className="bg-white py-12">

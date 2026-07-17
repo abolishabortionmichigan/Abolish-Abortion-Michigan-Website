@@ -14,6 +14,9 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/admin/', '/api/', '/unsubscribe'],
       },
     ],
-    sitemap: `${BASE_URL}/sitemap.xml`,
+    sitemap: [
+      `${BASE_URL}/sitemap.xml`,
+      `${BASE_URL}/news-sitemap.xml`,
+    ],
   };
 }
