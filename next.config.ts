@@ -79,6 +79,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: '*.googleapis.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'i.ytimg.com',
+      },
     ],
   },
   experimental: {

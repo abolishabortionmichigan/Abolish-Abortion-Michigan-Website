@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import CTABanner from '@/components/CTABanner';
 import Breadcrumbs from '@/components/Breadcrumbs';
+import LiteYouTube from '@/components/LiteYouTube';
 
 export const metadata: Metadata = {
   title: 'The Incarnation',
@@ -37,15 +38,8 @@ export default function IncarnationPage() {
             <p className="text-sm tracking-[0.2em] uppercase font-semibold text-gray-800 mt-0 mb-2">To Destroy the Works of the Devil</p>
             <div className="w-12 h-[3px] bg-red-600 mb-8" />
 
-            <div className="my-8 aspect-video">
-              <iframe
-                src="https://www.youtube-nocookie.com/embed/4tL4Whq9NN0"
-                title="The Incarnation"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                loading="lazy"
-                className="w-full h-full rounded-lg"
-              />
+            <div className="my-8">
+              <LiteYouTube videoId="4tL4Whq9NN0" title="The Incarnation" />
             </div>
 
             <p>
@@ -86,15 +80,8 @@ export default function IncarnationPage() {
 
             <h3 className="text-xl font-bold mt-8 mb-4">Abortion and the Incarnation of Christ</h3>
 
-            <div className="my-8 aspect-video">
-              <iframe
-                src="https://www.youtube-nocookie.com/embed/W9s9DgyLA28"
-                title="Abortion and the Incarnation of Christ"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                loading="lazy"
-                className="w-full h-full rounded-lg"
-              />
+            <div className="my-8">
+              <LiteYouTube videoId="W9s9DgyLA28" title="Abortion and the Incarnation of Christ" />
             </div>
 
             <p className="text-sm text-gray-500 italic">

@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import CTABanner from '@/components/CTABanner';
 import Breadcrumbs from '@/components/Breadcrumbs';
+import LiteYouTube from '@/components/LiteYouTube';
 
 export const metadata: Metadata = {
   title: 'Abolitionism and the Kingdom of God',
@@ -112,15 +113,8 @@ export default function KingdomOfGodPage() {
               </p>
             </div>
 
-            <div className="my-8 aspect-video">
-              <iframe
-                src="https://www.youtube-nocookie.com/embed/ELYaw0oMrVE"
-                title="Abolitionism and the Kingdom of God"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                loading="lazy"
-                className="w-full h-full rounded-lg"
-              />
+            <div className="my-8">
+              <LiteYouTube videoId="ELYaw0oMrVE" title="Abolitionism and the Kingdom of God" />
             </div>
 
             <div className="my-10">

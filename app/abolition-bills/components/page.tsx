@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import CTABanner from '@/components/CTABanner';
 import Breadcrumbs from '@/components/Breadcrumbs';
+import LiteYouTube from '@/components/LiteYouTube';
 
 export const metadata: Metadata = {
   title: 'Components of an Abolition Bill',
@@ -68,15 +69,8 @@ export default function ComponentsOfAbolitionBillPage() {
               Many laws have been passed by pro-life politicians regulating the murder of preborn human beings &mdash; Where they can be murdered, how they can be murdered, by whom they can be murdered, the licensing needed to murder them, etc. An abolition bill repeals these regulations because they codify into law the acceptability of murder in certain circumstances, and therefore must be repealed for abortion to be abolished. For instance, the dismemberment ban must be repealed because it codifies into law the legality of murdering a baby as long as a certain dismemberment technique isn&apos;t used. The parental notification law must be repealed because it specifically codifies into law the practice of murdering a preborn child so long as the grandparents are notified. The partial-birth abortion ban specifically codifies into law the acceptability of murdering a preborn human being as long as the child is not partially delivered before being murdered. All of these laws passed by pro-life politicians and lobbyists regulate where babies can be murdered, how they can be murdered, by whom they can be murdered, and the licensing needed to murder them. Such laws explicitly contradict an abolition bill which abolishes abortion as murder. Abortion cannot be abolished while there are still laws on the books saying abortion is legal as long as you jump through pro-life hoops. They have to be repealed. An abolition bill repeals them.
             </p>
 
-            <div className="my-8 aspect-video">
-              <iframe
-                src="https://www.youtube-nocookie.com/embed/qGvSk8A7NKM"
-                title="Components of an Abolition Bill"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                loading="lazy"
-                className="w-full h-full rounded-lg"
-              />
+            <div className="my-8">
+              <LiteYouTube videoId="qGvSk8A7NKM" title="Components of an Abolition Bill" />
             </div>
 
             <p className="text-sm text-gray-500 italic mt-12">
