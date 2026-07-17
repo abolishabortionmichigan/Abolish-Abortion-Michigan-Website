@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import CTABanner from '@/components/CTABanner';
 import { socialLinks } from '@/lib/content';
+import { capture } from '@/lib/analytics';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -41,6 +42,7 @@ export default function ContactPage() {
       }
 
       setStatus('success');
+      capture('inquiry_submitted', { subject: formData.subject || 'general' });
       setFormData({ name: '', email: '', subject: '', message: '', website: '' });
     } catch {
       setStatus('error');
@@ -97,6 +99,7 @@ export default function ContactPage() {
                     href={socialLinks.signalGroup}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => capture('signal_group_clicked', { source: 'contact' })}
                     className="text-gray-600 hover:text-red-600 transition-colors inline-block"
                     aria-label="Join our Signal group"
                   >

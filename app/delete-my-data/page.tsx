@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import CTABanner from '@/components/CTABanner';
+import { capture } from '@/lib/analytics';
 
 export default function DeleteMyDataPage() {
   const [formData, setFormData] = useState({
@@ -77,6 +78,9 @@ export default function DeleteMyDataPage() {
       }
 
       setStatus('success');
+      capture('data_deletion_requested', {
+        types: selected.join(','),
+      });
       setFormData({ name: '', email: '', details: '', website: '' });
       setDataTypes({ petition: false, inquiry: false, subscription: false });
     } catch {

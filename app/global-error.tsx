@@ -3,6 +3,7 @@
 import * as Sentry from "@sentry/nextjs";
 import NextError from "next/error";
 import { useEffect } from "react";
+import { captureException as posthogCaptureException } from "@/lib/analytics";
 
 export default function GlobalError({
   error,
@@ -10,7 +11,11 @@ export default function GlobalError({
   error: Error & { digest?: string };
 }) {
   useEffect(() => {
+    // Dual-track exceptions to Sentry (with stack trace + release info) AND
+    // PostHog (so it shows up alongside conversion events in the same tool
+    // we use to see where users drop off). MRA does the same.
     Sentry.captureException(error);
+    posthogCaptureException(error);
   }, [error]);
 
   return (

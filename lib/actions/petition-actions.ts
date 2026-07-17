@@ -19,6 +19,7 @@ import { getAuthToken, verifyToken } from './auth-actions';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { getClientIpFromHeaders } from '@/lib/client-ip';
 import { sendPetitionConfirmationEmail, sendPetitionNotificationEmail, sendSubscriberWelcomeEmail, sendNewSubscriberNotification } from '@/lib/email';
+import { getPostHogClient } from '@/lib/posthog-server';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -129,6 +130,25 @@ export async function signPetition(data: {
       sendPetitionNotificationEmail(petitionData),
     ]);
 
+    // Server-side conversion event — captures even if client-side PostHog
+    // hasn't loaded yet or was blocked. `distinctId` = email so PostHog
+    // can dedupe with the client's anonymous $device_id when they
+    // eventually converge (posthog auto-aliases).
+    const posthog = getPostHogClient();
+    if (posthog) {
+      posthog.capture({
+        distinctId: data.email.toLowerCase(),
+        event: 'petition_signed_server',
+        properties: {
+          state: data.state || 'MI',
+          subscribed: data.subscribed || false,
+          has_city: Boolean(data.city),
+          has_zip: Boolean(data.zipcode),
+        },
+      });
+      await posthog.shutdown();
+    }
+
     return newSignature;
   } catch {
     return { error: 'Failed to sign petition' };
@@ -207,6 +227,16 @@ export async function subscribeToNewsletter(data: {
       sendSubscriberWelcomeEmail(data.email),
       sendNewSubscriberNotification(data.email),
     ]);
+
+    const posthog = getPostHogClient();
+    if (posthog) {
+      posthog.capture({
+        distinctId: data.email.toLowerCase(),
+        event: 'newsletter_subscribed_server',
+        properties: { source: 'footer' },
+      });
+      await posthog.shutdown();
+    }
 
     return { success: true };
   } catch {

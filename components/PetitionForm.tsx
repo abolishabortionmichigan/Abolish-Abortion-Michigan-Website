@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { signPetition, getPublicSignatureCount } from '@/lib/actions/petition-actions';
+import { capture } from '@/lib/analytics';
 
 export default function PetitionForm() {
   const [formData, setFormData] = useState({
@@ -45,6 +46,10 @@ export default function PetitionForm() {
       } else {
         setStatus('success');
         setSignatureCount((prev) => prev + 1);
+        capture('petition_signed', {
+          state: formData.state,
+          subscribed: formData.subscribed,
+        });
         window.scrollTo({ top: 0, behavior: 'smooth' });
         setFormData({
           name: '',

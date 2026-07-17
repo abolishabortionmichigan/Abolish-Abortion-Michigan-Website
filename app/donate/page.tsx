@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import CTABanner from '@/components/CTABanner';
+import DonateButton from '@/components/DonateButton';
 
 export const metadata: Metadata = {
   title: 'Donate',
@@ -82,14 +83,13 @@ export default function DonatePage() {
               </p>
 
               {/* Main Donate Button */}
-              <a
+              <DonateButton
                 href={ZEFFY_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+                variant="primary"
+                label="DONATE NOW"
+                source="main_button"
                 className="block w-full px-8 py-4 bg-red-600 text-white font-bold text-lg hover:bg-red-700 transition-colors rounded"
-              >
-                DONATE NOW
-              </a>
+              />
 
               <p className="text-sm text-gray-500 mt-4">
                 Secure payment processing via Zeffy - 100% goes to our mission
@@ -102,14 +102,13 @@ export default function DonatePage() {
               <p className="text-gray-300 mb-6">
                 Join our team of monthly supporters and provide sustained support for the abolition movement. Select &quot;Monthly&quot; on the donation form. Cancel anytime.
               </p>
-              <a
+              <DonateButton
                 href={ZEFFY_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+                variant="secondary"
+                label="GIVE MONTHLY"
+                source="monthly_partner"
                 className="inline-block px-8 py-3 bg-white text-[#1a1a1a] font-bold hover:bg-gray-200 transition-colors rounded"
-              >
-                GIVE MONTHLY
-              </a>
+              />
             </div>
 
             {/* Alternative Methods */}

@@ -8,6 +8,7 @@ import { getAuthToken, verifyToken } from '@/lib/actions/auth-actions';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { validateCsrf } from '@/lib/csrf';
 import { getClientIp } from '@/lib/client-ip';
+import { getPostHogClient } from '@/lib/posthog-server';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -99,6 +100,19 @@ export async function POST(request: NextRequest) {
         created_at: newInquiry.created_at || '',
       }),
     ]);
+
+    const posthog = getPostHogClient();
+    if (posthog) {
+      posthog.capture({
+        distinctId: data.email.toLowerCase(),
+        event: 'inquiry_submitted_server',
+        properties: {
+          subject: data.subject || 'General Inquiry',
+          message_length: data.message.length,
+        },
+      });
+      await posthog.shutdown();
+    }
 
     return NextResponse.json(newInquiry, { status: 201 });
   } catch {

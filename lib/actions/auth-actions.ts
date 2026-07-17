@@ -6,6 +6,7 @@ import bcrypt from 'bcryptjs';
 import { timingSafeEqual } from 'crypto';
 import { checkRateLimitStrict } from '@/lib/rate-limit';
 import { getClientIpFromHeaders } from '@/lib/client-ip';
+import { getPostHogClient } from '@/lib/posthog-server';
 
 function getRequiredEnv(name: string): string {
   const value = process.env[name];
@@ -99,6 +100,15 @@ export async function loginUser(email: string, password: string) {
     );
 
     await setAuthToken(token);
+
+    const posthog = getPostHogClient();
+    if (posthog) {
+      posthog.capture({
+        distinctId: adminEmail.toLowerCase(),
+        event: 'admin_logged_in',
+      });
+      await posthog.shutdown();
+    }
 
     return {
       user: {

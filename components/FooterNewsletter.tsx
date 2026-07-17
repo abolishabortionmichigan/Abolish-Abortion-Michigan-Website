@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { subscribeToNewsletter } from '@/lib/actions/petition-actions';
+import { capture } from '@/lib/analytics';
 
 export default function FooterNewsletter() {
   const [email, setEmail] = useState('');
@@ -24,6 +25,7 @@ export default function FooterNewsletter() {
     } else {
       setStatus('success');
       setEmail('');
+      capture('newsletter_subscribed', { source: 'footer' });
     }
   };
 

@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import { useEffect } from 'react';
+import * as Sentry from '@sentry/nextjs';
+import { captureException as posthogCaptureException } from '@/lib/analytics';
 
 export default function Error({
   error,
@@ -11,7 +13,11 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
+    // Page-level error boundary — send to Sentry + PostHog so it shows up
+    // in the same product-analytics dashboard as our conversion events.
     console.error('Application error:', error);
+    Sentry.captureException(error);
+    posthogCaptureException(error);
   }, [error]);
 
   return (
