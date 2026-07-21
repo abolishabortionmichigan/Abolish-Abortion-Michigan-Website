@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs";
+import legislators from "./data/legislators.json";
 
 const securityHeaders = [
   { key: 'X-Content-Type-Options', value: 'nosniff' },
@@ -24,8 +25,24 @@ const nextConfig: NextConfig = {
   // would otherwise 308 to a non-trailing form, breaking the client.
   skipTrailingSlashRedirect: true,
   async redirects() {
+    // District URLs → canonical legislator profile 301s. Each MI district
+    // has exactly one seat at a time, so /districts/house/29 and
+    // /legislators/james-desana are the same entity — indexing both would
+    // trigger keyword cannibalization. Handled here (not in a page) so the
+    // 301 fires at the routing layer before any HTML is generated.
+    const districtRedirects = (legislators as Array<{
+      chamber: string;
+      district: number;
+      slug: string;
+    }>).map((l) => ({
+      source: `/districts/${l.chamber.toLowerCase()}/${l.district}`,
+      destination: `/legislators/${l.slug}`,
+      permanent: true,
+    }));
+
     return [
       { source: '/petition', destination: '/the-petition', permanent: true },
+      ...districtRedirects,
     ];
   },
   async rewrites() {
