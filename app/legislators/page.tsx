@@ -18,7 +18,6 @@ export default function LegislatorsHubPage() {
   const legislators = getLegislators();
 
   const counts = {
-    Abolitionist: legislators.filter((l) => l.stance === 'Abolitionist').length,
     Incrementalist: legislators.filter((l) => l.stance === 'Incrementalist (Pro-Life)').length,
     ProChoice: legislators.filter((l) => l.stance === 'Pro-Choice').length,
     Unknown: legislators.filter((l) => l.stance === 'Unknown').length,
@@ -59,9 +58,8 @@ export default function LegislatorsHubPage() {
             </p>
           </div>
 
-          <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl">
-            <StatBox label="Abolitionist" count={counts.Abolitionist} tone="red" />
-            <StatBox label="Incrementalist (Pro-Life)" count={counts.Incrementalist} tone="orange" />
+          <div className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4 max-w-3xl">
+            <StatBox label="Pro-Life (Incrementalist)" count={counts.Incrementalist} tone="orange" />
             <StatBox label="Pro-Choice" count={counts.ProChoice} tone="blue" />
             <StatBox label="Unknown record" count={counts.Unknown} tone="gray" />
           </div>
@@ -78,32 +76,36 @@ export default function LegislatorsHubPage() {
 
       <section className="bg-gray-50 py-10 border-t border-gray-200">
         <div className="max-w-4xl mx-auto px-4 prose prose-gray">
-          <h2 className="text-2xl font-bold mb-4">How we score</h2>
+          <h2 className="text-2xl font-bold mb-4">How we categorize</h2>
           <p>
-            Legislators are categorized into three camps based on their actual public record — not
-            self-description. The distinctions matter to abolitionists:
+            Legislators are grouped by their public record on abortion — voting record, bills
+            sponsored, endorsements, and campaign finance. We do not personally label legislators
+            beyond these categories; a legislator&apos;s specific stance (abolitionist vs.
+            incrementalist within the pro-life camp, for example) is a matter of self-identification
+            that a bill sponsorship alone cannot determine.
           </p>
           <ul>
             <li>
-              <strong>Abolitionist</strong> — sponsors or cosponsors of the 2025 &ldquo;Justice for
-              Babies in the Womb Act&rdquo; (HB 4670 / HB 4671), the only true equal-protection
-              abolition legislation in the current Michigan Legislature. Also legislators who
-              sponsored the 2023 provider-felony bill (HB 4683) without hedging on incrementalist
-              bills like PRC tax credits (HB 4652) or a fetal viability ban.
+              <strong>Pro-Life (Incrementalist)</strong> — has voted, sponsored, or been endorsed
+              in a pattern consistent with restricting or opposing abortion access.
             </li>
             <li>
-              <strong>Incrementalist (Pro-Life)</strong> — supports restrictions, regulations,
-              exceptions, viability bans, waiting periods, or defunding, but not immediate abolition.
-              This is the position of Right to Life of Michigan, Susan B. Anthony Pro-Life America,
-              and the National Right to Life Committee.
+              <strong>Pro-Choice</strong> — has voted, sponsored, or been endorsed in a pattern
+              consistent with supporting abortion access.
             </li>
             <li>
-              <strong>Pro-Choice</strong> — supports abortion access.
+              <strong>Unknown record</strong> — insufficient public record for classification.
             </li>
           </ul>
           <p>
+            Each profile shows the specific bills a legislator sponsored so you can judge for
+            yourself. Bills that establish equal protection from fertilization (like HB 4671, the
+            &ldquo;Justice for Babies in the Womb Act&rdquo;) are noted with the bill&apos;s
+            actual language, without attaching a personal label.
+          </p>
+          <p>
             <Link href="/what-we-believe/abolitionist-not-pro-life" className="text-red-700 underline">
-              Why the abolitionist / incrementalist distinction matters &rarr;
+              Why abolitionists distinguish themselves from incrementalist pro-lifers &rarr;
             </Link>
           </p>
         </div>

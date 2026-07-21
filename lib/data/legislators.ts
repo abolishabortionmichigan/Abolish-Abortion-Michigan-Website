@@ -14,7 +14,11 @@
 import raw from '@/data/legislators.json';
 
 export type Chamber = 'House' | 'Senate';
-export type Stance = 'Abolitionist' | 'Incrementalist (Pro-Life)' | 'Pro-Choice' | 'Unknown';
+// `Abolitionist` was retired from the public site — it's a stance individuals
+// self-identify with, not one we assign based on bill sponsorship. Retained
+// in the internal research dataset (see michigan-legislators/output/); the
+// public JSON collapses those rows into `Incrementalist (Pro-Life)`.
+export type Stance = 'Incrementalist (Pro-Life)' | 'Pro-Choice' | 'Unknown';
 export type VoteValue = 'Yea' | 'Nay' | 'Excused' | 'NotVoting' | null;
 export type YesNo = 'Yes' | 'No' | null;
 export type DistrictLean =
@@ -109,8 +113,6 @@ export function getAllSlugs(): string[] {
 
 export function stanceBadgeClass(stance: Stance): string {
   switch (stance) {
-    case 'Abolitionist':
-      return 'bg-red-600 text-white';
     case 'Incrementalist (Pro-Life)':
       return 'bg-orange-500 text-white';
     case 'Pro-Choice':
@@ -118,6 +120,16 @@ export function stanceBadgeClass(stance: Stance): string {
     default:
       return 'bg-gray-400 text-white';
   }
+}
+
+/**
+ * Public-facing label. Internal `stance` uses the researcher-facing terms;
+ * the public site shows softer/clearer versions. Kept out of the raw enum
+ * so downstream code stays type-safe.
+ */
+export function stanceLabel(stance: Stance): string {
+  if (stance === 'Incrementalist (Pro-Life)') return 'Pro-Life (Incrementalist)';
+  return stance;
 }
 
 export function partyLabel(party: string): string {

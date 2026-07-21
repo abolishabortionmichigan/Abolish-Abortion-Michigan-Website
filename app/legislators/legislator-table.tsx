@@ -24,9 +24,7 @@ export default function LegislatorTable({ legislators }: { legislators: Legislat
 
   const [q, setQ] = useState<string>(searchParams?.get('q') ?? '');
   const [chamber, setChamber] = useState<'All' | 'House' | 'Senate'>('All');
-  const [stance, setStance] = useState<'All' | 'Abolitionist' | 'Incrementalist (Pro-Life)' | 'Pro-Choice'>(
-    'All',
-  );
+  const [stance, setStance] = useState<'All' | 'Incrementalist (Pro-Life)' | 'Pro-Choice'>('All');
   const [sortKey, setSortKey] = useState<SortKey>('name');
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
 
@@ -93,9 +91,8 @@ export default function LegislatorTable({ legislators }: { legislators: Legislat
           aria-label="Filter by stance"
           className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500"
         >
-          <option value="All">All stances</option>
-          <option value="Abolitionist">Abolitionist</option>
-          <option value="Incrementalist (Pro-Life)">Incrementalist (Pro-Life)</option>
+          <option value="All">All positions</option>
+          <option value="Incrementalist (Pro-Life)">Pro-Life (Incrementalist)</option>
           <option value="Pro-Choice">Pro-Choice</option>
         </select>
         <div className="flex items-center text-sm text-gray-600">

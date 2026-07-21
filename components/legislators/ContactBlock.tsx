@@ -17,6 +17,34 @@ export default function ContactBlock({ legislator }: { legislator: Legislator })
     official_website,
   } = legislator;
 
+  // Build the pre-drafted email body as an array joined with CRLF (\r\n) —
+  // required by RFC 6068 for mailto: URLs. Bare \n gets silently stripped
+  // by some clients (Outlook, iOS Mail), producing the run-together text
+  // Jmark flagged. \r\n survives every major client we've tested.
+  const emailSubject = 'Abolition of abortion in Michigan';
+  const emailBodyLines = [
+    `Dear ${legislator.name},`,
+    '',
+    "I'm writing as a Michigan constituent to urge you to support the abolition of abortion in our state. Abortion ends the life of a human being made in the image of God, and equal protection of the law demands its abolition.",
+    '',
+    'Specifically, I ask you to:',
+    '',
+    '  - Support any bill that establishes equal legal protection for the preborn from the moment of fertilization',
+    '  - Oppose incremental measures that concede that some abortions may lawfully occur',
+    '  - Speak publicly against abortion as the injustice it is',
+    '',
+    'Abolition — not regulation or reduction — is the just response to the killing of the preborn.',
+    '',
+    'Thank you for your time and consideration.',
+    '',
+    'Sincerely,',
+    '[Your name]',
+    '[Your city, ZIP]',
+  ];
+  const mailtoHref = email
+    ? `mailto:${email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBodyLines.join('\r\n'))}`
+    : '';
+
   return (
     <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
       <h2 className="text-xl font-bold mb-4 text-gray-900">Contact</h2>
@@ -26,7 +54,7 @@ export default function ContactBlock({ legislator }: { legislator: Legislator })
             <dt className="text-xs uppercase tracking-wide text-gray-500 font-semibold mb-1">Email</dt>
             <dd>
               <a
-                href={`mailto:${email}?subject=${encodeURIComponent('Abolition of abortion in Michigan')}`}
+                href={mailtoHref}
                 className="text-red-700 underline break-words hover:no-underline"
               >
                 {email}
@@ -132,13 +160,15 @@ export default function ContactBlock({ legislator }: { legislator: Legislator })
       {email && (
         <div className="mt-6 pt-6 border-t border-gray-200">
           <Link
-            href={`mailto:${email}?subject=${encodeURIComponent('Abolition of abortion in Michigan')}&body=${encodeURIComponent(
-              `Dear ${legislator.name},\n\nI'm writing as a Michigan constituent to urge you to support the abolition of abortion in our state. Abortion ends the life of a human being made in the image of God, and equal protection of the law demands its abolition.\n\nSpecifically, I ask you to:\n  - Support any bill that establishes equal legal protection for the preborn from the moment of fertilization\n  - Oppose incremental measures that concede that some abortions may lawfully occur\n  - Speak publicly against abortion as the injustice it is\n\nAbolition — not regulation or reduction — is the just response to the killing of the preborn.\n\nThank you for your time and consideration.\n\nSincerely,\n[Your name]\n[Your city, ZIP]`,
-            )}`}
+            href={mailtoHref}
             className="inline-block bg-red-600 text-white font-bold px-5 py-3 rounded hover:bg-red-700 transition-colors"
           >
             Email {legislator.name.split(' ')[0]} about abolition
           </Link>
+          <p className="text-xs text-gray-500 mt-2">
+            Opens your email client with a starter message. Edit before you send — a personal note
+            carries more weight than a form email.
+          </p>
         </div>
       )}
     </div>
