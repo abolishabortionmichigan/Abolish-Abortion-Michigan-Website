@@ -168,10 +168,11 @@ export default async function LegislatorPage({ params }: { params: Promise<{ slu
                 <span>Right to Life of Michigan (2024)</span>
                 <InfoTip label="Right to Life of Michigan">
                   <p className="mb-2">
-                    <strong>Right to Life of Michigan (RTL)</strong> is Michigan&apos;s largest
-                    incrementalist pro-life organization. Founded in 1970, RTL supports restricting
-                    abortion through regulations, exceptions, and gradual legal change — not the
-                    immediate total abolition that Abolish Abortion Michigan advocates.
+                    <strong>Right to Life of Michigan (RTL)</strong>
+                    {' '}is Michigan&apos;s largest incrementalist pro-life organization. Founded
+                    in 1970, RTL supports restricting abortion through regulations, exceptions,
+                    and gradual legal change — not the immediate total abolition that Abolish
+                    Abortion Michigan advocates.
                   </p>
                   <p>
                     An RTL endorsement generally indicates a candidate willing to vote for
@@ -190,10 +191,10 @@ export default async function LegislatorPage({ params }: { params: Promise<{ slu
                 <span>Planned Parenthood Advocates of Michigan</span>
                 <InfoTip label="Planned Parenthood Advocates of Michigan">
                   <p className="mb-2">
-                    <strong>Planned Parenthood Advocates of Michigan (PPAMI)</strong> is the
-                    political-advocacy arm of Planned Parenthood in Michigan. It endorses
-                    candidates who support unrestricted abortion access and Planned Parenthood
-                    funding, and runs voter mobilization on their behalf.
+                    <strong>Planned Parenthood Advocates of Michigan (PPAMI)</strong>
+                    {' '}is the political-advocacy arm of Planned Parenthood in Michigan. It
+                    endorses candidates who support unrestricted abortion access and Planned
+                    Parenthood funding, and runs voter mobilization on their behalf.
                   </p>
                   <p>
                     Data source: Ballotpedia&apos;s tracked endorsement list. Only PPAMI&apos;s
@@ -212,10 +213,10 @@ export default async function LegislatorPage({ params }: { params: Promise<{ slu
                 <span>Citizens for Traditional Values</span>
                 <InfoTip label="Citizens for Traditional Values">
                   <p>
-                    <strong>Citizens for Traditional Values (CTV)</strong> is a Michigan Christian
-                    political-advocacy organization founded in 1983. CTV endorses candidates
-                    aligned with conservative Christian positions on life, family, and religious
-                    freedom.
+                    <strong>Citizens for Traditional Values (CTV)</strong>
+                    {' '}is a Michigan Christian political-advocacy organization founded in 1983.
+                    CTV endorses candidates aligned with conservative Christian positions on life,
+                    family, and religious freedom.
                   </p>
                 </InfoTip>
                 :{' '}

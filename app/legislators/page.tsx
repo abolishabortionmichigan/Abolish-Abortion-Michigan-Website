@@ -101,10 +101,10 @@ export default function LegislatorsHubPage() {
                 Pro-Life (Incrementalist)
                 <InfoTip label="What Incrementalist means">
                   <p className="mb-2">
-                    <strong>Incrementalism</strong> is the mainstream pro-life strategy: reduce
-                    abortion gradually through restrictions, waiting periods, viability limits,
-                    rape/incest exceptions, and pregnancy-resource-center funding — but not
-                    outright abolition.
+                    <strong>Incrementalism</strong>
+                    {' '}is the mainstream pro-life strategy: reduce abortion gradually through
+                    restrictions, waiting periods, viability limits, rape/incest exceptions, and
+                    pregnancy-resource-center funding — but not outright abolition.
                   </p>
                   <p>
                     Organizations in this camp include{' '}
