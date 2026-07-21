@@ -74,6 +74,19 @@ export default function ContactPage() {
         </div>
       </section>
 
+      {/* Contact-your-legislator CTA — kept above the fold so visitors
+          looking to reach the government (not AAM) find the right tool. */}
+      <section className="bg-gray-50 py-6 border-b border-gray-200">
+        <div className="max-w-3xl mx-auto px-4 text-center text-sm">
+          <span className="font-semibold text-gray-800">
+            Contacting your legislators, not us?
+          </span>{' '}
+          <a href="/legislators" className="text-red-700 underline hover:no-underline">
+            Find your state representative and senator on our scorecard &rarr;
+          </a>
+        </div>
+      </section>
+
       {/* Contact Form */}
       <section className="bg-white py-16">
         <div className="max-w-3xl mx-auto px-4">

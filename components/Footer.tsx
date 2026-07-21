@@ -102,6 +102,10 @@ export default function Footer() {
                 About
               </Link>
               {' '}&bull;{' '}
+              <Link href="/legislators" className="text-red-500 hover:text-red-400 transition-colors">
+                Legislator Scorecard
+              </Link>
+              {' '}&bull;{' '}
               <Link href="/financial-transparency" className="text-red-500 hover:text-red-400 transition-colors">
                 Financial Transparency
               </Link>

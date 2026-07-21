@@ -166,6 +166,17 @@ export default async function HomePage() {
               <div className="text-gray-600 text-sm md:text-base">Since Prop 3 Passed</div>
             </div>
           </div>
+          <div className="mt-10 text-center">
+            <Link
+              href="/legislators"
+              className="inline-block px-6 py-3 bg-[#1a1a1a] text-white font-bold hover:bg-black transition-colors"
+            >
+              See where your legislators stand &rarr;
+            </Link>
+            <p className="text-sm text-gray-500 mt-2">
+              Every Michigan legislator&apos;s record on abortion — voting, sponsorships, endorsements, and campaign finance.
+            </p>
+          </div>
         </div>
       </section>
 

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import ContactBlock from '@/components/legislators/ContactBlock';
+import InfoTip from '@/components/legislators/InfoTip';
 import SponsorshipSignals from '@/components/legislators/SponsorshipSignals';
 import StanceBadge from '@/components/legislators/StanceBadge';
 import VotingRecord from '@/components/legislators/VotingRecord';
@@ -152,9 +153,23 @@ export default async function LegislatorPage({ params }: { params: Promise<{ slu
 
           <section>
             <h2 className="text-2xl font-bold mb-4">Endorsements</h2>
-            <ul className="space-y-1 text-gray-800">
+            <ul className="space-y-2 text-gray-800">
               <li>
-                Right to Life of Michigan (2024):{' '}
+                <span>Right to Life of Michigan (2024)</span>
+                <InfoTip label="Right to Life of Michigan">
+                  <p className="mb-2">
+                    <strong>Right to Life of Michigan (RTL)</strong> is Michigan&apos;s largest
+                    incrementalist pro-life organization. Founded in 1970, RTL supports restricting
+                    abortion through regulations, exceptions, and gradual legal change — not the
+                    immediate total abolition that Abolish Abortion Michigan advocates.
+                  </p>
+                  <p>
+                    An RTL endorsement generally indicates a candidate willing to vote for
+                    pro-life restrictions and accept exceptions for rape, incest, and life of the
+                    mother.
+                  </p>
+                </InfoTip>
+                :{' '}
                 {legislator.rtl_endorsed === 'Yes' ? (
                   <strong>Endorsed</strong>
                 ) : (
@@ -162,7 +177,21 @@ export default async function LegislatorPage({ params }: { params: Promise<{ slu
                 )}
               </li>
               <li>
-                Planned Parenthood Advocates of Michigan:{' '}
+                <span>Planned Parenthood Advocates of Michigan</span>
+                <InfoTip label="Planned Parenthood Advocates of Michigan">
+                  <p className="mb-2">
+                    <strong>Planned Parenthood Advocates of Michigan (PPAMI)</strong> is the
+                    political-advocacy arm of Planned Parenthood in Michigan. It endorses
+                    candidates who support unrestricted abortion access and Planned Parenthood
+                    funding, and runs voter mobilization on their behalf.
+                  </p>
+                  <p>
+                    Data source: Ballotpedia&apos;s tracked endorsement list. Only PPAMI&apos;s
+                    &ldquo;notable&rdquo; endorsements are captured; their full slate lives on
+                    their Wix-hosted site which is not machine-readable.
+                  </p>
+                </InfoTip>
+                :{' '}
                 {legislator.pp_advocates_endorsed === 'Yes' ? (
                   <strong>Endorsed</strong>
                 ) : (
@@ -170,7 +199,16 @@ export default async function LegislatorPage({ params }: { params: Promise<{ slu
                 )}
               </li>
               <li>
-                Citizens for Traditional Values:{' '}
+                <span>Citizens for Traditional Values</span>
+                <InfoTip label="Citizens for Traditional Values">
+                  <p>
+                    <strong>Citizens for Traditional Values (CTV)</strong> is a Michigan Christian
+                    political-advocacy organization founded in 1983. CTV endorses candidates
+                    aligned with conservative Christian positions on life, family, and religious
+                    freedom.
+                  </p>
+                </InfoTip>
+                :{' '}
                 {legislator.ctv_endorsed === 'Yes' ? (
                   <strong>Endorsed</strong>
                 ) : (
@@ -193,11 +231,51 @@ export default async function LegislatorPage({ params }: { params: Promise<{ slu
                 amount={legislator.abortion_related_pac_total}
               />
             </div>
-            <p className="text-xs text-gray-500 mt-3">
-              Source: FollowTheMoney.org itemized contributions, 2022 + 2024 election cycles. Only
-              itemized direct contributions are captured — independent expenditures (which are how
-              RTL of Michigan does most of its political spending) are not included here.
-            </p>
+            <div className="mt-4 text-xs text-gray-600 space-y-2">
+              <p>
+                <strong>Source:</strong> FollowTheMoney.org itemized contributions, 2022 + 2024
+                Michigan election cycles.
+              </p>
+              <details className="bg-gray-50 border border-gray-200 rounded p-3">
+                <summary className="cursor-pointer font-semibold text-gray-800 select-none">
+                  Why is this often $0?
+                </summary>
+                <div className="mt-2 space-y-2">
+                  <p>
+                    A $0 total here does <em>not</em> mean a legislator has no support from these
+                    organizations — it means no <strong>itemized direct contribution</strong> is on
+                    file with the Michigan Bureau of Elections for the tracked cycles. Support
+                    typically flows through channels that don&apos;t show up:
+                  </p>
+                  <ul className="list-disc pl-5 space-y-1">
+                    <li>
+                      <strong>Independent expenditures</strong> — Right to Life of Michigan and
+                      Planned Parenthood Advocates both spend the majority of their political
+                      budgets on ads for or against candidates, which are reported separately from
+                      candidate contributions and are not included here.
+                    </li>
+                    <li>
+                      <strong>Aligned PACs</strong> — Pro-choice legislators often receive support
+                      through the Michigan Democratic Party, Reproductive Freedom for All, EMILY&apos;s
+                      List, or similar allied committees rather than directly from Planned Parenthood.
+                    </li>
+                    <li>
+                      <strong>Safe-seat legislators</strong> — Candidates in uncompetitive districts
+                      often draw little PAC money because they don&apos;t need it.
+                    </li>
+                    <li>
+                      <strong>Cycle timing</strong> — Legislators mid-term (like state senators
+                      elected in 2022 running again in 2026) show no 2024 activity because they
+                      weren&apos;t on the ballot.
+                    </li>
+                  </ul>
+                  <p>
+                    A non-zero total is meaningful (an explicit check to the campaign); a zero is
+                    the absence of one channel of support, not proof of no relationship.
+                  </p>
+                </div>
+              </details>
+            </div>
           </section>
 
           {news.length > 0 && (
