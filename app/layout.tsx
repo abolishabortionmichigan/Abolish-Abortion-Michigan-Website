@@ -6,7 +6,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { PostHogProvider } from "@/components/PostHogProvider";
-import GoogleAdsScript from "@/components/GoogleAdsScript";
+import GoogleTagScript from "@/components/GoogleTagScript";
 import { socialLinks } from "@/lib/content";
 
 const montserrat = Montserrat({
@@ -83,7 +83,7 @@ export default function RootLayout({
           <Footer />
           <Analytics />
           <SpeedInsights />
-          <GoogleAdsScript />
+          <GoogleTagScript />
         </PostHogProvider>
       </body>
     </html>
