@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { getAllNewsArticles } from '@/lib/data/news-store';
+import { getLegislators } from '@/lib/data/legislators';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://abolishabortionmichigan.com';
 
@@ -37,7 +38,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/abolition-bills`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE_URL}/abolition-bills/components`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
     { url: `${BASE_URL}/abolition-bills/current-bills`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
+    // Legislator scorecard hub — high priority, refreshed weekly
+    { url: `${BASE_URL}/legislators`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
   ];
+
+  // 149 individual legislator profile pages — the SEO long-tail workhorse.
+  // District redirect URLs (`/districts/[chamber]/[N]`) are intentionally
+  // NOT in the sitemap since they 301-redirect to the canonical
+  // /legislators/[slug] URL — Google indexes the canonical, not the
+  // redirect source.
+  const legislatorPages: MetadataRoute.Sitemap = getLegislators().map((l) => ({
+    url: `${BASE_URL}/legislators/${l.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.7,
+  }));
 
   // Add dynamic news article URLs
   let newsPages: MetadataRoute.Sitemap = [];
@@ -53,5 +68,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // If news fetch fails, just skip dynamic pages
   }
 
-  return [...staticPages, ...newsPages];
+  return [...staticPages, ...legislatorPages, ...newsPages];
 }
