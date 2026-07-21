@@ -243,8 +243,8 @@ export default async function LegislatorPage({ params }: { params: Promise<{ slu
                 <div className="mt-2 space-y-2">
                   <p>
                     A $0 total here does <em>not</em> mean a legislator has no support from these
-                    organizations — it means no <strong>itemized direct contribution</strong> is on
-                    file with the Michigan Bureau of Elections for the tracked cycles. Support
+                    organizations — it means no <strong>itemized direct contribution</strong> is
+                    on file with the Michigan Bureau of Elections for the tracked cycles. Support
                     typically flows through channels that don&apos;t show up:
                   </p>
                   <ul className="list-disc pl-5 space-y-1">
@@ -256,12 +256,13 @@ export default async function LegislatorPage({ params }: { params: Promise<{ slu
                     </li>
                     <li>
                       <strong>Aligned PACs</strong> — Pro-choice legislators often receive support
-                      through the Michigan Democratic Party, Reproductive Freedom for All, EMILY&apos;s
-                      List, or similar allied committees rather than directly from Planned Parenthood.
+                      through the Michigan Democratic Party, Reproductive Freedom for All,
+                      EMILY&apos;s List, or similar allied committees rather than directly from
+                      Planned Parenthood.
                     </li>
                     <li>
-                      <strong>Safe-seat legislators</strong> — Candidates in uncompetitive districts
-                      often draw little PAC money because they don&apos;t need it.
+                      <strong>Safe-seat legislators</strong> — Candidates in uncompetitive
+                      districts often draw little PAC money because they don&apos;t need it.
                     </li>
                     <li>
                       <strong>Cycle timing</strong> — Legislators mid-term (like state senators

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import Link from 'next/link';
-import Breadcrumbs from '@/components/Breadcrumbs';
+import InfoTip from '@/components/legislators/InfoTip';
 import LegislatorTable from './legislator-table';
 import { getLegislators } from '@/lib/data/legislators';
 
@@ -47,8 +47,7 @@ export default function LegislatorsHubPage() {
 
       <section className="bg-[#1a1a1a] text-white py-12">
         <div className="max-w-6xl mx-auto px-4">
-          <Breadcrumbs items={[{ label: 'Legislators' }]} />
-          <div className="mt-6">
+          <div>
             <h1 className="text-3xl md:text-5xl font-black mb-3">Michigan Legislator Scorecard</h1>
             <p className="text-gray-300 max-w-3xl">
               Where every Michigan state {legislators.length}-member Legislature stands on abortion —
@@ -80,70 +79,79 @@ export default function LegislatorsHubPage() {
           <p>
             Legislators are grouped by their public record on abortion — voting record, bills
             sponsored, endorsements, and campaign finance. We do not personally label legislators
-            beyond these categories; a legislator&apos;s specific stance (abolitionist vs.
-            incrementalist within the pro-life camp, for example) is a matter of self-identification
-            that a bill sponsorship alone cannot determine.
+            beyond these categories.
           </p>
-          <ul>
-            <li>
-              <strong>Pro-Life (Incrementalist)</strong> — has voted, sponsored, or been endorsed
-              in a pattern consistent with restricting or opposing abortion access.
-            </li>
-            <li>
-              <strong>Pro-Choice</strong> — has voted, sponsored, or been endorsed in a pattern
-              consistent with supporting abortion access.
-            </li>
-            <li>
-              <strong>Unknown record</strong> — insufficient public record for classification.
-            </li>
-          </ul>
-          <p>
+          <dl className="not-prose space-y-4 mt-6">
+            <div className="border-l-4 border-red-600 bg-white p-4 rounded-r">
+              <dt className="font-bold text-gray-900">
+                Abolition of abortion
+                <span className="text-xs text-gray-500 font-normal ml-2">
+                  (not a category we assign — this is the position AAM advocates)
+                </span>
+              </dt>
+              <dd className="text-gray-700 mt-1">
+                The immediate, total end of abortion — criminalized as homicide, no exceptions,
+                from the moment of fertilization. Rejects the incrementalist strategy of gradual
+                restrictions. This is the position Abolish Abortion Michigan advocates.{' '}
+                <Link
+                  href="/what-we-believe/abolitionist-not-pro-life"
+                  className="text-red-700 underline"
+                >
+                  Learn more &rarr;
+                </Link>
+              </dd>
+            </div>
+            <div className="border-l-4 border-orange-500 bg-white p-4 rounded-r">
+              <dt className="font-bold text-gray-900">
+                Pro-Life (Incrementalist)
+                <InfoTip label="What Incrementalist means">
+                  <p className="mb-2">
+                    <strong>Incrementalism</strong> is the mainstream pro-life strategy: reduce
+                    abortion gradually through restrictions, waiting periods, viability limits,
+                    rape/incest exceptions, and pregnancy-resource-center funding — but not
+                    outright abolition.
+                  </p>
+                  <p>
+                    Organizations in this camp include{' '}
+                    <strong>Right to Life of Michigan</strong>, Susan B. Anthony Pro-Life
+                    America, and the National Right to Life Committee.
+                  </p>
+                </InfoTip>
+              </dt>
+              <dd className="text-gray-700 mt-1">
+                Has voted, sponsored, or been endorsed in a pattern consistent with restricting
+                or opposing abortion access.
+              </dd>
+            </div>
+            <div className="border-l-4 border-blue-600 bg-white p-4 rounded-r">
+              <dt className="font-bold text-gray-900">
+                Pro-Choice
+                <InfoTip label="Pro-Choice organizations tracked">
+                  <p>
+                    Support for abortion access, generally endorsed by organizations like{' '}
+                    <strong>Planned Parenthood Advocates of Michigan (PPAMI)</strong>,
+                    Reproductive Freedom for All, and EMILY&apos;s List.
+                  </p>
+                </InfoTip>
+              </dt>
+              <dd className="text-gray-700 mt-1">
+                Has voted, sponsored, or been endorsed in a pattern consistent with supporting
+                abortion access.
+              </dd>
+            </div>
+            <div className="border-l-4 border-gray-400 bg-white p-4 rounded-r">
+              <dt className="font-bold text-gray-900">Unknown record</dt>
+              <dd className="text-gray-700 mt-1">
+                Insufficient public record for classification — usually a legislator sworn in too
+                recently to have any tracked votes or endorsements.
+              </dd>
+            </div>
+          </dl>
+          <p className="mt-6 text-sm text-gray-600">
             Each profile shows the specific bills a legislator sponsored so you can judge for
-            yourself. Bills that establish equal protection from fertilization (like HB 4671, the
-            &ldquo;Justice for Babies in the Womb Act&rdquo;) are noted with the bill&apos;s
+            yourself. Bills that establish equal protection from fertilization — like HB 4671, the
+            &ldquo;Justice for Babies in the Womb Act&rdquo; — are noted with the bill&apos;s
             actual language, without attaching a personal label.
-          </p>
-
-          <h3 className="text-xl font-bold mt-8 mb-3">What abolition of abortion is</h3>
-          <p>
-            The <strong>abolition of abortion</strong> is the position Abolish Abortion Michigan
-            advocates: abortion is the unjust killing of a human being made in the image of God, and
-            the law should criminalize it as any other homicide — <em>immediately</em>, with{' '}
-            <em>no exceptions</em>, from the moment of fertilization. Abolitionists reject
-            incremental strategies — waiting periods, viability limits, rape/incest exceptions,
-            trimester schemes, and tax credits for pregnancy resource centers — because each of
-            them concedes that at least some abortions may lawfully occur.
-          </p>
-          <p>
-            This differs from the mainstream &ldquo;pro-life&rdquo; movement, which is
-            <em> incrementalist</em>: it supports restrictions and reductions on abortion but
-            accepts a strategy of gradual change. Right to Life of Michigan, Susan B. Anthony
-            Pro-Life America, and the National Right to Life Committee are incrementalist
-            organizations. Abolish Abortion Michigan is not — we call for the immediate and total
-            end of abortion in the state.
-          </p>
-          <p className="not-prose mt-4 grid sm:grid-cols-3 gap-2">
-            <Link
-              href="/what-we-believe/abolitionist-not-pro-life"
-              className="block p-3 border border-red-200 rounded bg-white text-sm hover:border-red-600 transition-colors"
-            >
-              <span className="font-semibold text-red-700 block">Abolitionist, Not Pro-Life &rarr;</span>
-              <span className="text-gray-600">Why the label matters</span>
-            </Link>
-            <Link
-              href="/what-we-believe/immediate-not-gradual"
-              className="block p-3 border border-red-200 rounded bg-white text-sm hover:border-red-600 transition-colors"
-            >
-              <span className="font-semibold text-red-700 block">Immediate, Not Gradual &rarr;</span>
-              <span className="text-gray-600">Why incrementalism fails</span>
-            </Link>
-            <Link
-              href="/what-we-believe/no-exceptions"
-              className="block p-3 border border-red-200 rounded bg-white text-sm hover:border-red-600 transition-colors"
-            >
-              <span className="font-semibold text-red-700 block">No Exceptions &rarr;</span>
-              <span className="text-gray-600">Every life, every time</span>
-            </Link>
           </p>
         </div>
       </section>

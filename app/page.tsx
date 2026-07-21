@@ -166,17 +166,6 @@ export default async function HomePage() {
               <div className="text-gray-600 text-sm md:text-base">Since Prop 3 Passed</div>
             </div>
           </div>
-          <div className="mt-10 text-center">
-            <Link
-              href="/legislators"
-              className="inline-block px-6 py-3 bg-[#1a1a1a] text-white font-bold hover:bg-black transition-colors"
-            >
-              See where your legislators stand &rarr;
-            </Link>
-            <p className="text-sm text-gray-500 mt-2">
-              Every Michigan legislator&apos;s record on abortion — voting, sponsorships, endorsements, and campaign finance.
-            </p>
-          </div>
         </div>
       </section>
 
@@ -244,6 +233,27 @@ export default async function HomePage() {
               </ul>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Scorecard CTA — sits between "What is Abolition" and Latest News
+          so visitors who just learned the definition can immediately see
+          how it plays out in the current MI Legislature. */}
+      <section className="bg-red-700 text-white py-10">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold mb-3">
+            See where your legislators stand
+          </h2>
+          <p className="text-gray-100 mb-6 max-w-2xl mx-auto">
+            Every Michigan legislator&apos;s record on abortion — voting, sponsorships,
+            endorsements, and campaign finance. Look up your representative and senator.
+          </p>
+          <Link
+            href="/legislators"
+            className="inline-block px-8 py-3 bg-white text-red-700 font-bold hover:bg-gray-100 transition-colors"
+          >
+            OPEN THE LEGISLATOR SCORECARD &rarr;
+          </Link>
         </div>
       </section>
 

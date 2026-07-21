@@ -206,12 +206,28 @@ export function parseNewsList(l: Legislator): { date: string; title: string; lin
   if (!l.news_summary || !l.news_links) return [];
   const summaries = l.news_summary.split(';').map((s) => s.trim()).filter(Boolean);
   const links = l.news_links.split(';').map((s) => s.trim()).filter(Boolean);
+
+  // Google News RSS returns loose matches — often a headline that mentions
+  // one of our target news sites but isn't actually about this legislator.
+  // Only keep headlines where the legislator's last name appears in the
+  // title, or where the full "First Last" pattern shows up. Fewer, more
+  // accurate headlines beats a long list of near-misses.
+  const parts = l.name.trim().split(/\s+/);
+  const lastName = parts[parts.length - 1].toLowerCase();
+  const fullNameNormalized = l.name.toLowerCase();
+
   const out: { date: string; title: string; link: string }[] = [];
   for (let i = 0; i < summaries.length; i++) {
-    // Summary format: "2024-02-20  Reproductive rights ..." (two-space split)
+    // Summary format: "2024-02-20  Headline text" (two-space delimiter)
     const m = summaries[i].match(/^(\d{4}-\d{2}-\d{2})\s+(.+)$/);
     if (!m) continue;
-    out.push({ date: m[1], title: m[2], link: links[i] || '' });
+    const title = m[2];
+    const titleLower = title.toLowerCase();
+    // Skip aggregator/index pages ("Author archives," "Page 2 of 94," etc.)
+    if (/\bauthor archives|\bpage \d+ of \d+|\barchives\b/i.test(title)) continue;
+    // Require the person's actual last name (or full name) in the headline.
+    if (!titleLower.includes(lastName) && !titleLower.includes(fullNameNormalized)) continue;
+    out.push({ date: m[1], title, link: links[i] || '' });
   }
   return out;
 }
