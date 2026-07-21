@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import CTABanner from '@/components/CTABanner';
 import NewsCard from '@/components/NewsCard';
-import { statistics, socialLinks } from '@/lib/content';
+import { statistics, socialLinks, orgInfo } from '@/lib/content';
 import { getAllNewsArticles } from '@/lib/data/news-store';
 
 export const metadata: Metadata = {
@@ -69,6 +69,11 @@ export default async function HomePage() {
       'pro-life advocacy',
       'Christian abolitionism',
     ],
+    // Nonprofit signals — helps Google + Ad Grants recognize AAM as a bona
+    // fide charitable organization. `nonprofitStatus: Nonprofit501c3` is the
+    // schema.org enum for US 501(c)(3) organizations.
+    nonprofitStatus: 'Nonprofit501c3',
+    ...(orgInfo.ein && { taxID: orgInfo.ein }),
   };
 
   // WebSite + SearchAction — tells Google that /news?q= is our internal search

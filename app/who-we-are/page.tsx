@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
+import Link from 'next/link';
 import CTABanner from '@/components/CTABanner';
+import { orgInfo } from '@/lib/content';
 
 export const metadata: Metadata = {
   title: 'Who We Are',
@@ -25,6 +27,38 @@ export default function WhoWeArePage() {
       {/* Main Content */}
       <section className="bg-white py-16">
         <div className="max-w-4xl mx-auto px-4">
+          {/* Nonprofit disclosure card — Google Ad Grants explicitly requires
+              the mission + nonprofit status be prominent on About pages. */}
+          <div className="border-l-4 border-red-600 bg-gray-50 p-6 mb-10 rounded-r">
+            <p className="text-gray-800 font-semibold mb-2">
+              {orgInfo.legalName} is a Michigan {orgInfo.taxStatus}.
+            </p>
+            {orgInfo.ein ? (
+              <p className="text-gray-700">
+                Federal Tax ID (EIN): <span className="font-mono">{orgInfo.ein}</span>. Contributions
+                are tax-deductible to the fullest extent allowed by law.{' '}
+                <Link
+                  href="/financial-transparency"
+                  className="text-red-700 underline hover:no-underline"
+                >
+                  See our financial transparency page
+                </Link>
+                .
+              </p>
+            ) : (
+              <p className="text-gray-700">
+                Contributions are tax-deductible to the fullest extent allowed by law. See our{' '}
+                <Link
+                  href="/financial-transparency"
+                  className="text-red-700 underline hover:no-underline"
+                >
+                  financial transparency page
+                </Link>{' '}
+                for our EIN and disclosures.
+              </p>
+            )}
+          </div>
+
           <h2 className="text-3xl font-bold mb-6">Our Identity</h2>
           <p className="text-gray-700 mb-6 text-lg">
             Abolish Abortion Michigan is a coalition of Christians who believe that abortion is murder and must be abolished immediately—not regulated, not reduced, but completely ended.

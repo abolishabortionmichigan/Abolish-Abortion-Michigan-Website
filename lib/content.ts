@@ -33,6 +33,32 @@ export const socialLinks = {
   signalGroup: 'https://signal.group/#CjQKIJKnCRVq5FifD0RNYPlovNABQHbeXnUqGWGciHeg16WYEhDJ8AInsNGnXU7dpn1B-M7X',
 };
 
+// Nonprofit disclosures. Google Ad Grants explicitly requires the EIN
+// (Federal Tax ID) or nonprofit registration number to be visible on the
+// site. Missing this is the #1 reason Ad Grants applications are rejected.
+// Set NEXT_PUBLIC_ORG_EIN in Vercel to the 9-digit EIN once received; until
+// then this shows a "pending" state that the reviewer can see is a real
+// nonprofit with the application in process.
+export const orgInfo = {
+  legalName: 'Abolish Abortion Michigan',
+  taxStatus: '501(c)(3) nonprofit organization',
+  ein: process.env.NEXT_PUBLIC_ORG_EIN || '',
+  registeredState: 'Michigan',
+  mailingAddress: {
+    street: '3665 S Lakeshore Dr, Suite 4',
+    city: 'St Joseph',
+    state: 'MI',
+    postalCode: '49085',
+    country: 'US',
+  },
+  founded: '2024',
+  contactEmail: 'admin@abolishabortionmichigan.com',
+  // If/when a Form 990 or annual report is available, drop a public URL here
+  // and the Financial Transparency section will link to it.
+  form990Url: process.env.NEXT_PUBLIC_FORM_990_URL || '',
+  annualReportUrl: process.env.NEXT_PUBLIC_ANNUAL_REPORT_URL || '',
+};
+
 // FAQ items with full content from screenshots
 export const faqItems = [
   {

@@ -208,7 +208,7 @@ export default function MessageOfReconciliationPage() {
             </div>
 
             <p className="text-sm text-gray-500 italic">
-              This content was originally published at <a href="https://abolishhumanabortion.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Abolish Human Abortion</a>. Abolish Abortion Michigan is not formally affiliated with <a href="https://abolishhumanabortion.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Abolish Human Abortion</a>, but shares its abolitionist principles.
+              This content was originally published at <a href="https://web.archive.org/web/2026/https://abolishhumanabortion.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Abolish Human Abortion</a>. Abolish Abortion Michigan is not formally affiliated with <a href="https://web.archive.org/web/2026/https://abolishhumanabortion.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Abolish Human Abortion</a>, but shares its abolitionist principles.
             </p>
           </div>
 

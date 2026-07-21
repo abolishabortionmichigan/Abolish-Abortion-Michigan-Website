@@ -85,7 +85,7 @@ export default function AnswerToAbortionPage() {
             </blockquote>
 
             <p>
-              As a group of abolitionists <a href="https://abolishhumanabortion.com/declaration-of-sentiments/" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">once wrote</a>:
+              As a group of abolitionists <a href="https://web.archive.org/web/2026/https://abolishhumanabortion.com/declaration-of-sentiments/" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">once wrote</a>:
             </p>
 
             <blockquote className="border-l-4 border-red-600 pl-6 my-8 italic">
@@ -151,7 +151,7 @@ export default function AnswerToAbortionPage() {
             </div>
 
             <p className="text-sm text-gray-500 italic">
-              This content was originally published at <a href="https://abolishhumanabortion.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Abolish Human Abortion</a>. Abolish Abortion Michigan is not formally affiliated with <a href="https://abolishhumanabortion.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Abolish Human Abortion</a>, but shares its abolitionist principles.
+              This content was originally published at <a href="https://web.archive.org/web/2026/https://abolishhumanabortion.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Abolish Human Abortion</a>. Abolish Abortion Michigan is not formally affiliated with <a href="https://web.archive.org/web/2026/https://abolishhumanabortion.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-600">Abolish Human Abortion</a>, but shares its abolitionist principles.
             </p>
           </div>
 

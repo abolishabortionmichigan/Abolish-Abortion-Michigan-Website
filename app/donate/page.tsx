@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import CTABanner from '@/components/CTABanner';
 import DonateButton from '@/components/DonateButton';
+import { orgInfo } from '@/lib/content';
 
 export const metadata: Metadata = {
   title: 'Donate',
@@ -172,8 +173,19 @@ export default function DonatePage() {
                 Contact us
               </Link>.
             </p>
+            <p className="text-sm text-gray-500 mb-3">
+              {orgInfo.legalName} is committed to financial transparency and faithful stewardship of all donations received.
+            </p>
             <p className="text-sm text-gray-500">
-              Abolish Abortion Michigan is committed to financial transparency and faithful stewardship of all donations received.
+              {orgInfo.legalName} is a Michigan {orgInfo.taxStatus}
+              {orgInfo.ein && (
+                <> &middot; Federal Tax ID (EIN): <span className="font-mono">{orgInfo.ein}</span></>
+              )}
+              . Contributions are tax-deductible to the fullest extent allowed by law.{' '}
+              <Link href="/financial-transparency" className="text-red-700 underline hover:no-underline">
+                Full financial transparency
+              </Link>
+              .
             </p>
           </div>
         </div>

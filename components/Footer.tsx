@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import FooterNewsletter from './FooterNewsletter';
-import { socialLinks } from '@/lib/content';
+import { orgInfo, socialLinks } from '@/lib/content';
 
 export default function Footer() {
   return (
@@ -55,12 +55,40 @@ export default function Footer() {
         </div>
       </div>
 
+      {/* Nonprofit disclosures — required for Google Ad Grants */}
+      <div className="border-t border-gray-800">
+        <div className="max-w-7xl mx-auto px-4 py-6">
+          <div className="text-center text-sm text-gray-300">
+            <p className="font-semibold mb-2">
+              {orgInfo.legalName} is a {orgInfo.taxStatus} registered in {orgInfo.registeredState}.
+            </p>
+            {orgInfo.ein ? (
+              <p className="mb-2">
+                Federal Tax ID (EIN): <span className="font-mono">{orgInfo.ein}</span> &middot;
+                Contributions are tax-deductible to the fullest extent allowed by law.
+              </p>
+            ) : (
+              <p className="mb-2">
+                Contributions are tax-deductible to the fullest extent allowed by law.{' '}
+                <Link href="/financial-transparency" className="text-red-500 hover:text-red-400 underline">
+                  See our EIN &amp; financial disclosures
+                </Link>
+              </p>
+            )}
+            <p className="mb-4 text-gray-300">
+              Mailing address: {orgInfo.mailingAddress.street}, {orgInfo.mailingAddress.city},{' '}
+              {orgInfo.mailingAddress.state} {orgInfo.mailingAddress.postalCode}
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Bottom Footer */}
       <div className="border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="text-center">
             <p className="text-sm text-gray-300 mb-2">
-              &copy; {new Date().getFullYear()} Abolish Abortion Michigan. All Rights Reserved.
+              &copy; {new Date().getFullYear()} {orgInfo.legalName}. All Rights Reserved.
             </p>
             <p className="text-sm text-gray-300 mb-4">
               Credit to{' '}
@@ -70,9 +98,16 @@ export default function Footer() {
               for allowing us to derive their work onto this website.
             </p>
             <p className="text-sm text-gray-300 mb-6">
-              Please read the{' '}
+              <Link href="/who-we-are" className="text-red-500 hover:text-red-400 transition-colors">
+                About
+              </Link>
+              {' '}&bull;{' '}
+              <Link href="/financial-transparency" className="text-red-500 hover:text-red-400 transition-colors">
+                Financial Transparency
+              </Link>
+              {' '}&bull;{' '}
               <Link href="/non-violence-statement" className="text-red-500 hover:text-red-400 transition-colors">
-                non-violence statement
+                Non-Violence Statement
               </Link>
               {' '}&bull;{' '}
               <Link href="/privacy-policy" className="text-red-500 hover:text-red-400 transition-colors">

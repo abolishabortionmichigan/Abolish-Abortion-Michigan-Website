@@ -63,7 +63,7 @@ export default function ThePetitionPage() {
 
           {/* Share Buttons */}
           <div className="mb-8">
-            <ShareButtons />
+            <ShareButtons url="https://www.abolishabortionmichigan.com/the-petition" />
           </div>
 
           {/* Petition Form */}
