@@ -53,6 +53,10 @@ export const orgInfo = {
   },
   founded: '2024',
   contactEmail: 'admin@abolishabortionmichigan.com',
+  // IRS Determination Letter — the official IRS document granting 501(c)(3)
+  // status. Public via apps.irs.gov/pub/epostcard. This is the single most
+  // credibility-boosting document a young nonprofit can display.
+  irsDeterminationLetterUrl: process.env.NEXT_PUBLIC_IRS_DETERMINATION_LETTER_URL || '',
   // If/when a Form 990 or annual report is available, drop a public URL here
   // and the Financial Transparency section will link to it.
   form990Url: process.env.NEXT_PUBLIC_FORM_990_URL || '',

@@ -108,31 +108,47 @@ export default function FinancialTransparencyPage() {
             volunteer basis by Michigan Christians committed to the abolition of abortion.
           </p>
 
-          <h2 className="text-3xl font-bold mb-6">Public Financial Documents</h2>
-          {orgInfo.form990Url || orgInfo.annualReportUrl ? (
-            <ul className="space-y-3 mb-10">
-              {orgInfo.form990Url && (
-                <li>
-                  <Link
-                    href={orgInfo.form990Url}
-                    className="text-red-700 underline hover:no-underline"
-                  >
-                    IRS Form 990 (most recent filing)
-                  </Link>
-                </li>
-              )}
-              {orgInfo.annualReportUrl && (
-                <li>
-                  <Link
-                    href={orgInfo.annualReportUrl}
-                    className="text-red-700 underline hover:no-underline"
-                  >
-                    Annual report
-                  </Link>
-                </li>
-              )}
-            </ul>
-          ) : (
+          <h2 className="text-3xl font-bold mb-6">Public Documents</h2>
+          <ul className="space-y-3 mb-10">
+            {orgInfo.irsDeterminationLetterUrl && (
+              <li>
+                <Link
+                  href={orgInfo.irsDeterminationLetterUrl}
+                  className="text-red-700 underline hover:no-underline"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  IRS Determination Letter (501(c)(3) tax-exempt status)
+                </Link>{' '}
+                <span className="text-gray-500 text-sm">— PDF, hosted by apps.irs.gov</span>
+              </li>
+            )}
+            {orgInfo.form990Url && (
+              <li>
+                <Link
+                  href={orgInfo.form990Url}
+                  className="text-red-700 underline hover:no-underline"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  IRS Form 990 (most recent filing)
+                </Link>
+              </li>
+            )}
+            {orgInfo.annualReportUrl && (
+              <li>
+                <Link
+                  href={orgInfo.annualReportUrl}
+                  className="text-red-700 underline hover:no-underline"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Annual report
+                </Link>
+              </li>
+            )}
+          </ul>
+          {!orgInfo.form990Url && (
             <p className="text-gray-700 mb-10">
               As a young Michigan nonprofit, our first annual report and Form 990 will be published
               here as soon as they are filed with the IRS. In the meantime, questions about our
