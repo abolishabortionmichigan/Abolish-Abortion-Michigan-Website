@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import Breadcrumbs from '@/components/Breadcrumbs';
 import ContactBlock from '@/components/legislators/ContactBlock';
 import InfoTip from '@/components/legislators/InfoTip';
 import SponsorshipSignals from '@/components/legislators/SponsorshipSignals';
@@ -86,16 +85,27 @@ export default async function LegislatorPage({ params }: { params: Promise<{ slu
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
       />
 
-      {/* Header */}
-      <section className="bg-[#1a1a1a] text-white py-12">
+      {/* Back-to-scorecard link — a lightweight nav aid without the visual
+          weight of a breadcrumb strip. Sits above the header so it's easy
+          to find but doesn't compete with the legislator's name. */}
+      <div className="bg-[#1a1a1a] pt-4 pb-2 border-b border-gray-800">
         <div className="max-w-5xl mx-auto px-4">
-          <Breadcrumbs
-            items={[
-              { label: 'Legislators', href: '/legislators' },
-              { label: legislator.name },
-            ]}
-          />
-          <div className="mt-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <Link
+            href="/legislators"
+            className="inline-flex items-center gap-1 text-sm text-gray-300 hover:text-white transition-colors"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to scorecard
+          </Link>
+        </div>
+      </div>
+
+      {/* Header */}
+      <section className="bg-[#1a1a1a] text-white py-8">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
               <h1 className="text-3xl md:text-5xl font-black mb-2">{legislator.name}</h1>
               <p className="text-gray-300 text-sm md:text-base">

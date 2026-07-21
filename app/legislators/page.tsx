@@ -83,12 +83,7 @@ export default function LegislatorsHubPage() {
           </p>
           <dl className="not-prose space-y-4 mt-6">
             <div className="border-l-4 border-red-600 bg-white p-4 rounded-r">
-              <dt className="font-bold text-gray-900">
-                Abolition of abortion
-                <span className="text-xs text-gray-500 font-normal ml-2">
-                  (not a category we assign — this is the position AAM advocates)
-                </span>
-              </dt>
+              <dt className="font-bold text-gray-900">Abolition of abortion</dt>
               <dd className="text-gray-700 mt-1">
                 The immediate, total end of abortion — criminalized as homicide, no exceptions,
                 from the moment of fertilization. Rejects the incrementalist strategy of gradual
@@ -147,12 +142,6 @@ export default function LegislatorsHubPage() {
               </dd>
             </div>
           </dl>
-          <p className="mt-6 text-sm text-gray-600">
-            Each profile shows the specific bills a legislator sponsored so you can judge for
-            yourself. Bills that establish equal protection from fertilization — like HB 4671, the
-            &ldquo;Justice for Babies in the Womb Act&rdquo; — are noted with the bill&apos;s
-            actual language, without attaching a personal label.
-          </p>
         </div>
       </section>
     </>
