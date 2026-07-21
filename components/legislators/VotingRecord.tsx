@@ -1,5 +1,5 @@
 import type { Legislator, VoteValue } from '@/lib/data/legislators';
-import { TRACKED_BILLS } from '@/lib/data/legislators';
+import { billOfficialUrl, TRACKED_BILLS } from '@/lib/data/legislators';
 
 /**
  * Six-bill voting record from the 2023-2024 MI Legislature session.
@@ -28,10 +28,29 @@ export default function VotingRecord({ legislator }: { legislator: Legislator })
           {TRACKED_BILLS.map((bill) => {
             const key = `vote_${bill.key}` as keyof Legislator;
             const vote = legislator[key] as VoteValue;
+            const url = billOfficialUrl(bill);
+            const billNo = bill.title.split(' — ')[0];
             return (
               <tr key={bill.key} className="border-t border-gray-200 align-top">
-                <td className="px-3 py-3 font-semibold text-gray-900 whitespace-nowrap">
-                  {bill.title.split(' — ')[0]}
+                <td className="px-3 py-3 font-semibold whitespace-nowrap">
+                  <a
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-red-700 underline hover:no-underline"
+                    title={`Read ${billNo} on legislature.mi.gov`}
+                  >
+                    {billNo}
+                    <svg
+                      className="inline-block w-3 h-3 ml-1 -mt-0.5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path d="M11 3a1 1 0 100 2h2.586l-7.293 7.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                      <path d="M4 5a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-4a1 1 0 10-2 0v4H4V7h4a1 1 0 000-2H4z" />
+                    </svg>
+                  </a>
                 </td>
                 <td className="px-3 py-3 text-gray-600 hidden sm:table-cell">
                   {bill.description}
@@ -47,7 +66,8 @@ export default function VotingRecord({ legislator }: { legislator: Legislator })
       </table>
       <p className="text-xs text-gray-500 mt-3">
         Source: Michigan Legislature roll-call PDFs. Bills that never received a floor vote (5 of
-        the 10 tracked anti-abortion bills died in committee) are omitted.
+        the 10 tracked anti-abortion bills died in committee) are omitted. Click any bill number
+        to read the full text on legislature.mi.gov.
       </p>
     </div>
   );

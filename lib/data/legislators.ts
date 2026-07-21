@@ -152,6 +152,23 @@ export interface TrackedBill {
   session: '2023-2024';
 }
 
+/**
+ * Canonical MI Legislature page for a tracked bill — has the bill text,
+ * PDF/HTML links, sponsors, roll calls, and history.
+ *
+ *   key session → https://www.legislature.mi.gov/Bills/Bill?ObjectName=<year>-<HB|SB|HR>-<num>
+ *
+ * The `key` format is a compact "HB4949" / "SB0147" / "HR0072"; we insert
+ * the dashes and the session start year to match MI Leg's URL convention.
+ */
+export function billOfficialUrl(bill: TrackedBill): string {
+  const [year] = bill.session.split('-');
+  // "HB4949" -> "HB-4949", "HR0072" -> "HR-0072"
+  const prefix = bill.key.match(/^[A-Z]+/)?.[0] ?? '';
+  const num = bill.key.slice(prefix.length);
+  return `https://www.legislature.mi.gov/Bills/Bill?ObjectName=${year}-${prefix}-${num}`;
+}
+
 export const TRACKED_BILLS: TrackedBill[] = [
   {
     key: 'HB4949',
