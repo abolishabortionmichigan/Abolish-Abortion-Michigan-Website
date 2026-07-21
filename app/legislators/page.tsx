@@ -103,9 +103,46 @@ export default function LegislatorsHubPage() {
             &ldquo;Justice for Babies in the Womb Act&rdquo;) are noted with the bill&apos;s
             actual language, without attaching a personal label.
           </p>
+
+          <h3 className="text-xl font-bold mt-8 mb-3">What abolition of abortion is</h3>
           <p>
-            <Link href="/what-we-believe/abolitionist-not-pro-life" className="text-red-700 underline">
-              Why abolitionists distinguish themselves from incrementalist pro-lifers &rarr;
+            The <strong>abolition of abortion</strong> is the position Abolish Abortion Michigan
+            advocates: abortion is the unjust killing of a human being made in the image of God, and
+            the law should criminalize it as any other homicide — <em>immediately</em>, with{' '}
+            <em>no exceptions</em>, from the moment of fertilization. Abolitionists reject
+            incremental strategies — waiting periods, viability limits, rape/incest exceptions,
+            trimester schemes, and tax credits for pregnancy resource centers — because each of
+            them concedes that at least some abortions may lawfully occur.
+          </p>
+          <p>
+            This differs from the mainstream &ldquo;pro-life&rdquo; movement, which is
+            <em> incrementalist</em>: it supports restrictions and reductions on abortion but
+            accepts a strategy of gradual change. Right to Life of Michigan, Susan B. Anthony
+            Pro-Life America, and the National Right to Life Committee are incrementalist
+            organizations. Abolish Abortion Michigan is not — we call for the immediate and total
+            end of abortion in the state.
+          </p>
+          <p className="not-prose mt-4 grid sm:grid-cols-3 gap-2">
+            <Link
+              href="/what-we-believe/abolitionist-not-pro-life"
+              className="block p-3 border border-red-200 rounded bg-white text-sm hover:border-red-600 transition-colors"
+            >
+              <span className="font-semibold text-red-700 block">Abolitionist, Not Pro-Life &rarr;</span>
+              <span className="text-gray-600">Why the label matters</span>
+            </Link>
+            <Link
+              href="/what-we-believe/immediate-not-gradual"
+              className="block p-3 border border-red-200 rounded bg-white text-sm hover:border-red-600 transition-colors"
+            >
+              <span className="font-semibold text-red-700 block">Immediate, Not Gradual &rarr;</span>
+              <span className="text-gray-600">Why incrementalism fails</span>
+            </Link>
+            <Link
+              href="/what-we-believe/no-exceptions"
+              className="block p-3 border border-red-200 rounded bg-white text-sm hover:border-red-600 transition-colors"
+            >
+              <span className="font-semibold text-red-700 block">No Exceptions &rarr;</span>
+              <span className="text-gray-600">Every life, every time</span>
             </Link>
           </p>
         </div>
