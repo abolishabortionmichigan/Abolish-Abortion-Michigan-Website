@@ -46,10 +46,12 @@ export default function VotingRecord({ legislator }: { legislator: Legislator })
                       viewBox="0 0 20 20"
                       fill="currentColor"
                       aria-hidden="true"
+                      focusable="false"
                     >
                       <path d="M11 3a1 1 0 100 2h2.586l-7.293 7.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
                       <path d="M4 5a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-4a1 1 0 10-2 0v4H4V7h4a1 1 0 000-2H4z" />
                     </svg>
+                    <span className="sr-only">(opens in new tab)</span>
                   </a>
                 </td>
                 <td className="px-3 py-3 text-gray-600 hidden sm:table-cell">

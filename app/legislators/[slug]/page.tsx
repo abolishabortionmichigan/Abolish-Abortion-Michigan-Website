@@ -94,9 +94,16 @@ export default async function LegislatorPage({ params }: { params: Promise<{ slu
         <div className="max-w-5xl mx-auto px-4">
           <Link
             href="/legislators"
-            className="inline-flex items-center gap-1 text-sm text-gray-300 hover:text-white transition-colors"
+            className="inline-flex items-center gap-1 text-sm text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/40 rounded transition-colors"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              aria-hidden="true"
+            >
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
             Back to scorecard

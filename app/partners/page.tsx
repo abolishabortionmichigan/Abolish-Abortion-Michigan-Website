@@ -93,7 +93,15 @@ export default function PartnersPage() {
           </p>
           <div className="space-y-6">
             {states.map((p) => (
-              <div key={p.url} id={slugify(p.state)}>
+              <div
+                key={p.url}
+                id={slugify(p.state)}
+                // Fallback for browsers without smooth scrollIntoView JS —
+                // the CSS scroll-margin-top gives ~30vh of headroom so the
+                // native anchor jump lands with the entry visible below the
+                // sticky header instead of clipped by it.
+                className="scroll-mt-[30vh]"
+              >
                 <PartnerCard partner={p} showState />
               </div>
             ))}

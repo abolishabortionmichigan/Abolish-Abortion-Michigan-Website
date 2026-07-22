@@ -118,6 +118,9 @@ export default function UsStatesMap({
                 href={anchor}
                 aria-label={title}
                 onClick={(e) => scrollToStateEntry(e, targetId)}
+                // Visible focus ring for keyboard nav — makes the states
+                // properly keyboard-navigable instead of just clickable.
+                className="focus:outline-none [&:focus>path]:stroke-black [&:focus>path]:stroke-2"
               >
                 {path}
               </a>
