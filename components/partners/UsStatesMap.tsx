@@ -1,3 +1,5 @@
+'use client';
+
 import type { Partner } from '@/lib/data/partners';
 import { US_MAP_VIEWBOX, US_STATE_PATHS } from '@/lib/data/us-map-paths';
 
@@ -9,8 +11,15 @@ import { US_MAP_VIEWBOX, US_STATE_PATHS } from '@/lib/data/us-map-paths';
  *   Green = active partner coalition, clickable → jumps to state entry
  *   Gray  = no partner yet
  *
- * The SVG is 100% inline so it works without any JS and stays crisp at
- * any zoom. Total added weight ~35KB gzipped for all 51 paths.
+ * Client component so we can intercept clicks and scroll the target
+ * entry to the CENTER of the viewport, not the top. Default browser
+ * anchor navigation puts the target flush to the top, which — depending
+ * on the entry's height — often leaves the org info either half above
+ * the fold or awkwardly clipped by the sticky header. scrollIntoView
+ * with block:'center' plus smooth behavior lands it in the middle.
+ *
+ * The SVG is 100% inline so it works without any JS for the initial
+ * paint; the JS is only for the smooth-center scroll enhancement.
  */
 
 const STATE_NAME_TO_ABBREV: Record<string, string> = {
@@ -46,6 +55,23 @@ export default function UsStatesMap({
   for (const [stateName, partner] of partnersByState) {
     const abbrev = STATE_NAME_TO_ABBREV[stateName];
     if (abbrev) partnerByAbbrev.set(abbrev, partner);
+  }
+
+  function scrollToStateEntry(e: React.MouseEvent, targetId: string) {
+    // Intercept the anchor click so we can scroll to CENTER instead of
+    // the browser default (target flush to top of viewport). Only fires
+    // on primary click without modifier keys — cmd/ctrl/shift/middle
+    // click still opens in a new tab as expected.
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const el = document.getElementById(targetId);
+    if (!el) return;
+    e.preventDefault();
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Update the URL fragment so the page state is shareable/back-navigable
+    // without triggering another default scroll.
+    if (window.history.replaceState) {
+      window.history.replaceState(null, '', `#${targetId}`);
+    }
   }
 
   return (
@@ -85,8 +111,14 @@ export default function UsStatesMap({
           );
 
           if (anchor) {
+            const targetId = slugify(state.name);
             return (
-              <a key={state.id} href={anchor} aria-label={title}>
+              <a
+                key={state.id}
+                href={anchor}
+                aria-label={title}
+                onClick={(e) => scrollToStateEntry(e, targetId)}
+              >
                 {path}
               </a>
             );

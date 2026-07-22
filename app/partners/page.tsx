@@ -50,7 +50,7 @@ export default function PartnersPage() {
           </h1>
           <div className="w-12 h-[3px] bg-red-600 mx-auto mb-6" />
           <p className="text-gray-300 max-w-3xl mx-auto">
-            Christian abolitionists in {coverage} states working alongside Abolish Abortion
+            Christian abolitionists in {coverage}{' '}states working alongside Abolish Abortion
             Michigan for the immediate and total end of abortion in the United States. Find your
             state&apos;s coalition, share resources, and get connected.
           </p>
