@@ -60,11 +60,11 @@ export default function LegislatorsHubPage() {
           </div>
           {passCount === 0 && (
             <p className="text-sm text-gray-300 mt-4 max-w-2xl leading-relaxed">
-              <strong className="text-white">Zero legislators currently pass.</strong> No sitting
-              member of the Michigan Legislature has sponsored a true equal-protection abolition
-              bill without also hedging with incrementalist compromises. That&apos;s not a bug in
-              the scorecard — it&apos;s an accurate reflection of where Michigan politics stand.
-              See &ldquo;How we grade&rdquo; below.
+              <strong className="text-white">Zero legislators currently pass.</strong>{' '}
+              No sitting member of the Michigan Legislature has sponsored a true equal-protection
+              abolition bill without also hedging with incrementalist compromises. That&apos;s not
+              a bug in the scorecard — it&apos;s an accurate reflection of where Michigan politics
+              stand. See &ldquo;How we grade&rdquo; below.
             </p>
           )}
           {passCount > 0 && (

@@ -266,8 +266,9 @@ export default async function LegislatorPage({ params }: { params: Promise<{ slu
                 <div className="mt-2 space-y-2">
                   <p>
                     A $0 total here does <em>not</em> mean a legislator has no support from these
-                    organizations — it means no <strong>itemized direct contribution</strong> is
-                    on file with the Michigan Bureau of Elections for the tracked cycles. Support
+                    organizations — it means no <strong>itemized direct contribution</strong>{' '}
+                    is on file with the Michigan Bureau of Elections for the tracked cycles.
+                    Support
                     typically flows through channels that don&apos;t show up:
                   </p>
                   <ul className="list-disc pl-5 space-y-1">
