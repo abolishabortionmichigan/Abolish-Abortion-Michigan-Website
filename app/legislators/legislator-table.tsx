@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import InfoTip from '@/components/legislators/InfoTip';
 import {
   chamberLabel,
   partyLabel,
@@ -125,7 +126,23 @@ export default function LegislatorTable({ legislators }: { legislators: Legislat
                 dir={sortDir}
                 className="hidden md:table-cell text-right"
               >
-                RTL $
+                <span className="inline-flex items-center">
+                  RTL $
+                  <InfoTip label="Right to Life of Michigan PAC donations">
+                    <p className="mb-2">
+                      Direct contributions from the{' '}
+                      <strong>Right to Life of Michigan PAC</strong>
+                      {' '}to this legislator&apos;s campaign committee, summed across the 2022
+                      + 2024 Michigan election cycles.
+                    </p>
+                    <p>
+                      RTL of Michigan is the state&apos;s largest incrementalist pro-life
+                      organization. Founded 1970 — supports restrictions and exceptions, not
+                      abolition. A $0 usually means support flowed through independent
+                      expenditures (ads) rather than direct contributions.
+                    </p>
+                  </InfoTip>
+                </span>
               </Th>
               <Th
                 onClick={() => toggleSort('ppac_donations_total')}
@@ -133,7 +150,25 @@ export default function LegislatorTable({ legislators }: { legislators: Legislat
                 dir={sortDir}
                 className="hidden md:table-cell text-right"
               >
-                PP $
+                <span className="inline-flex items-center">
+                  PP $
+                  <InfoTip label="Planned Parenthood PAC donations">
+                    <p className="mb-2">
+                      Direct contributions from{' '}
+                      <strong>Planned Parenthood Affiliates of Michigan</strong>
+                      {' '}and{' '}
+                      <strong>Planned Parenthood Federation of America</strong>
+                      {' '}to this legislator&apos;s campaign committee, summed across the 2022
+                      + 2024 Michigan election cycles.
+                    </p>
+                    <p>
+                      Planned Parenthood is the largest abortion provider and pro-choice advocacy
+                      organization in the US. A $0 doesn&apos;t mean no support — pro-choice
+                      candidates often receive money through aligned PACs (Reproductive Freedom
+                      for All, EMILY&apos;s List, MI Democratic Party) rather than directly.
+                    </p>
+                  </InfoTip>
+                </span>
               </Th>
             </tr>
           </thead>
