@@ -58,11 +58,22 @@ export default function LegislatorsHubPage() {
             <StatBox label="Pass" count={passCount} tone="green" />
             <StatBox label="Fail" count={failCount} tone="red" />
           </div>
-          <p className="text-xs text-gray-400 mt-3 max-w-2xl">
-            &ldquo;Pass&rdquo; = has publicly sponsored a true equal-protection abolition bill and
-            has NOT hedged with incrementalist compromises (pregnancy-center funding, viability
-            bans, heartbeat bans). See &ldquo;How we grade&rdquo; below.
-          </p>
+          {passCount === 0 && (
+            <p className="text-sm text-gray-300 mt-4 max-w-2xl leading-relaxed">
+              <strong className="text-white">Zero legislators currently pass.</strong> No sitting
+              member of the Michigan Legislature has sponsored a true equal-protection abolition
+              bill without also hedging with incrementalist compromises. That&apos;s not a bug in
+              the scorecard — it&apos;s an accurate reflection of where Michigan politics stand.
+              See &ldquo;How we grade&rdquo; below.
+            </p>
+          )}
+          {passCount > 0 && (
+            <p className="text-xs text-gray-400 mt-3 max-w-2xl">
+              &ldquo;Pass&rdquo; = has publicly sponsored a true equal-protection abolition bill and
+              has NOT hedged with incrementalist compromises (pregnancy-center funding, viability
+              bans, heartbeat bans). See &ldquo;How we grade&rdquo; below.
+            </p>
+          )}
         </div>
       </section>
 
