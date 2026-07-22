@@ -2,15 +2,16 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import ContactBlock from '@/components/legislators/ContactBlock';
+import GradeBadge from '@/components/legislators/GradeBadge';
 import InfoTip from '@/components/legislators/InfoTip';
 import SponsorshipSignals from '@/components/legislators/SponsorshipSignals';
-import StanceBadge from '@/components/legislators/StanceBadge';
 import VotingRecord from '@/components/legislators/VotingRecord';
 import {
   chamberLabel,
   getAllSlugs,
   getLegislatorBySlug,
   getLegislators,
+  grade,
   parseCommittees,
   parseNewsList,
   partyLabel,
@@ -117,7 +118,7 @@ export default async function LegislatorPage({ params }: { params: Promise<{ slu
                 )}
               </p>
             </div>
-            <StanceBadge stance={legislator.stance} className="self-start md:self-auto" />
+            <GradeBadge grade={grade(legislator)} className="self-start md:self-auto" />
           </div>
         </div>
       </section>

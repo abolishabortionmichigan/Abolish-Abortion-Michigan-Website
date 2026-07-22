@@ -132,6 +132,53 @@ export function stanceLabel(stance: Stance): string {
   return stance;
 }
 
+// ============================================================================
+// AAM abolitionist scorecard grade — pass/fail
+// ============================================================================
+//
+// A "Pass" from AAM's abolitionist perspective means the legislator has
+// demonstrated support for the total abolition of abortion — meaning they've
+// publicly sponsored a true equal-protection bill AND haven't hedged with
+// incrementalist bills (PRC funding, viability bans, heartbeat bans, etc.).
+//
+// At the moment no MI legislator meets that standard. Josh Schriver's HB 4671
+// is the closest to a real abolition bill, but it still carries a life-of-
+// mother exception; Schriver also cosponsored HB 4652 (PRC tax credits) in
+// 2023, which is an explicit incrementalist compromise.
+//
+// The score is intentionally strict — the point of an abolitionist scorecard
+// is to reveal that the current legislature is uniformly failing the
+// abolitionist standard, not to grade on a curve.
+
+export type Grade = 'Pass' | 'Fail';
+
+export function grade(l: Legislator): Grade {
+  const sponsoredAbolition = l.sponsored_current_abolition_bill === 'Yes';
+  const hedgedIncrementalist =
+    l.sponsored_HB4652 === 'Yes' ||
+    l.sponsored_viability_ban === 'Yes' ||
+    l.sponsored_heartbeat_ban === 'Yes' ||
+    l.sponsored_prc_funding === 'Yes';
+  return sponsoredAbolition && !hedgedIncrementalist ? 'Pass' : 'Fail';
+}
+
+export function gradeBadgeClass(g: Grade): string {
+  return g === 'Pass'
+    ? 'bg-green-600 text-white'
+    : 'bg-red-600 text-white';
+}
+
+/**
+ * Per-vote pass/fail on a tracked bill from AAM's perspective.
+ *   Nay on a pro-abortion-access bill = Pass (voted against abortion expansion)
+ *   Yea on a pro-abortion-access bill = Fail
+ *   Excused / NotVoting / no record = null (no grade)
+ */
+export function voteGrade(vote: VoteValue, proChoicePosition: 'Yea' | 'Nay'): Grade | null {
+  if (!vote || vote === 'Excused' || vote === 'NotVoting') return null;
+  return vote === proChoicePosition ? 'Fail' : 'Pass';
+}
+
 export function partyLabel(party: string): string {
   if (party === 'R') return 'Republican';
   if (party === 'D') return 'Democrat';

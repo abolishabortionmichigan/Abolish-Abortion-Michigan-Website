@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import Link from 'next/link';
 import InfoTip from '@/components/legislators/InfoTip';
 import LegislatorTable from './legislator-table';
-import { getLegislators } from '@/lib/data/legislators';
+import { getLegislators, grade } from '@/lib/data/legislators';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://abolishabortionmichigan.com';
 
@@ -17,11 +17,8 @@ export const metadata: Metadata = {
 export default function LegislatorsHubPage() {
   const legislators = getLegislators();
 
-  const counts = {
-    Incrementalist: legislators.filter((l) => l.stance === 'Incrementalist (Pro-Life)').length,
-    ProChoice: legislators.filter((l) => l.stance === 'Pro-Choice').length,
-    Unknown: legislators.filter((l) => l.stance === 'Unknown').length,
-  };
+  const passCount = legislators.filter((l) => grade(l) === 'Pass').length;
+  const failCount = legislators.length - passCount;
 
   // ItemList schema — makes this page eligible for list-format SERPs and
   // supports the sitelinks structure Google sometimes surfaces for
@@ -57,11 +54,15 @@ export default function LegislatorsHubPage() {
             </p>
           </div>
 
-          <div className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4 max-w-3xl">
-            <StatBox label="Pro-Life (Incrementalist)" count={counts.Incrementalist} tone="orange" />
-            <StatBox label="Pro-Choice" count={counts.ProChoice} tone="blue" />
-            <StatBox label="Unknown record" count={counts.Unknown} tone="gray" />
+          <div className="mt-8 grid grid-cols-2 gap-4 max-w-2xl">
+            <StatBox label="Pass" count={passCount} tone="green" />
+            <StatBox label="Fail" count={failCount} tone="red" />
           </div>
+          <p className="text-xs text-gray-400 mt-3 max-w-2xl">
+            &ldquo;Pass&rdquo; = has publicly sponsored a true equal-protection abolition bill and
+            has NOT hedged with incrementalist compromises (pregnancy-center funding, viability
+            bans, heartbeat bans). See &ldquo;How we grade&rdquo; below.
+          </p>
         </div>
       </section>
 
@@ -75,71 +76,75 @@ export default function LegislatorsHubPage() {
 
       <section className="bg-gray-50 py-10 border-t border-gray-200">
         <div className="max-w-4xl mx-auto px-4 prose prose-gray">
-          <h2 className="text-2xl font-bold mb-4">How we categorize</h2>
+          <h2 className="text-2xl font-bold mb-4">How we grade</h2>
           <p>
-            Legislators are grouped by their public record on abortion — voting record, bills
-            sponsored, endorsements, and campaign finance. We do not personally label legislators
-            beyond these categories.
+            Legislators are graded from Abolish Abortion Michigan&apos;s perspective. The bar is
+            deliberately strict: nothing short of true abolition is a Pass.
           </p>
           <dl className="not-prose space-y-4 mt-6">
-            <div className="border-l-4 border-red-600 bg-white p-4 rounded-r">
-              <dt className="font-bold text-gray-900">Abolition of abortion</dt>
-              <dd className="text-gray-700 mt-1">
-                The immediate, total end of abortion — criminalized as homicide, no exceptions,
-                from the moment of fertilization. Rejects the incrementalist strategy of gradual
-                restrictions. This is the position Abolish Abortion Michigan advocates.{' '}
+            <div className="border-l-4 border-green-600 bg-white p-4 rounded-r">
+              <dt className="font-bold text-gray-900 flex items-center gap-2">
+                <span className="inline-block px-2 py-0.5 rounded text-xs bg-green-600 text-white">
+                  PASS
+                </span>
+                Abolitionist
+              </dt>
+              <dd className="text-gray-700 mt-2">
+                Has publicly sponsored a true equal-protection abolition bill{' '}
+                <strong>and</strong> has <em>not</em> hedged with incrementalist compromises
+                (pregnancy-resource-center tax credits, fetal viability bans, heartbeat bans,
+                etc.). Abolition of abortion means the immediate, total end of abortion —
+                criminalized as homicide, no exceptions, from the moment of fertilization.{' '}
                 <Link
                   href="/what-we-believe/abolitionist-not-pro-life"
                   className="text-red-700 underline"
                 >
-                  Learn more &rarr;
+                  Learn more about the abolitionist position &rarr;
                 </Link>
               </dd>
             </div>
-            <div className="border-l-4 border-orange-500 bg-white p-4 rounded-r">
-              <dt className="font-bold text-gray-900">
-                Pro-Life (Incrementalist)
-                <InfoTip label="What Incrementalist means">
-                  <p className="mb-2">
-                    <strong>Incrementalism</strong>
-                    {' '}is the mainstream pro-life strategy: reduce abortion gradually through
-                    restrictions, waiting periods, viability limits, rape/incest exceptions, and
-                    pregnancy-resource-center funding — but not outright abolition.
-                  </p>
-                  <p>
-                    Organizations in this camp include{' '}
-                    <strong>Right to Life of Michigan</strong>, Susan B. Anthony Pro-Life
-                    America, and the National Right to Life Committee.
-                  </p>
-                </InfoTip>
+            <div className="border-l-4 border-red-600 bg-white p-4 rounded-r">
+              <dt className="font-bold text-gray-900 flex items-center gap-2">
+                <span className="inline-block px-2 py-0.5 rounded text-xs bg-red-600 text-white">
+                  FAIL
+                </span>
+                Everyone else
               </dt>
-              <dd className="text-gray-700 mt-1">
-                Has voted, sponsored, or been endorsed in a pattern consistent with restricting
-                or opposing abortion access.
+              <dd className="text-gray-700 mt-2">
+                A Fail covers three overlapping groups:
               </dd>
-            </div>
-            <div className="border-l-4 border-blue-600 bg-white p-4 rounded-r">
-              <dt className="font-bold text-gray-900">
-                Pro-Choice
-                <InfoTip label="Pro-Choice organizations tracked">
-                  <p>
-                    Support for abortion access, generally endorsed by organizations like{' '}
-                    <strong>Planned Parenthood Advocates of Michigan (PPAMI)</strong>,
-                    Reproductive Freedom for All, and EMILY&apos;s List.
-                  </p>
-                </InfoTip>
-              </dt>
-              <dd className="text-gray-700 mt-1">
-                Has voted, sponsored, or been endorsed in a pattern consistent with supporting
-                abortion access.
-              </dd>
-            </div>
-            <div className="border-l-4 border-gray-400 bg-white p-4 rounded-r">
-              <dt className="font-bold text-gray-900">Unknown record</dt>
-              <dd className="text-gray-700 mt-1">
-                Insufficient public record for classification — usually a legislator sworn in too
-                recently to have any tracked votes or endorsements.
-              </dd>
+              <ul className="text-gray-700 mt-2 space-y-1 list-disc pl-6 marker:text-gray-400">
+                <li>
+                  <strong>Pro-Choice legislators</strong> who support abortion access — voted
+                  for the Reproductive Health Act, or endorsed by Planned Parenthood Advocates
+                  or similar. Direct opposition to abolition.
+                </li>
+                <li>
+                  <strong>Pro-Life (Incrementalist) legislators</strong>
+                  <InfoTip label="What Incrementalist means">
+                    <p className="mb-2">
+                      <strong>Incrementalism</strong>
+                      {' '}is the mainstream pro-life strategy: reduce abortion gradually
+                      through restrictions, waiting periods, viability limits, rape/incest
+                      exceptions, and pregnancy-resource-center funding — but not outright
+                      abolition.
+                    </p>
+                    <p>
+                      Organizations in this camp include{' '}
+                      <strong>Right to Life of Michigan</strong>, Susan B. Anthony Pro-Life
+                      America, and the National Right to Life Committee.
+                    </p>
+                  </InfoTip>
+                  {' '}who support restricting abortion but stop short of total abolition.
+                  Incremental bills concede that at least some abortions may lawfully occur —
+                  a position abolition rejects.
+                </li>
+                <li>
+                  <strong>Legislators with no public record</strong> — usually sworn in too
+                  recently to have any tracked votes or endorsements. Default to Fail until
+                  they demonstrate otherwise.
+                </li>
+              </ul>
             </div>
           </dl>
         </div>
@@ -155,18 +160,16 @@ function StatBox({
 }: {
   label: string;
   count: number;
-  tone: 'red' | 'orange' | 'blue' | 'gray';
+  tone: 'green' | 'red';
 }) {
   const cls = {
+    green: 'bg-green-600',
     red: 'bg-red-600',
-    orange: 'bg-orange-500',
-    blue: 'bg-blue-600',
-    gray: 'bg-gray-500',
   }[tone];
   return (
     <div className={`${cls} text-white rounded p-4`}>
-      <div className="text-3xl font-black tabular-nums">{count}</div>
-      <div className="text-xs uppercase tracking-wide mt-1 opacity-90">{label}</div>
+      <div className="text-4xl font-black tabular-nums">{count}</div>
+      <div className="text-sm uppercase tracking-wide mt-1 font-bold">{label}</div>
     </div>
   );
 }

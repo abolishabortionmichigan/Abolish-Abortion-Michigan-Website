@@ -6,12 +6,14 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import InfoTip from '@/components/legislators/InfoTip';
 import {
   chamberLabel,
+  grade,
+  gradeBadgeClass,
   partyLabel,
-  stanceBadgeClass,
+  type Grade,
   type Legislator,
 } from '@/lib/data/legislators';
 
-type SortKey = 'name' | 'district' | 'stance' | 'party' | 'chamber' | 'rtl_donations_total' | 'ppac_donations_total';
+type SortKey = 'name' | 'district' | 'grade' | 'party' | 'chamber' | 'rtl_donations_total' | 'ppac_donations_total';
 
 /**
  * Client-side sortable/filterable table of every Michigan legislator with
@@ -25,7 +27,7 @@ export default function LegislatorTable({ legislators }: { legislators: Legislat
 
   const [q, setQ] = useState<string>(searchParams?.get('q') ?? '');
   const [chamber, setChamber] = useState<'All' | 'House' | 'Senate'>('All');
-  const [stance, setStance] = useState<'All' | 'Incrementalist (Pro-Life)' | 'Pro-Choice'>('All');
+  const [gradeFilter, setGradeFilter] = useState<'All' | Grade>('All');
   const [sortKey, setSortKey] = useState<SortKey>('name');
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
 
@@ -38,23 +40,27 @@ export default function LegislatorTable({ legislators }: { legislators: Legislat
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q]);
 
+  const rowsWithGrade = useMemo(
+    () => legislators.map((l) => ({ ...l, _grade: grade(l) as Grade })),
+    [legislators],
+  );
+
   const filtered = useMemo(() => {
     const needle = q.trim().toLowerCase();
-    let rows = legislators;
+    let rows = rowsWithGrade;
     if (needle) {
       rows = rows.filter(
         (l) =>
           l.name.toLowerCase().includes(needle) ||
           String(l.district).includes(needle) ||
-          (l.committees ?? '').toLowerCase().includes(needle) ||
-          l.stance.toLowerCase().includes(needle),
+          (l.committees ?? '').toLowerCase().includes(needle),
       );
     }
     if (chamber !== 'All') rows = rows.filter((l) => l.chamber === chamber);
-    if (stance !== 'All') rows = rows.filter((l) => l.stance === stance);
+    if (gradeFilter !== 'All') rows = rows.filter((l) => l._grade === gradeFilter);
     rows = [...rows].sort((a, b) => cmp(a, b, sortKey, sortDir));
     return rows;
-  }, [legislators, q, chamber, stance, sortKey, sortDir]);
+  }, [rowsWithGrade, q, chamber, gradeFilter, sortKey, sortDir]);
 
   function toggleSort(key: SortKey) {
     if (sortKey === key) {
@@ -87,14 +93,14 @@ export default function LegislatorTable({ legislators }: { legislators: Legislat
           <option value="Senate">Senate only</option>
         </select>
         <select
-          value={stance}
-          onChange={(e) => setStance(e.target.value as typeof stance)}
-          aria-label="Filter by stance"
+          value={gradeFilter}
+          onChange={(e) => setGradeFilter(e.target.value as 'All' | Grade)}
+          aria-label="Filter by grade"
           className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500"
         >
-          <option value="All">All positions</option>
-          <option value="Incrementalist (Pro-Life)">Pro-Life (Incrementalist)</option>
-          <option value="Pro-Choice">Pro-Choice</option>
+          <option value="All">All grades</option>
+          <option value="Pass">Pass only</option>
+          <option value="Fail">Fail only</option>
         </select>
         <div className="flex items-center text-sm text-gray-600">
           Showing <span className="font-semibold mx-1">{filtered.length}</span> of {legislators.length}
@@ -117,8 +123,8 @@ export default function LegislatorTable({ legislators }: { legislators: Legislat
               <Th onClick={() => toggleSort('party')} active={sortKey === 'party'} dir={sortDir}>
                 Party
               </Th>
-              <Th onClick={() => toggleSort('stance')} active={sortKey === 'stance'} dir={sortDir}>
-                Stance
+              <Th onClick={() => toggleSort('grade')} active={sortKey === 'grade'} dir={sortDir}>
+                Grade
               </Th>
               <Th
                 onClick={() => toggleSort('rtl_donations_total')}
@@ -185,9 +191,9 @@ export default function LegislatorTable({ legislators }: { legislators: Legislat
                 <td className="px-3 py-2 text-gray-700">{partyLabel(l.party)}</td>
                 <td className="px-3 py-2">
                   <span
-                    className={`inline-block px-2 py-0.5 rounded text-xs font-semibold whitespace-nowrap ${stanceBadgeClass(l.stance)}`}
+                    className={`inline-block px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wide ${gradeBadgeClass(l._grade)}`}
                   >
-                    {l.stance}
+                    {l._grade}
                   </span>
                 </td>
                 <td className="px-3 py-2 text-right hidden md:table-cell tabular-nums">
@@ -210,7 +216,7 @@ export default function LegislatorTable({ legislators }: { legislators: Legislat
             onClick={() => {
               setQ('');
               setChamber('All');
-              setStance('All');
+              setGradeFilter('All');
             }}
           >
             Reset
@@ -247,11 +253,19 @@ function Th({
   );
 }
 
-function cmp(a: Legislator, b: Legislator, key: SortKey, dir: 'asc' | 'desc'): number {
-  const av = (a[key] ?? '') as string | number;
-  const bv = (b[key] ?? '') as string | number;
+type Row = Legislator & { _grade: Grade };
+
+function cmp(a: Row, b: Row, key: SortKey, dir: 'asc' | 'desc'): number {
+  // Grade sorts as pass-before-fail; other keys sort by their raw value.
   let r = 0;
-  if (typeof av === 'number' && typeof bv === 'number') r = av - bv;
-  else r = String(av).localeCompare(String(bv));
+  if (key === 'grade') {
+    const rank = (g: Grade) => (g === 'Pass' ? 0 : 1);
+    r = rank(a._grade) - rank(b._grade);
+  } else {
+    const av = (a[key as keyof Legislator] ?? '') as string | number;
+    const bv = (b[key as keyof Legislator] ?? '') as string | number;
+    if (typeof av === 'number' && typeof bv === 'number') r = av - bv;
+    else r = String(av).localeCompare(String(bv));
+  }
   return dir === 'asc' ? r : -r;
 }

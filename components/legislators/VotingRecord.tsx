@@ -1,5 +1,5 @@
 import type { Legislator, VoteValue } from '@/lib/data/legislators';
-import { billOfficialUrl, TRACKED_BILLS } from '@/lib/data/legislators';
+import { billOfficialUrl, TRACKED_BILLS, voteGrade } from '@/lib/data/legislators';
 
 /**
  * Six-bill voting record from the 2023-2024 MI Legislature session.
@@ -21,7 +21,7 @@ export default function VotingRecord({ legislator }: { legislator: Legislator })
               Description
             </th>
             <th className="px-3 py-2 font-semibold text-gray-700">Vote</th>
-            <th className="px-3 py-2 font-semibold text-gray-700">Aligned with abolition?</th>
+            <th className="px-3 py-2 font-semibold text-gray-700">Grade</th>
           </tr>
         </thead>
         <tbody>
@@ -58,7 +58,9 @@ export default function VotingRecord({ legislator }: { legislator: Legislator })
                 <td className="px-3 py-3">
                   <VoteBadge vote={vote} />
                 </td>
-                <td className="px-3 py-3">{alignmentLabel(vote, bill.proChoicePosition)}</td>
+                <td className="px-3 py-3">
+                  <GradeCell grade={voteGrade(vote, bill.proChoicePosition)} />
+                </td>
               </tr>
             );
           })}
@@ -90,9 +92,15 @@ function VoteBadge({ vote }: { vote: VoteValue }) {
   );
 }
 
-function alignmentLabel(vote: VoteValue, proChoicePosition: 'Yea' | 'Nay'): string {
-  if (!vote || vote === 'Excused' || vote === 'NotVoting') return '—';
-  // Abolitionist / pro-life aligned = opposite of the pro-choice position.
-  const abolitionAligned = vote !== proChoicePosition;
-  return abolitionAligned ? '✓ Yes' : '✗ No';
+function GradeCell({ grade }: { grade: 'Pass' | 'Fail' | null }) {
+  if (grade === null) return <span className="text-gray-400">—</span>;
+  const cls =
+    grade === 'Pass'
+      ? 'bg-green-100 text-green-800'
+      : 'bg-red-100 text-red-800';
+  return (
+    <span className={`inline-block px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wide ${cls}`}>
+      {grade}
+    </span>
+  );
 }
