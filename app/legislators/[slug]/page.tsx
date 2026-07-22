@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import ContactBlock from '@/components/legislators/ContactBlock';
+import FreedomCaucusBadge from '@/components/legislators/FreedomCaucusBadge';
 import GradeBadge from '@/components/legislators/GradeBadge';
 import InfoTip from '@/components/legislators/InfoTip';
 import SponsorshipSignals from '@/components/legislators/SponsorshipSignals';
@@ -117,6 +118,9 @@ export default async function LegislatorPage({ params }: { params: Promise<{ slu
                   <> · {legislator.tenure_class}</>
                 )}
               </p>
+              <div className="mt-3">
+                <FreedomCaucusBadge legislator={legislator} />
+              </div>
             </div>
             <GradeBadge grade={grade(legislator)} className="self-start md:self-auto" />
           </div>
