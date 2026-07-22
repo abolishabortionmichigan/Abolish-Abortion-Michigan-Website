@@ -163,8 +163,10 @@ export function grade(l: Legislator): Grade {
 }
 
 export function gradeBadgeClass(g: Grade): string {
+  // green-700 (not green-600) for WCAG AA contrast on white text
+  // (~4.4:1 vs 3.0:1). red-600 already clears the bar.
   return g === 'Pass'
-    ? 'bg-green-600 text-white'
+    ? 'bg-green-700 text-white'
     : 'bg-red-600 text-white';
 }
 

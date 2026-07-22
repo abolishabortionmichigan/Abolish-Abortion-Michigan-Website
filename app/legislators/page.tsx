@@ -92,15 +92,15 @@ export default function LegislatorsHubPage() {
             Legislators are graded from Abolish Abortion Michigan&apos;s perspective. The bar is
             deliberately strict: nothing short of true abolition is a Pass.
           </p>
-          <dl className="not-prose space-y-4 mt-6">
-            <div className="border-l-4 border-green-600 bg-white p-4 rounded-r">
-              <dt className="font-bold text-gray-900 flex items-center gap-2">
-                <span className="inline-block px-2 py-0.5 rounded text-xs bg-green-600 text-white">
+          <div className="not-prose space-y-4 mt-6">
+            <div className="border-l-4 border-green-700 bg-white p-4 rounded-r">
+              <div className="font-bold text-gray-900 flex items-center gap-2">
+                <span className="inline-block px-2 py-0.5 rounded text-xs bg-green-700 text-white">
                   PASS
                 </span>
                 Abolitionist
-              </dt>
-              <dd className="text-gray-700 mt-2">
+              </div>
+              <div className="text-gray-700 mt-2">
                 Has publicly sponsored a true equal-protection abolition bill{' '}
                 <strong>and</strong> has <em>not</em> hedged with incrementalist compromises
                 (pregnancy-resource-center tax credits, fetal viability bans, heartbeat bans,
@@ -112,18 +112,18 @@ export default function LegislatorsHubPage() {
                 >
                   Learn more about the abolitionist position &rarr;
                 </Link>
-              </dd>
+              </div>
             </div>
             <div className="border-l-4 border-red-600 bg-white p-4 rounded-r">
-              <dt className="font-bold text-gray-900 flex items-center gap-2">
+              <div className="font-bold text-gray-900 flex items-center gap-2">
                 <span className="inline-block px-2 py-0.5 rounded text-xs bg-red-600 text-white">
                   FAIL
                 </span>
                 Everyone else
-              </dt>
-              <dd className="text-gray-700 mt-2">
+              </div>
+              <p className="text-gray-700 mt-2">
                 A Fail covers three overlapping groups:
-              </dd>
+              </p>
               <ul className="text-gray-700 mt-2 space-y-1 list-disc pl-6 marker:text-gray-400">
                 <li>
                   <strong>Pro-Choice legislators</strong> who support abortion access — voted
@@ -157,7 +157,7 @@ export default function LegislatorsHubPage() {
                 </li>
               </ul>
             </div>
-          </dl>
+          </div>
         </div>
       </section>
     </>
@@ -173,8 +173,9 @@ function StatBox({
   count: number;
   tone: 'green' | 'red';
 }) {
+  // green-700 (not green-600) so the white text meets WCAG AA contrast.
   const cls = {
-    green: 'bg-green-600',
+    green: 'bg-green-700',
     red: 'bg-red-600',
   }[tone];
   return (
