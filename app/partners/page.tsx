@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import CTABanner from '@/components/CTABanner';
-import StateTileMap from '@/components/partners/StateTileMap';
+import UsStatesMap from '@/components/partners/UsStatesMap';
 import {
   getNationalPartners,
   getStatePartners,
@@ -62,9 +62,9 @@ export default function PartnersPage() {
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-2xl font-bold mb-2 text-center">Coverage Map</h2>
           <p className="text-center text-gray-600 mb-8">
-            States positioned by approximate geography. Click a green state to jump to its coalition.
+            Click any green state to jump to its coalition below.
           </p>
-          <StateTileMap partnersByState={byState} />
+          <UsStatesMap partnersByState={byState} />
         </div>
       </section>
 
