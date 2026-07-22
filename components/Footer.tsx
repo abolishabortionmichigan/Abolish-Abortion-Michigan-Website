@@ -106,6 +106,10 @@ export default function Footer() {
                 Legislator Scorecard
               </Link>
               {' '}&bull;{' '}
+              <Link href="/partners" className="text-red-500 hover:text-red-400 transition-colors">
+                Allied Groups
+              </Link>
+              {' '}&bull;{' '}
               <Link href="/financial-transparency" className="text-red-500 hover:text-red-400 transition-colors">
                 Financial Transparency
               </Link>

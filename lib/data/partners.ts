@@ -1,0 +1,62 @@
+/**
+ * Typed access to the abolition partner directory.
+ *
+ * Data source: data/abolition-partners.json — curated from
+ * C:/Users/Dustina/Downloads/abolition_site_tracker.xlsx (rating >= 5,
+ * real live sites with substance). Excludes incrementalist orgs.
+ */
+
+import raw from '@/data/abolition-partners.json';
+
+export interface Partner {
+  name: string;
+  url: string;
+  blurb: string;
+  state?: string;
+}
+
+interface RawData {
+  note: string;
+  national: Partner[];
+  states: (Partner & { state: string })[];
+}
+
+const DATA = raw as RawData;
+
+export function getNationalPartners(): Partner[] {
+  return DATA.national;
+}
+
+export function getStatePartners(): (Partner & { state: string })[] {
+  return DATA.states;
+}
+
+export function getAllPartners(): Partner[] {
+  return [...DATA.national, ...DATA.states];
+}
+
+/**
+ * The 50 US states in the order I want to render them for the "which
+ * states have partners" grid. Alphabetical since that's the most
+ * scannable arrangement in a text grid (a real map projection is a
+ * bigger add and doesn't help SEO).
+ */
+export const ALL_STATES: string[] = [
+  'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
+  'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia',
+  'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa',
+  'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland',
+  'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri',
+  'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey',
+  'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio',
+  'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina',
+  'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
+  'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming',
+];
+
+/** Map of state name → partner (or undefined) for quick grid lookup. */
+export function partnersByState(): Map<string, Partner> {
+  const m = new Map<string, Partner>();
+  for (const p of DATA.states) m.set(p.state, p);
+  return m;
+}

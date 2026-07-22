@@ -1,0 +1,125 @@
+{
+  "note": "Curated from data/abolition_site_tracker.xlsx (rating >= 5, real live sites with substance). Excludes incrementalist orgs (e.g. Colorado Right To Life). Update this JSON when partners come online or drop.",
+  "national": [
+    {
+      "name": "Abolitionists Rising",
+      "url": "https://abolitionistsrising.org/",
+      "blurb": "The national coalition organizing the abolitionist movement across the United States. Coordinates state efforts, hosts the annual national conference, and equips activists."
+    },
+    {
+      "name": "Free the States",
+      "url": "https://freethestates.org/",
+      "blurb": "Educates state legislators on the legal and moral case for equal-protection abolition bills, and tracks abolition bills nationwide."
+    }
+  ],
+  "states": [
+    {
+      "state": "North Carolina",
+      "name": "Abolish Abortion North Carolina",
+      "url": "https://abolishabortionnc.com/",
+      "blurb": "The template for state abolition orgs — AAM's own site is derived from theirs. Model outreach, biblical framing, and legislative work."
+    },
+    {
+      "state": "Ohio",
+      "name": "End Abortion Ohio",
+      "url": "https://endabortionohio.com/",
+      "blurb": "Statewide abolitionist coalition pushing for equal-protection legislation in the Ohio General Assembly."
+    },
+    {
+      "state": "South Carolina",
+      "name": "Equal Protection South Carolina",
+      "url": "https://equalprotectionsc.org/",
+      "blurb": "Runs sustained legislative outreach for South Carolina's Prenatal Equal Protection Act."
+    },
+    {
+      "state": "Texas",
+      "name": "Abolish Abortion Texas",
+      "url": "https://abolishabortiontx.org/",
+      "blurb": "Longstanding Texas coalition. Runs the annual Abolition Now conference and organizes at the Capitol in Austin each session."
+    },
+    {
+      "state": "Oklahoma",
+      "name": "Abolish Abortion Oklahoma",
+      "url": "https://abolishabortionok.org/",
+      "blurb": "Oklahoma coalition pushing for statewide abolition legislation."
+    },
+    {
+      "state": "Illinois",
+      "name": "Abolitionist Society of Chicago",
+      "url": "https://ahachicago.org/",
+      "blurb": "Chicago-based abolitionist society doing local outreach and organizing across Illinois."
+    },
+    {
+      "state": "Nebraska",
+      "name": "Abolish Abortion Nebraska",
+      "url": "https://abolishabortionne.org/",
+      "blurb": "Nebraska-based coalition organizing for the total abolition of abortion in the state."
+    },
+    {
+      "state": "Kansas",
+      "name": "Abortion Is Murder Kansas (AIM KS)",
+      "url": "https://aimks.org/",
+      "blurb": "Kansas coalition; rallied at the Statehouse in January 2026 for abolition legislation."
+    },
+    {
+      "state": "Missouri",
+      "name": "Abolish Abortion Missouri",
+      "url": "https://abolishabortionmo.org/",
+      "blurb": "Missouri statewide abolitionist coalition working with legislators for total abolition."
+    },
+    {
+      "state": "Iowa",
+      "name": "Iowa Abolitionists",
+      "url": "https://iowaabolitionists.org/",
+      "blurb": "Iowa network of abolitionist activists organizing statewide."
+    },
+    {
+      "state": "Virginia",
+      "name": "Abolish Abortion Virginia",
+      "url": "https://abolishabortionvirginia.com/",
+      "blurb": "Virginia coalition advocating for abolition legislation in the Commonwealth."
+    },
+    {
+      "state": "Utah",
+      "name": "Voice for the Voiceless (Utah)",
+      "url": "https://voiceforthevoiceless.life/",
+      "blurb": "Utah abolitionist ministry organizing local outreach and legislative advocacy."
+    },
+    {
+      "state": "Alabama",
+      "name": "End Abortion Alabama",
+      "url": "https://endabortional.org/",
+      "blurb": "Alabama-based coalition pushing for the total abolition of abortion in the state."
+    },
+    {
+      "state": "Indiana",
+      "name": "Abolish Abortion Indiana",
+      "url": "https://abolishabortionindiana.org/",
+      "blurb": "Indiana statewide abolitionist organization."
+    },
+    {
+      "state": "Kentucky",
+      "name": "Abolish Abortion Kentucky",
+      "url": "https://abolishabortionky.org/",
+      "blurb": "Kentucky coalition working with lawmakers on abolition legislation."
+    },
+    {
+      "state": "Tennessee",
+      "name": "Abolish Abortion Tennessee",
+      "url": "https://abolishabortiontn.org/",
+      "blurb": "Tennessee coalition advocating for the abolition of abortion."
+    },
+    {
+      "state": "Wisconsin",
+      "name": "Abolish Abortion Wisconsin",
+      "url": "https://abolishabortionwi.org/",
+      "blurb": "Wisconsin abolitionist coalition."
+    },
+    {
+      "state": "Alaska",
+      "name": "Abolish Abortion Alaska",
+      "url": "https://abolishabortionak.com/",
+      "blurb": "Alaska abolitionist coalition."
+    }
+  ]
+}

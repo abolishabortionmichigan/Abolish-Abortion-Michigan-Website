@@ -40,6 +40,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/abolition-bills/current-bills`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
     // Legislator scorecard hub — high priority, refreshed weekly
     { url: `${BASE_URL}/legislators`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
+    // Allied abolition groups directory — backlink hub
+    { url: `${BASE_URL}/partners`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
   ];
 
   // 149 individual legislator profile pages — the SEO long-tail workhorse.

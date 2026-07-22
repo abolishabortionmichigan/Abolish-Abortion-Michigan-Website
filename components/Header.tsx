@@ -53,6 +53,7 @@ const navItems = [
       { label: 'News', href: '/news' },
       { label: 'FAQ', href: '/faq' },
       { label: 'Media', href: '/media' },
+      { label: 'Allied Groups', href: '/partners' },
     ],
   },
   { label: 'CONTACT US', href: '/contact' },
