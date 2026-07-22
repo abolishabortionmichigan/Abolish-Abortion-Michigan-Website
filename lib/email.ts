@@ -902,6 +902,157 @@ const newsletterEmailHtml = (article: ArticleData, subscriber: SubscriberData) =
   `;
 };
 
+// ===== LAWMAKER + PARTNER BROADCASTS =====
+//
+// Both use plain-text address lists (no per-recipient personalization
+// beyond addressing), so the templates are simpler than the newsletter
+// broadcast: a single well-formed HTML block, no "Hello {name}"
+// splice, no unsubscribe footer (lawmakers are public officials +
+// partners are org contacts, not opt-in subscribers).
+//
+// Rate: 200ms between sends, same as the newsletter path. That keeps
+// us well under Resend's 10 rps burst and gives Google Ads / Postmaster
+// clean sender-reputation signals.
+
+interface AudienceMember {
+  name: string;
+  email: string;
+  meta?: string; // e.g. "House · District 12 · R" or "Ohio"
+}
+
+export const sendLawmakerBroadcast = async (
+  subject: string,
+  body: string,
+  recipients: AudienceMember[],
+): Promise<{ sent: number; failed: number }> => {
+  let sent = 0;
+  let failed = 0;
+  for (const r of recipients) {
+    const html = officialContactEmailHtml(subject, body, 'lawmaker');
+    const result = await send({
+      from: FROM_EMAIL,
+      to: r.email,
+      subject: sanitizeSubject(subject),
+      replyTo: NOTIFICATION_EMAIL,
+      html,
+    });
+    if (result.success) sent++;
+    else {
+      console.error(`Lawmaker broadcast to ${r.email} (${r.meta || r.name}):`, result.error);
+      failed++;
+    }
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  }
+  return { sent, failed };
+};
+
+export const sendPartnerBroadcast = async (
+  subject: string,
+  body: string,
+  recipients: AudienceMember[],
+): Promise<{ sent: number; failed: number }> => {
+  let sent = 0;
+  let failed = 0;
+  for (const r of recipients) {
+    const html = officialContactEmailHtml(subject, body, 'partner');
+    const result = await send({
+      from: FROM_EMAIL,
+      to: r.email,
+      subject: sanitizeSubject(subject),
+      replyTo: NOTIFICATION_EMAIL,
+      html,
+    });
+    if (result.success) sent++;
+    else {
+      console.error(`Partner broadcast to ${r.email} (${r.meta || r.name}):`, result.error);
+      failed++;
+    }
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  }
+  return { sent, failed };
+};
+
+// Admin summary sent after a lawmaker/partner broadcast finishes.
+export const sendOfficialBroadcastNotification = async (
+  audience: 'lawmaker' | 'partner',
+  subject: string,
+  sent: number,
+  failed: number,
+) => {
+  const label = audience === 'lawmaker' ? 'Lawmakers' : 'Partners';
+  return send({
+    from: FROM_NOTIFICATIONS,
+    to: NOTIFICATION_EMAIL,
+    subject: sanitizeSubject(`${label} Broadcast Sent: ${subject}`),
+    html: `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f5f5f5; margin: 0; padding: 0;">
+  <table cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f5f5f5">
+    <tr><td align="center" style="padding: 20px 0;">
+      <table cellpadding="0" cellspacing="0" border="0" width="600" style="border-radius: 8px; overflow: hidden; background-color: #fff; max-width: 600px;">
+        <tr><td bgcolor="#1a1a2e" style="padding: 20px; text-align: center;">
+          <div style="font-size: 20px; font-weight: bold; color: #d4af37;">${label} Broadcast Sent</div>
+        </td></tr>
+        <tr><td style="padding: 30px;">
+          <div style="padding: 10px 0; border-bottom: 1px solid #eee;">
+            <strong style="color: #666;">Subject:</strong> ${escapeHtml(subject)}
+          </div>
+          <div style="padding: 10px 0; border-bottom: 1px solid #eee;">
+            <strong style="color: #666;">Sent:</strong> ${sent} email${sent !== 1 ? 's' : ''}
+          </div>
+          ${failed > 0 ? `<div style="padding: 10px 0; border-bottom: 1px solid #eee;">
+            <strong style="color: #c00;">Failed:</strong> ${failed}
+          </div>` : ''}
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`,
+  });
+};
+
+// Signature block differs by audience — lawmakers hear from AAM as
+// constituents/activists; partners hear from us as an allied coalition.
+function officialContactEmailHtml(subject: string, body: string, audience: 'lawmaker' | 'partner'): string {
+  const safeSubject = escapeHtml(subject);
+  const signOff = audience === 'lawmaker'
+    ? 'In service to justice,<br><strong>Abolish Abortion Michigan</strong>'
+    : 'For the abolition of abortion,<br><strong>Abolish Abortion Michigan</strong>';
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${safeSubject}</title>
+</head>
+<body style="font-family: 'Georgia', 'Times New Roman', serif; line-height: 1.6; color: #333333; background-color: #f5f5f5; margin: 0; padding: 0;">
+  <table cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f5f5f5">
+    <tr><td align="center" style="padding: 20px 0;">
+      <table cellpadding="0" cellspacing="0" border="0" width="600" style="border-radius: 8px; overflow: hidden; background-color: #fff; max-width: 600px;">
+        <tr><td bgcolor="#1a1a2e" style="padding: 30px 20px; text-align: center;">
+          <div style="font-size: 24px; font-weight: bold; color: #d4af37; letter-spacing: 1px;">Abolish Abortion Michigan</div>
+        </td></tr>
+        <tr><td style="padding: 35px 40px;">
+          <h1 style="color: #1a1a2e; font-size: 22px; margin-top: 0; margin-bottom: 20px;">${safeSubject}</h1>
+          <div style="margin: 16px 0;">${body}</div>
+          <p style="margin-top: 25px;">${signOff}</p>
+        </td></tr>
+        <tr><td bgcolor="#1a1a2e" style="padding: 25px; text-align: center; font-size: 13px; color: #cccccc;">
+          <p style="margin: 0 0 10px 0;">Abolish Abortion Michigan · Est. 2024</p>
+          <p style="margin: 0;"><a href="https://abolishabortionmichigan.com" style="color: #d4af37; text-decoration: none;">abolishabortionmichigan.com</a></p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>
+  `;
+}
+
 // ===== BROADCAST EMAILS =====
 
 export const sendBroadcastEmail = async (subject: string, body: string, subscriber: SubscriberData) => {

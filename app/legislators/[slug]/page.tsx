@@ -17,6 +17,7 @@ import {
   parseNewsList,
   partyLabel,
 } from '@/lib/data/legislators';
+import { LEGISLATOR_DATA_REFRESHED_ON } from '@/lib/data/data-freshness';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://abolishabortionmichigan.com';
 
@@ -335,6 +336,9 @@ export default async function LegislatorPage({ params }: { params: Promise<{ slu
                 Back to the full scorecard
               </Link>
               .
+            </p>
+            <p className="text-xs text-gray-400 mt-2">
+              Dataset last refreshed {LEGISLATOR_DATA_REFRESHED_ON}.
             </p>
           </section>
         </div>

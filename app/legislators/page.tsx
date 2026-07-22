@@ -2,8 +2,10 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import Link from 'next/link';
 import InfoTip from '@/components/legislators/InfoTip';
+import LegislatorFinder from '@/components/legislators/LegislatorFinder';
 import LegislatorTable from './legislator-table';
 import { getLegislators, grade } from '@/lib/data/legislators';
+import { DATA_REFRESHED_ON } from '@/lib/data/data-freshness';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://abolishabortionmichigan.com';
 
@@ -78,10 +80,14 @@ export default function LegislatorsHubPage() {
       </section>
 
       <section className="bg-white py-10">
-        <div className="max-w-6xl mx-auto px-4">
+        <div className="max-w-6xl mx-auto px-4 space-y-8">
+          <LegislatorFinder />
           <Suspense fallback={<p className="text-gray-500">Loading legislators...</p>}>
             <LegislatorTable legislators={legislators} />
           </Suspense>
+          <p className="text-xs text-gray-500 text-right">
+            Data as of {DATA_REFRESHED_ON}.
+          </p>
         </div>
       </section>
 

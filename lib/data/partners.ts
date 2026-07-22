@@ -13,6 +13,13 @@ export interface Partner {
   url: string;
   blurb: string;
   state?: string;
+  /**
+   * Contact address for the Partner Broadcast tool. `null` when the
+   * partner site is form-only or doesn't publish a real inbox (many
+   * Wix templates ship a placeholder "user@domain.com" — those are
+   * filtered out during curation). Broadcasts skip null-email rows.
+   */
+  email?: string | null;
 }
 
 interface RawData {
@@ -60,4 +67,20 @@ export function partnersByState(): Map<string, Partner> {
   const m = new Map<string, Partner>();
   for (const p of DATA.states) m.set(p.state, p);
   return m;
+}
+
+/**
+ * Partners with a real contact email — the audience for the admin
+ * Partner Broadcast tool. Order stays alphabetical-by-state so the
+ * admin UI recipient preview is scannable.
+ */
+export function getBroadcastablePartners(): { state?: string; name: string; email: string }[] {
+  const out: { state?: string; name: string; email: string }[] = [];
+  for (const p of [...DATA.national, ...DATA.states]) {
+    if (p.email && p.email.trim()) {
+      out.push({ state: (p as { state?: string }).state, name: p.name, email: p.email.trim() });
+    }
+  }
+  out.sort((a, b) => (a.state || '').localeCompare(b.state || ''));
+  return out;
 }

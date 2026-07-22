@@ -7,6 +7,7 @@ import {
   getStatePartners,
   partnersByState,
 } from '@/lib/data/partners';
+import { PARTNER_DATA_REFRESHED_ON } from '@/lib/data/data-freshness';
 
 export const metadata: Metadata = {
   title: 'Allied Abolition Groups Across America',
@@ -124,6 +125,14 @@ export default function PartnersPage() {
           >
             Contact us to be added
           </Link>
+        </div>
+      </section>
+
+      <section className="bg-white py-4 border-t border-gray-100">
+        <div className="max-w-6xl mx-auto px-4 text-right">
+          <p className="text-xs text-gray-500">
+            Directory last verified {PARTNER_DATA_REFRESHED_ON}.
+          </p>
         </div>
       </section>
 

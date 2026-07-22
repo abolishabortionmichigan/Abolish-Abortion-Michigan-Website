@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight, Home, Mail, Newspaper, FileText, ImageIcon, LogOut, Send, Users } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Home, Mail, Newspaper, FileText, ImageIcon, LogOut, Send, Users, Landmark, Handshake } from 'lucide-react';
 import { useUserStore } from '@/store/use-user';
 import { useRouter } from 'next/navigation';
 
@@ -16,7 +16,9 @@ const adminNavItems = [
   { href: '/admin/dashboard/petitions', icon: FileText, label: 'Petitions' },
   { href: '/admin/dashboard/gallery', icon: ImageIcon, label: 'Gallery' },
   { href: '/admin/dashboard/subscribers', icon: Users, label: 'Subscribers' },
-  { href: '/admin/dashboard/email', icon: Send, label: 'Email' },
+  { href: '/admin/dashboard/email', icon: Send, label: 'Email Subscribers' },
+  { href: '/admin/dashboard/lawmakers', icon: Landmark, label: 'Email Lawmakers' },
+  { href: '/admin/dashboard/partners', icon: Handshake, label: 'Email Partners' },
 ];
 
 interface NavItemProps {
