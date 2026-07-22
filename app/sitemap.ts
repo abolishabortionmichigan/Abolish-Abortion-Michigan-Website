@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import { getAllNewsArticles } from '@/lib/data/news-store';
 import { getLegislators } from '@/lib/data/legislators';
+import { CITIES } from '@/lib/data/cities';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://abolishabortionmichigan.com';
 
@@ -42,7 +43,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/legislators`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
     // Allied abolition groups directory — backlink hub
     { url: `${BASE_URL}/partners`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
+    // City landing pages — local-SEO surface
+    { url: `${BASE_URL}/cities`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
   ];
+
+  // Per-city landing pages
+  const cityPages: MetadataRoute.Sitemap = CITIES.map((c) => ({
+    url: `${BASE_URL}/cities/${c.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }));
 
   // 149 individual legislator profile pages — the SEO long-tail workhorse.
   // District redirect URLs (`/districts/[chamber]/[N]`) are intentionally
@@ -70,5 +81,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // If news fetch fails, just skip dynamic pages
   }
 
-  return [...staticPages, ...legislatorPages, ...newsPages];
+  return [...staticPages, ...legislatorPages, ...cityPages, ...newsPages];
 }
