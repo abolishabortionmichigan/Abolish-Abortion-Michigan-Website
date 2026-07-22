@@ -4,7 +4,12 @@
  * engines (the content is real HTML, not a hover-only tooltip).
  *
  * Renders as a small "ⓘ" icon inline; click/tap/keyboard-activate
- * expands the explanation below.
+ * expands the explanation.
+ *
+ * Positioning: on mobile the popup is fixed to viewport-center so it can
+ * never overhang the screen (icons in table headers or narrow inline text
+ * would push a 288px popup off-screen with the old `absolute left-0`).
+ * On sm+ it reverts to the compact inline dropdown anchored to the icon.
  */
 export default function InfoTip({ children, label }: { children: React.ReactNode; label: string }) {
   return (
@@ -15,7 +20,17 @@ export default function InfoTip({ children, label }: { children: React.ReactNode
       >
         i
       </summary>
-      <div className="absolute left-0 sm:left-auto sm:right-0 top-full mt-2 z-10 w-72 max-w-[calc(100vw-2rem)] bg-white border border-gray-300 rounded shadow-lg p-4 text-xs text-gray-700 font-normal normal-case tracking-normal leading-relaxed">
+      <div
+        className="
+          fixed left-4 right-4 top-1/2 -translate-y-1/2 z-50
+          w-auto max-w-none max-h-[70vh] overflow-y-auto
+          sm:absolute sm:left-auto sm:right-0 sm:top-full sm:mt-2
+          sm:translate-y-0 sm:w-72 sm:max-w-[calc(100vw-2rem)]
+          sm:max-h-none sm:overflow-visible
+          bg-white border border-gray-300 rounded shadow-lg p-4
+          text-xs text-gray-700 font-normal normal-case tracking-normal leading-relaxed
+        "
+      >
         {children}
       </div>
     </details>

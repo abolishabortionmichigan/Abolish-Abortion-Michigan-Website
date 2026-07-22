@@ -130,7 +130,7 @@ export default function LegislatorTable({ legislators }: { legislators: Legislat
                 onClick={() => toggleSort('rtl_donations_total')}
                 active={sortKey === 'rtl_donations_total'}
                 dir={sortDir}
-                className="hidden md:table-cell text-right"
+                className="text-right"
               >
                 <span className="inline-flex items-center">
                   RTL $
@@ -154,7 +154,7 @@ export default function LegislatorTable({ legislators }: { legislators: Legislat
                 onClick={() => toggleSort('ppac_donations_total')}
                 active={sortKey === 'ppac_donations_total'}
                 dir={sortDir}
-                className="hidden md:table-cell text-right"
+                className="text-right"
               >
                 <span className="inline-flex items-center">
                   PP $
@@ -196,10 +196,10 @@ export default function LegislatorTable({ legislators }: { legislators: Legislat
                     {l._grade}
                   </span>
                 </td>
-                <td className="px-3 py-2 text-right hidden md:table-cell tabular-nums">
+                <td className="px-3 py-2 text-right tabular-nums whitespace-nowrap">
                   {l.rtl_donations_total > 0 ? `$${l.rtl_donations_total.toLocaleString()}` : '—'}
                 </td>
-                <td className="px-3 py-2 text-right hidden md:table-cell tabular-nums">
+                <td className="px-3 py-2 text-right tabular-nums whitespace-nowrap">
                   {l.ppac_donations_total > 0 ? `$${l.ppac_donations_total.toLocaleString()}` : '—'}
                 </td>
               </tr>
