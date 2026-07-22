@@ -68,6 +68,9 @@ export async function POST(request: NextRequest) {
       content: sanitizeHtml(data.content),
       image: data.image || '',
       published: data.published || false,
+      // Defaults to true if omitted; false means "publish silently, no
+      // social post". Only meaningful when published=true.
+      auto_post_to_social: data.auto_post_to_social !== false,
     });
 
     // Ping IndexNow (Bing/Yandex/DuckDuckGo) if the article shipped public.
@@ -78,15 +81,18 @@ export async function POST(request: NextRequest) {
         `${SITE_URL}/news`,
         `${SITE_URL}/news-sitemap.xml`,
       ]);
-      // Auto-post to Facebook + Instagram. Fire-and-forget; if any social
-      // platform fails the article still publishes fine (see
+      // Auto-post to Facebook + Instagram — only if the "Also post to
+      // social" checkbox was on. Fire-and-forget; if any social platform
+      // fails the article still publishes fine (see
       // lib/social/post-to-social.ts).
-      postArticleToSocial({
-        title: newArticle.title,
-        excerpt: newArticle.excerpt,
-        slug: newArticle.slug,
-        imageUrl: newArticle.image || null,
-      });
+      if (newArticle.auto_post_to_social !== false) {
+        postArticleToSocial({
+          title: newArticle.title,
+          excerpt: newArticle.excerpt,
+          slug: newArticle.slug,
+          imageUrl: newArticle.image || null,
+        });
+      }
     }
 
     return NextResponse.json(newArticle, { status: 201 });

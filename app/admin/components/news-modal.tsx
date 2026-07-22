@@ -58,6 +58,9 @@ export default function NewsModal({ open, onClose, article, isCreating, onSave }
     content: '',
     image: '',
     published: false,
+    // Default TRUE: publishing normally shares to FB + IG.
+    // Uncheck for silent publish (testing, minor content, timing).
+    auto_post_to_social: true,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPinDialog, setShowPinDialog] = useState(false);
@@ -75,6 +78,7 @@ export default function NewsModal({ open, onClose, article, isCreating, onSave }
         content: article.content || '',
         image: article.image || '',
         published: article.published || false,
+        auto_post_to_social: article.auto_post_to_social ?? true,
       });
     } else {
       setFormData({
@@ -84,6 +88,7 @@ export default function NewsModal({ open, onClose, article, isCreating, onSave }
         content: '',
         image: '',
         published: false,
+        auto_post_to_social: true,
       });
     }
     setActiveTab('compose');
@@ -377,6 +382,28 @@ export default function NewsModal({ open, onClose, article, isCreating, onSave }
                 Publish immediately
               </Label>
             </div>
+
+            <div className="flex items-start gap-2">
+              <input
+                type="checkbox"
+                id="auto_post_to_social"
+                checked={formData.auto_post_to_social}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, auto_post_to_social: e.target.checked }))
+                }
+                disabled={!formData.published && (!article || !article.published)}
+                className="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-500 mt-0.5 disabled:opacity-50"
+              />
+              <div>
+                <Label htmlFor="auto_post_to_social" className="font-normal">
+                  Also post to Facebook and Instagram
+                </Label>
+                <p className="text-xs text-gray-500">
+                  Only fires on the draft-to-publish transition. Uncheck to publish silently
+                  (useful for testing or when you want to share manually later).
+                </p>
+              </div>
+            </div>
           </div>
         ) : (
           /* Preview Tab */
@@ -475,7 +502,11 @@ export default function NewsModal({ open, onClose, article, isCreating, onSave }
               <div>
                 <h3 className="text-lg font-bold">Publish Article?</h3>
                 <p className="text-gray-600 mt-1">
-                  Publishing this article will <strong>send a newsletter email to all subscribers</strong>. This cannot be undone.
+                  Publishing this article will <strong>send a newsletter email to all subscribers</strong>
+                  {formData.auto_post_to_social && (
+                    <> AND <strong>auto-post to Facebook and Instagram</strong></>
+                  )}
+                  . This cannot be undone.
                 </p>
               </div>
             </div>

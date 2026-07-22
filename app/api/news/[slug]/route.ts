@@ -61,7 +61,7 @@ export async function PATCH(
     const data = await request.json();
 
     // Only allow updating known fields
-    const allowedFields = ['title', 'slug', 'excerpt', 'content', 'image', 'published'];
+    const allowedFields = ['title', 'slug', 'excerpt', 'content', 'image', 'published', 'auto_post_to_social'];
     const filtered: Record<string, unknown> = {};
     for (const key of allowedFields) {
       if (key in data) filtered[key] = data[key];
@@ -124,10 +124,11 @@ export async function PATCH(
       pingIndexNow(urls);
     }
 
-    // Auto-post to FB + IG only on the DRAFT -> PUBLIC transition. Editing
-    // an already-public article should not repost — that would double-post
-    // every small typo fix and annoy followers.
-    if (justPublished) {
+    // Auto-post to FB + IG only on the DRAFT -> PUBLIC transition, AND
+    // only if the "Also post to social" checkbox was on. Editing an
+    // already-public article never reposts — that would double-post every
+    // small typo fix and annoy followers.
+    if (justPublished && updated.auto_post_to_social !== false) {
       postArticleToSocial({
         title: updated.title,
         excerpt: updated.excerpt,

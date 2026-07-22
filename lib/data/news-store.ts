@@ -59,6 +59,7 @@ export async function createNewsArticle(data: Omit<NewsArticleData, 'id' | 'crea
         content: data.content,
         image: data.image || null,
         published: data.published || false,
+        auto_post_to_social: data.auto_post_to_social ?? true,
       },
     });
     return mapDbArticle(item);
@@ -72,6 +73,7 @@ export async function createNewsArticle(data: Omit<NewsArticleData, 'id' | 'crea
     content: data.content,
     image: data.image || '',
     published: data.published || false,
+    auto_post_to_social: data.auto_post_to_social ?? true,
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   };
@@ -91,6 +93,9 @@ export async function updateNewsArticle(id: string, data: Partial<NewsArticleDat
           ...(data.content !== undefined && { content: data.content }),
           ...(data.image !== undefined && { image: data.image }),
           ...(data.published !== undefined && { published: data.published }),
+          ...(data.auto_post_to_social !== undefined && {
+            auto_post_to_social: data.auto_post_to_social,
+          }),
         },
       });
       return mapDbArticle(item);
@@ -148,6 +153,10 @@ function mapDbArticle(item: {
   content: string;
   image: string | null;
   published: boolean;
+  // Optional so this stays working before the DB migration lands — old
+  // rows without the column will just show `undefined`, which callers
+  // treat as "true" per the field docs.
+  auto_post_to_social?: boolean;
   created_at: Date;
   updated_at: Date;
 }): NewsArticleData {
@@ -159,6 +168,7 @@ function mapDbArticle(item: {
     content: item.content,
     image: item.image || '',
     published: item.published,
+    auto_post_to_social: item.auto_post_to_social ?? true,
     created_at: item.created_at.toISOString(),
     updated_at: item.updated_at.toISOString(),
   };
