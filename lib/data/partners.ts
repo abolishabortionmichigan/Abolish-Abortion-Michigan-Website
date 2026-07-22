@@ -28,7 +28,8 @@ export function getNationalPartners(): Partner[] {
 }
 
 export function getStatePartners(): (Partner & { state: string })[] {
-  return DATA.states;
+  // Alphabetical by state — easier to scan than by rating.
+  return [...DATA.states].sort((a, b) => a.state.localeCompare(b.state));
 }
 
 export function getAllPartners(): Partner[] {

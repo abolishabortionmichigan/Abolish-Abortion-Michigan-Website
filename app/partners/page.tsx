@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import CTABanner from '@/components/CTABanner';
+import StateTileMap from '@/components/partners/StateTileMap';
 import {
-  ALL_STATES,
   getNationalPartners,
   getStatePartners,
   partnersByState,
@@ -57,53 +57,14 @@ export default function PartnersPage() {
         </div>
       </section>
 
-      {/* State coverage grid */}
+      {/* State coverage map */}
       <section className="bg-white py-12">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-2xl font-bold mb-2 text-center">Coverage Map</h2>
           <p className="text-center text-gray-600 mb-8">
-            Green states have an active abolitionist coalition. Gray states are opportunities to
-            plant one.
+            States positioned by approximate geography. Click a green state to jump to its coalition.
           </p>
-          <div className="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-2 max-w-4xl mx-auto">
-            {ALL_STATES.map((state) => {
-              const partner = byState.get(state);
-              const isUs = state === 'Michigan';
-              const hasPartner = Boolean(partner);
-              const anchor = partner ? `#${slugify(state)}` : undefined;
-              const box = (
-                <div
-                  className={`aspect-square flex flex-col items-center justify-center text-center rounded p-1 text-[10px] font-semibold uppercase tracking-wide ${
-                    isUs
-                      ? 'bg-red-600 text-white ring-2 ring-red-800'
-                      : hasPartner
-                        ? 'bg-green-600 text-white hover:bg-green-700 transition-colors'
-                        : 'bg-gray-200 text-gray-500'
-                  }`}
-                  title={isUs ? 'Abolish Abortion Michigan (us)' : partner?.name || `${state} — no partner yet`}
-                >
-                  {stateAbbrev(state)}
-                </div>
-              );
-              return (
-                <div key={state}>
-                  {anchor ? <a href={anchor}>{box}</a> : box}
-                </div>
-              );
-            })}
-          </div>
-          <div className="mt-6 flex flex-wrap justify-center gap-4 text-xs text-gray-600">
-            <span className="flex items-center gap-1">
-              <span className="inline-block w-3 h-3 bg-red-600 rounded" /> Abolish Abortion Michigan
-            </span>
-            <span className="flex items-center gap-1">
-              <span className="inline-block w-3 h-3 bg-green-600 rounded" /> Active partner
-              coalition
-            </span>
-            <span className="flex items-center gap-1">
-              <span className="inline-block w-3 h-3 bg-gray-200 rounded" /> No partner yet
-            </span>
-          </div>
+          <StateTileMap partnersByState={byState} />
         </div>
       </section>
 
@@ -201,21 +162,5 @@ function PartnerCard({
 
 function slugify(s: string): string {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-}
-
-function stateAbbrev(state: string): string {
-  const map: Record<string, string> = {
-    Alabama: 'AL', Alaska: 'AK', Arizona: 'AZ', Arkansas: 'AR', California: 'CA',
-    Colorado: 'CO', Connecticut: 'CT', Delaware: 'DE', Florida: 'FL', Georgia: 'GA',
-    Hawaii: 'HI', Idaho: 'ID', Illinois: 'IL', Indiana: 'IN', Iowa: 'IA',
-    Kansas: 'KS', Kentucky: 'KY', Louisiana: 'LA', Maine: 'ME', Maryland: 'MD',
-    Massachusetts: 'MA', Michigan: 'MI', Minnesota: 'MN', Mississippi: 'MS', Missouri: 'MO',
-    Montana: 'MT', Nebraska: 'NE', Nevada: 'NV', 'New Hampshire': 'NH', 'New Jersey': 'NJ',
-    'New Mexico': 'NM', 'New York': 'NY', 'North Carolina': 'NC', 'North Dakota': 'ND', Ohio: 'OH',
-    Oklahoma: 'OK', Oregon: 'OR', Pennsylvania: 'PA', 'Rhode Island': 'RI', 'South Carolina': 'SC',
-    'South Dakota': 'SD', Tennessee: 'TN', Texas: 'TX', Utah: 'UT', Vermont: 'VT',
-    Virginia: 'VA', Washington: 'WA', 'West Virginia': 'WV', Wisconsin: 'WI', Wyoming: 'WY',
-  };
-  return map[state] ?? state.slice(0, 2).toUpperCase();
 }
 
