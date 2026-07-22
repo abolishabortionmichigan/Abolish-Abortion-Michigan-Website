@@ -29,11 +29,19 @@ export const metadata: Metadata = {
     // Set NEXT_PUBLIC_GSC_VERIFICATION in Vercel to the code Google Search
     // Console provides. Falsy value → verification meta tag simply omitted.
     google: process.env.NEXT_PUBLIC_GSC_VERIFICATION || undefined,
-    // Bing Webmaster Tools: same idea, `msvalidate.01` meta tag.
-    // Set NEXT_PUBLIC_BING_VERIFICATION to the code Bing provides.
-    other: process.env.NEXT_PUBLIC_BING_VERIFICATION
-      ? { 'msvalidate.01': process.env.NEXT_PUBLIC_BING_VERIFICATION }
-      : undefined,
+    // Bing Webmaster Tools + Pinterest domain verification. Each uses a
+    // different meta name; both go under the shared `other` map so we can
+    // ship any subset that's currently configured.
+    other: (() => {
+      const tags: Record<string, string> = {};
+      if (process.env.NEXT_PUBLIC_BING_VERIFICATION) {
+        tags['msvalidate.01'] = process.env.NEXT_PUBLIC_BING_VERIFICATION;
+      }
+      if (process.env.NEXT_PUBLIC_PINTEREST_DOMAIN_VERIFY) {
+        tags['p:domain_verify'] = process.env.NEXT_PUBLIC_PINTEREST_DOMAIN_VERIFY;
+      }
+      return Object.keys(tags).length > 0 ? tags : undefined;
+    })(),
   },
   openGraph: {
     // No static `title` here — Next merges per-page `title` (plus template)
