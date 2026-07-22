@@ -8,6 +8,7 @@ import { getAuthToken, verifyToken } from '@/lib/actions/auth-actions';
 import { sanitizeHtml } from '@/lib/sanitize';
 import { validateCsrf } from '@/lib/csrf';
 import { pingIndexNow } from '@/lib/indexnow';
+import { postArticleToSocial } from '@/lib/social/post-to-social';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.abolishabortionmichigan.com';
 
@@ -77,6 +78,15 @@ export async function POST(request: NextRequest) {
         `${SITE_URL}/news`,
         `${SITE_URL}/news-sitemap.xml`,
       ]);
+      // Auto-post to Facebook + Instagram. Fire-and-forget; if any social
+      // platform fails the article still publishes fine (see
+      // lib/social/post-to-social.ts).
+      postArticleToSocial({
+        title: newArticle.title,
+        excerpt: newArticle.excerpt,
+        slug: newArticle.slug,
+        imageUrl: newArticle.image || null,
+      });
     }
 
     return NextResponse.json(newArticle, { status: 201 });

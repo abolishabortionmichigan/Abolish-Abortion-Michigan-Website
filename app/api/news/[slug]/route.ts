@@ -9,6 +9,7 @@ import { getAuthToken, verifyToken } from '@/lib/actions/auth-actions';
 import { sanitizeHtml } from '@/lib/sanitize';
 import { validateCsrf } from '@/lib/csrf';
 import { pingIndexNow } from '@/lib/indexnow';
+import { postArticleToSocial } from '@/lib/social/post-to-social';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.abolishabortionmichigan.com';
 
@@ -121,6 +122,18 @@ export async function PATCH(
         urls.push(`${SITE_URL}/news/${existingArticle.slug}`);
       }
       pingIndexNow(urls);
+    }
+
+    // Auto-post to FB + IG only on the DRAFT -> PUBLIC transition. Editing
+    // an already-public article should not repost — that would double-post
+    // every small typo fix and annoy followers.
+    if (justPublished) {
+      postArticleToSocial({
+        title: updated.title,
+        excerpt: updated.excerpt,
+        slug: updated.slug,
+        imageUrl: updated.image || null,
+      });
     }
 
     return NextResponse.json(updated);
