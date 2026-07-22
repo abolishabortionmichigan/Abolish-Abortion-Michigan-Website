@@ -101,8 +101,8 @@ export default function ContactPage() {
               <div className="space-y-4">
                 <div>
                   <h3 className="font-semibold mb-1">Email</h3>
-                  <a href="mailto:abolishabortionmichigan@gmail.com" className="text-red-600 hover:text-red-700">
-                    abolishabortionmichigan@gmail.com
+                  <a href="mailto:admin@abolishabortionmichigan.com" className="text-red-600 hover:text-red-700">
+                    admin@abolishabortionmichigan.com
                   </a>
                 </div>
 
