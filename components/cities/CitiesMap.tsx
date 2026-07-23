@@ -169,8 +169,13 @@ export default function CitiesMap({ cities }: { cities: CityConfig[] }) {
           {ranked.map((c, i) => {
             const { x, y } = project(c.latitude, c.longitude);
             const zoomFactor = view.w / DEFAULT_VIEW.w;
-            const r = Math.max(2, Math.min(6, (3 + Math.sqrt(c.population) / 260) * Math.min(1, zoomFactor)));
-            const fontSize = Math.max(2, 4 * Math.min(1, zoomFactor));
+            // Larger min radius so 2-3 digit numbers fit inside the
+            // circle without overhanging. Font shrinks slightly for
+            // 3-digit numbers (100+).
+            const digits = String(i + 1).length;
+            const baseR = 4.2 + Math.sqrt(c.population) / 280 + (digits - 1) * 0.7;
+            const r = Math.max(4, Math.min(9, baseR * Math.min(1, zoomFactor)));
+            const fontSize = Math.max(2.5, (digits >= 3 ? 3.2 : 3.8) * Math.min(1, zoomFactor));
             return (
               <a key={c.slug} href={`/cities/${c.slug}`}>
                 <circle
@@ -185,7 +190,7 @@ export default function CitiesMap({ cities }: { cities: CityConfig[] }) {
                 </circle>
                 <text
                   x={x}
-                  y={y + fontSize * 0.4}
+                  y={y + fontSize * 0.35}
                   fontSize={fontSize}
                   fontWeight={700}
                   fill="#ffffff"
