@@ -5,6 +5,7 @@ import Breadcrumbs from '@/components/Breadcrumbs';
 import CTABanner from '@/components/CTABanner';
 import { getCityBySlug, getAllCitySlugs, type CityFaq } from '@/lib/data/cities';
 import { getMillsByCity } from '@/lib/data/abortion-mills';
+import { getChurchesByCity } from '@/lib/data/abolitionist-churches';
 import { socialLinks } from '@/lib/content';
 import {
   getLegislators,
@@ -47,6 +48,7 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
   if (!city) notFound();
 
   const mills = getMillsByCity(city.name);
+  const churches = getChurchesByCity(city.name);
   const legs = getLegislators();
   const houseReps = city.houseDistricts
     .map((d) => legs.find((l) => l.chamber === 'House' && l.district === d))
@@ -250,6 +252,87 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
               Find my representative &rarr;
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* Abolitionist churches — pulled from the NXR church-directory
+          Reformed / postmillennial subset. When empty for a city we
+          intentionally render an "unaware" callout rather than hiding
+          the section — an honest gap is more useful than silence, and
+          it invites the reader to fill it in. */}
+      <section className="bg-white py-12 border-t border-gray-200">
+        <div className="max-w-4xl mx-auto px-4">
+          <h2 className="text-2xl md:text-3xl font-bold mb-2">
+            Abolitionist churches in {city.name}
+          </h2>
+          <p className="text-sm text-gray-600 mb-6">
+            Publicly-abolitionist Reformed and postmillennial-network churches
+            we know of in the {city.name} area. If your church has adopted an
+            abolition resolution and belongs here,{' '}
+            <Link href="/contact" className="text-red-700 underline">
+              let us know
+            </Link>
+            .
+          </p>
+
+          {churches.length === 0 ? (
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-5">
+              <p className="text-gray-800">
+                <strong>We&apos;re not aware of any publicly-abolitionist
+                Reformed churches inside {city.name} at this time.</strong> If
+                you attend a {city.name}-area church that has taken a public
+                stand for abolition — or would be open to adopting the model
+                abolition resolution — please{' '}
+                <Link href="/contact" className="text-red-700 underline">
+                  reach out
+                </Link>
+                . We&apos;ll add them here and connect you with resources for
+                your pastor.
+              </p>
+            </div>
+          ) : (
+            <ul className="grid sm:grid-cols-2 gap-3">
+              {churches.map((c) => (
+                <li
+                  key={c.id}
+                  className="border border-gray-200 rounded-lg p-4 hover:border-red-600 transition-colors bg-white"
+                >
+                  <p className="font-bold text-gray-900">
+                    {c.website ? (
+                      <a
+                        href={c.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-red-700"
+                      >
+                        {c.name}
+                      </a>
+                    ) : (
+                      c.name
+                    )}
+                  </p>
+                  <p className="text-xs uppercase tracking-wide text-gray-500 font-semibold mt-1">
+                    {c.denomination}
+                  </p>
+                  <p className="text-sm text-gray-600 mt-1">{c.address}</p>
+                  {c.pastor && (
+                    <p className="text-sm text-gray-600">Pastor: {c.pastor}</p>
+                  )}
+                  {c.phone && (
+                    <a
+                      href={`tel:${c.phone.replace(/[^0-9+]/g, '')}`}
+                      className="text-sm text-gray-600 hover:text-red-700 block"
+                    >
+                      {c.phone}
+                    </a>
+                  )}
+                  {c.notes && (
+                    <p className="text-xs text-gray-500 italic mt-2">{c.notes}</p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </section>
 

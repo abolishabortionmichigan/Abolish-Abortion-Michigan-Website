@@ -1,0 +1,71 @@
+{
+  "note": "Michigan churches that are publicly abolitionist (or on the closest-adjacent Reformed / postmillennial network). Curated from the NXR church directory (C:/Users/Dustina/Websites/church-directory) — the abolitionStance='pro_abolition' subset for MI, plus adjacent postmillennial-network churches that have been publicly friendly to the abolition position. The `city` field is the join key with lib/data/cities.ts — the city landing page pulls churches whose `city === city.name`. Add a row when a Michigan church publicly adopts an abolition resolution.",
+  "churches": [
+    {
+      "id": "colwood-church-caro",
+      "name": "Colwood Church",
+      "denomination": "Non-Denominational (Postmillennial / Reformed)",
+      "address": "1840 N Colling Rd, Caro, MI 48723",
+      "city": "Caro",
+      "website": null,
+      "phone": null,
+      "pastor": "Jason Garwood",
+      "notes": "Postmillennial. Listed on the postmillennial church directory."
+    },
+    {
+      "id": "providence-church-caro",
+      "name": "Providence Church",
+      "denomination": "Non-Denominational (Postmillennial / Reformed)",
+      "address": "Caro, MI 48723",
+      "city": "Caro",
+      "website": null,
+      "phone": null,
+      "pastor": "Jacob Hanby",
+      "notes": "Listed on the postmillennial church directory."
+    },
+    {
+      "id": "faith-victory-fellowship-buchanan",
+      "name": "Faith Victory Fellowship",
+      "denomination": "Non-Denominational (Postmillennial / Reformed)",
+      "address": "Buchanan, MI 49107",
+      "city": "Buchanan",
+      "website": null,
+      "phone": null,
+      "pastor": "David Mitchell",
+      "notes": "Listed on the postmillennial church directory."
+    },
+    {
+      "id": "onelife-church-grand-blanc",
+      "name": "OneLife Church",
+      "denomination": "Non-Denominational (Postmillennial / Reformed)",
+      "address": "Grand Blanc, MI 48439",
+      "city": "Grand Blanc",
+      "website": null,
+      "phone": null,
+      "pastor": "Eric Stewart",
+      "notes": "Postmillennial network. Grand Blanc is southeast of Flint."
+    },
+    {
+      "id": "new-life-fellowship-holland",
+      "name": "New Life Fellowship",
+      "denomination": "Non-Denominational (Postmillennial / Reformed)",
+      "address": "Holland, MI 49423",
+      "city": "Holland",
+      "website": null,
+      "phone": null,
+      "pastor": "Mart Novak",
+      "notes": "Listed on the postmillennial church directory."
+    },
+    {
+      "id": "citygate-church-portage",
+      "name": "CityGate Church",
+      "denomination": "Non-Denominational (Postmillennial / Reformed)",
+      "address": "Portage, MI 49002",
+      "city": "Portage",
+      "website": null,
+      "phone": null,
+      "pastor": "John Gilfillan",
+      "notes": "Postmillennial network. Portage is a Kalamazoo suburb."
+    }
+  ]
+}
