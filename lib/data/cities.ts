@@ -392,6 +392,286 @@ export const CITIES: CityConfig[] = [
       },
     ],
   },
+
+  // -------- Dearborn ----------------------------------------------------
+  {
+    slug: 'dearborn',
+    name: 'Dearborn',
+    region: 'Wayne County',
+    populationLabel: '~109,000 residents',
+    population: 109000,
+    latitude: 42.3136,
+    longitude: -83.2161,
+    houseDistricts: [3, 15],
+    senateDistricts: [2],
+    historyParagraphs: [
+      'Dearborn is home to Henry Ford Museum, the Ford Motor Company world headquarters, and the largest Arab-American population in the United States. Ford recruited Lebanese laborers to the Rouge plant in the 1910s; today Dearborn is majority-Arab, with sizable Lebanese, Iraqi, Yemeni, and Palestinian communities. Islamic, Chaldean Catholic, and Maronite Christian congregations sit blocks from one another on Warren Avenue.',
+      'That religious composition matters for abolition. The historic Christian teaching on abortion — that the preborn are ensouled human beings from conception — is shared by every ancient Christian tradition represented in Dearborn. Islamic teaching on abortion, though not identical, also grants human status to the fetus early. Dearborn is a city where the argument that abortion takes a human life is already the majority religious position; the abolitionist step is to insist the civil law reflect that consensus.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Dearborn city limits. The closest providers to Dearborn residents are in neighboring Detroit and Livonia (see the nearby-cities strip below).',
+    abortionLandscapeOutro:
+      'Wayne County voted 68% in favor of Proposal 3 in 2022. The dominant conservative religious ethics of Dearborn\'s Arab-American Christian and Muslim communities suggest a persuadable audience for the abolitionist argument that the state has misread its constitutional obligation to protect the preborn.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Dearborn?',
+        a: 'We\'re not yet aware of any publicly-abolitionist Reformed churches inside Dearborn city limits. Dearborn is home to Chaldean Catholic, Maronite, Antiochian Orthodox, and Reformed Protestant congregations — if yours has adopted an abolition resolution, reach out.',
+        links: [{ phrase: 'reach out', href: '/contact' }],
+      },
+      {
+        q: 'Who is my state representative in Dearborn?',
+        a: 'Dearborn is served by two state House districts and one state Senate district. Use our Find-my-legislator tool on the scorecard page to look yours up by ZIP or address.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Dearborn?',
+        a: 'Sign the Michigan abolition petition, contact your Dearborn state representative through the scorecard, join our Signal group, and reach out to us if your church would consider adopting the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Livonia -----------------------------------------------------
+  {
+    slug: 'livonia',
+    name: 'Livonia',
+    region: 'Wayne County',
+    populationLabel: '~93,000 residents',
+    population: 93000,
+    latitude: 42.3944,
+    longitude: -83.3686,
+    houseDistricts: [17, 22],
+    senateDistricts: [5, 6],
+    historyParagraphs: [
+      'Livonia is a large Detroit suburb — the ninth-largest city in Michigan — built out during the postwar auto-industry boom. Its residents work overwhelmingly at Ford, GM, and their supplier network; its politics have historically been Republican-leaning even as neighboring Wayne County cities have shifted Democratic. Livonia\'s civic identity is small-town suburban despite its size: family-owned businesses, dense church attendance, and a strong Catholic parish network.',
+      'Livonia sits at the political fault line where an abolitionist case can actually move votes. Its residents span the Reagan-Democrat lane that split on Proposal 3 in 2022, and the Livonia-area religious infrastructure — from St. Aidan and St. Michael to independent Bible churches — is broad and dense. The abolitionist argument here has a real audience.',
+    ],
+    abortionLandscapeIntro:
+      'One abortion facility operates inside Livonia city limits, on the boundary between Farmington and Plymouth Roads:',
+    abortionLandscapeOutro:
+      'Wayne County voted 68% in favor of Proposal 3 in 2022, but Livonia\'s specific precincts split more evenly — the city is on the boundary between Wayne County\'s pro-Prop-3 core and Oakland/Washtenaw\'s split suburbs.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Livonia?',
+        a: 'We\'re not yet aware of any publicly-abolitionist Reformed churches inside Livonia city limits. Livonia has a dense Catholic parish network + independent Bible churches — if yours has taken a public stand for abolition, reach out.',
+        links: [{ phrase: 'reach out', href: '/contact' }],
+      },
+      {
+        q: 'Who is my state representative in Livonia?',
+        a: 'Livonia is served by two state House districts and two state Senate districts. Use our Find-my-legislator tool on the scorecard page to look yours up.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Livonia?',
+        a: 'Sign the Michigan abolition petition, contact your Livonia state representative through the scorecard, join our Signal group, and reach out to us if your church would consider adopting the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Troy --------------------------------------------------------
+  {
+    slug: 'troy',
+    name: 'Troy',
+    region: 'Oakland County',
+    populationLabel: '~87,000 residents',
+    population: 87000,
+    latitude: 42.5805,
+    longitude: -83.1481,
+    houseDistricts: [56],
+    senateDistricts: [9],
+    historyParagraphs: [
+      'Troy is one of the wealthiest cities in Michigan, an Oakland County suburb built around the Somerset Collection, Kellogg Park, and a Big-Three engineering-and-management workforce. Its residents include large Chaldean Christian, Indian Hindu and Christian, and Chinese communities, along with a well-established secular professional class. Politically it has trended purple in recent cycles: Democratic in presidential races, Republican for local council seats.',
+      'Troy\'s religious composition mirrors Sterling Heights\' Chaldean strength — several of the largest Chaldean Catholic parishes in the diaspora meet here. The Chaldean church\'s ancient position on abortion (against, without exception) puts a large fraction of Troy\'s Christian residents in natural sympathy with the abolition case, even where their political voting has diverged from that theology.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Troy city limits. The closest providers to Troy residents are in Sterling Heights and Warren (see the nearby-cities strip below).',
+    abortionLandscapeOutro:
+      'Oakland County voted 62% in favor of Proposal 3 in 2022. Troy specifically was closer to 55%, one of the more competitive suburbs in the county — an audience with room for a serious abolition argument.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Troy?',
+        a: 'We\'re not yet aware of any publicly-abolitionist Reformed churches inside Troy city limits. Troy hosts several of the largest Chaldean Catholic parishes in the country — if any have taken a public stand for abolition, reach out.',
+        links: [{ phrase: 'reach out', href: '/contact' }],
+      },
+      {
+        q: 'Who is my state representative in Troy?',
+        a: 'Troy is served by one state House district and one state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Troy?',
+        a: 'Sign the Michigan abolition petition, contact your Troy state representative through the scorecard, join our Signal group, and reach out to us if your church would consider adopting the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Westland ----------------------------------------------------
+  {
+    slug: 'westland',
+    name: 'Westland',
+    region: 'Wayne County',
+    populationLabel: '~84,000 residents',
+    population: 84000,
+    latitude: 42.3124,
+    longitude: -83.3766,
+    houseDistricts: [25, 26],
+    senateDistricts: [5],
+    historyParagraphs: [
+      'Westland is a working-class Detroit suburb west of Dearborn, part of the postwar auto-industry ring. Named after the Westland Center shopping mall when it incorporated in 1966, the city has a large Union-Democrat electorate that has trended Republican in national races since 2016. Its churches lean evangelical, Catholic, and Missouri-Synod Lutheran — theologically-conservative traditions that hold historic pro-life positions.',
+      'Westland is home to Northland Family Planning\'s Westland location on Ford Road — one of the highest-volume abortion facilities in metro Detroit. That the city hosts a major abortion provider despite its working-class Christian composition is exactly the pattern the abolitionist argument exists to answer: private conviction and public law have diverged, and the law needs to be brought back into line.',
+    ],
+    abortionLandscapeIntro:
+      'One high-volume abortion facility operates inside Westland city limits:',
+    abortionLandscapeOutro:
+      'Wayne County voted 68% in favor of Proposal 3 in 2022 — a vote that put the constitutional protection of preborn Michiganders out of reach through the ordinary democratic process. Abolition insists that some questions of justice are prior to the ballot.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Westland?',
+        a: 'We\'re not yet aware of any publicly-abolitionist Reformed churches inside Westland city limits. Westland has a dense Catholic + LCMS + evangelical church network — if yours has taken a public stand for abolition, reach out.',
+        links: [{ phrase: 'reach out', href: '/contact' }],
+      },
+      {
+        q: 'Who is my state representative in Westland?',
+        a: 'Westland is served by two state House districts and one state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Westland?',
+        a: 'Sign the Michigan abolition petition, contact your Westland state representative through the scorecard, join our Signal group, and reach out to us if your church would consider adopting the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Farmington Hills -------------------------------------------
+  {
+    slug: 'farmington-hills',
+    name: 'Farmington Hills',
+    region: 'Oakland County',
+    populationLabel: '~83,000 residents',
+    population: 83000,
+    latitude: 42.4847,
+    longitude: -83.3812,
+    houseDistricts: [18, 19, 21],
+    senateDistricts: [6, 13],
+    historyParagraphs: [
+      'Farmington Hills is a well-established Oakland County suburb, one of the wealthiest cities in Michigan by median household income. It hosts a substantial Jewish community with several major synagogues, along with strong Catholic, mainline Protestant, and Reformed congregations. Its politics lean Democratic in most cycles, with Republican pockets in the older-development neighborhoods.',
+      'The Jewish teaching on abortion in Farmington Hills is not monolithic — the Orthodox community is unambiguously pro-life, while the Conservative and Reform movements have taken varying positions. The abolitionist argument in Farmington Hills is a religious one — an insistence that a preborn Jewish, Christian, or Muslim life is a life the civil law must protect — and it finds real theological allies here even where the political tide runs against it.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Farmington Hills city limits. The closest providers are in Livonia, Southfield-adjacent (WCM), and Sterling Heights (see the nearby-cities strip below).',
+    abortionLandscapeOutro:
+      'Oakland County voted 62% in favor of Proposal 3 in 2022. Farmington Hills was slightly above the county average — a challenging environment for the abolitionist argument, but one where the strong Orthodox Jewish and confessional-Christian pockets make the case still worth pressing.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Farmington Hills?',
+        a: 'We\'re not yet aware of any publicly-abolitionist Reformed churches inside Farmington Hills city limits. If your Farmington Hills church has adopted an abolition resolution, reach out — we\'d also welcome contact from Orthodox Jewish congregations aligned with this cause.',
+        links: [{ phrase: 'reach out', href: '/contact' }],
+      },
+      {
+        q: 'Who is my state representative in Farmington Hills?',
+        a: 'Farmington Hills is served by three state House districts and two state Senate districts. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Farmington Hills?',
+        a: 'Sign the Michigan abolition petition, contact your Farmington Hills state representative through the scorecard, join our Signal group, and reach out to us if your church would consider adopting the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
 ];
 
 export function getCityBySlug(slug: string): CityConfig | undefined {

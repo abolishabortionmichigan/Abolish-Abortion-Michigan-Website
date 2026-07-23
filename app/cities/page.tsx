@@ -81,7 +81,7 @@ export default function CitiesIndexPage() {
                     {c.region} · {c.populationLabel}
                   </p>
                   <p className="text-red-700 font-semibold text-sm">
-                    View {c.name} page &rarr;
+                    View {c.name}{' '}page &rarr;
                   </p>
                 </Link>
               </li>

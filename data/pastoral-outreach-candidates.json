@@ -1,0 +1,34 @@
+{
+  "note": "Michigan pastors / churches with public pro-life signals strong enough to warrant a direct abolition-outreach email. These aren't published on the public site; they're a private working list for AAM to contact and, if the pastor confirms an abolition-aligned position, promote to the NXR directory as `abolitionStance='pro_abolition'`. Sourced during the 2026-07-23 metro-Reformed research pass.",
+  "candidates": [
+    {
+      "name": "Grace Bible Church",
+      "city": "Warren",
+      "state": "MI",
+      "denomination": "Dispensational (Bible Church)",
+      "website": "https://rightlydividing.org/",
+      "abortionEvidence": "4-part sermon series titled \"Abortion: The Murdering of Innocent Life\" (Parts 1-4). Strongest pulpit abortion content found in the six built-city metros.",
+      "seriesUrls": [
+        "https://rightlydividing.org/project/abortion-part-1-the-bible-life-in-the-womb/",
+        "https://rightlydividing.org/project/abortion-part-2-spiritual-warfare-in-the-fleshly-realm/",
+        "https://rightlydividing.org/project/abortion-part-3-the-value-of-life/",
+        "https://rightlydividing.org/project/abortion-part-4-arbitrary-arguments-against-god-given-life/"
+      ],
+      "reasonToOutreach": "Their sermon language calls abortion \"murder of innocent life\" — stronger than mainstream pro-life. Would need direct pastoral contact to verify whether they hold the strict abolition position (immediate, total, no exceptions, criminalization as homicide) or the softer Dispensational pro-life view.",
+      "outreachStatus": "not_contacted",
+      "loggedOn": "2026-07-23"
+    },
+    {
+      "name": "University Reformed Church",
+      "city": "East Lansing",
+      "state": "MI",
+      "denomination": "PCA",
+      "website": "https://www.universityreformedchurch.org",
+      "pastor": "Jason Helopoulos (since 2018)",
+      "abortionEvidence": "Pastor Helopoulos led a public prayer against Proposition 3 (Michigan's 2022 abortion-rights constitutional amendment) during worship. Prior pastor Kevin DeYoung is a prolific pro-life writer at The Gospel Coalition.",
+      "reasonToOutreach": "Publicly-pro-life PCA church in Lansing's satellite city (state capital metro). Currently classified `incrementalist` in NXR by denominational default. The Prop-3 prayer suggests possible openness to a stricter position — worth asking directly.",
+      "outreachStatus": "not_contacted",
+      "loggedOn": "2026-07-23"
+    }
+  ]
+}

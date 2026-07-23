@@ -110,6 +110,28 @@
       "latitude": 42.736098,
       "longitude": -84.508256,
       "notes": null
+    },
+    {
+      "id": "planned-parenthood-livonia",
+      "name": "Planned Parenthood of Michigan — Livonia Health Center",
+      "address": "15707 Farmington Rd, Livonia, MI 48154",
+      "city": "Livonia",
+      "phone": "(734) 591-6544",
+      "email": null,
+      "latitude": 42.401308,
+      "longitude": -83.373853,
+      "notes": null
+    },
+    {
+      "id": "northland-family-planning-westland",
+      "name": "Northland Family Planning — Westland",
+      "address": "35000 Ford Rd, Westland, MI 48185",
+      "city": "Westland",
+      "phone": "(734) 721-4700",
+      "email": null,
+      "latitude": 42.324584,
+      "longitude": -83.384425,
+      "notes": null
     }
   ]
 }

@@ -72,7 +72,7 @@ export default function CityFinder() {
                 href={`/cities/${suggestion.slug}`}
                 className="text-red-700 underline font-semibold"
               >
-                Open the {suggestion.name} page &rarr;
+                Open the {suggestion.name}{' '}page &rarr;
               </Link>
             </p>
           ) : (
@@ -87,7 +87,7 @@ export default function CityFinder() {
                 href={`/cities/${suggestion.slug}`}
                 className="text-red-700 underline font-semibold"
               >
-                Open the {suggestion.name} page &rarr;
+                Open the {suggestion.name}{' '}page &rarr;
               </Link>
             </p>
           )}
