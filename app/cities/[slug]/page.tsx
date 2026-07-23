@@ -48,7 +48,9 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
   if (!city) notFound();
 
   const mills = getMillsByCity(city.name);
-  const churches = getChurchesByCity(city.name);
+  // All CityConfig rows are Michigan for now — pass 'MI' explicitly
+  // so a same-name city in a different state can't accidentally match.
+  const churches = getChurchesByCity(city.name, 'MI');
   const legs = getLegislators();
   const houseReps = city.houseDistricts
     .map((d) => legs.find((l) => l.chamber === 'House' && l.district === d))
@@ -318,14 +320,24 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
                   {c.pastor && (
                     <p className="text-sm text-gray-600">Pastor: {c.pastor}</p>
                   )}
-                  {c.phone && (
-                    <a
-                      href={`tel:${c.phone.replace(/[^0-9+]/g, '')}`}
-                      className="text-sm text-gray-600 hover:text-red-700 block"
-                    >
-                      {c.phone}
-                    </a>
-                  )}
+                  <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm mt-1">
+                    {c.phone && (
+                      <a
+                        href={`tel:${c.phone.replace(/[^0-9+]/g, '')}`}
+                        className="text-gray-600 hover:text-red-700"
+                      >
+                        {c.phone}
+                      </a>
+                    )}
+                    {c.email && (
+                      <a
+                        href={`mailto:${c.email}`}
+                        className="text-gray-600 hover:text-red-700 break-all"
+                      >
+                        {c.email}
+                      </a>
+                    )}
+                  </div>
                   {c.notes && (
                     <p className="text-xs text-gray-500 italic mt-2">{c.notes}</p>
                   )}
