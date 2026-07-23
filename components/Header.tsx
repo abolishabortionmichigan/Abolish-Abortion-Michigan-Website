@@ -54,6 +54,7 @@ const navItems = [
       { label: 'FAQ', href: '/faq' },
       { label: 'Media', href: '/media' },
       { label: 'Allied Groups', href: '/partners' },
+      { label: 'Michigan Cities', href: '/cities' },
     ],
   },
   { label: 'CONTACT US', href: '/contact' },

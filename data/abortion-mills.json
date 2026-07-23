@@ -44,6 +44,72 @@
       "latitude": 42.429693,
       "longitude": -83.232266,
       "notes": "Rosedale Park (NW Detroit). Surgical abortion up to 15w6d; medication abortion up to 11w."
+    },
+    {
+      "id": "planned-parenthood-grand-rapids-irwin-martin",
+      "name": "Planned Parenthood of Michigan — Irwin/Martin Health Center",
+      "address": "425 Cherry St SE, Grand Rapids, MI 49503",
+      "city": "Grand Rapids",
+      "phone": "(616) 459-3101",
+      "email": null,
+      "latitude": 42.959434,
+      "longitude": -85.658326,
+      "notes": "Heritage Hill. Surgical abortion up to 15w6d; medication abortion up to 12w."
+    },
+    {
+      "id": "planned-parenthood-warren",
+      "name": "Planned Parenthood of Michigan — Warren Health Center",
+      "address": "29971 Hoover Rd, Warren, MI 48093",
+      "city": "Warren",
+      "phone": "(586) 558-0101",
+      "email": null,
+      "latitude": 42.514095,
+      "longitude": -83.00735,
+      "notes": null
+    },
+    {
+      "id": "northland-family-planning-sterling-heights",
+      "name": "Northland Family Planning — Sterling Heights",
+      "address": "3810 17 Mile Rd Ste 1, Sterling Heights, MI 48310",
+      "city": "Sterling Heights",
+      "phone": "(586) 268-1700",
+      "email": null,
+      "latitude": 42.579041,
+      "longitude": -83.072136,
+      "notes": null
+    },
+    {
+      "id": "womens-center-of-michigan-sterling-heights",
+      "name": "Women's Center of Michigan (Sterling Heights)",
+      "address": "11474 E 15 Mile Rd, Sterling Heights, MI 48312",
+      "city": "Sterling Heights",
+      "phone": "(586) 979-2190",
+      "email": "womenscenterofmi@gmail.com",
+      "latitude": 42.551588,
+      "longitude": -83.010597,
+      "notes": null
+    },
+    {
+      "id": "planned-parenthood-ann-arbor-power-family",
+      "name": "Planned Parenthood of Michigan — Power Family Health Center",
+      "address": "3100 Professional Dr, Ann Arbor, MI 48104",
+      "city": "Ann Arbor",
+      "phone": "(734) 973-0710",
+      "email": null,
+      "latitude": 42.255247,
+      "longitude": -83.69786,
+      "notes": "Highest-gestation cutoff in the state: in-clinic abortion up to 19w6d; medication abortion up to 12w."
+    },
+    {
+      "id": "planned-parenthood-lansing",
+      "name": "Planned Parenthood of Michigan — Lansing Health Center",
+      "address": "300 N Clippert St, Lansing, MI 48912",
+      "city": "Lansing",
+      "phone": "(517) 351-0550",
+      "email": null,
+      "latitude": 42.736098,
+      "longitude": -84.508256,
+      "notes": null
     }
   ]
 }

@@ -110,6 +110,10 @@ export default function Footer() {
                 Allied Groups
               </Link>
               {' '}&bull;{' '}
+              <Link href="/cities" className="text-red-500 hover:text-red-400 transition-colors">
+                Michigan Cities
+              </Link>
+              {' '}&bull;{' '}
               <Link href="/financial-transparency" className="text-red-500 hover:text-red-400 transition-colors">
                 Financial Transparency
               </Link>

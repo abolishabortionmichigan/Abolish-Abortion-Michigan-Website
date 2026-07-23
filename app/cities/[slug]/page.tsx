@@ -3,9 +3,10 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import CTABanner from '@/components/CTABanner';
-import { getCityBySlug, getAllCitySlugs, type CityFaq } from '@/lib/data/cities';
+import { getCityBySlug, getAllCitySlugs, getNearbyCities, type CityFaq } from '@/lib/data/cities';
 import { getMillsByCity } from '@/lib/data/abortion-mills';
 import { getChurchesByCity } from '@/lib/data/abolitionist-churches';
+import { getAllNewsArticles } from '@/lib/data/news-store';
 import { socialLinks } from '@/lib/content';
 import {
   getLegislators,
@@ -51,7 +52,27 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
   // All CityConfig rows are Michigan for now — pass 'MI' explicitly
   // so a same-name city in a different state can't accidentally match.
   const churches = getChurchesByCity(city.name, 'MI');
+  const nearby = getNearbyCities(slug, 5);
   const legs = getLegislators();
+
+  // City-mention news filter — case-insensitive whole-word match on
+  // the city name across title + excerpt + content. Word-boundary
+  // regex prevents "Lansing" from matching "Landsing" or similar,
+  // and prevents "Warren" from matching "warren-buffett" phrasing.
+  const cityMentionRegex = new RegExp(`\\b${city.name.replace(/[-/\\^$*+?.()|[\\]{}]/g, '\\$&')}\\b`, 'i');
+  let cityNews: Awaited<ReturnType<typeof getAllNewsArticles>> = [];
+  try {
+    const all = await getAllNewsArticles(true);
+    cityNews = all
+      .filter((a) =>
+        cityMentionRegex.test(a.title) ||
+        cityMentionRegex.test(a.excerpt || '') ||
+        cityMentionRegex.test(a.content || '')
+      )
+      .slice(0, 6);
+  } catch {
+    cityNews = [];
+  }
   const houseReps = city.houseDistricts
     .map((d) => legs.find((l) => l.chamber === 'House' && l.district === d))
     .filter((l): l is NonNullable<typeof l> => Boolean(l));
@@ -62,12 +83,37 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
   const passCount = allReps.filter((l) => grade(l) === 'Pass').length;
   const failCount = allReps.length - passCount;
 
-  // Schema.org: WebPage + BreadcrumbList + FAQPage. Using WebPage
-  // over LocalBusiness because AAM isn't a business with a Detroit
-  // storefront — it's an organization whose message covers Detroit.
-  // AreaServed on the parent NGO schema (root layout) already ties
-  // the org to Michigan; this page adds the city-scoped WebPage +
-  // FAQ markup so search can surface the FAQ as rich results.
+  // "Email all my {city} reps" — pre-drafted mailto: with every rep in
+  // BCC (privacy-safe — recipients don't see each other's addresses)
+  // and a city-scoped subject + body the reader can edit before
+  // sending. Uses \r\n per RFC 6068 for maximum mail-client compat.
+  const repEmails = allReps.map((l) => l.email).filter((e): e is string => Boolean(e));
+  const emailSubject = `Constituent request: Support the abolition of abortion in Michigan`;
+  const emailBody = [
+    `Dear Representative/Senator,`,
+    ``,
+    `I am your constituent in ${city.name}. I am writing to ask you to publicly support the total abolition of abortion in Michigan — an equal-protection bill that treats abortion as homicide, without exception, from the moment of fertilization.`,
+    ``,
+    `The 2022 Reproductive Freedom for All amendment does not settle this question. It creates a state constitutional right to abortion, but it does not answer whether the smallest human beings deserve equal protection of the law. That is the question I ask you to answer with your vote.`,
+    ``,
+    `I ask you to: (1) publicly commit to sponsoring or cosponsoring a true equal-protection abolition bill; (2) publicly commit to voting against every incrementalist bill that concedes a legal right to some abortions; and (3) meet with your abolitionist constituents.`,
+    ``,
+    `Thank you for your service to Michigan.`,
+    ``,
+    `Sincerely,`,
+    `A ${city.name} constituent`,
+  ].join('\r\n');
+  const mailToAllReps =
+    repEmails.length > 0
+      ? `mailto:?bcc=${encodeURIComponent(repEmails.join(','))}&subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`
+      : null;
+
+  // Schema.org: WebPage + NGO (areaServed) + BreadcrumbList + FAQPage.
+  // The NGO block with areaServed=Place{city} is the local-SEO
+  // load-bearing schema — it tells search we're the organization
+  // whose service area covers this specific city. AreaServed on the
+  // parent NGO schema (root layout) ties the org to Michigan; this
+  // page narrows to the city.
   const webPageSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
@@ -87,6 +133,27 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
       ],
     },
   };
+  const ngoSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'NGO',
+    name: 'Abolish Abortion Michigan',
+    url: BASE_URL,
+    areaServed: {
+      '@type': 'City',
+      name: city.name,
+      containedInPlace: [
+        { '@type': 'AdministrativeArea', name: city.region },
+        { '@type': 'State', name: 'Michigan' },
+      ],
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: city.latitude,
+        longitude: city.longitude,
+      },
+    },
+    mission:
+      `Advocating for the immediate, total abolition of abortion in ${city.name} and across the state of Michigan.`,
+  };
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -102,6 +169,10 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ngoSchema) }}
       />
       <script
         type="application/ld+json"
@@ -148,6 +219,16 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
           {city.historyParagraphs.map((p, i) => (
             <p key={i}>{p}</p>
           ))}
+          {slug === 'detroit' && (
+            <p>
+              <Link
+                href="/cities/detroit/underground-railroad"
+                className="text-red-700 underline font-semibold"
+              >
+                Read the full history of Detroit and the Underground Railroad &rarr;
+              </Link>
+            </p>
+          )}
         </div>
       </section>
 
@@ -367,6 +448,14 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
               <Link href="/legislators" className="text-red-700 underline">
                 legislator&apos;s profile page
               </Link>
+              , or{' '}
+              {mailToAllReps ? (
+                <a href={mailToAllReps} className="text-red-700 underline font-semibold">
+                  email all {allReps.length} of your {city.name} reps at once
+                </a>
+              ) : (
+                <span>email all reps at once (no addresses on file)</span>
+              )}
               .
             </li>
             <li>
@@ -446,6 +535,61 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
           </div>
         </div>
       </section>
+
+      {cityNews.length > 0 && (
+        <section className="bg-gray-50 py-10 border-y border-gray-200">
+          <div className="max-w-4xl mx-auto px-4">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">
+              Recent {city.name}-mentioning coverage
+            </h2>
+            <p className="text-sm text-gray-600 mb-6">
+              News and analysis from Abolish Abortion Michigan that mentions {city.name}.
+            </p>
+            <ul className="space-y-3">
+              {cityNews.map((a) => (
+                <li key={a.slug} className="border-l-4 border-red-600 bg-white p-4 rounded-r">
+                  <Link
+                    href={`/news/${a.slug}`}
+                    className="font-semibold text-gray-900 hover:text-red-700"
+                  >
+                    {a.title}
+                  </Link>
+                  {a.excerpt && (
+                    <p className="text-sm text-gray-600 mt-1">{a.excerpt}</p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+
+      {nearby.length > 0 && (
+        <section className="bg-white py-10 border-t border-gray-200">
+          <div className="max-w-5xl mx-auto px-4">
+            <h2 className="text-xl md:text-2xl font-bold mb-4">
+              Nearby Michigan cities we cover
+            </h2>
+            <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+              {nearby.map((n) => (
+                <li key={n.slug}>
+                  <Link
+                    href={`/cities/${n.slug}`}
+                    className="block border border-gray-200 rounded-lg p-3 hover:border-red-600 transition-colors"
+                  >
+                    <p className="font-semibold text-gray-900">{n.name}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">
+                      {n.distanceMiles < 10
+                        ? `${n.distanceMiles.toFixed(1)} mi away`
+                        : `${Math.round(n.distanceMiles)} mi away`}
+                    </p>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
       <CTABanner />
     </>

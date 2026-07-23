@@ -48,12 +48,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   // Per-city landing pages
-  const cityPages: MetadataRoute.Sitemap = CITIES.map((c) => ({
-    url: `${BASE_URL}/cities/${c.slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: 0.7,
-  }));
+  const cityPages: MetadataRoute.Sitemap = [
+    ...CITIES.map((c) => ({
+      url: `${BASE_URL}/cities/${c.slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    })),
+    // Detroit long-form sub-pages
+    {
+      url: `${BASE_URL}/cities/detroit/underground-railroad`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly' as const,
+      priority: 0.6,
+    },
+  ];
 
   // 149 individual legislator profile pages — the SEO long-tail workhorse.
   // District redirect URLs (`/districts/[chamber]/[N]`) are intentionally
