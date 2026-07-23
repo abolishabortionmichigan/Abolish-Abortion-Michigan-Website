@@ -204,7 +204,7 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
             <Link href="/non-violence-statement" className="text-red-700 underline">
               non-violent, lawful presence
             </Link>
-            {' '}at abortion facilities. Please respect all local ordinances and property lines.
+            {' '}at abortion facilities.
           </p>
         </div>
       </section>
