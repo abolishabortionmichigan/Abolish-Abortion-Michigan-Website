@@ -3,7 +3,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import CTABanner from '@/components/CTABanner';
-import { getCityBySlug, getAllCitySlugs } from '@/lib/data/cities';
+import { getCityBySlug, getAllCitySlugs, type CityFaq } from '@/lib/data/cities';
+import { socialLinks } from '@/lib/content';
 import {
   getLegislators,
   grade,
@@ -145,11 +146,41 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
       </section>
 
       <section className="bg-gray-50 py-10 border-y border-gray-200">
-        <div className="max-w-3xl mx-auto px-4 prose prose-gray">
-          <h2 className="text-3xl">Abortion in {city.name} today</h2>
-          {city.abortionLandscapeParagraphs.map((p, i) => (
-            <p key={i}>{p}</p>
-          ))}
+        <div className="max-w-3xl mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-4">Abortion in {city.name} today</h2>
+          <p className="text-gray-800 mb-6">{city.abortionLandscapeIntro}</p>
+          {city.clinics.length > 0 && (
+            <ol className="mb-6 space-y-2">
+              {city.clinics.map((c, i) => (
+                <li
+                  key={c.name}
+                  className="flex gap-3 items-start bg-white border border-gray-200 rounded p-3"
+                >
+                  <span className="text-red-600 font-bold tabular-nums pt-0.5">{i + 1}.</span>
+                  <div>
+                    <p className="font-semibold text-gray-900">
+                      {c.url ? (
+                        <a
+                          href={c.url}
+                          target="_blank"
+                          rel="noopener noreferrer nofollow"
+                          className="hover:text-red-700"
+                        >
+                          {c.name}
+                        </a>
+                      ) : (
+                        c.name
+                      )}
+                    </p>
+                    <p className="text-sm text-gray-600 font-mono">{c.address}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          )}
+          {city.abortionLandscapeOutro && (
+            <p className="text-gray-800">{city.abortionLandscapeOutro}</p>
+          )}
         </div>
       </section>
 
@@ -202,7 +233,11 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
               <strong>Contact your {city.name}-area legislator.</strong>{' '}
               Every rep above has their capitol email on file — a two-minute
               email is more than most constituents ever send. Use the
-              pre-drafted template on each legislator&apos;s profile page.
+              pre-drafted template on each{' '}
+              <Link href="/legislators" className="text-red-700 underline">
+                legislator&apos;s profile page
+              </Link>
+              .
             </li>
             <li>
               <strong>Bring the resolution to your church.</strong>{' '}
@@ -224,6 +259,38 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
         </div>
       </section>
 
+      {/* Connect-locally callout — dedicated Signal-group invite so
+          {city.name}-area visitors have a low-friction path from
+          "I care about this" to "I'm in a group chat with real
+          abolitionists." Kept as its own section (not another list
+          item) because it's a real people-to-people ask, not just
+          another task on the list. */}
+      <section className="bg-white py-10 border-b border-gray-200">
+        <div className="max-w-3xl mx-auto px-4">
+          <div className="bg-[#1a1a1a] text-white rounded-lg p-6 md:p-8 text-center">
+            <h2 className="text-2xl font-bold mb-2">
+              Connect with abolitionists near {city.name}
+            </h2>
+            <p className="text-gray-300 mb-5 max-w-xl mx-auto">
+              If you want to get involved with someone local, join our
+              Signal group — it&apos;s where {city.name}-area abolitionists
+              coordinate outreach, share prayer requests, and organize.
+            </p>
+            <a
+              href={socialLinks.signalGroup}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-red-600 text-white font-bold rounded hover:bg-red-700 transition-colors"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M9.508.443a11.94 11.94 0 0 1 4.984 0l-.226 1.05a10.864 10.864 0 0 0-4.533 0L9.508.443zM12 6a6 6 0 0 0-5.318 8.778l-.798 2.667a.532.532 0 0 0 .67.67l2.668-.798A6 6 0 1 0 12 6z" />
+              </svg>
+              Join the Signal group
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ — powers the FAQPage schema above; kept as real <details>
           so it works without JS and gets crawled by search. */}
       <section className="bg-white py-12">
@@ -241,7 +308,9 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
                   <span>{f.q}</span>
                   <span className="text-red-600 group-open:rotate-45 transition-transform text-xl leading-none">+</span>
                 </summary>
-                <p className="text-gray-700 mt-3">{f.a}</p>
+                <p className="text-gray-700 mt-3">
+                  <FaqAnswer faq={f} />
+                </p>
               </details>
             ))}
           </div>
@@ -249,6 +318,73 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
       </section>
 
       <CTABanner />
+    </>
+  );
+}
+
+/**
+ * Render a FAQ answer with inline links wired up from f.links.
+ * The plain-text `a` field stays intact (used for FAQPage schema);
+ * this function walks the string once and replaces each configured
+ * phrase with a rendered link. Phrases are matched case-sensitively
+ * and in the order given, so put more-specific phrases first if
+ * they overlap.
+ *
+ * Special href: `signal:group` resolves to socialLinks.signalGroup
+ * so the data file doesn't have to hardcode the Signal URL.
+ */
+function FaqAnswer({ faq }: { faq: CityFaq }) {
+  if (!faq.links || faq.links.length === 0) {
+    return <>{faq.a}</>;
+  }
+  // Build one segmented render of the answer.
+  const pieces: (string | { text: string; href: string; external: boolean })[] = [faq.a];
+  for (const link of faq.links) {
+    const resolvedHref = link.href === 'signal:group' ? socialLinks.signalGroup : link.href;
+    const external = resolvedHref.startsWith('http') || resolvedHref.startsWith('signal:');
+    const next: typeof pieces = [];
+    for (const piece of pieces) {
+      if (typeof piece !== 'string') {
+        next.push(piece);
+        continue;
+      }
+      const idx = piece.indexOf(link.phrase);
+      if (idx === -1) {
+        next.push(piece);
+        continue;
+      }
+      if (idx > 0) next.push(piece.slice(0, idx));
+      next.push({ text: link.phrase, href: resolvedHref, external });
+      const rest = piece.slice(idx + link.phrase.length);
+      if (rest) next.push(rest);
+    }
+    pieces.length = 0;
+    pieces.push(...next);
+  }
+  return (
+    <>
+      {pieces.map((piece, i) => {
+        if (typeof piece === 'string') return <span key={i}>{piece}</span>;
+        return piece.external ? (
+          <a
+            key={i}
+            href={piece.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-red-700 underline hover:no-underline"
+          >
+            {piece.text}
+          </a>
+        ) : (
+          <Link
+            key={i}
+            href={piece.href}
+            className="text-red-700 underline hover:no-underline"
+          >
+            {piece.text}
+          </Link>
+        );
+      })}
     </>
   );
 }
