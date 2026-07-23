@@ -3700,62 +3700,6 @@ export const CITIES: CityConfig[] = [
     ],
   },
 
-  // -------- Cedar Springs -------------------------------------
-  {
-    slug: 'cedar-springs',
-    name: 'Cedar Springs',
-    region: 'Kent County',
-    populationLabel: '~4,000 residents',
-    population: 4000,
-    latitude: 43.2215,
-    longitude: -85.5452,
-    houseDistricts: [91],
-    senateDistricts: [33],
-    historyParagraphs: [
-      'Cedar Springs is a small Kent County city north of Grand Rapids — the self-proclaimed "Red Flannel Capital of America" for its historic long-underwear manufacturing tradition, and now a bedroom community for greater Grand Rapids.',
-      'The Reformed and evangelical churches in Cedar Springs carry the CRC/RCA teaching on the personhood of the preborn. The abolitionist argument here is the natural extension of West Michigan\'s confessional Reformed inheritance.',
-    ],
-    abortionLandscapeIntro:
-      'We are not currently aware of an abortion facility operating inside Cedar Springs city limits.',
-    faqs: [
-      {
-        q: 'Are there abolitionist churches in Cedar Springs?',
-        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Cedar Springs city limits. If your Cedar Springs-area church has adopted an abolition resolution, reach out.',
-        links: [
-          { phrase: 'reach out', href: '/contact' },
-        ],
-      },
-      {
-        q: 'Who is my state representative in Cedar Springs?',
-        a: 'Cedar Springs is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
-        links: [
-          { phrase: 'Find-my-legislator tool', href: '/legislators' },
-          { phrase: 'scorecard page', href: '/legislators' },
-        ],
-      },
-      {
-        q: 'How can I get involved in the abolition movement in Cedar Springs?',
-        a: 'Sign the Michigan abolition petition, contact your Cedar Springs state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
-        links: [
-          { phrase: 'Michigan abolition petition', href: '/the-petition' },
-          { phrase: 'the scorecard', href: '/legislators' },
-          { phrase: 'Signal group', href: 'signal:group' },
-          { phrase: 'reach out to us', href: '/contact' },
-        ],
-      },
-      {
-        q: 'What is the abolitionist position on abortion?',
-        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
-        links: [
-          { phrase: 'What we believe', href: '/what-we-believe' },
-          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
-          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
-          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
-        ],
-      },
-    ],
-  },
-
   // -------- Grand Haven ---------------------------------------
   {
     slug: 'grand-haven',
@@ -4464,62 +4408,6 @@ export const CITIES: CityConfig[] = [
       {
         q: 'How can I get involved in the abolition movement in Whitmore Lake?',
         a: 'Sign the Michigan abolition petition, contact your Whitmore Lake state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
-        links: [
-          { phrase: 'Michigan abolition petition', href: '/the-petition' },
-          { phrase: 'the scorecard', href: '/legislators' },
-          { phrase: 'Signal group', href: 'signal:group' },
-          { phrase: 'reach out to us', href: '/contact' },
-        ],
-      },
-      {
-        q: 'What is the abolitionist position on abortion?',
-        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
-        links: [
-          { phrase: 'What we believe', href: '/what-we-believe' },
-          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
-          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
-          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
-        ],
-      },
-    ],
-  },
-
-  // -------- Milford -------------------------------------------
-  {
-    slug: 'milford',
-    name: 'Milford',
-    region: 'Oakland County',
-    populationLabel: '~6,000 residents',
-    population: 6000,
-    latitude: 42.5758,
-    longitude: -83.5924,
-    houseDistricts: [51],
-    senateDistricts: [23],
-    historyParagraphs: [
-      'Milford is a wealthy small city in western Oakland County — home to the historic Milford Independence Fest, GM\'s Milford Proving Ground (the largest automotive testing facility in the world), and a strong small-town civic culture.',
-      'The Catholic and evangelical Protestant churches in Milford hold the traditional pro-life teaching. Milford\'s demographic character — family, wealthy, Republican-leaning — is receptive to the abolitionist argument.',
-    ],
-    abortionLandscapeIntro:
-      'We are not currently aware of an abortion facility operating inside Milford city limits.',
-    faqs: [
-      {
-        q: 'Are there abolitionist churches in Milford?',
-        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Milford city limits. If your Milford-area church has adopted an abolition resolution, reach out.',
-        links: [
-          { phrase: 'reach out', href: '/contact' },
-        ],
-      },
-      {
-        q: 'Who is my state representative in Milford?',
-        a: 'Milford is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
-        links: [
-          { phrase: 'Find-my-legislator tool', href: '/legislators' },
-          { phrase: 'scorecard page', href: '/legislators' },
-        ],
-      },
-      {
-        q: 'How can I get involved in the abolition movement in Milford?',
-        a: 'Sign the Michigan abolition petition, contact your Milford state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
         links: [
           { phrase: 'Michigan abolition petition', href: '/the-petition' },
           { phrase: 'the scorecard', href: '/legislators' },
@@ -8440,6 +8328,61 @@ export const CITIES: CityConfig[] = [
       {
         q: 'How can I get involved in the abolition movement in Standish?',
         a: 'Sign the Michigan abolition petition, contact your Standish state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+  // -------- Benton Harbor ------------------------------
+  {
+    slug: 'benton-harbor',
+    name: 'Benton Harbor',
+    region: 'Berrien County',
+    populationLabel: '~9,000 residents',
+    population: 9000,
+    latitude: 42.1086,
+    longitude: -86.4234,
+    houseDistricts: [38],
+    senateDistricts: [20],
+    historyParagraphs: [
+      "Benton Harbor sits on the Lake Michigan shore across the St. Joseph River from its twin city, St. Joseph. Historically the industrial engine of southwest Michigan — Whirlpool Corporation was founded here in 1911, and Benton Harbor was the majority employer through the mid-20th century. The city's demographics are a study in the racial-economic geography of America: Benton Harbor is 85% Black, one of the most Black-majority cities in Michigan; St. Joseph, just across the river, is 89% white. The Whirlpool jobs moved out; Benton Harbor bore the collapse.",
+      "That racial-economic history is the pastoral context for the abolitionist argument here. Abortion facilities in America disproportionately locate in and serve majority-Black communities; the Black church tradition — Baptist, AME, COGIC — has long held that this pattern is a civil-rights concern. The abolitionist framing that abortion is homicide and Black preborn lives are equally protected under the law extends the historic Black-Baptist opposition to abortion into civil-code terms.",
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Benton Harbor city limits. The closest provider is Planned Parenthood in Kalamazoo (see the nearby-cities strip below).',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Benton Harbor?',
+        a: "We're not yet aware of any publicly-abolitionist churches inside Benton Harbor city limits. Benton Harbor has a strong historic Black-Baptist / AME / COGIC network — if your Benton Harbor church has taken a public stand for abolition, reach out.",
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Benton Harbor?',
+        a: 'Benton Harbor is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Benton Harbor?',
+        a: 'Sign the Michigan abolition petition, contact your Benton Harbor state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
         links: [
           { phrase: 'Michigan abolition petition', href: '/the-petition' },
           { phrase: 'the scorecard', href: '/legislators' },
