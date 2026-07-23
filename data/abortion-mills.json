@@ -187,6 +187,39 @@
       "latitude": 43.4628,
       "longitude": -83.978671,
       "notes": "In-clinic abortion up to 17 weeks, medication abortion up to 10 weeks."
+    },
+    {
+      "id": "planned-parenthood-ferndale",
+      "name": "Planned Parenthood of Michigan — Ferndale Health Center",
+      "address": "22940 Woodward Ave, Ferndale, MI 48220",
+      "city": "Ferndale",
+      "phone": "(248) 399-5900",
+      "email": null,
+      "latitude": 42.461925,
+      "longitude": -83.135152,
+      "notes": "The busiest PP location in southeast Michigan; on the Woodward Corridor just north of the Detroit city line."
+    },
+    {
+      "id": "planned-parenthood-walker",
+      "name": "Planned Parenthood of Michigan — Walker Health Center",
+      "address": "1425 Michigan St NE, Grand Rapids, MI 49503",
+      "city": "Grand Rapids",
+      "phone": null,
+      "email": null,
+      "latitude": 42.970027,
+      "longitude": -85.633699,
+      "notes": "Second PP location in the Grand Rapids area (in addition to Irwin/Martin on Cherry St)."
+    },
+    {
+      "id": "womens-center-of-michigan-west-bloomfield",
+      "name": "Women's Center of Michigan (West Bloomfield)",
+      "address": "6765 Orchard Lake Rd, West Bloomfield, MI 48322",
+      "city": "West Bloomfield",
+      "phone": "(248) 851-5300",
+      "email": "womenscenterofmi@gmail.com",
+      "latitude": 42.537758,
+      "longitude": -83.360429,
+      "notes": null
     }
   ]
 }
