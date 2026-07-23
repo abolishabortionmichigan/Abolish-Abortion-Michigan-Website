@@ -1528,7 +1528,7 @@ export const CITIES: CityConfig[] = [
     houseDistricts: [73, 75],
     senateDistricts: [28],
     historyParagraphs: [
-      'East Lansing is Michigan State University\'s home — a college town whose politics are shaped by the university\'s 50,000-student population and its progressive Big Ten-flagship faculty. It is also home to University Reformed Church (PCA), whose past pastor Kevin DeYoung and current pastor Jason Helopoulos have both been public voices for the pro-life position, with Helopoulos leading a public prayer against Michigan\'s Proposition 3 in 2022.',
+      'East Lansing is Michigan State University\'s home — a college town whose politics are shaped by the university\'s 50,000-student population and its progressive Big Ten-flagship faculty. The city\'s dominant political culture runs deep-Democratic, but its confessional-Christian congregations (PCA, LCMS, Catholic) hold the historic pro-life teaching without compromise.',
       'East Lansing is exactly the audience the abolitionist argument was built to reach — university-educated professionals who take theology seriously and hear the biblical case for the personhood of the preborn as a substantive argument rather than a slogan.',
     ],
     abortionLandscapeIntro:
@@ -2201,7 +2201,7 @@ export const CITIES: CityConfig[] = [
     senateDistricts: [7],
     historyParagraphs: [
       'Auburn Hills is Oakland County\'s automotive-corporate hub — home to Chrysler\'s world headquarters, the Palace of Auburn Hills (now demolished but the site of Pistons and countless concerts through 2017), and the Oakland University campus.',
-      'New Covenant Church, a Reformed Baptist congregation in Auburn Hills, is on our internal pastoral outreach list for its "Sanctity of Life" preaching. If any Auburn Hills church has taken a public abolitionist stand, we\'d list them here — reach out.',
+      'The Reformed, evangelical, and Catholic churches in Auburn Hills carry the historic pro-life teaching. The abolitionist argument in Auburn Hills is the civil-law extension of that pulpit consensus — a shift from private conviction to public code.',
     ],
     abortionLandscapeIntro:
       'We are not currently aware of an abortion facility operating inside Auburn Hills city limits.',
@@ -2840,6 +2840,2134 @@ export const CITIES: CityConfig[] = [
       {
         q: 'How can I get involved in the abolition movement in Escanaba?',
         a: 'Sign the Michigan abolition petition, contact your Escanaba state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Allen Park ----------------------------------------
+  {
+    slug: 'allen-park',
+    name: 'Allen Park',
+    region: 'Wayne County',
+    populationLabel: '~28,000 residents',
+    population: 28000,
+    latitude: 42.2522,
+    longitude: -83.212,
+    houseDistricts: [2],
+    senateDistricts: [1],
+    historyParagraphs: [
+      'Allen Park is a downriver Detroit suburb — one of the classic postwar Wayne County cities named after Lewis Allen, the early-19th-century land grantee. Home to the Detroit Lions\' Allen Park training facility and a working-class civic culture built around Ford\'s downriver plants.',
+      'The Catholic and evangelical churches here — Sacred Heart, St. Frances Cabrini, and the community Bible fellowships — hold the historic pro-life teaching. The abolitionist argument in Allen Park is the plain-terms working-class case for the personhood of the preborn.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Allen Park city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Allen Park?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Allen Park city limits. If your Allen Park-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Allen Park?',
+        a: 'Allen Park is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Allen Park?',
+        a: 'Sign the Michigan abolition petition, contact your Allen Park state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Canton --------------------------------------------
+  {
+    slug: 'canton',
+    name: 'Canton',
+    region: 'Wayne County',
+    populationLabel: '~98,000 residents',
+    population: 98000,
+    latitude: 42.332,
+    longitude: -83.4695,
+    houseDistricts: [24],
+    senateDistricts: [5],
+    historyParagraphs: [
+      'Canton is the largest township in Michigan — home to nearly 100,000 residents, one of the fastest-growing communities in the state, and one of the most religiously and ethnically diverse. Its population is a mix of white professionals, one of the largest Indian-American populations in the Midwest (with major Hindu temples on Ford Road), a substantial Chinese-American community, and a strong Muslim presence anchored by the Muslim Community Association.',
+      'That religious diversity concentrates natural allies for the abolition case. Hinduism, Islam, and Christianity all teach that human life begins early in the womb. The abolitionist argument in Canton is that the state law must honor the moral consensus already present in Canton\'s temples, mosques, and churches.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Canton city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Canton?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Canton city limits. If your Canton-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Canton?',
+        a: 'Canton is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Canton?',
+        a: 'Sign the Michigan abolition petition, contact your Canton state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Van Buren Charter Township ------------------------
+  {
+    slug: 'van-buren-charter-township',
+    name: 'Van Buren Charter Township',
+    region: 'Wayne County',
+    populationLabel: '~29,000 residents',
+    population: 29000,
+    latitude: 42.1949,
+    longitude: -83.4854,
+    houseDistricts: [31],
+    senateDistricts: [4],
+    historyParagraphs: [
+      'Van Buren Charter Township sits west of Wayne along Belleville Lake — a semi-rural community with Belleville at its center. Its civic identity mixes long-standing farming heritage with suburban growth driven by proximity to Ford\'s Rawsonville and Willow Run plants.',
+      'The Catholic and Baptist church network in Van Buren is unambiguously pro-life. The abolitionist case here fits the township\'s traditional-values character.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Van Buren Charter Township city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Van Buren Charter Township?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Van Buren Charter Township city limits. If your Van Buren Charter Township-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Van Buren Charter Township?',
+        a: 'Van Buren Charter Township is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Van Buren Charter Township?',
+        a: 'Sign the Michigan abolition petition, contact your Van Buren Charter Township state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Adrian --------------------------------------------
+  {
+    slug: 'adrian',
+    name: 'Adrian',
+    region: 'Lenawee County',
+    populationLabel: '~20,000 residents',
+    population: 20000,
+    latitude: 41.9005,
+    longitude: -84.0446,
+    houseDistricts: [34],
+    senateDistricts: [16],
+    historyParagraphs: [
+      'Adrian is the seat of Lenawee County and home to Adrian College and Siena Heights University — both liberal-arts colleges with historic religious affiliations (Methodist and Dominican Catholic, respectively). The city\'s civic identity blends agricultural southeastern Michigan with a small-college intellectual life.',
+      'The Catholic and evangelical churches in Adrian carry the historic pro-life teaching without compromise. Adrian\'s Dominican Sisters heritage runs deep — a tradition that has always taught the personhood of the preborn. The abolitionist argument is the civil-law extension of that teaching.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Adrian city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Adrian?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Adrian city limits. If your Adrian-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Adrian?',
+        a: 'Adrian is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Adrian?',
+        a: 'Sign the Michigan abolition petition, contact your Adrian state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Monroe --------------------------------------------
+  {
+    slug: 'monroe',
+    name: 'Monroe',
+    region: 'Monroe County',
+    populationLabel: '~19,000 residents',
+    population: 19000,
+    latitude: 41.908,
+    longitude: -83.4719,
+    houseDistricts: [30],
+    senateDistricts: [16],
+    historyParagraphs: [
+      'Monroe is the seat of Monroe County — a Lake Erie shore city where the River Raisin meets the lake. Historic site of the War of 1812 River Raisin battles (now a national park). Politically it has trended Republican in recent cycles despite its historically Democratic union heritage.',
+      'The Catholic church network — St. Mary\'s, St. John the Baptist, and the IHM Sisters of Charity motherhouse — has been a foundational institution in Monroe since the 1820s. IHM teaching on abortion has been consistent for two centuries: it is intrinsically evil. Abolition is that teaching brought into civil law.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Monroe city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Monroe?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Monroe city limits. If your Monroe-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Monroe?',
+        a: 'Monroe is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Monroe?',
+        a: 'Sign the Michigan abolition petition, contact your Monroe state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Coldwater -----------------------------------------
+  {
+    slug: 'coldwater',
+    name: 'Coldwater',
+    region: 'Branch County',
+    populationLabel: '~11,000 residents',
+    population: 11000,
+    latitude: 41.9255,
+    longitude: -85.0057,
+    houseDistricts: [35],
+    senateDistricts: [17],
+    historyParagraphs: [
+      'Coldwater is the seat of Branch County — a small southwest Michigan city on the Chicago-Detroit rail corridor, home to Kellogg Community College\'s Grahl Center and a strong rural-manufacturing economy.',
+      'The Catholic and Baptist churches in Coldwater hold the historic pro-life teaching. The abolitionist argument fits a rural county whose voters have consistently rejected abortion-rights ballot measures.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Coldwater city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Coldwater?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Coldwater city limits. If your Coldwater-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Coldwater?',
+        a: 'Coldwater is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Coldwater?',
+        a: 'Sign the Michigan abolition petition, contact your Coldwater state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Niles ---------------------------------------------
+  {
+    slug: 'niles',
+    name: 'Niles',
+    region: 'Berrien County',
+    populationLabel: '~11,000 residents',
+    population: 11000,
+    latitude: 41.8202,
+    longitude: -86.2368,
+    houseDistricts: [37],
+    senateDistricts: [17],
+    historyParagraphs: [
+      'Niles is a southwest Michigan city on the St. Joseph River — home to the Niles Historic District, close to Notre Dame University in South Bend just across the Indiana border. Its civic identity blends Michigan and northern-Indiana Catholic influences.',
+      'The Catholic parish network here — deeply shaped by the Notre Dame presence — teaches against abortion. The abolitionist argument extends that theology into civil-rights terms.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Niles city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Niles?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Niles city limits. If your Niles-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Niles?',
+        a: 'Niles is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Niles?',
+        a: 'Sign the Michigan abolition petition, contact your Niles state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- St. Joseph ----------------------------------------
+  {
+    slug: 'st-joseph',
+    name: 'St. Joseph',
+    region: 'Berrien County',
+    populationLabel: '~8,000 residents',
+    population: 8000,
+    latitude: 42.064,
+    longitude: -86.4783,
+    houseDistricts: [38],
+    senateDistricts: [20],
+    historyParagraphs: [
+      'St. Joseph sits on Lake Michigan at the mouth of the St. Joseph River — a resort-and-manufacturing city, home of Whirlpool Corporation\'s world headquarters and the Silver Beach Carousel. Its civic identity is coastal Michigan blended with corporate Whirlpool influence.',
+      'The Catholic and Reformed churches in St. Joseph carry the pro-life teaching that has always been the western-Michigan norm. Abolition is the civil-law expression of that pulpit consensus.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside St. Joseph city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in St. Joseph?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside St. Joseph city limits. If your St. Joseph-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in St. Joseph?',
+        a: 'St. Joseph is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in St. Joseph?',
+        a: 'Sign the Michigan abolition petition, contact your St. Joseph state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Howell --------------------------------------------
+  {
+    slug: 'howell',
+    name: 'Howell',
+    region: 'Livingston County',
+    populationLabel: '~10,000 residents',
+    population: 10000,
+    latitude: 42.6159,
+    longitude: -83.9248,
+    houseDistricts: [50],
+    senateDistricts: [22],
+    historyParagraphs: [
+      'Howell is the seat of Livingston County — a fast-growing exurb between Ann Arbor and Lansing, home of the Howell Melon Festival and one of the most politically Republican counties in Lower Michigan.',
+      'The Catholic and Baptist churches in Howell hold the historic pro-life teaching, and Livingston County\'s political culture is receptive to the abolitionist argument. The gap between what pulpits teach and what state law protects is smaller here than in most of Michigan.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Howell city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Howell?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Howell city limits. If your Howell-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Howell?',
+        a: 'Howell is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Howell?',
+        a: 'Sign the Michigan abolition petition, contact your Howell state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Clarkston -----------------------------------------
+  {
+    slug: 'clarkston',
+    name: 'Clarkston',
+    region: 'Oakland County',
+    populationLabel: '~8,000 residents',
+    population: 8000,
+    latitude: 42.7239,
+    longitude: -83.4232,
+    houseDistricts: [52],
+    senateDistricts: [23],
+    historyParagraphs: [
+      'Clarkston is a wealthy small city in northern Oakland County — home to the DTE Energy Music Theatre (the busiest outdoor concert venue in the country) and a historic downtown centered on Depot Road. The surrounding Independence Township is a Reagan-Republican bedroom community for the auto-industry executive class.',
+      'The Reformed and evangelical churches in the Clarkston-Independence area hold the historic pro-life teaching. The abolitionist argument has natural political traction here.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Clarkston city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Clarkston?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Clarkston city limits. If your Clarkston-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Clarkston?',
+        a: 'Clarkston is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Clarkston?',
+        a: 'Sign the Michigan abolition petition, contact your Clarkston state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Chesterfield Charter Township ---------------------
+  {
+    slug: 'chesterfield-charter-township',
+    name: 'Chesterfield Charter Township',
+    region: 'Macomb County',
+    populationLabel: '~46,000 residents',
+    population: 46000,
+    latitude: 42.673,
+    longitude: -82.7753,
+    houseDistricts: [63],
+    senateDistricts: [12],
+    historyParagraphs: [
+      'Chesterfield Charter Township is one of the largest municipalities on Lake St. Clair\'s Anchor Bay — a fast-growing northern Macomb community that has doubled in population since 1990. Home to New Baltimore just inside its boundaries and a strong marina-and-boating economy.',
+      'The Catholic parishes here (St. Mary Queen of Creation, Sacred Heart) hold the historic teaching against abortion. The abolitionist argument in Chesterfield is the civil-law extension of that pulpit teaching in a growing community with room to shape its civic future.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Chesterfield Charter Township city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Chesterfield Charter Township?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Chesterfield Charter Township city limits. If your Chesterfield Charter Township-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Chesterfield Charter Township?',
+        a: 'Chesterfield Charter Township is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Chesterfield Charter Township?',
+        a: 'Sign the Michigan abolition petition, contact your Chesterfield Charter Township state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Macomb Township -----------------------------------
+  {
+    slug: 'macomb-township',
+    name: 'Macomb Township',
+    region: 'Macomb County',
+    populationLabel: '~91,000 residents',
+    population: 91000,
+    latitude: 42.6442,
+    longitude: -82.8985,
+    houseDistricts: [60],
+    senateDistricts: [11],
+    historyParagraphs: [
+      'Macomb Township is Michigan\'s fifth-largest municipality by population — a rapidly-growing northern Macomb community that has nearly quadrupled in size since 1990. Politically it has trended Republican, culturally it is family-suburban Catholic.',
+      'The Catholic parish network — including St. Peter Chanel and the many young families anchoring its parish schools — teaches the historic anti-abortion position. Macomb Township\'s growth is exactly the kind of demographic environment where abolition can take institutional root.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Macomb Township city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Macomb Township?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Macomb Township city limits. If your Macomb Township-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Macomb Township?',
+        a: 'Macomb Township is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Macomb Township?',
+        a: 'Sign the Michigan abolition petition, contact your Macomb Township state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Shelby Charter Township ---------------------------
+  {
+    slug: 'shelby-charter-township',
+    name: 'Shelby Charter Township',
+    region: 'Macomb County',
+    populationLabel: '~79,000 residents',
+    population: 79000,
+    latitude: 42.6413,
+    longitude: -83.0504,
+    houseDistricts: [59],
+    senateDistricts: [24],
+    historyParagraphs: [
+      'Shelby Charter Township is one of Macomb County\'s wealthiest and largest municipalities — a fast-growing suburb north of Sterling Heights with a strong Catholic parish network, a Reagan-Republican political culture, and Stony Creek Metropark on its northern edge.',
+      'Shelby\'s civic character — family-oriented, church-going, politically-conservative — is exactly the audience the abolitionist argument was built for. The theology is already in the pulpits; the argument invites the pews to demand it in law.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Shelby Charter Township city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Shelby Charter Township?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Shelby Charter Township city limits. If your Shelby Charter Township-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Shelby Charter Township?',
+        a: 'Shelby Charter Township is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Shelby Charter Township?',
+        a: 'Sign the Michigan abolition petition, contact your Shelby Charter Township state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Burton --------------------------------------------
+  {
+    slug: 'burton',
+    name: 'Burton',
+    region: 'Genesee County',
+    populationLabel: '~30,000 residents',
+    population: 30000,
+    latitude: 43.0259,
+    longitude: -83.6041,
+    houseDistricts: [68],
+    senateDistricts: [26],
+    historyParagraphs: [
+      'Burton is a Genesee County suburb adjacent to Flint — historically a working-class GM-employee community, now a somewhat-depressed inner-ring suburb sharing Flint\'s post-industrial economic challenges.',
+      'The Catholic and Baptist churches in Burton hold the pro-life teaching that has always been the Genesee County norm. The abolitionist argument in Burton, as in Flint, is the equal-protection case: the state protects some lives and not others, and it should protect all.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Burton city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Burton?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Burton city limits. If your Burton-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Burton?',
+        a: 'Burton is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Burton?',
+        a: 'Sign the Michigan abolition petition, contact your Burton state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Lapeer --------------------------------------------
+  {
+    slug: 'lapeer',
+    name: 'Lapeer',
+    region: 'Lapeer County',
+    populationLabel: '~9,000 residents',
+    population: 9000,
+    latitude: 43.0579,
+    longitude: -83.3332,
+    houseDistricts: [67],
+    senateDistricts: [26],
+    historyParagraphs: [
+      'Lapeer is the seat of Lapeer County — a rural-suburban Thumb-region city named for the French word for "flint." Its civic identity blends farming heritage with proximity to Flint\'s manufacturing economy.',
+      'The Catholic and evangelical Protestant churches in Lapeer hold the historic pro-life teaching. Lapeer County\'s political culture is Republican-leaning and receptive to the abolitionist argument.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Lapeer city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Lapeer?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Lapeer city limits. If your Lapeer-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Lapeer?',
+        a: 'Lapeer is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Lapeer?',
+        a: 'Sign the Michigan abolition petition, contact your Lapeer state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Fenton --------------------------------------------
+  {
+    slug: 'fenton',
+    name: 'Fenton',
+    region: 'Genesee County',
+    populationLabel: '~12,000 residents',
+    population: 12000,
+    latitude: 42.7851,
+    longitude: -83.7294,
+    houseDistricts: [72],
+    senateDistricts: [22],
+    historyParagraphs: [
+      'Fenton is a small Genesee County city on Lake Fenton — home of the historic Fenton Hotel Tavern & Grille (1856), a downtown revival, and a bedroom-community role for both Flint and Detroit-metro professionals.',
+      'The Catholic and Bible-Baptist churches in Fenton hold the historic pro-life teaching. Fenton\'s political culture is Republican, receptive to the abolitionist case.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Fenton city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Fenton?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Fenton city limits. If your Fenton-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Fenton?',
+        a: 'Fenton is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Fenton?',
+        a: 'Sign the Michigan abolition petition, contact your Fenton state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Ionia ---------------------------------------------
+  {
+    slug: 'ionia',
+    name: 'Ionia',
+    region: 'Ionia County',
+    populationLabel: '~11,000 residents',
+    population: 11000,
+    latitude: 42.9859,
+    longitude: -85.071,
+    houseDistricts: [78],
+    senateDistricts: [33],
+    historyParagraphs: [
+      'Ionia is the seat of Ionia County — a mid-Michigan city along the Grand River, home of the Ionia Free Fair (Michigan\'s largest county fair) and several state correctional facilities that anchor the local economy.',
+      'The Catholic and Reformed church network in Ionia County holds the pro-life teaching. The abolitionist argument in rural mid-Michigan works with the grain of a region that has never accepted the pro-choice framework.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Ionia city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Ionia?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Ionia city limits. If your Ionia-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Ionia?',
+        a: 'Ionia is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Ionia?',
+        a: 'Sign the Michigan abolition petition, contact your Ionia state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Cedar Springs -------------------------------------
+  {
+    slug: 'cedar-springs',
+    name: 'Cedar Springs',
+    region: 'Kent County',
+    populationLabel: '~4,000 residents',
+    population: 4000,
+    latitude: 43.2215,
+    longitude: -85.5452,
+    houseDistricts: [91],
+    senateDistricts: [33],
+    historyParagraphs: [
+      'Cedar Springs is a small Kent County city north of Grand Rapids — the self-proclaimed "Red Flannel Capital of America" for its historic long-underwear manufacturing tradition, and now a bedroom community for greater Grand Rapids.',
+      'The Reformed and evangelical churches in Cedar Springs carry the CRC/RCA teaching on the personhood of the preborn. The abolitionist argument here is the natural extension of West Michigan\'s confessional Reformed inheritance.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Cedar Springs city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Cedar Springs?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Cedar Springs city limits. If your Cedar Springs-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Cedar Springs?',
+        a: 'Cedar Springs is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Cedar Springs?',
+        a: 'Sign the Michigan abolition petition, contact your Cedar Springs state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Grand Haven ---------------------------------------
+  {
+    slug: 'grand-haven',
+    name: 'Grand Haven',
+    region: 'Ottawa County',
+    populationLabel: '~11,000 residents',
+    population: 11000,
+    latitude: 43.0378,
+    longitude: -86.1912,
+    houseDistricts: [88],
+    senateDistricts: [31],
+    historyParagraphs: [
+      'Grand Haven is a Lake Michigan resort city at the mouth of the Grand River — home of the Grand Haven Musical Fountain (the world\'s largest), the annual Coast Guard Festival, and a strong Reformed-Christian civic culture.',
+      'Grand Haven\'s Reformed and Christian Reformed church presence is one of the strongest in Michigan outside Holland. The abolitionist argument fits West Michigan\'s confessional theology naturally.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Grand Haven city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Grand Haven?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Grand Haven city limits. If your Grand Haven-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Grand Haven?',
+        a: 'Grand Haven is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Grand Haven?',
+        a: 'Sign the Michigan abolition petition, contact your Grand Haven state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Rockford ------------------------------------------
+  {
+    slug: 'rockford',
+    name: 'Rockford',
+    region: 'Kent County',
+    populationLabel: '~6,000 residents',
+    population: 6000,
+    latitude: 43.1152,
+    longitude: -85.5136,
+    houseDistricts: [90],
+    senateDistricts: [33],
+    historyParagraphs: [
+      'Rockford is a small city north of Grand Rapids — home of the historic Wolverine World Wide shoe manufacturer (Hush Puppies) and a strong small-town Reformed Christian civic culture.',
+      'Rockford\'s Reformed and evangelical churches carry the West Michigan CRC/RCA teaching against abortion. The abolitionist argument extends that theology into civil law.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Rockford city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Rockford?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Rockford city limits. If your Rockford-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Rockford?',
+        a: 'Rockford is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Rockford?',
+        a: 'Sign the Michigan abolition petition, contact your Rockford state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Caro ----------------------------------------------
+  {
+    slug: 'caro',
+    name: 'Caro',
+    region: 'Tuscola County',
+    populationLabel: '~4,000 residents',
+    population: 4000,
+    latitude: 43.4833,
+    longitude: -83.3835,
+    houseDistricts: [97],
+    senateDistricts: [25],
+    historyParagraphs: [
+      'Caro is the seat of Tuscola County — a small Thumb-region city named after the historic Cairo, Egypt (renamed for pronunciation). Home to Colwood Church and Providence Church, both on the postmillennial-abolitionist network our partners page tracks.',
+      'Caro is one of the few MI cities with named churches on the national abolitionist / postmillennial-network directory. That confessional presence is the foundation for the abolitionist argument locally.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Caro city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Caro?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Caro city limits. If your Caro-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Caro?',
+        a: 'Caro is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Caro?',
+        a: 'Sign the Michigan abolition petition, contact your Caro state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Big Rapids ----------------------------------------
+  {
+    slug: 'big-rapids',
+    name: 'Big Rapids',
+    region: 'Mecosta County',
+    populationLabel: '~10,000 residents',
+    population: 10000,
+    latitude: 43.6897,
+    longitude: -85.4797,
+    houseDistricts: [100],
+    senateDistricts: [34],
+    historyParagraphs: [
+      'Big Rapids is the seat of Mecosta County and home of Ferris State University — a mid-Michigan college city on the Muskegon River. Its civic identity blends Ferris\' 12,000-student population with rural-north Michigan character.',
+      'The Catholic and evangelical Protestant churches in Big Rapids hold the historic pro-life teaching. Mecosta County\'s political culture is Republican, receptive to the abolitionist case.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Big Rapids city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Big Rapids?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Big Rapids city limits. If your Big Rapids-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Big Rapids?',
+        a: 'Big Rapids is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Big Rapids?',
+        a: 'Sign the Michigan abolition petition, contact your Big Rapids state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Cadillac ------------------------------------------
+  {
+    slug: 'cadillac',
+    name: 'Cadillac',
+    region: 'Wexford County',
+    populationLabel: '~10,000 residents',
+    population: 10000,
+    latitude: 44.2504,
+    longitude: -85.43,
+    houseDistricts: [101],
+    senateDistricts: [36],
+    historyParagraphs: [
+      'Cadillac sits on Lake Cadillac in the northwest Lower Peninsula — a rural-north city named after Detroit\'s founder Antoine de la Mothe Cadillac. Home to the Cadillac Country Music Festival and a strong small-city civic tradition.',
+      'The Catholic and Bible-Baptist churches in Cadillac hold the traditional pro-life teaching. Northern Michigan\'s political culture is receptive to strong moral arguments made plainly.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Cadillac city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Cadillac?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Cadillac city limits. If your Cadillac-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Cadillac?',
+        a: 'Cadillac is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Cadillac?',
+        a: 'Sign the Michigan abolition petition, contact your Cadillac state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Ludington -----------------------------------------
+  {
+    slug: 'ludington',
+    name: 'Ludington',
+    region: 'Mason County',
+    populationLabel: '~8,000 residents',
+    population: 8000,
+    latitude: 43.9688,
+    longitude: -86.4403,
+    houseDistricts: [102],
+    senateDistricts: [32],
+    historyParagraphs: [
+      'Ludington sits on Lake Michigan at the mouth of the Pere Marquette River — home of the S.S. Badger car ferry to Manitowoc, Wisconsin (the last coal-fired passenger steamship on the Great Lakes) and a strong tourism-and-maritime economy.',
+      'Ludington\'s Catholic and Reformed churches hold the historic pro-life teaching. The city\'s small-town civic culture is receptive to the abolitionist argument.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Ludington city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Ludington?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Ludington city limits. If your Ludington-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Ludington?',
+        a: 'Ludington is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Ludington?',
+        a: 'Sign the Michigan abolition petition, contact your Ludington state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Alpena --------------------------------------------
+  {
+    slug: 'alpena',
+    name: 'Alpena',
+    region: 'Alpena County',
+    populationLabel: '~10,000 residents',
+    population: 10000,
+    latitude: 45.079,
+    longitude: -83.4602,
+    houseDistricts: [106],
+    senateDistricts: [36],
+    historyParagraphs: [
+      'Alpena is the largest city on the Lake Huron shore north of Bay City — a Great Lakes port shaped by cement manufacturing (Lafarge\'s Alpena plant), the annual Brown Trout Festival, and Northeast Michigan\'s independent political character.',
+      'The Catholic and Lutheran churches in Alpena hold the historic pro-life teaching. Northeast Michigan\'s political culture is willing to consider arguments the population centers have already dismissed — abolition finds a real hearing here.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Alpena city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Alpena?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Alpena city limits. If your Alpena-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Alpena?',
+        a: 'Alpena is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Alpena?',
+        a: 'Sign the Michigan abolition petition, contact your Alpena state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Grayling ------------------------------------------
+  {
+    slug: 'grayling',
+    name: 'Grayling',
+    region: 'Crawford County',
+    populationLabel: '~2,000 residents',
+    population: 2000,
+    latitude: 44.671,
+    longitude: -84.6913,
+    houseDistricts: [105],
+    senateDistricts: [36],
+    historyParagraphs: [
+      'Grayling is a small Northern Michigan city on the AuSable River — best known for canoeing, trout fishing, the Michigan Army National Guard\'s Camp Grayling training center (the largest state-owned military training facility east of the Mississippi), and the AuSable River Canoe Marathon.',
+      'The Catholic and evangelical churches in Grayling hold the pro-life teaching. Northern Michigan\'s independent political character makes it receptive to arguments the lower peninsula has already tired of.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Grayling city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Grayling?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Grayling city limits. If your Grayling-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Grayling?',
+        a: 'Grayling is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Grayling?',
+        a: 'Sign the Michigan abolition petition, contact your Grayling state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Iron Mountain -------------------------------------
+  {
+    slug: 'iron-mountain',
+    name: 'Iron Mountain',
+    region: 'Dickinson County',
+    populationLabel: '~8,000 residents',
+    population: 8000,
+    latitude: 45.8219,
+    longitude: -88.0683,
+    houseDistricts: [110],
+    senateDistricts: [38],
+    historyParagraphs: [
+      'Iron Mountain is the largest city in the west-central Upper Peninsula — an iron-ore mining town on the Menominee Range, named for the mountain of hematite that anchored its 19th-century economy. Home to the Cornish Pump Museum and a strong Finnish-American and Italian-American heritage.',
+      'The Catholic and Finnish-Lutheran churches in Iron Mountain hold the historic pro-life teaching. The Upper Peninsula\'s political culture is independent and receptive to the abolitionist argument made on its merits.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Iron Mountain city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Iron Mountain?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Iron Mountain city limits. If your Iron Mountain-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Iron Mountain?',
+        a: 'Iron Mountain is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Iron Mountain?',
+        a: 'Sign the Michigan abolition petition, contact your Iron Mountain state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- West Bloomfield -----------------------------------
+  {
+    slug: 'west-bloomfield',
+    name: 'West Bloomfield',
+    region: 'Oakland County',
+    populationLabel: '~65,000 residents',
+    population: 65000,
+    latitude: 42.5461,
+    longitude: -83.383,
+    houseDistricts: [20],
+    senateDistricts: [13],
+    historyParagraphs: [
+      'West Bloomfield is a wealthy Oakland County township on the Cass Lake / Sylvan Lake corridor — home of one of the largest Jewish populations in Michigan (Adat Shalom, Congregation Beth Ahm, Temple Israel), a substantial Chaldean Catholic community, and a growing Indian-American professional class.',
+      'West Bloomfield\'s Orthodox Jewish and Chaldean Catholic communities both teach that human life begins early in the womb. The abolitionist case here finds coalition partners across religious traditions that agree on the core fact.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside West Bloomfield city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in West Bloomfield?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside West Bloomfield city limits. If your West Bloomfield-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in West Bloomfield?',
+        a: 'West Bloomfield is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in West Bloomfield?',
+        a: 'Sign the Michigan abolition petition, contact your West Bloomfield state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Sturgis -------------------------------------------
+  {
+    slug: 'sturgis',
+    name: 'Sturgis',
+    region: 'St. Joseph County',
+    populationLabel: '~11,000 residents',
+    population: 11000,
+    latitude: 41.8089,
+    longitude: -85.4264,
+    houseDistricts: [36],
+    senateDistricts: [17],
+    historyParagraphs: [
+      'Sturgis is a small St. Joseph County city near the Indiana border — historically the home of the Sturgis-Elkhart RV manufacturing corridor, with a strong small-town evangelical and Catholic church network.',
+      'The Catholic and Baptist churches in Sturgis hold the historic pro-life teaching. Rural southwest Michigan\'s political culture is Republican-leaning and receptive to the abolitionist argument.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Sturgis city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Sturgis?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Sturgis city limits. If your Sturgis-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Sturgis?',
+        a: 'Sturgis is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Sturgis?',
+        a: 'Sign the Michigan abolition petition, contact your Sturgis state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Paw Paw -------------------------------------------
+  {
+    slug: 'paw-paw',
+    name: 'Paw Paw',
+    region: 'Van Buren County',
+    populationLabel: '~4,000 residents',
+    population: 4000,
+    latitude: 42.2349,
+    longitude: -85.9005,
+    houseDistricts: [39],
+    senateDistricts: [20],
+    historyParagraphs: [
+      'Paw Paw is the seat of Van Buren County — Michigan wine country, home of the Warner Vineyards and St. Julian Winery, and the surrounding agricultural region.',
+      'The Catholic and evangelical churches in Paw Paw hold the traditional pro-life teaching. Van Buren County\'s rural political culture is receptive to the abolitionist case.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Paw Paw city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Paw Paw?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Paw Paw city limits. If your Paw Paw-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Paw Paw?',
+        a: 'Paw Paw is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Paw Paw?',
+        a: 'Sign the Michigan abolition petition, contact your Paw Paw state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Whitmore Lake -------------------------------------
+  {
+    slug: 'whitmore-lake',
+    name: 'Whitmore Lake',
+    region: 'Washtenaw County',
+    populationLabel: '~6,000 residents',
+    population: 6000,
+    latitude: 42.4289,
+    longitude: -83.7828,
+    houseDistricts: [49],
+    senateDistricts: [22],
+    historyParagraphs: [
+      'Whitmore Lake is a small Washtenaw County community north of Ann Arbor — a lakeside village whose civic identity is shaped by proximity to the Ann Arbor academic and professional class while retaining a small-town character.',
+      'The Catholic and evangelical churches in Whitmore Lake hold the historic pro-life teaching. Whitmore Lake is a persuadable audience — closer to Ann Arbor\'s Prop-3 support than downstate rural counties, but not aligned with the university city\'s dominant culture.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Whitmore Lake city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Whitmore Lake?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Whitmore Lake city limits. If your Whitmore Lake-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Whitmore Lake?',
+        a: 'Whitmore Lake is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Whitmore Lake?',
+        a: 'Sign the Michigan abolition petition, contact your Whitmore Lake state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Milford -------------------------------------------
+  {
+    slug: 'milford',
+    name: 'Milford',
+    region: 'Oakland County',
+    populationLabel: '~6,000 residents',
+    population: 6000,
+    latitude: 42.5758,
+    longitude: -83.5924,
+    houseDistricts: [51],
+    senateDistricts: [23],
+    historyParagraphs: [
+      'Milford is a wealthy small city in western Oakland County — home to the historic Milford Independence Fest, GM\'s Milford Proving Ground (the largest automotive testing facility in the world), and a strong small-town civic culture.',
+      'The Catholic and evangelical Protestant churches in Milford hold the traditional pro-life teaching. Milford\'s demographic character — family, wealthy, Republican-leaning — is receptive to the abolitionist argument.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Milford city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Milford?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Milford city limits. If your Milford-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Milford?',
+        a: 'Milford is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Milford?',
+        a: 'Sign the Michigan abolition petition, contact your Milford state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Richmond ------------------------------------------
+  {
+    slug: 'richmond',
+    name: 'Richmond',
+    region: 'Macomb County',
+    populationLabel: '~6,000 residents',
+    population: 6000,
+    latitude: 42.8389,
+    longitude: -82.7996,
+    houseDistricts: [65],
+    senateDistricts: [25],
+    historyParagraphs: [
+      'Richmond is a small city in northern Macomb County — the seat of Richmond Township, home of the Good Ol\' Days Festival and a strong agricultural-suburban civic identity.',
+      'The Catholic and Baptist churches in Richmond hold the historic pro-life teaching. Northern Macomb\'s rural-conservative political culture is receptive to the abolitionist case.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Richmond city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Richmond?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Richmond city limits. If your Richmond-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Richmond?',
+        a: 'Richmond is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Richmond?',
+        a: 'Sign the Michigan abolition petition, contact your Richmond state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Durand --------------------------------------------
+  {
+    slug: 'durand',
+    name: 'Durand',
+    region: 'Shiawassee County',
+    populationLabel: '~4,000 residents',
+    population: 4000,
+    latitude: 42.9117,
+    longitude: -83.9877,
+    houseDistricts: [71],
+    senateDistricts: [28],
+    historyParagraphs: [
+      'Durand is a small Shiawassee County city — historically a major railroad hub (the Michigan Railroad History Museum is here) and now a bedroom community for Flint and East Lansing professionals.',
+      'The Catholic and Bible-Baptist churches in Durand hold the traditional pro-life teaching. Rural Shiawassee County\'s political culture is Republican-leaning and receptive to the abolitionist argument.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Durand city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Durand?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Durand city limits. If your Durand-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Durand?',
+        a: 'Durand is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Durand?',
+        a: 'Sign the Michigan abolition petition, contact your Durand state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Zeeland -------------------------------------------
+  {
+    slug: 'zeeland',
+    name: 'Zeeland',
+    region: 'Ottawa County',
+    populationLabel: '~6,000 residents',
+    population: 6000,
+    latitude: 42.8256,
+    longitude: -86.0104,
+    houseDistricts: [85],
+    senateDistricts: [31],
+    historyParagraphs: [
+      'Zeeland is the smaller of West Michigan\'s two Dutch Reformed anchor cities — Holland\'s twin, home to the Zeeland Historical Museum, De Kruif Furniture Company (established 1908), and one of the highest per-capita concentrations of CRC / RCA / URC / Netherlands Reformed congregations anywhere in America.',
+      'Zeeland\'s confessional Reformed churches are unambiguous on the personhood of the preborn. The abolitionist argument here is the natural civil-law expression of West Michigan\'s most-densely-Reformed-outside-Holland theological inheritance.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Zeeland city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Zeeland?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Zeeland city limits. If your Zeeland-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Zeeland?',
+        a: 'Zeeland is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Zeeland?',
+        a: 'Sign the Michigan abolition petition, contact your Zeeland state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Merrill -------------------------------------------
+  {
+    slug: 'merrill',
+    name: 'Merrill',
+    region: 'Saginaw County',
+    populationLabel: '~1,000 residents',
+    population: 1000,
+    latitude: 43.4082,
+    longitude: -84.3327,
+    houseDistricts: [93],
+    senateDistricts: [34],
+    historyParagraphs: [
+      'Merrill is a small village in Saginaw County — a farming community in the rural mid-Michigan corridor between Saginaw and Ithaca.',
+      'The Catholic and evangelical churches in Merrill hold the pro-life teaching. Rural mid-Michigan\'s political culture is Republican-leaning and open to the abolitionist argument.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Merrill city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Merrill?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Merrill city limits. If your Merrill-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Merrill?',
+        a: 'Merrill is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Merrill?',
+        a: 'Sign the Michigan abolition petition, contact your Merrill state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Standish ------------------------------------------
+  {
+    slug: 'standish',
+    name: 'Standish',
+    region: 'Arenac County',
+    populationLabel: '~1,000 residents',
+    population: 1500,
+    latitude: 43.9847,
+    longitude: -83.9558,
+    houseDistricts: [99],
+    senateDistricts: [36],
+    historyParagraphs: [
+      'Standish is the seat of Arenac County — a small Northern Michigan city on the M-13 / I-75 corridor, home of the Standish Prison (Michigan\'s largest men\'s prison) and a rural civic identity.',
+      'The Catholic and evangelical churches in Standish hold the historic pro-life teaching. Northeast Michigan\'s rural political culture is receptive to the abolitionist case.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Standish city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Standish?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Standish city limits. If your Standish-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Standish?',
+        a: 'Standish is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Standish?',
+        a: 'Sign the Michigan abolition petition, contact your Standish state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Elk Rapids ----------------------------------------
+  {
+    slug: 'elk-rapids',
+    name: 'Elk Rapids',
+    region: 'Antrim County',
+    populationLabel: '~2,000 residents',
+    population: 2000,
+    latitude: 44.8945,
+    longitude: -85.4147,
+    houseDistricts: [104],
+    senateDistricts: [37],
+    historyParagraphs: [
+      'Elk Rapids is a small village on the shore of Elk Lake — one of the postcard-perfect small towns of northwest Lower Michigan wine country, home of the Petobego Dam and a strong tourism economy.',
+      'The Catholic and evangelical churches in Elk Rapids hold the traditional pro-life teaching. Northern Michigan\'s independent political culture is receptive to arguments the downstate population centers have already tired of.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Elk Rapids city limits.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Elk Rapids?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Elk Rapids city limits. If your Elk Rapids-area church has adopted an abolition resolution, reach out.',
+        links: [
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Elk Rapids?',
+        a: 'Elk Rapids is served by 1 state House district and 1 state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Elk Rapids?',
+        a: 'Sign the Michigan abolition petition, contact your Elk Rapids state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
         links: [
           { phrase: 'Michigan abolition petition', href: '/the-petition' },
           { phrase: 'the scorecard', href: '/legislators' },
