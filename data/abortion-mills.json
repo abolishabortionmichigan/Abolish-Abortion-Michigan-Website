@@ -132,6 +132,50 @@
       "latitude": 42.324584,
       "longitude": -83.384425,
       "notes": null
+    },
+    {
+      "id": "planned-parenthood-flint",
+      "name": "Planned Parenthood of Michigan — Flint Health Center",
+      "address": "3371 Beecher Rd, Flint, MI 48503",
+      "city": "Flint",
+      "phone": "(810) 238-3631",
+      "email": null,
+      "latitude": 43.009472,
+      "longitude": -83.729686,
+      "notes": "Serves the Genesee County region; in-clinic abortion up to 19w6d, medication abortion up to 12w."
+    },
+    {
+      "id": "womens-center-of-flint",
+      "name": "Women's Center of Flint",
+      "address": "4823 Miller Rd, Flint, MI 48507",
+      "city": "Flint",
+      "phone": "(810) 230-1300",
+      "email": null,
+      "latitude": 42.976176,
+      "longitude": -83.770982,
+      "notes": "In-clinic abortion up to 17 weeks, medication abortion up to 10 weeks."
+    },
+    {
+      "id": "planned-parenthood-kalamazoo",
+      "name": "Planned Parenthood of Michigan — Kalamazoo Health Center",
+      "address": "4201 W Michigan Ave, Kalamazoo, MI 49006",
+      "city": "Kalamazoo",
+      "phone": "(269) 372-1200",
+      "email": null,
+      "latitude": 42.276988,
+      "longitude": -85.640783,
+      "notes": null
+    },
+    {
+      "id": "northland-family-planning-southfield",
+      "name": "Northland Family Planning — Southfield",
+      "address": "24450 Evergreen Rd, Southfield, MI 48075",
+      "city": "Southfield",
+      "phone": "(248) 559-0590",
+      "email": null,
+      "latitude": 42.468098,
+      "longitude": -83.240207,
+      "notes": "The largest single-provider abortion facility in Michigan."
     }
   ]
 }

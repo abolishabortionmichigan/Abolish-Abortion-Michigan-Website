@@ -21,18 +21,8 @@ import { US_STATE_PATHS } from '@/lib/data/us-map-paths';
 const MI_BBOX_SVG = { x: 852.2, y: 83.7, w: 134.9, h: 140.6 };
 // Michigan's geographic bounding box (matches the shape's extents).
 const MI_BBOX_GEO = { minLat: 41.7, maxLat: 48.3, minLng: -90.5, maxLng: -82.4 };
-// SVG viewBox with a little padding around the MI shape (widened
-// slightly to give room for the rotation transform not to clip).
-const MI_VIEWBOX = { x: 840, y: 70, w: 160, h: 170 };
-// svg-maps' geoAlbersUsa MI path is slightly cocked clockwise — this
-// counter-rotation brings the state to the visual "true north"
-// orientation people expect from a Michigan map. Applied to the whole
-// group so path + pins stay aligned.
-const ROTATION_DEG = -8;
-const MI_CENTROID = {
-  x: MI_BBOX_SVG.x + MI_BBOX_SVG.w / 2,
-  y: MI_BBOX_SVG.y + MI_BBOX_SVG.h / 2,
-};
+// SVG viewBox with a little padding around the MI shape.
+const MI_VIEWBOX = { x: 848, y: 80, w: 143, h: 149 };
 
 function project(lat: number, lng: number): { x: number; y: number } {
   const x =
@@ -57,7 +47,6 @@ export default function CitiesMap({ cities }: { cities: CityConfig[] }) {
         role="img"
         aria-label="Map of Michigan with pins marking cities Abolish Abortion Michigan covers"
       >
-        <g transform={`rotate(${ROTATION_DEG} ${MI_CENTROID.x} ${MI_CENTROID.y})`}>
         {/* Michigan */}
         <path
           d={MI_PATH.d}
@@ -93,14 +82,12 @@ export default function CitiesMap({ cities }: { cities: CityConfig[] }) {
                 fill="#ffffff"
                 textAnchor="middle"
                 className="select-none pointer-events-none"
-                transform={`rotate(${-ROTATION_DEG} ${x} ${y})`}
               >
                 {i + 1}
               </text>
             </a>
           );
         })}
-        </g>
       </svg>
       <p className="text-xs text-gray-500 mt-3 text-center">
         Click any red pin — or a city in the legend — to open that city&apos;s page.

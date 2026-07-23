@@ -672,6 +672,569 @@ export const CITIES: CityConfig[] = [
       },
     ],
   },
+
+  // -------- Flint -------------------------------------------------------
+  {
+    slug: 'flint',
+    name: 'Flint',
+    region: 'Genesee County',
+    populationLabel: '~79,000 residents',
+    population: 79000,
+    latitude: 43.0362,
+    longitude: -83.7013,
+    houseDistricts: [69, 70],
+    senateDistricts: [27],
+    historyParagraphs: [
+      'Flint is the birthplace of General Motors and — for most of the 20th century — one of the wealthiest per-capita cities in America. The post-war collapse of the auto industry hollowed out its economy; the 2014 water crisis, in which Governor Snyder\'s emergency manager switched Flint\'s municipal water source to the untreated Flint River and lead leached into 100,000 residents\' drinking water, cemented the city as a case study in how the state can fail its most vulnerable.',
+      'That history matters for abolition. Flint is a majority-Black, working-class city whose residents have felt firsthand what happens when the state decides some lives are cheaper to lose than to protect. The abolitionist case for the preborn is a case for equal protection under the law — the same principle Flint has spent a decade demanding for its own children. Abortion facilities disproportionately locate in and serve communities like Flint\'s. Ending abortion is a justice issue for Flint specifically.',
+    ],
+    abortionLandscapeIntro:
+      'Two abortion facilities operate inside Flint city limits — a high provider density for a city of its size:',
+    abortionLandscapeOutro:
+      'Genesee County voted 63% in favor of Proposal 3 in 2022. Flint\'s Black-majority Christian churches — historically the most theologically-conservative constituency on abortion in Michigan — are a natural coalition audience for the abolitionist argument.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Flint?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Flint city limits. Flint has a large Black-Baptist / AME / COGIC network — if your Flint-area church has taken a public stand for abolition, reach out.',
+        links: [{ phrase: 'reach out', href: '/contact' }],
+      },
+      {
+        q: 'Who is my state representative in Flint?',
+        a: 'Flint is served by two state House districts and one state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Flint?',
+        a: 'Sign the Michigan abolition petition, contact your Flint state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Wyoming -----------------------------------------------------
+  {
+    slug: 'wyoming',
+    name: 'Wyoming',
+    region: 'Kent County',
+    populationLabel: '~78,000 residents',
+    population: 78000,
+    latitude: 42.8897,
+    longitude: -85.7090,
+    houseDistricts: [80, 83, 84],
+    senateDistricts: [29],
+    historyParagraphs: [
+      'Wyoming is the largest suburb of Grand Rapids, sitting directly south of the city and sharing its Dutch Reformed civic inheritance. Its neighborhoods run from working-class near 28th Street to the leafy affluence of the Byron Center border. The Christian Reformed Church of North America (CRC) and Reformed Church in America (RCA) both maintain a dense congregational presence throughout the city.',
+      'Wyoming\'s religious identity carries the historic Reformed teaching that human life begins at conception and is a gift of God. The gap between that teaching and Michigan\'s post-Proposal-3 constitutional protection of abortion is the exact gap the abolitionist argument exists to close. In a city where nearly every neighborhood has a CRC or RCA church within walking distance, abolition is a natural next-step for a movement already latent in the pulpits.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Wyoming city limits. The closest provider is Planned Parenthood\'s Irwin/Martin Health Center on Cherry Street in neighboring Grand Rapids (see the nearby-cities strip below).',
+    abortionLandscapeOutro:
+      'Kent County voted 62% in favor of Proposal 3 in 2022. Wyoming\'s precincts specifically split more evenly than the county as a whole — the city\'s dense Reformed and working-class Catholic churches are a persuadable audience.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Wyoming?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Wyoming city limits, though the city is home to many CRC/RCA congregations. If your Wyoming church has adopted an abolition resolution, reach out.',
+        links: [{ phrase: 'reach out', href: '/contact' }],
+      },
+      {
+        q: 'Who is my state representative in Wyoming?',
+        a: 'Wyoming is served by three state House districts and one state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Wyoming?',
+        a: 'Sign the Michigan abolition petition, contact your Wyoming state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Southfield --------------------------------------------------
+  {
+    slug: 'southfield',
+    name: 'Southfield',
+    region: 'Oakland County',
+    populationLabel: '~76,000 residents',
+    population: 76000,
+    latitude: 42.4828,
+    longitude: -83.2541,
+    houseDistricts: [18, 19],
+    senateDistricts: [7],
+    historyParagraphs: [
+      'Southfield is the corporate anchor of Oakland County — home to the world headquarters of Lear, Learjet\'s namesake fleet lessor Federal-Mogul, and dozens of Fortune-500 regional offices. It is also home to a strong Black professional class, one of the largest Chaldean populations in Michigan, and a substantial Orthodox Jewish community centered around Congregation Shomrey Emunah and Adat Shalom.',
+      'That religious diversity concentrates natural allies for the abolition case. The Chaldean and Orthodox Jewish communities are theologically unambiguous that human life begins at conception. The Black-Baptist and Reformed Presbyterian congregations across the city hold the same position. Southfield hosts the largest single-provider abortion facility in the state (Northland Family Planning) — the exact concentration of religious anti-abortion witness and industrial-scale abortion provision that makes it a strategic abolition city.',
+    ],
+    abortionLandscapeIntro:
+      'One abortion facility operates inside Southfield city limits — the largest single-provider abortion facility in the state of Michigan:',
+    abortionLandscapeOutro:
+      'Oakland County voted 62% in favor of Proposal 3 in 2022. Southfield\'s Chaldean Catholic and Orthodox Jewish communities voted against it in significant numbers — a reminder that the historic religious traditions represented in Southfield are natural coalition partners for abolition.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Southfield?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Southfield city limits. Southfield hosts Southfield Reformed Presbyterian Church (RPCNA), several Chaldean Catholic parishes, and Orthodox Jewish congregations. If yours has taken a public stand for the abolition of abortion, reach out.',
+        links: [{ phrase: 'reach out', href: '/contact' }],
+      },
+      {
+        q: 'Who is my state representative in Southfield?',
+        a: 'Southfield is served by two state House districts and one state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Southfield?',
+        a: 'Sign the Michigan abolition petition, contact your Southfield state representative through the scorecard, join our Signal group, and reach out to us if your church would consider adopting the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Rochester Hills --------------------------------------------
+  {
+    slug: 'rochester-hills',
+    name: 'Rochester Hills',
+    region: 'Oakland County',
+    populationLabel: '~76,000 residents',
+    population: 76000,
+    latitude: 42.6827,
+    longitude: -83.1543,
+    houseDistricts: [55, 66],
+    senateDistricts: [9],
+    historyParagraphs: [
+      'Rochester Hills is a wealthy, historically-Republican Oakland County suburb — a bedroom community for the auto-industry engineering class and the professional families of Rochester and Auburn Hills. Home to Oakland University\'s campus and a dense network of confessional Reformed, evangelical, and Catholic congregations, its civic identity mixes engineering, education, and old-line Midwest Protestantism.',
+      'Rochester Hills\' political character has drifted more purple in recent cycles but its religious institutions remain among the most theologically-anti-abortion in southeast Michigan. Its OPC/PCA/URCNA churches, the RC parishes of the Rochester deanery, and the LCMS congregations all hold pro-life doctrine as core teaching. Abolition is the logical step from that doctrine into civil law — and the argument has a real audience here.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Rochester Hills city limits. The closest providers to Rochester Hills residents are in Sterling Heights and Warren (see the nearby-cities strip below).',
+    abortionLandscapeOutro:
+      'Oakland County voted 62% in favor of Proposal 3 in 2022. Rochester Hills specifically was closer to 55% — one of the more persuadable suburbs in the county.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Rochester Hills?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Rochester Hills city limits. If your Rochester Hills church has taken a public stand for the abolition of abortion, reach out.',
+        links: [{ phrase: 'reach out', href: '/contact' }],
+      },
+      {
+        q: 'Who is my state representative in Rochester Hills?',
+        a: 'Rochester Hills is served by two state House districts and one state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Rochester Hills?',
+        a: 'Sign the Michigan abolition petition, contact your Rochester Hills state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Kalamazoo ---------------------------------------------------
+  {
+    slug: 'kalamazoo',
+    name: 'Kalamazoo',
+    region: 'Kalamazoo County',
+    populationLabel: '~74,000 residents',
+    population: 74000,
+    latitude: 42.2884,
+    longitude: -85.5963,
+    houseDistricts: [40, 41, 42],
+    senateDistricts: [19],
+    historyParagraphs: [
+      'Kalamazoo is home to Western Michigan University, Kalamazoo College, and the Kalamazoo Promise — the anonymously-funded scholarship that pays college tuition for every graduate of Kalamazoo Public Schools. Its civic identity blends college-town liberalism with a deep vein of confessional Reformed Christianity through the Christian Reformed Church and the Bible-Baptist network across Portage and Comstock.',
+      'Kalamazoo\'s dual identity — WMU\'s pro-choice mainstream and the CRC-Bible-church coalition\'s historic anti-abortion witness — makes it one of Michigan\'s more polarized cities on this question. The abolitionist argument here has to speak into a genuinely-divided audience, which is exactly the audience where the biblical and constitutional case makes the most difference.',
+    ],
+    abortionLandscapeIntro:
+      'One abortion facility operates inside Kalamazoo city limits, serving the Kalamazoo/Battle Creek region:',
+    abortionLandscapeOutro:
+      'Kalamazoo County voted 68% in favor of Proposal 3 in 2022 — one of the higher pro-Prop-3 margins in West Michigan, driven by WMU\'s student population.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Kalamazoo?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Kalamazoo city limits. CityGate Church in nearby Portage is on the postmillennial abolitionist network — see the partners page for the national coalition. If your Kalamazoo church has taken a public stand, reach out.',
+        links: [
+          { phrase: 'partners page', href: '/partners' },
+          { phrase: 'reach out', href: '/contact' },
+        ],
+      },
+      {
+        q: 'Who is my state representative in Kalamazoo?',
+        a: 'Kalamazoo is served by three state House districts and one state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Kalamazoo?',
+        a: 'Sign the Michigan abolition petition, contact your Kalamazoo state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Novi --------------------------------------------------------
+  {
+    slug: 'novi',
+    name: 'Novi',
+    region: 'Oakland County',
+    populationLabel: '~67,000 residents',
+    population: 67000,
+    latitude: 42.4777,
+    longitude: -83.4858,
+    houseDistricts: [21],
+    senateDistricts: [13],
+    historyParagraphs: [
+      'Novi is the fastest-growing city in Oakland County — a Twelve-Mile-corridor suburb that grew from a rural township of 10,000 in 1970 to a wealthy commercial hub of nearly 70,000 today. It hosts Twelve Oaks Mall, the Suburban Collection Showplace, and the largest Muslim-American population in Michigan outside of Dearborn, along with substantial Indian-American, Korean, and Chinese communities.',
+      'Novi\'s religious composition is a mosaic — Islamic Center of Detroit-Novi, several major Hindu temples, Korean and Chinese Presbyterian churches, Catholic parishes, and evangelical mega-churches. The historic pro-life teaching in Islam, Hinduism, Catholicism, and confessional Protestantism all converge here, making Novi a strategically important city for coalition-building on abolition.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Novi city limits. The closest providers to Novi residents are in Southfield, Livonia, and Farmington Hills-adjacent (see the nearby-cities strip below).',
+    abortionLandscapeOutro:
+      'Oakland County voted 62% in favor of Proposal 3 in 2022. Novi specifically was around 60% — persuadable, especially given the diverse religious traditions represented in the city that all teach against abortion.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Novi?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Novi city limits. If your Novi church has adopted an abolition resolution, reach out — we\'d also welcome contact from Novi\'s Islamic, Hindu, and Reformed congregations aligned with this cause.',
+        links: [{ phrase: 'reach out', href: '/contact' }],
+      },
+      {
+        q: 'Who is my state representative in Novi?',
+        a: 'Novi is served by one state House district and one state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Novi?',
+        a: 'Sign the Michigan abolition petition, contact your Novi state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Taylor ------------------------------------------------------
+  {
+    slug: 'taylor',
+    name: 'Taylor',
+    region: 'Wayne County',
+    populationLabel: '~63,000 residents',
+    population: 63000,
+    latitude: 42.2317,
+    longitude: -83.2673,
+    houseDistricts: [29],
+    senateDistricts: [1],
+    historyParagraphs: [
+      'Taylor is a downriver Detroit suburb — one of the classic postwar working-class cities south of the Rouge River, populated by generations of Ford Motor Company assembly-line families. Politically it swings; culturally it is unabashedly Reagan-Democrat: union households that vote Republican for president and Democrat for local government. Its churches are predominantly Catholic, LCMS Lutheran, and evangelical Baptist.',
+      'Downriver Wayne County — Taylor especially — is exactly the kind of place where the abolitionist argument has to be made in plain, working-class terms. The people here have never accepted the pro-choice framework; what they have accepted is the mainstream pro-life strategy of incremental restrictions. The abolitionist case invites them to something further: the recognition that abortion is homicide and must be treated as such.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Taylor city limits. The closest providers to Taylor residents are in Westland (Northland) and Detroit (see the nearby-cities strip below).',
+    abortionLandscapeOutro:
+      'Wayne County voted 68% in favor of Proposal 3 in 2022. Downriver precincts (including Taylor) voted closer to 60% — one of the more persuadable pockets of Wayne County.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Taylor?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Taylor city limits. Zion Baptist Church in Taylor is on the NXR confessional Reformed directory but has not (as far as we know) publicly adopted an abolition resolution. If your Taylor-area church has, reach out.',
+        links: [{ phrase: 'reach out', href: '/contact' }],
+      },
+      {
+        q: 'Who is my state representative in Taylor?',
+        a: 'Taylor is served by one state House district and one state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Taylor?',
+        a: 'Sign the Michigan abolition petition, contact your Taylor state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Dearborn Heights -------------------------------------------
+  {
+    slug: 'dearborn-heights',
+    name: 'Dearborn Heights',
+    region: 'Wayne County',
+    populationLabel: '~63,000 residents',
+    population: 63000,
+    latitude: 42.3060,
+    longitude: -83.2735,
+    houseDistricts: [15],
+    senateDistricts: [2],
+    historyParagraphs: [
+      'Dearborn Heights sits west of Dearborn along Ford Road and Warren Avenue — a working- and middle-class suburb built alongside the auto-industry boom of the 1950s and 60s. Its population today is roughly a third Arab-American (Lebanese, Iraqi Chaldean, and Yemeni), with substantial Polish-Catholic, Ukrainian-Orthodox, and evangelical Protestant communities.',
+      'The historic Christian and Islamic teachings on abortion converge in Dearborn Heights: the preborn are ensouled human beings deserving of protection. The abolitionist argument is that civil law must reflect this shared moral conviction rather than defer to an atomistic "right to choose" framework alien to every ancient tradition present in the city.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Dearborn Heights city limits. The closest providers are in Detroit, Livonia, and Westland (see the nearby-cities strip below).',
+    abortionLandscapeOutro:
+      'Wayne County voted 68% in favor of Proposal 3 in 2022. Dearborn Heights split closer to the Wayne County average, with Arab-American precincts voting more against Prop 3 than Wayne County as a whole.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Dearborn Heights?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Dearborn Heights city limits. If your Dearborn Heights church — Catholic, Orthodox, evangelical, or otherwise — has adopted an abolition resolution, reach out.',
+        links: [{ phrase: 'reach out', href: '/contact' }],
+      },
+      {
+        q: 'Who is my state representative in Dearborn Heights?',
+        a: 'Dearborn Heights is served by one state House district and one state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Dearborn Heights?',
+        a: 'Sign the Michigan abolition petition, contact your Dearborn Heights state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Pontiac -----------------------------------------------------
+  {
+    slug: 'pontiac',
+    name: 'Pontiac',
+    region: 'Oakland County',
+    populationLabel: '~61,000 residents',
+    population: 61000,
+    latitude: 42.6471,
+    longitude: -83.2909,
+    houseDistricts: [53],
+    senateDistricts: [7],
+    historyParagraphs: [
+      'Pontiac was, for the better part of the 20th century, the manufacturing heart of General Motors — home to the Pontiac division, Fisher Body, and the enormous factories that employed 90,000 people at their peak. The industry\'s collapse left Pontiac one of Michigan\'s poorest cities per capita, with a majority-Black population, a shrinking tax base, and a churn of state-imposed emergency managers throughout the 2010s.',
+      'Pontiac\'s Black church network — historic AME, COGIC, and Baptist congregations dating back to the Great Migration — has always held that abortion disproportionately harms Black communities and Black babies. The abolitionist framing, that abortion is homicide and Black lives are equally protected by law, is the natural theological and civil-rights extension of that conviction.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Pontiac city limits. The closest providers to Pontiac residents are in Southfield (Northland) and Sterling Heights (see the nearby-cities strip below).',
+    abortionLandscapeOutro:
+      'Oakland County voted 62% in favor of Proposal 3 in 2022. Pontiac\'s Black-majority precincts split closer to 55% — the Black-church network\'s historic opposition to abortion is visible in that number.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Pontiac?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Pontiac city limits. Pontiac has a large historic Black-Baptist / AME / COGIC network — if your Pontiac church has adopted an abolition resolution, reach out.',
+        links: [{ phrase: 'reach out', href: '/contact' }],
+      },
+      {
+        q: 'Who is my state representative in Pontiac?',
+        a: 'Pontiac is served by one state House district and one state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Pontiac?',
+        a: 'Sign the Michigan abolition petition, contact your Pontiac state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
+
+  // -------- Royal Oak ---------------------------------------------------
+  {
+    slug: 'royal-oak',
+    name: 'Royal Oak',
+    region: 'Oakland County',
+    populationLabel: '~59,000 residents',
+    population: 59000,
+    latitude: 42.5048,
+    longitude: -83.1468,
+    houseDistricts: [6, 56],
+    senateDistricts: [8],
+    historyParagraphs: [
+      'Royal Oak is Woodward Corridor\'s hip nightlife center — a dense, walkable, historically-artist-and-professional suburb where the Detroit Zoo has stood since 1928 and the annual Woodward Dream Cruise rolls past 40,000-strong crowds every August. Its politics run steadily Democratic; its churches are a mix of Catholic (Shrine of the Little Flower — Fr. Charles Coughlin\'s controversial 1930s radio parish), mainline Protestant (Royal Oak First United Methodist), and PCA-adjacent (New City Presbyterian).',
+      'Royal Oak\'s dominant political direction is not naturally friendly to the abolitionist argument. But the confessional Christian congregations here have never accepted the pro-choice framework, and New City Presbyterian in particular has a track record of clear pro-life teaching. The abolition case in Royal Oak is a case for the church against the culture.',
+    ],
+    abortionLandscapeIntro:
+      'We are not currently aware of an abortion facility operating inside Royal Oak city limits. The closest provider is Northland Family Planning in neighboring Southfield (see the nearby-cities strip below).',
+    abortionLandscapeOutro:
+      'Oakland County voted 62% in favor of Proposal 3 in 2022. Royal Oak specifically voted much higher — around 78% — one of the most pro-Prop-3 cities outside Ann Arbor and Ypsilanti.',
+    faqs: [
+      {
+        q: 'Are there abolitionist churches in Royal Oak?',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Royal Oak city limits. Royal Oak hosts New City Presbyterian Church (PCA) and Shrine of the Little Flower (Catholic) — if your Royal Oak church has adopted an abolition resolution, reach out.',
+        links: [{ phrase: 'reach out', href: '/contact' }],
+      },
+      {
+        q: 'Who is my state representative in Royal Oak?',
+        a: 'Royal Oak is served by two state House districts and one state Senate district. Use our Find-my-legislator tool on the scorecard page.',
+        links: [
+          { phrase: 'Find-my-legislator tool', href: '/legislators' },
+          { phrase: 'scorecard page', href: '/legislators' },
+        ],
+      },
+      {
+        q: 'How can I get involved in the abolition movement in Royal Oak?',
+        a: 'Sign the Michigan abolition petition, contact your Royal Oak state representative through the scorecard, join our Signal group, and reach out to us if your church would adopt the abolition resolution.',
+        links: [
+          { phrase: 'Michigan abolition petition', href: '/the-petition' },
+          { phrase: 'the scorecard', href: '/legislators' },
+          { phrase: 'Signal group', href: 'signal:group' },
+          { phrase: 'reach out to us', href: '/contact' },
+        ],
+      },
+      {
+        q: 'What is the abolitionist position on abortion?',
+        a: 'Abolition of abortion means the immediate, total end of abortion, criminalized as homicide, with no exceptions, from the moment of fertilization. See our What we believe section for the biblical and constitutional case.',
+        links: [
+          { phrase: 'What we believe', href: '/what-we-believe' },
+          { phrase: 'immediate, total end of abortion', href: '/what-we-believe/immediate-not-gradual' },
+          { phrase: 'no exceptions', href: '/what-we-believe/no-exceptions' },
+          { phrase: 'criminalized as homicide', href: '/what-we-believe/criminalization' },
+        ],
+      },
+    ],
+  },
 ];
 
 export function getCityBySlug(slug: string): CityConfig | undefined {
