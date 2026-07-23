@@ -176,6 +176,17 @@
       "latitude": 42.468098,
       "longitude": -83.240207,
       "notes": "The largest single-provider abortion facility in Michigan."
+    },
+    {
+      "id": "womens-center-of-saginaw",
+      "name": "Women's Center of Saginaw",
+      "address": "3141 Cabaret Trl S, Saginaw, MI 48603",
+      "city": "Saginaw",
+      "phone": "(989) 790-1040",
+      "email": null,
+      "latitude": 43.4628,
+      "longitude": -83.978671,
+      "notes": "In-clinic abortion up to 17 weeks, medication abortion up to 10 weeks."
     }
   ]
 }
