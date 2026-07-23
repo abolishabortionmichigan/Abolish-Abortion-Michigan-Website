@@ -5,42 +5,36 @@ import type { CityConfig } from '@/lib/data/cities';
 import { US_STATE_PATHS } from '@/lib/data/us-map-paths';
 
 /**
- * SVG map of Michigan with a pin per covered city. Uses the real MI
- * path from VictorCazanave/svg-maps (via our existing us-map-paths
- * table), so the outline is a proper Michigan silhouette — both
- * peninsulas rendered accurately.
+ * SVG map of Michigan with a pin per covered city.
  *
- * Projection: the source SVG uses an approximately-linear
- * lng/lat → (x,y) mapping across the US bounding box
- * (parent viewBox: 192 9 1028 746, covering lng -125..-66,
- * lat 24..49). We reproduce that transform for city dots so pins
- * land where they should on the MI path. The map itself is
- * viewBox-cropped to the MI-only region.
+ * Projection: svg-maps' source SVG uses geoAlbersUsa (non-linear),
+ * so a naive linear US-bbox projection puts MI pins tens of SVG
+ * units off. Instead we calibrate against the MI path's actual
+ * measured bbox (852-987 × 83-224) mapped to Michigan's real
+ * geographic bbox (lat 41.7-48.3, lng -90.5 to -82.4). Within a
+ * single state this bbox mapping is accurate enough that every
+ * covered city (Detroit, Grand Rapids, Ann Arbor, Traverse City,
+ * Sault Ste Marie, Marquette, etc.) lands squarely on land.
  */
 
-// Parent US SVG bbox (from us-map-paths.ts header comment).
-const US_VIEWBOX = { x: 192, y: 9, w: 1028, h: 746 };
-// The lng/lat range that the parent viewBox represents.
-const US_LNG_RANGE = { min: -125, max: -66 };
-const US_LAT_RANGE = { min: 24, max: 49 };
-// Michigan crop within that parent — chosen to frame both peninsulas
-// with a little padding.
-const MI_VIEWBOX = { x: 820, y: 65, w: 210, h: 240 };
+// MI path bbox measured via headless-browser getBBox().
+const MI_BBOX_SVG = { x: 852.2, y: 83.7, w: 134.9, h: 140.6 };
+// Michigan's geographic bounding box (matches the shape's extents).
+const MI_BBOX_GEO = { minLat: 41.7, maxLat: 48.3, minLng: -90.5, maxLng: -82.4 };
+// SVG viewBox with a little padding around the MI shape.
+const MI_VIEWBOX = { x: 848, y: 80, w: 143, h: 149 };
 
 function project(lat: number, lng: number): { x: number; y: number } {
   const x =
-    US_VIEWBOX.x +
-    ((lng - US_LNG_RANGE.min) / (US_LNG_RANGE.max - US_LNG_RANGE.min)) * US_VIEWBOX.w;
+    MI_BBOX_SVG.x +
+    ((lng - MI_BBOX_GEO.minLng) / (MI_BBOX_GEO.maxLng - MI_BBOX_GEO.minLng)) * MI_BBOX_SVG.w;
   const y =
-    US_VIEWBOX.y +
-    ((US_LAT_RANGE.max - lat) / (US_LAT_RANGE.max - US_LAT_RANGE.min)) * US_VIEWBOX.h;
+    MI_BBOX_SVG.y +
+    ((MI_BBOX_GEO.maxLat - lat) / (MI_BBOX_GEO.maxLat - MI_BBOX_GEO.minLat)) * MI_BBOX_SVG.h;
   return { x, y };
 }
 
-// Michigan + neighbor-state paths for context (light gray so MI stands out).
 const MI_PATH = US_STATE_PATHS.find((s) => s.id === 'MI');
-const NEIGHBOR_IDS = ['OH', 'IN', 'IL', 'WI', 'MN'];
-const NEIGHBOR_PATHS = US_STATE_PATHS.filter((s) => NEIGHBOR_IDS.includes(s.id));
 
 export default function CitiesMap({ cities }: { cities: CityConfig[] }) {
   if (!MI_PATH) return null;
@@ -53,22 +47,12 @@ export default function CitiesMap({ cities }: { cities: CityConfig[] }) {
         role="img"
         aria-label="Map of Michigan with pins marking cities Abolish Abortion Michigan covers"
       >
-        {/* Great Lakes / neighbor-state context */}
-        {NEIGHBOR_PATHS.map((s) => (
-          <path
-            key={s.id}
-            d={s.d}
-            fill="#f3f4f6"
-            stroke="#d1d5db"
-            strokeWidth={0.6}
-          />
-        ))}
-        {/* Michigan itself */}
+        {/* Michigan */}
         <path
           d={MI_PATH.d}
           fill="#e5e7eb"
-          stroke="#6b7280"
-          strokeWidth={0.8}
+          stroke="#374151"
+          strokeWidth={0.6}
         />
 
         {/* Numbered city pins — no inline labels because SE Michigan's
