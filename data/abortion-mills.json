@@ -1,5 +1,5 @@
 {
-  "note": "Master list of Michigan abortion providers ('mills' in abolitionist usage). One row per physical location. The `city` field is a canonical Michigan city name and is the join key with lib/data/cities.ts — a city's landing page pulls the mills whose `city` matches its `name`. Coordinates are the Census-geocoded lat/lng, kept here so the eventual statewide mill map can render without re-geocoding at request time. Add new rows as they're verified; use `phone` and `url` when publicly available.",
+  "note": "Master list of Michigan abortion providers ('mills' in abolitionist usage). One row per physical location. The `city` field is a canonical Michigan city name and is the join key with lib/data/cities.ts — a city's landing page pulls the mills whose `city` matches its `name`. Coordinates are the Census-geocoded lat/lng, kept here so the eventual statewide mill map can render without re-geocoding at request time. `email` is `null` when the provider does not publish one (Planned Parenthood + Summit route all contact through phone/form only). `googleBusinessUrl` is optional — falls back to a maps search built from name+address when absent.",
   "mills": [
     {
       "id": "planned-parenthood-detroit-cass",
@@ -7,6 +7,7 @@
       "address": "4229 Cass Ave, Detroit, MI 48201",
       "city": "Detroit",
       "phone": "(313) 831-7776",
+      "email": null,
       "latitude": 42.350806,
       "longitude": -83.063787,
       "notes": null
@@ -17,6 +18,7 @@
       "address": "15801 W McNichols Rd, Detroit, MI 48235",
       "city": "Detroit",
       "phone": "(313) 272-8450",
+      "email": null,
       "latitude": 42.415844,
       "longitude": -83.202209,
       "notes": "Performs abortions up to 24 weeks."
@@ -27,6 +29,7 @@
       "address": "15650 E 8 Mile Rd, Detroit, MI 48205",
       "city": "Detroit",
       "phone": "(313) 526-3600",
+      "email": "womenscenterofmi@gmail.com",
       "latitude": 42.449930,
       "longitude": -82.960039,
       "notes": null
@@ -37,6 +40,7 @@
       "address": "19305 W Seven Mile Rd, Detroit, MI 48219",
       "city": "Detroit",
       "phone": "(313) 538-2020",
+      "email": "info@swcdetroit.com",
       "latitude": 42.429693,
       "longitude": -83.232266,
       "notes": "Rosedale Park (NW Detroit). Surgical abortion up to 15w6d; medication abortion up to 11w."

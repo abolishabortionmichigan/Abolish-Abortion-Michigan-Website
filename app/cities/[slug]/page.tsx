@@ -158,16 +158,18 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
               </h3>
               <ol className="mb-6 space-y-2">
                 {mills.map((m, i) => {
-                  const mapsQuery = encodeURIComponent(`${m.name}, ${m.address}`);
+                  const gmapsUrl =
+                    m.googleBusinessUrl ||
+                    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${m.name}, ${m.address}`)}`;
                   return (
                     <li
                       key={m.id}
                       className="flex gap-3 items-start bg-white border border-gray-200 rounded p-3"
                     >
                       <span className="text-red-600 font-bold tabular-nums pt-0.5">{i + 1}.</span>
-                      <div className="flex-1">
+                      <div className="flex-1 min-w-0">
                         <p className="font-semibold text-gray-900">{m.name}</p>
-                        <p className="text-sm text-gray-600 font-mono">{m.address}</p>
+                        <p className="text-sm text-gray-600 font-mono break-words">{m.address}</p>
                         <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-sm">
                           {m.phone && (
                             <a
@@ -177,13 +179,21 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
                               {m.phone}
                             </a>
                           )}
+                          {m.email && (
+                            <a
+                              href={`mailto:${m.email}`}
+                              className="text-gray-600 hover:text-red-700 break-all"
+                            >
+                              {m.email}
+                            </a>
+                          )}
                           <a
-                            href={`https://www.google.com/maps/search/?api=1&query=${mapsQuery}`}
+                            href={gmapsUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-red-700 underline hover:no-underline"
                           >
-                            Directions &rarr;
+                            Google Business &rarr;
                           </a>
                         </div>
                         {m.notes && (

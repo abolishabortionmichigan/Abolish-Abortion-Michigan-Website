@@ -18,10 +18,21 @@ export interface AbortionMill {
   address: string;
   city: string;
   phone: string | null;
+  /** Public email, when the facility publishes one. Many don't
+   * (Planned Parenthood + Summit route all contact through phone
+   * or web-form only) — leave `null` in that case. */
+  email: string | null;
   latitude: number;
   longitude: number;
   notes: string | null;
   url?: string | null;
+  /** Direct URL to the Google Business Profile / Google Maps
+   * place listing. When absent we fall back to a `/maps/search/`
+   * URL built from name + address, which reliably resolves to
+   * the same place profile. Populate explicitly whenever we have
+   * a canonical CID URL, so the click count feeds the profile's
+   * engagement stats directly. */
+  googleBusinessUrl?: string | null;
 }
 
 interface RawData {
