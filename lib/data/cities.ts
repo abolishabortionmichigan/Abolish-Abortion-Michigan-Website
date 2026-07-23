@@ -135,7 +135,7 @@ export const CITIES: CityConfig[] = [
     faqs: [
       {
         q: 'Are there abolitionist churches in Grand Rapids?',
-        a: 'We\'re not yet aware of any publicly-abolitionist Reformed churches inside Grand Rapids city limits, though the city is home to hundreds of RCA / CRCNA / URC / OPC / PCA congregations. If your Grand Rapids church has adopted an abolition resolution, reach out — we\'ll list them here.',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Grand Rapids city limits, though the city is home to hundreds of RCA / CRCNA / URC / OPC / PCA congregations. If your Grand Rapids church has adopted an abolition resolution, reach out — we\'ll list them here.',
         links: [{ phrase: 'reach out', href: '/contact' }],
       },
       {
@@ -191,7 +191,7 @@ export const CITIES: CityConfig[] = [
     faqs: [
       {
         q: 'Are there abolitionist churches in Warren?',
-        a: 'We\'re not aware of any publicly-abolitionist Reformed churches inside Warren city limits at this time. If yours has taken a public stand for abolition, reach out and we\'ll add them.',
+        a: 'We\'re not aware of any publicly-abolitionist churches inside Warren city limits at this time. If yours has taken a public stand for abolition, reach out and we\'ll add them.',
         links: [{ phrase: 'reach out', href: '/contact' }],
       },
       {
@@ -247,7 +247,7 @@ export const CITIES: CityConfig[] = [
     faqs: [
       {
         q: 'Are there abolitionist churches in Sterling Heights?',
-        a: 'We\'re not yet aware of any publicly-abolitionist Reformed churches inside Sterling Heights city limits. If your Sterling Heights church — Reformed, Chaldean Catholic, Assyrian, or otherwise — has taken a public stand for the abolition of abortion, reach out and we\'ll add them.',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Sterling Heights city limits. If your Sterling Heights church — Reformed, Chaldean Catholic, Assyrian, or otherwise — has taken a public stand for the abolition of abortion, reach out and we\'ll add them.',
         links: [{ phrase: 'reach out', href: '/contact' }],
       },
       {
@@ -303,7 +303,7 @@ export const CITIES: CityConfig[] = [
     faqs: [
       {
         q: 'Are there abolitionist churches in Ann Arbor?',
-        a: 'We\'re not yet aware of any publicly-abolitionist Reformed churches inside Ann Arbor city limits. Ann Arbor is home to strong PCA, OPC, and URC congregations — if any have taken a public stand for the abolition of abortion, reach out.',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Ann Arbor city limits. Ann Arbor is home to strong PCA, OPC, and URC congregations — if any have taken a public stand for the abolition of abortion, reach out.',
         links: [{ phrase: 'reach out', href: '/contact' }],
       },
       {
@@ -359,7 +359,7 @@ export const CITIES: CityConfig[] = [
     faqs: [
       {
         q: 'Are there abolitionist churches in Lansing?',
-        a: 'We\'re not yet aware of any publicly-abolitionist Reformed churches inside Lansing city limits. If your Lansing- or East-Lansing-area church has adopted an abolition resolution, reach out.',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Lansing city limits. If your Lansing- or East-Lansing-area church has adopted an abolition resolution, reach out.',
         links: [{ phrase: 'reach out', href: '/contact' }],
       },
       {
@@ -415,7 +415,7 @@ export const CITIES: CityConfig[] = [
     faqs: [
       {
         q: 'Are there abolitionist churches in Dearborn?',
-        a: 'We\'re not yet aware of any publicly-abolitionist Reformed churches inside Dearborn city limits. Dearborn is home to Chaldean Catholic, Maronite, Antiochian Orthodox, and Reformed Protestant congregations — if yours has adopted an abolition resolution, reach out.',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Dearborn city limits. Dearborn is home to Chaldean Catholic, Maronite, Antiochian Orthodox, and Reformed Protestant congregations — if yours has adopted an abolition resolution, reach out.',
         links: [{ phrase: 'reach out', href: '/contact' }],
       },
       {
@@ -471,7 +471,7 @@ export const CITIES: CityConfig[] = [
     faqs: [
       {
         q: 'Are there abolitionist churches in Livonia?',
-        a: 'We\'re not yet aware of any publicly-abolitionist Reformed churches inside Livonia city limits. Livonia has a dense Catholic parish network + independent Bible churches — if yours has taken a public stand for abolition, reach out.',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Livonia city limits. Livonia has a dense Catholic parish network + independent Bible churches — if yours has taken a public stand for abolition, reach out.',
         links: [{ phrase: 'reach out', href: '/contact' }],
       },
       {
@@ -527,7 +527,7 @@ export const CITIES: CityConfig[] = [
     faqs: [
       {
         q: 'Are there abolitionist churches in Troy?',
-        a: 'We\'re not yet aware of any publicly-abolitionist Reformed churches inside Troy city limits. Troy hosts several of the largest Chaldean Catholic parishes in the country — if any have taken a public stand for abolition, reach out.',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Troy city limits. Troy hosts several of the largest Chaldean Catholic parishes in the country — if any have taken a public stand for abolition, reach out.',
         links: [{ phrase: 'reach out', href: '/contact' }],
       },
       {
@@ -583,7 +583,7 @@ export const CITIES: CityConfig[] = [
     faqs: [
       {
         q: 'Are there abolitionist churches in Westland?',
-        a: 'We\'re not yet aware of any publicly-abolitionist Reformed churches inside Westland city limits. Westland has a dense Catholic + LCMS + evangelical church network — if yours has taken a public stand for abolition, reach out.',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Westland city limits. Westland has a dense Catholic + LCMS + evangelical church network — if yours has taken a public stand for abolition, reach out.',
         links: [{ phrase: 'reach out', href: '/contact' }],
       },
       {
@@ -639,7 +639,7 @@ export const CITIES: CityConfig[] = [
     faqs: [
       {
         q: 'Are there abolitionist churches in Farmington Hills?',
-        a: 'We\'re not yet aware of any publicly-abolitionist Reformed churches inside Farmington Hills city limits. If your Farmington Hills church has adopted an abolition resolution, reach out — we\'d also welcome contact from Orthodox Jewish congregations aligned with this cause.',
+        a: 'We\'re not yet aware of any publicly-abolitionist churches inside Farmington Hills city limits. If your Farmington Hills church has adopted an abolition resolution, reach out — we\'d also welcome contact from Orthodox Jewish congregations aligned with this cause.',
         links: [{ phrase: 'reach out', href: '/contact' }],
       },
       {

@@ -325,8 +325,9 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
           <div className="mt-8 bg-red-50 border border-red-200 rounded-lg p-5">
             <h3 className="font-bold text-gray-900 mb-1">Not sure which district you&apos;re in?</h3>
             <p className="text-sm text-gray-700 mb-3">
-              Enter your {city.name} ZIP code (or full address) on the scorecard
-              and we&apos;ll show you your exact House and Senate representative.
+              Enter your {city.name}{' '}ZIP code (or full address) on the
+              scorecard and we&apos;ll show you your exact House and Senate
+              representative.
             </p>
             <Link
               href="/legislators"
@@ -348,10 +349,13 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
           <h2 className="text-2xl md:text-3xl font-bold mb-2">
             Abolitionist churches in {city.name}
           </h2>
+          {/* Also update the empty-state callout text (line ~50-60 below):
+              was "publicly-abolitionist Reformed churches" — now just
+              "publicly-abolitionist churches" per user feedback. */}
           <p className="text-sm text-gray-600 mb-6">
-            Publicly-abolitionist Reformed and postmillennial-network churches
-            we know of in the {city.name} area. If your church has adopted an
-            abolition resolution and belongs here,{' '}
+            Publicly-abolitionist churches we know of in the {city.name}{' '}area.
+            If your church has adopted an abolition resolution and belongs
+            here,{' '}
             <Link href="/contact" className="text-red-700 underline">
               let us know
             </Link>
@@ -362,10 +366,10 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
             <div className="bg-amber-50 border border-amber-200 rounded-lg p-5">
               <p className="text-gray-800">
                 <strong>We&apos;re not aware of any publicly-abolitionist
-                Reformed churches inside {city.name} at this time.</strong> If
-                you attend a {city.name}-area church that has taken a public
-                stand for abolition — or would be open to adopting the model
-                abolition resolution — please{' '}
+                churches inside {city.name}{' '}at this time.</strong> If you
+                attend a {city.name}-area church that has taken a public stand
+                for abolition — or would be open to adopting the model abolition
+                resolution — please{' '}
                 <Link href="/contact" className="text-red-700 underline">
                   reach out
                 </Link>

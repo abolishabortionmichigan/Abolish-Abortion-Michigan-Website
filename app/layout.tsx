@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Montserrat } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -16,6 +16,19 @@ const montserrat = Montserrat({
 });
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://abolishabortionmichigan.com';
+
+/**
+ * Explicit viewport export — locks initial-scale=1 so mobile browsers
+ * fit the page to viewport width on load (rather than zooming out to
+ * fit some phantom-wide element they think exists). viewport-fit=cover
+ * respects notched screens. maximum-scale is left unset so users can
+ * still pinch-to-zoom for accessibility.
+ */
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
