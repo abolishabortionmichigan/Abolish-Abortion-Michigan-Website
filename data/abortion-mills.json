@@ -1,0 +1,45 @@
+{
+  "note": "Master list of Michigan abortion providers ('mills' in abolitionist usage). One row per physical location. The `city` field is a canonical Michigan city name and is the join key with lib/data/cities.ts — a city's landing page pulls the mills whose `city` matches its `name`. Coordinates are the Census-geocoded lat/lng, kept here so the eventual statewide mill map can render without re-geocoding at request time. Add new rows as they're verified; use `phone` and `url` when publicly available.",
+  "mills": [
+    {
+      "id": "planned-parenthood-detroit-cass",
+      "name": "Planned Parenthood of Michigan — Detroit Health Center",
+      "address": "4229 Cass Ave, Detroit, MI 48201",
+      "city": "Detroit",
+      "phone": "(313) 831-7776",
+      "latitude": 42.350806,
+      "longitude": -83.063787,
+      "notes": null
+    },
+    {
+      "id": "summit-womens-center-detroit",
+      "name": "Summit Women's Center",
+      "address": "15801 W McNichols Rd, Detroit, MI 48235",
+      "city": "Detroit",
+      "phone": "(313) 272-8450",
+      "latitude": 42.415844,
+      "longitude": -83.202209,
+      "notes": "Performs abortions up to 24 weeks."
+    },
+    {
+      "id": "womens-center-of-michigan-detroit",
+      "name": "Women's Center of Michigan (Detroit)",
+      "address": "15650 E 8 Mile Rd, Detroit, MI 48205",
+      "city": "Detroit",
+      "phone": "(313) 526-3600",
+      "latitude": 42.449930,
+      "longitude": -82.960039,
+      "notes": null
+    },
+    {
+      "id": "scotsdale-womens-center-detroit",
+      "name": "Scotsdale Women's Center",
+      "address": "19305 W Seven Mile Rd, Detroit, MI 48219",
+      "city": "Detroit",
+      "phone": "(313) 538-2020",
+      "latitude": 42.429693,
+      "longitude": -83.232266,
+      "notes": "Rosedale Park (NW Detroit). Surgical abortion up to 15w6d; medication abortion up to 11w."
+    }
+  ]
+}

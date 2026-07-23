@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import CTABanner from '@/components/CTABanner';
 import { getCityBySlug, getAllCitySlugs, type CityFaq } from '@/lib/data/cities';
+import { getMillsByCity } from '@/lib/data/abortion-mills';
 import { socialLinks } from '@/lib/content';
 import {
   getLegislators,
@@ -45,6 +46,7 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
   const city = getCityBySlug(slug);
   if (!city) notFound();
 
+  const mills = getMillsByCity(city.name);
   const legs = getLegislators();
   const houseReps = city.houseDistricts
     .map((d) => legs.find((l) => l.chamber === 'House' && l.district === d))
@@ -149,38 +151,61 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
         <div className="max-w-3xl mx-auto px-4">
           <h2 className="text-3xl font-bold mb-4">Abortion in {city.name} today</h2>
           <p className="text-gray-800 mb-6">{city.abortionLandscapeIntro}</p>
-          {city.clinics.length > 0 && (
-            <ol className="mb-6 space-y-2">
-              {city.clinics.map((c, i) => (
-                <li
-                  key={c.name}
-                  className="flex gap-3 items-start bg-white border border-gray-200 rounded p-3"
-                >
-                  <span className="text-red-600 font-bold tabular-nums pt-0.5">{i + 1}.</span>
-                  <div>
-                    <p className="font-semibold text-gray-900">
-                      {c.url ? (
-                        <a
-                          href={c.url}
-                          target="_blank"
-                          rel="noopener noreferrer nofollow"
-                          className="hover:text-red-700"
-                        >
-                          {c.name}
-                        </a>
-                      ) : (
-                        c.name
-                      )}
-                    </p>
-                    <p className="text-sm text-gray-600 font-mono">{c.address}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
+          {mills.length > 0 && (
+            <>
+              <h3 className="text-sm uppercase tracking-[0.15em] font-bold text-red-700 mb-3">
+                Places to peacefully protest against child sacrifice
+              </h3>
+              <ol className="mb-6 space-y-2">
+                {mills.map((m, i) => {
+                  const mapsQuery = encodeURIComponent(`${m.name}, ${m.address}`);
+                  return (
+                    <li
+                      key={m.id}
+                      className="flex gap-3 items-start bg-white border border-gray-200 rounded p-3"
+                    >
+                      <span className="text-red-600 font-bold tabular-nums pt-0.5">{i + 1}.</span>
+                      <div className="flex-1">
+                        <p className="font-semibold text-gray-900">{m.name}</p>
+                        <p className="text-sm text-gray-600 font-mono">{m.address}</p>
+                        <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-sm">
+                          {m.phone && (
+                            <a
+                              href={`tel:${m.phone.replace(/[^0-9+]/g, '')}`}
+                              className="text-gray-600 hover:text-red-700"
+                            >
+                              {m.phone}
+                            </a>
+                          )}
+                          <a
+                            href={`https://www.google.com/maps/search/?api=1&query=${mapsQuery}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-red-700 underline hover:no-underline"
+                          >
+                            Directions &rarr;
+                          </a>
+                        </div>
+                        {m.notes && (
+                          <p className="text-xs text-gray-500 italic mt-1">{m.notes}</p>
+                        )}
+                      </div>
+                    </li>
+                  );
+                })}
+              </ol>
+            </>
           )}
           {city.abortionLandscapeOutro && (
             <p className="text-gray-800">{city.abortionLandscapeOutro}</p>
           )}
+          <p className="text-xs text-gray-500 mt-4">
+            Abolish Abortion Michigan is committed to{' '}
+            <Link href="/non-violence-statement" className="text-red-700 underline">
+              non-violent, lawful presence
+            </Link>
+            {' '}at abortion facilities. Please respect all local ordinances and property lines.
+          </p>
         </div>
       </section>
 

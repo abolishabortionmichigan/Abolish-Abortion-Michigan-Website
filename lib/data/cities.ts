@@ -11,14 +11,6 @@
  * 2024 vintage (MI's 2022 redistricting), matching legislators.json.
  */
 
-export interface CityClinic {
-  name: string;
-  address: string;
-  /** Optional link out — usually the abortion-finder listing, not the
-   * clinic itself, so we don't drive traffic to their site directly. */
-  url?: string;
-}
-
 export interface CityFaq {
   q: string;
   /** Plain-text answer — used in FAQPage JSON-LD, must not contain HTML. */
@@ -46,10 +38,10 @@ export interface CityConfig {
    * Intro sentence(s) before the clinic list. Sets the framing for
    * *why* the clinic count matters (voter context, provider
    * concentration, etc). Kept factual — abolition case is made in
-   * the site-wide messaging.
+   * the site-wide messaging. The clinics themselves are pulled from
+   * data/abortion-mills.json by matching on `city === name`.
    */
   abortionLandscapeIntro: string;
-  clinics: CityClinic[];
   /** Any post-list note — e.g. voter context, ballot-measure history. */
   abortionLandscapeOutro?: string;
   faqs: CityFaq[];
@@ -68,25 +60,7 @@ export const CITIES: CityConfig[] = [
       'The abolitionists who built that network refused the "gradualist" argument that slavery would fade with time if you regulated it, taxed it, or waited for public opinion. They insisted on immediate, total abolition — codified in law and enforced by government. Abolish Abortion Michigan stands in that same tradition. The preborn are the same class of person the antebellum abolitionists fought for: image-bearers of God whose right to live is denied by law and defended only if we insist, immediately and totally, that the law protect them.',
     ],
     abortionLandscapeIntro:
-      'Four abortion facilities operate inside Detroit city limits. In a city of ~633,000 residents, that is one of the highest per-capita abortion-provider densities in Michigan.',
-    clinics: [
-      {
-        name: 'Planned Parenthood of Michigan — Detroit Health Center',
-        address: '4229 Cass Ave, Detroit, MI 48201',
-      },
-      {
-        name: 'Summit Women’s Center',
-        address: '15801 W. McNichols Rd, Detroit, MI 48235',
-      },
-      {
-        name: 'Women’s Center of Michigan (Detroit)',
-        address: '15650 E 8 Mile Rd, Detroit, MI 48205',
-      },
-      {
-        name: 'Scotsdale Women’s Center',
-        address: 'Northwest Detroit, MI',
-      },
-    ],
+      'In a city of ~633,000 residents, Detroit has one of the highest per-capita abortion-provider densities in Michigan. The facilities operating inside Detroit city limits:',
     abortionLandscapeOutro:
       'Michigan’s 2022 Reproductive Freedom for All ballot measure (Proposal 3) constitutionalized abortion access statewide. Wayne County voted 68% in favor. That vote was not the end of the abolitionist argument — it was the beginning of the case that abortion is a matter of biblical and constitutional equal-protection, not popular vote. Every Detroit-area state legislator listed below is on record voting to expand abortion access.',
     faqs: [
