@@ -7,6 +7,7 @@ import { getCityBySlug, getAllCitySlugs, getNearbyCities, type CityFaq } from '@
 import { getMillsByCity } from '@/lib/data/abortion-mills';
 import { getChurchesByCity } from '@/lib/data/abolitionist-churches';
 import { getAllNewsArticles } from '@/lib/data/news-store';
+import { CITY_DATA_REFRESHED_ON } from '@/lib/data/data-freshness';
 import { socialLinks } from '@/lib/content';
 import {
   getLegislators,
@@ -179,8 +180,19 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      <section className="bg-[#1a1a1a] text-white py-24 md:py-32">
-        <div className="max-w-4xl mx-auto px-4 text-center">
+      {/* Hero — subtle radial + linear gradient so cities feel distinct
+          from flat #1a1a1a everywhere else. Warm dark → deep-red bottom-
+          right, evoking the site's red accent without being loud. */}
+      <section className="relative text-white py-24 md:py-32 bg-gradient-to-br from-[#1a1a1a] via-[#1c1618] to-[#2a1010] overflow-hidden">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 opacity-30 pointer-events-none"
+          style={{
+            backgroundImage:
+              'radial-gradient(circle at 20% 20%, rgba(220,38,38,0.15), transparent 55%), radial-gradient(circle at 80% 80%, rgba(220,38,38,0.10), transparent 55%)',
+          }}
+        />
+        <div className="relative max-w-4xl mx-auto px-4 text-center">
           <p className="text-xs tracking-[0.3em] uppercase text-gray-400 mb-3">
             {city.region} · {city.populationLabel}
           </p>
@@ -595,7 +607,65 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
         </section>
       )}
 
+      {/* Further reading — internal cross-links to the theological
+          pillars of the abolition case, so every city page acts as an
+          entry point into the deeper /what-we-believe library. */}
+      <section className="bg-white py-10 border-t border-gray-200">
+        <div className="max-w-4xl mx-auto px-4">
+          <h2 className="text-xl md:text-2xl font-bold mb-4">Further reading</h2>
+          <ul className="grid sm:grid-cols-2 gap-3 text-sm">
+            <li>
+              <Link href="/what-we-believe/abolitionist-not-pro-life" className="block border border-gray-200 rounded-lg p-3 hover:border-red-600 transition-colors">
+                <strong className="text-gray-900">Abolitionist, not pro-life.</strong>{' '}
+                <span className="text-gray-600">Why the abolition position rejects the incrementalist strategy.</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/what-we-believe/immediate-not-gradual" className="block border border-gray-200 rounded-lg p-3 hover:border-red-600 transition-colors">
+                <strong className="text-gray-900">Immediate, not gradual.</strong>{' '}
+                <span className="text-gray-600">Why the abolition of abortion cannot wait for public opinion.</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/what-we-believe/no-exceptions" className="block border border-gray-200 rounded-lg p-3 hover:border-red-600 transition-colors">
+                <strong className="text-gray-900">No exceptions.</strong>{' '}
+                <span className="text-gray-600">Why rape, incest, and life-of-the-mother exceptions concede the case.</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/what-we-believe/criminalization" className="block border border-gray-200 rounded-lg p-3 hover:border-red-600 transition-colors">
+                <strong className="text-gray-900">Criminalization.</strong>{' '}
+                <span className="text-gray-600">Why treating abortion as homicide follows from equal protection.</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/what-we-believe/biblical-not-secular" className="block border border-gray-200 rounded-lg p-3 hover:border-red-600 transition-colors">
+                <strong className="text-gray-900">Biblical, not secular.</strong>{' '}
+                <span className="text-gray-600">Why the abolition case is grounded in Scripture, not merely policy.</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/abolition-bills" className="block border border-gray-200 rounded-lg p-3 hover:border-red-600 transition-colors">
+                <strong className="text-gray-900">Abolition bills.</strong>{' '}
+                <span className="text-gray-600">The current Michigan legislation abolitionists support.</span>
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </section>
+
       <CTABanner />
+
+      {/* Last-updated footer — sits after CTA so it doesn't compete
+          for attention but reassures readers the page is maintained. */}
+      <div className="bg-gray-50 py-3 border-t border-gray-200">
+        <p className="text-xs text-gray-500 text-center">
+          {city.name} page last updated {CITY_DATA_REFRESHED_ON} · datasets from{' '}
+          <Link href="/legislators" className="underline hover:text-red-700">legislator scorecard</Link>
+          {' '}and{' '}
+          <Link href="/partners" className="underline hover:text-red-700">state partner directory</Link>
+        </p>
+      </div>
     </>
   );
 }

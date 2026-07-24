@@ -12,6 +12,7 @@
 
 export const LEGISLATOR_DATA_REFRESHED_ON = 'July 22, 2026';
 export const PARTNER_DATA_REFRESHED_ON = 'July 22, 2026';
+export const CITY_DATA_REFRESHED_ON = 'July 23, 2026';
 
 // Convenience alias for pages that want the latest bump date without
 // caring which dataset.

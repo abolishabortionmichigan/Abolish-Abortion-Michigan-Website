@@ -1,0 +1,56 @@
+name: Refresh legislator data (monthly)
+
+# Runs at 06:00 UTC on the 1st of each month. That's ~2 AM Detroit time,
+# after MI Legislature's overnight vote/journal publishing runs but
+# before the morning news cycle. Manually re-runnable via workflow_dispatch.
+on:
+  schedule:
+    - cron: '0 6 1 * *'
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python deps for refresh
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Run refresh script
+        env:
+          OPEN_STATES_API_KEY: ${{ secrets.OPEN_STATES_API_KEY }}
+          FTM_API_KEY: ${{ secrets.FTM_API_KEY }}
+        run: python scripts/refresh_legislator_data.py
+
+      - name: Commit and push if data changed
+        run: |
+          git config user.name "aam-refresh-bot"
+          git config user.email "aam-refresh-bot@users.noreply.github.com"
+          if [ -n "$(git status --porcelain data/legislators.json)" ]; then
+            git add data/legislators.json
+            git commit -m "Monthly refresh: legislator data $(date -u +%Y-%m-%d)
+
+            Auto-updated votes, sponsorships, endorsements, campaign finance,
+            and news feeds from Open States API + MI Legislature + FTM +
+            Google News. Triggered by scheduled workflow on the 1st."
+            git push
+          else
+            echo "No data changes this month — skipping commit."
+          fi
