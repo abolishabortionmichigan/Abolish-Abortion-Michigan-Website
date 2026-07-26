@@ -103,14 +103,19 @@ export default function PartnerBroadcastPage() {
           ) : (
             <ul className="text-sm divide-y divide-gray-100">
               {audience.map((a) => (
-                <li key={a.email} className="py-2 flex justify-between gap-3">
-                  <span>
+                <li
+                  key={a.email}
+                  className="py-2 flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-1 sm:gap-3 min-w-0"
+                >
+                  <span className="min-w-0">
                     <span className="text-xs uppercase tracking-wide text-gray-500 font-semibold mr-2">
                       {a.state || 'National'}
                     </span>
                     <span className="font-medium text-gray-800">{a.name}</span>
                   </span>
-                  <span className="text-gray-500 font-mono text-xs">{a.email}</span>
+                  <span className="text-gray-500 font-mono text-xs break-all min-w-0">
+                    {a.email}
+                  </span>
                 </li>
               ))}
             </ul>
