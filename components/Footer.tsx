@@ -114,6 +114,14 @@ export default function Footer() {
                 Michigan Cities
               </Link>
               {' '}&bull;{' '}
+              <Link href="/abortion-mills" className="text-red-500 hover:text-red-400 transition-colors">
+                Abortion Facilities
+              </Link>
+              {' '}&bull;{' '}
+              <Link href="/events" className="text-red-500 hover:text-red-400 transition-colors">
+                Calendar
+              </Link>
+              {' '}&bull;{' '}
               <Link href="/financial-transparency" className="text-red-500 hover:text-red-400 transition-colors">
                 Financial Transparency
               </Link>

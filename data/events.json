@@ -1,0 +1,48 @@
+{
+  "_meta": {
+    "note": "Statewide recurring events on the Michigan abolition calendar. Each entry represents an annual observance that Abolish Abortion Michigan calls its network to keep — typically prayer, lament, education, and/or peaceful witness. Local abolitionists host the observance in their own city (church, capitol steps, Signal group). Add specific rallies, hearings, or dated events here as they come up; anything present in this file is rendered on /events and emits full Event JSON-LD.",
+    "refreshedOn": "July 26, 2026"
+  },
+  "events": [
+    {
+      "id": "prop3-anniversary-lament",
+      "name": "Michigan Day of Lament — Anniversary of Prop 3",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
+      "startDate": "2026-11-08",
+      "endDate": "2026-11-08",
+      "recurringDate": "November 8",
+      "location": {
+        "type": "VirtualLocation",
+        "name": "Statewide — hosted locally in Michigan cities",
+        "url": "https://abolishabortionmichigan.com/events"
+      },
+      "shortDescription": "Statewide day of prayer, lament, and public witness marking the anniversary of Michigan Proposal 3 (Reproductive Freedom for All).",
+      "longDescription": "Every year on November 8, Abolish Abortion Michigan calls its network to a day of prayer and lament for the passage of Prop 3 (2022), which enshrined a constitutional right to abortion in Michigan. Local abolitionists host the day in their own city — at a church, at the county courthouse, at their state legislator's district office, or in their Signal group. The purpose is not despair but sober remembrance and renewed commitment to equal-protection legislation that treats every preborn image-bearer as a person under Michigan law.",
+      "audience": "Christians, abolitionists, and any Michigan resident who rejects the pretense that a majority vote can strip preborn children of legal personhood.",
+      "howToJoin": "Contact us to host or join a local observance in your city. Details, prayer guides, and printable materials go out through the Signal group.",
+      "organizerName": "Abolish Abortion Michigan",
+      "organizerUrl": "https://abolishabortionmichigan.com"
+    },
+    {
+      "id": "day-of-prayer-for-preborn",
+      "name": "Michigan Day of Prayer for the Preborn — Roe Anniversary",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
+      "startDate": "2027-01-22",
+      "endDate": "2027-01-22",
+      "recurringDate": "January 22",
+      "location": {
+        "type": "VirtualLocation",
+        "name": "Statewide — hosted locally in Michigan cities and churches",
+        "url": "https://abolishabortionmichigan.com/events"
+      },
+      "shortDescription": "Annual day of prayer, teaching, and peaceful presence on the anniversary of Roe v. Wade (January 22).",
+      "longDescription": "January 22 remains the anniversary of the Roe v. Wade decision that first federalized the abortion regime. Even after Dobbs and even after Michigan's own Prop 3, the date is a fixture on the abolition calendar. Abolish Abortion Michigan calls churches to teach on the imago Dei that day, calls families to pray, and calls Michiganders to a peaceful, lawful witness at an abortion facility in their area. Local hosts choose the format — a Sunday-morning sermon series, a Wednesday-evening prayer meeting, a lunchtime prayer walk, a Signal-group study.",
+      "audience": "Michigan churches, families, and abolition groups.",
+      "howToJoin": "Ask your pastor to teach the topic on the Sunday nearest Jan 22, or coordinate a local prayer gathering through our Signal group.",
+      "organizerName": "Abolish Abortion Michigan",
+      "organizerUrl": "https://abolishabortionmichigan.com"
+    }
+  ]
+}
