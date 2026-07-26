@@ -8,7 +8,7 @@ import { getMillsByCity } from '@/lib/data/abortion-mills';
 import { getChurchesByCity } from '@/lib/data/abolitionist-churches';
 import { getAllNewsArticles } from '@/lib/data/news-store';
 import { CITY_DATA_REFRESHED_ON } from '@/lib/data/data-freshness';
-import { getCountyAbortionStats, getCountyUrHistory } from '@/lib/data/mi-county-context';
+import { getCountyAbortionStats, getCountyUrHistory, getCountyProp3Vote } from '@/lib/data/mi-county-context';
 import { socialLinks } from '@/lib/content';
 import {
   getLegislators,
@@ -56,6 +56,7 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
   // won't render the callout, no fallback text needed.
   const countyStats = getCountyAbortionStats(city.region);
   const countyUr = getCountyUrHistory(city.region);
+  const countyProp3 = getCountyProp3Vote(city.region);
   // All CityConfig rows are Michigan for now — pass 'MI' explicitly
   // so a same-name city in a different state can't accidentally match.
   const churches = getChurchesByCity(city.name, 'MI');
@@ -268,8 +269,8 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
               <p className="text-xs uppercase tracking-[0.2em] font-bold text-red-700 mb-2">
                 State-reported deaths · {countyStats.county} County · {countyStats.year}
               </p>
-              <div className="flex items-baseline gap-3 mb-2">
-                <span className="text-4xl font-black tabular-nums text-gray-900">
+              <div className="flex flex-col items-center text-center gap-1 sm:flex-row sm:items-baseline sm:text-left sm:gap-3 mb-2">
+                <span className="text-5xl sm:text-4xl font-black tabular-nums text-gray-900 leading-none">
                   {countyStats.count.toLocaleString()}
                 </span>
                 <span className="text-gray-700">
@@ -292,6 +293,66 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
                   className="underline hover:text-red-700"
                 >
                   MI DHHS Vital Records — Abortion Statistics, Table 2A
+                </a>
+              </p>
+            </div>
+          )}
+          {countyProp3 && (
+            <div className="mb-6 bg-white border-l-4 border-gray-800 rounded-r p-5 shadow-sm">
+              <p className="text-xs uppercase tracking-[0.2em] font-bold text-gray-700 mb-2">
+                Prop 3 vote · {countyProp3.county} County · 2022
+              </p>
+              <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-4 mb-3">
+                <div className="flex items-baseline justify-center sm:justify-start gap-2">
+                  <span className="text-4xl font-black tabular-nums text-gray-900 leading-none">
+                    {countyProp3.yesPct.toFixed(1)}%
+                  </span>
+                  <span className="text-sm font-bold uppercase tracking-wide text-red-700">
+                    Yes
+                  </span>
+                </div>
+                <div className="flex items-baseline justify-center sm:justify-start gap-2 mt-2 sm:mt-0">
+                  <span className="text-2xl font-black tabular-nums text-gray-700 leading-none">
+                    {countyProp3.noPct.toFixed(1)}%
+                  </span>
+                  <span className="text-xs font-bold uppercase tracking-wide text-gray-500">
+                    No
+                  </span>
+                </div>
+              </div>
+              <p className="text-sm text-gray-700 mb-2">
+                {countyProp3.yesWon ? (
+                  <>
+                    A majority of {countyProp3.county} County voters approved
+                    Proposal 22-3, the Reproductive Freedom for All amendment.
+                    Statewide, it passed <strong>{countyProp3.statewideYesPct}%</strong>
+                    {' '}to <strong>{countyProp3.statewideNoPct}%</strong>. A majority
+                    vote does not settle whether preborn image-bearers deserve equal
+                    protection under the law — that is a moral question the ballot cannot
+                    answer, and it is exactly the question the abolition movement
+                    asks Michigan to reopen.
+                  </>
+                ) : (
+                  <>
+                    A majority of {countyProp3.county} County voters
+                    {' '}<strong>rejected</strong> Proposal 22-3 — the
+                    Reproductive Freedom for All amendment. Statewide it passed
+                    {' '}{countyProp3.statewideYesPct}% to {countyProp3.statewideNoPct}%,
+                    but {countyProp3.county} County did not go along. That local
+                    majority is the moral and political foundation for the equal-protection
+                    legislation abolitionists ask your representatives to sponsor.
+                  </>
+                )}
+              </p>
+              <p className="text-xs text-gray-500">
+                Source: MI Dept. of State certified canvass, aggregated by the AP.{' '}
+                <a
+                  href={countyProp3.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-red-700"
+                >
+                  See full county map.
                 </a>
               </p>
             </div>
