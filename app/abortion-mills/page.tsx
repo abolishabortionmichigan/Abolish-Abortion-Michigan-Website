@@ -206,7 +206,7 @@ export default function AbortionMillsPage() {
                             href={`/cities/${citySlug}`}
                             className="text-red-700 underline hover:no-underline font-semibold"
                           >
-                            {m.city} page &rarr;
+                            {m.city}{' '}page &rarr;
                           </Link>
                           <a
                             href={gmapsUrl}
