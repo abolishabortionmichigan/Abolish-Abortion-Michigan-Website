@@ -119,8 +119,10 @@ export default function LawmakerBroadcastPage() {
       <Card>
         <CardHeader>
           <CardTitle>Compose</CardTitle>
-          <CardDescription>
-            The email is sent individually to each recipient. Reply-to is set to admin@abolishabortionmichigan.com so responses go straight to your inbox.
+          <CardDescription className="break-words">
+            The email is sent individually to each recipient. Reply-to is set to{' '}
+            <span className="break-all">admin@abolishabortionmichigan.com</span>{' '}
+            so responses go straight to your inbox.
           </CardDescription>
         </CardHeader>
         <CardContent>

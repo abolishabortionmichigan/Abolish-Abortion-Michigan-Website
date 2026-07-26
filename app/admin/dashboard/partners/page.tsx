@@ -126,8 +126,9 @@ export default function PartnerBroadcastPage() {
       <Card>
         <CardHeader>
           <CardTitle>Compose</CardTitle>
-          <CardDescription>
-            Sent individually with reply-to set to admin@abolishabortionmichigan.com.
+          <CardDescription className="break-words">
+            Sent individually with reply-to set to{' '}
+            <span className="break-all">admin@abolishabortionmichigan.com</span>.
           </CardDescription>
         </CardHeader>
         <CardContent>
