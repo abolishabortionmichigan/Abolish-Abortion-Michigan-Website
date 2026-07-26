@@ -55,6 +55,7 @@ const navItems = [
       { label: 'Media', href: '/media' },
       { label: 'Allied Groups', href: '/partners' },
       { label: 'Michigan Cities', href: '/cities' },
+      { label: 'Abortion Facilities', href: '/abortion-mills' },
     ],
   },
   { label: 'CONTACT US', href: '/contact' },
