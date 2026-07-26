@@ -8,6 +8,7 @@ import { getMillsByCity } from '@/lib/data/abortion-mills';
 import { getChurchesByCity } from '@/lib/data/abolitionist-churches';
 import { getAllNewsArticles } from '@/lib/data/news-store';
 import { CITY_DATA_REFRESHED_ON } from '@/lib/data/data-freshness';
+import { getCountyAbortionStats, getCountyUrHistory } from '@/lib/data/mi-county-context';
 import { socialLinks } from '@/lib/content';
 import {
   getLegislators,
@@ -50,6 +51,11 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
   if (!city) notFound();
 
   const mills = getMillsByCity(city.name);
+  // Per-county context looked up by CityConfig.region (e.g. "Wayne County").
+  // Both null-safe — a city whose county isn't in the source file just
+  // won't render the callout, no fallback text needed.
+  const countyStats = getCountyAbortionStats(city.region);
+  const countyUr = getCountyUrHistory(city.region);
   // All CityConfig rows are Michigan for now — pass 'MI' explicitly
   // so a same-name city in a different state can't accidentally match.
   const churches = getChurchesByCity(city.name, 'MI');
@@ -231,6 +237,15 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
           {city.historyParagraphs.map((p, i) => (
             <p key={i}>{p}</p>
           ))}
+          {countyUr && (
+            <aside className="not-prose my-6 border-l-4 border-red-600 bg-red-50/60 p-5 rounded-r">
+              <p className="text-xs uppercase tracking-[0.2em] font-bold text-red-700 mb-1">
+                Regional heritage · {city.region}
+              </p>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">{countyUr.headline}</h3>
+              <p className="text-gray-800 text-[0.95rem] leading-relaxed">{countyUr.paragraph}</p>
+            </aside>
+          )}
           {slug === 'detroit' && (
             <p>
               <Link
@@ -248,6 +263,39 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
         <div className="max-w-3xl mx-auto px-4">
           <h2 className="text-3xl font-bold mb-4">Abortion in {city.name} today</h2>
           <p className="text-gray-800 mb-6">{city.abortionLandscapeIntro}</p>
+          {countyStats && (
+            <div className="mb-6 bg-white border-l-4 border-red-600 rounded-r p-5 shadow-sm">
+              <p className="text-xs uppercase tracking-[0.2em] font-bold text-red-700 mb-2">
+                State-reported deaths · {countyStats.county} County · {countyStats.year}
+              </p>
+              <div className="flex items-baseline gap-3 mb-2">
+                <span className="text-4xl font-black tabular-nums text-gray-900">
+                  {countyStats.count.toLocaleString()}
+                </span>
+                <span className="text-gray-700">
+                  induced abortions to {countyStats.county} County residents
+                </span>
+              </div>
+              <p className="text-sm text-gray-600 mb-2">
+                Michigan reported <strong>{countyStats.statewideTotal.toLocaleString()}</strong>
+                {' '}induced abortions statewide in {countyStats.year} — a documented rise
+                since the 2022 Reproductive Freedom for All amendment. The number above
+                counts only Michigan residents of {countyStats.county} County; it does not
+                include out-of-state travelers or self-managed abortions at home.
+              </p>
+              <p className="text-xs text-gray-500">
+                Source:{' '}
+                <a
+                  href={countyStats.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-red-700"
+                >
+                  MI DHHS Vital Records — Abortion Statistics, Table 2A
+                </a>
+              </p>
+            </div>
+          )}
           {mills.length > 0 && (
             <>
               <h3 className="text-sm uppercase tracking-[0.15em] font-bold text-red-700 mb-3">
