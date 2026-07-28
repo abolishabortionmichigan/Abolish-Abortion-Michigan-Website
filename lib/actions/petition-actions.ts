@@ -20,6 +20,7 @@ import { checkRateLimit } from '@/lib/rate-limit';
 import { getClientIpFromHeaders } from '@/lib/client-ip';
 import { sendPetitionConfirmationEmail, sendPetitionNotificationEmail, sendSubscriberWelcomeEmail, sendNewSubscriberNotification } from '@/lib/email';
 import { getPostHogClient } from '@/lib/posthog-server';
+import { verifyTurnstile } from '@/lib/turnstile';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -177,6 +178,7 @@ export async function deleteSignature(id: string) {
 export async function subscribeToNewsletter(data: {
   email: string;
   website?: string;
+  turnstileToken?: string;
 }): Promise<{ success: true } | { error: string }> {
   try {
     // Rate limit
@@ -190,6 +192,15 @@ export async function subscribeToNewsletter(data: {
     // Honeypot
     if (data.website) {
       return { success: true };
+    }
+
+    // Cloudflare Turnstile — proof-of-human. Fails open when the secret
+    // is unset (see lib/turnstile.ts) so the code is safe to ship before
+    // the keys land; once TURNSTILE_SECRET_KEY is configured in Vercel,
+    // a valid token is required.
+    const passed = await verifyTurnstile(data.turnstileToken, ip);
+    if (!passed) {
+      return { error: 'Verification failed. Please refresh and try again.' };
     }
 
     if (!data.email) {
