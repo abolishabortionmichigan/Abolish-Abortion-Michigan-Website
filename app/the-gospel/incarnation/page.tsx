@@ -10,9 +10,54 @@ export const metadata: Metadata = {
   alternates: { canonical: '/the-gospel/incarnation' },
 };
 
+// VideoObject JSON-LD for both YouTube embeds on this page. Without these,
+// Google Search Console reports "Video isn't on a watch page" and won't
+// treat the videos as indexable rich results. Upload dates + durations
+// come directly from the YouTube video pages (2015-12 originals from
+// Abolish Human Abortion). Duration format is ISO-8601 (PT#M#S).
+const videoIncarnation = {
+  '@context': 'https://schema.org',
+  '@type': 'VideoObject',
+  name: 'The Incarnation',
+  description:
+    'The Word became flesh and dwelt among us. Christ Himself was knit together in a womb from fertilization — the theological ground for abolishing abortion.',
+  thumbnailUrl: [
+    'https://img.youtube.com/vi/4tL4Whq9NN0/maxresdefault.jpg',
+    'https://img.youtube.com/vi/4tL4Whq9NN0/hqdefault.jpg',
+  ],
+  uploadDate: '2015-12-08T06:49:59-08:00',
+  duration: 'PT2M4S',
+  contentUrl: 'https://www.youtube.com/watch?v=4tL4Whq9NN0',
+  embedUrl: 'https://www.youtube.com/embed/4tL4Whq9NN0',
+};
+
+const videoAbortionIncarnation = {
+  '@context': 'https://schema.org',
+  '@type': 'VideoObject',
+  name: 'Abortion and the Incarnation of Christ',
+  description:
+    'Extended teaching on how the Incarnation of Christ — the Son of God taking on human nature from the moment of conception — grounds the case for abolishing abortion.',
+  thumbnailUrl: [
+    'https://img.youtube.com/vi/W9s9DgyLA28/maxresdefault.jpg',
+    'https://img.youtube.com/vi/W9s9DgyLA28/hqdefault.jpg',
+  ],
+  uploadDate: '2015-12-11T17:00:38-08:00',
+  duration: 'PT6M50S',
+  contentUrl: 'https://www.youtube.com/watch?v=W9s9DgyLA28',
+  embedUrl: 'https://www.youtube.com/embed/W9s9DgyLA28',
+};
+
 export default function IncarnationPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(videoIncarnation) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(videoAbortionIncarnation) }}
+      />
       {/* Hero Section */}
       <section className="bg-[#1a1a1a] text-white py-24 md:py-32">
         <div className="max-w-4xl mx-auto px-4 text-center">
