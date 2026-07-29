@@ -40,15 +40,31 @@ interface RawData {
 
 const DATA = raw as RawData;
 
+// City aliases for the church-lookup join. Michigan has many city/charter-
+// township pairs that share cultural identity and street grid but are
+// separate legal entities (Grand Blanc vs Grand Blanc Charter Township,
+// etc.); a church physically inside the township is culturally "in" the
+// city and should surface on both /cities/[slug] pages. Keys are the
+// name we look up with; the values are the OTHER city names that should
+// count as equivalent. Bidirectional entries live here (add both directions
+// explicitly — the lookup does not walk the graph).
+const CITY_ALIASES: Record<string, string[]> = {
+  'Grand Blanc': ['Grand Blanc Charter Township'],
+  'Grand Blanc Charter Township': ['Grand Blanc'],
+};
+
 export function getAllChurches(): AbolitionistChurch[] {
   return DATA.churches;
 }
 
 export function getChurchesByCity(cityName: string, state?: string): AbolitionistChurch[] {
-  const needle = cityName.trim().toLowerCase();
+  const trimmed = cityName.trim();
+  const allowedCities = new Set(
+    [trimmed, ...(CITY_ALIASES[trimmed] || [])].map((n) => n.toLowerCase()),
+  );
   const stateNeedle = state ? state.trim().toLowerCase() : null;
   return DATA.churches.filter((c) => {
-    if (c.city.trim().toLowerCase() !== needle) return false;
+    if (!allowedCities.has(c.city.trim().toLowerCase())) return false;
     if (stateNeedle && (c.state || '').trim().toLowerCase() !== stateNeedle) return false;
     return true;
   });
