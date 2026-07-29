@@ -15,6 +15,12 @@
 
 import raw from '@/data/abolitionist-churches.json';
 
+export interface ChurchMinistry {
+  name: string;
+  url: string;
+  description: string | null;
+}
+
 export interface AbolitionistChurch {
   id: string;
   name: string;
@@ -27,6 +33,11 @@ export interface AbolitionistChurch {
   email: string | null;
   pastor: string | null;
   notes: string | null;
+  /** Associated ministries — mill outreach arms, crisis pregnancy
+   * centers, schools, etc. that are formally connected to the church
+   * but live on a separate domain. Rendered as secondary links on the
+   * church card. */
+  ministries: ChurchMinistry[] | null;
 }
 
 interface RawData {

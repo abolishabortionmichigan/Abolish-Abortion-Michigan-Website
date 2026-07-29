@@ -64,6 +64,15 @@ const churches = proAbolition
     email: c.email || null,
     pastor: null, // Church.json has `leadership` but its shape isn't stable
     notes: pickNotes(c),
+    ministries: Array.isArray(c.ministries) && c.ministries.length > 0
+      ? c.ministries
+          .filter((m) => m && typeof m.name === 'string' && typeof m.url === 'string')
+          .map((m) => ({
+            name: m.name,
+            url: m.url,
+            description: m.description || null,
+          }))
+      : null,
   }))
   .sort((a, b) => {
     const s = (a.state || '').localeCompare(b.state || '');
