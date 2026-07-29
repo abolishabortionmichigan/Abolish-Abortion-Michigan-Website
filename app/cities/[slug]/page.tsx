@@ -508,20 +508,7 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
                   key={c.id}
                   className="border border-gray-200 rounded-lg p-4 hover:border-red-600 transition-colors bg-white"
                 >
-                  <p className="font-bold text-gray-900">
-                    {c.website ? (
-                      <a
-                        href={c.website}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-red-700"
-                      >
-                        {c.name}
-                      </a>
-                    ) : (
-                      c.name
-                    )}
-                  </p>
+                  <p className="font-bold text-gray-900">{c.name}</p>
                   <p className="text-xs uppercase tracking-wide text-gray-500 font-semibold mt-1">
                     {c.denomination}
                   </p>
@@ -529,7 +516,17 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
                   {c.pastor && (
                     <p className="text-sm text-gray-600">Pastor: {c.pastor}</p>
                   )}
-                  <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm mt-1">
+                  <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm mt-2">
+                    {c.website && (
+                      <a
+                        href={c.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-red-700 underline hover:no-underline font-semibold"
+                      >
+                        Website &rarr;
+                      </a>
+                    )}
                     {c.phone && (
                       <a
                         href={`tel:${c.phone.replace(/[^0-9+]/g, '')}`}
