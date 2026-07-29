@@ -9,7 +9,7 @@ interface BreadcrumbsProps {
   items: BreadcrumbItem[];
 }
 
-const BASE_URL = 'https://abolishabortionmichigan.com';
+const BASE_URL = 'https://www.abolishabortionmichigan.com';
 
 export default function Breadcrumbs({ items }: BreadcrumbsProps) {
   const allItems = [{ label: 'Home', href: '/' }, ...items];

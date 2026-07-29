@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import CTABanner from '@/components/CTABanner';
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://abolishabortionmichigan.com';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.abolishabortionmichigan.com';
 
 export const metadata: Metadata = {
   title: 'Detroit and the Underground Railroad — Roots of Abolition',

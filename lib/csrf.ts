@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://abolishabortionmichigan.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.abolishabortionmichigan.com';
 
 const ALLOWED_ORIGINS = [
   siteUrl,

@@ -31,8 +31,8 @@ export default async function HomePage() {
     '@type': 'NGO',
     name: 'Abolish Abortion Michigan',
     alternateName: 'AAM',
-    url: 'https://abolishabortionmichigan.com',
-    logo: 'https://abolishabortionmichigan.com/images/aa-logo.webp',
+    url: 'https://www.abolishabortionmichigan.com',
+    logo: 'https://www.abolishabortionmichigan.com/images/aa-logo.webp',
     description:
       'Abolitionists in Michigan devoted to establishing justice and equal protection for our preborn neighbors. We call for the immediate and total abolition of abortion in the state of Michigan.',
     slogan: 'Equal protection for the preborn.',
@@ -53,7 +53,7 @@ export default async function HomePage() {
       '@type': 'ContactPoint',
       contactType: 'General Inquiry',
       email: 'admin@abolishabortionmichigan.com',
-      url: 'https://abolishabortionmichigan.com/contact',
+      url: 'https://www.abolishabortionmichigan.com/contact',
       availableLanguage: 'English',
       areaServed: 'US-MI',
     },
@@ -84,13 +84,13 @@ export default async function HomePage() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'Abolish Abortion Michigan',
-    url: 'https://abolishabortionmichigan.com',
+    url: 'https://www.abolishabortionmichigan.com',
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
         urlTemplate:
-          'https://abolishabortionmichigan.com/news?q={search_term_string}',
+          'https://www.abolishabortionmichigan.com/news?q={search_term_string}',
       },
       'query-input': 'required name=search_term_string',
     },

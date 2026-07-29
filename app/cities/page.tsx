@@ -5,7 +5,7 @@ import CityFinder from '@/components/cities/CityFinder';
 import CitiesMap from '@/components/cities/CitiesMap';
 import { CITIES } from '@/lib/data/cities';
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://abolishabortionmichigan.com';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.abolishabortionmichigan.com';
 
 export const metadata: Metadata = {
   title: 'Michigan Cities — Abolition Work Where You Live',

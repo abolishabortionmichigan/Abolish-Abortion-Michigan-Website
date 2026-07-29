@@ -14,7 +14,7 @@ import { getSubscribedEmails } from '@/lib/data/petition-store';
 import { sendNewsletterToAll, sendNewsletterNotification } from '@/lib/email';
 import { sanitizeHtml } from '@/lib/sanitize';
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://abolishabortionmichigan.com';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.abolishabortionmichigan.com';
 
 async function isAdmin(): Promise<boolean> {
   const token = await getAuthToken();

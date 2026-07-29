@@ -19,7 +19,7 @@ import {
 } from '@/lib/data/legislators';
 import { LEGISLATOR_DATA_REFRESHED_ON } from '@/lib/data/data-freshness';
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://abolishabortionmichigan.com';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.abolishabortionmichigan.com';
 
 export function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }));

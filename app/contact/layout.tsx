@@ -10,11 +10,11 @@ const contactSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Abolish Abortion Michigan',
-  url: 'https://abolishabortionmichigan.com',
+  url: 'https://www.abolishabortionmichigan.com',
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'General Inquiry',
-    url: 'https://abolishabortionmichigan.com/contact',
+    url: 'https://www.abolishabortionmichigan.com/contact',
     availableLanguage: 'English',
   },
   sameAs: [

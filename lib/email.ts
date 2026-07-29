@@ -152,7 +152,7 @@ export const sendInquiryReplyEmail = async (data: { to: string; name: string; su
           <tr>
             <td bgcolor="#1a1a2e" style="padding: 25px; text-align: center; font-size: 13px; color: #cccccc;">
               <p style="margin: 0 0 10px 0;">&copy; ${new Date().getFullYear()} Abolish Abortion Michigan. All rights reserved.</p>
-              <p style="margin: 0;"><a href="https://abolishabortionmichigan.com" style="color: #d4af37; text-decoration: none;">abolishabortionmichigan.com</a></p>
+              <p style="margin: 0;"><a href="https://www.abolishabortionmichigan.com" style="color: #d4af37; text-decoration: none;">abolishabortionmichigan.com</a></p>
             </td>
           </tr>
         </table>
@@ -316,7 +316,7 @@ const inquiryConfirmationEmailHtml = (inquiry: InquiryData) => {
           <tr>
             <td class="footer" bgcolor="#1a1a2e" style="padding: 25px; text-align: center; font-size: 13px; color: #cccccc;">
               <p style="margin: 0 0 10px 0;">&copy; ${new Date().getFullYear()} Abolish Abortion Michigan. All rights reserved.</p>
-              <p style="margin: 0;"><a href="https://abolishabortionmichigan.com" style="color: #d4af37; text-decoration: none;">abolishabortionmichigan.com</a></p>
+              <p style="margin: 0;"><a href="https://www.abolishabortionmichigan.com" style="color: #d4af37; text-decoration: none;">abolishabortionmichigan.com</a></p>
             </td>
           </tr>
         </table>
@@ -462,7 +462,7 @@ const inquiryNotificationEmailHtml = (inquiry: InquiryData) => {
               </div>
 
               <div style="text-align: center; margin-top: 25px;">
-                <a href="https://abolishabortionmichigan.com/admin/dashboard/inquiries" class="action-button" style="display: inline-block; background-color: #1a1a2e; color: #ffffff !important; text-decoration: none; padding: 12px 25px; border-radius: 4px; font-weight: bold;">View in Dashboard</a>
+                <a href="https://www.abolishabortionmichigan.com/admin/dashboard/inquiries" class="action-button" style="display: inline-block; background-color: #1a1a2e; color: #ffffff !important; text-decoration: none; padding: 12px 25px; border-radius: 4px; font-weight: bold;">View in Dashboard</a>
               </div>
             </td>
           </tr>
@@ -483,7 +483,7 @@ const inquiryNotificationEmailHtml = (inquiry: InquiryData) => {
 
 // ===== UNSUBSCRIBE HELPERS =====
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://abolishabortionmichigan.com';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.abolishabortionmichigan.com';
 
 function getTokenMonth(date: Date = new Date()): string {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
@@ -609,7 +609,7 @@ const petitionConfirmationEmailHtml = (petition: PetitionData) => {
           <tr>
             <td bgcolor="#1a1a2e" style="padding: 25px; text-align: center; font-size: 13px; color: #cccccc;">
               <p style="margin: 0 0 10px 0;">&copy; ${new Date().getFullYear()} Abolish Abortion Michigan. All rights reserved.</p>
-              <p style="margin: 0;"><a href="https://abolishabortionmichigan.com" style="color: #d4af37; text-decoration: none;">abolishabortionmichigan.com</a></p>
+              <p style="margin: 0;"><a href="https://www.abolishabortionmichigan.com" style="color: #d4af37; text-decoration: none;">abolishabortionmichigan.com</a></p>
             </td>
           </tr>
           ${petition.subscribed ? unsubscribeFooterHtml(petition.email) : ''}
@@ -671,7 +671,7 @@ const petitionNotificationEmailHtml = (petition: PetitionData) => {
               </div>
 
               <div style="text-align: center; margin-top: 25px;">
-                <a href="https://abolishabortionmichigan.com/admin/dashboard/petitions" style="display: inline-block; background-color: #1a1a2e; color: #ffffff !important; text-decoration: none; padding: 12px 25px; border-radius: 4px; font-weight: bold;">View in Dashboard</a>
+                <a href="https://www.abolishabortionmichigan.com/admin/dashboard/petitions" style="display: inline-block; background-color: #1a1a2e; color: #ffffff !important; text-decoration: none; padding: 12px 25px; border-radius: 4px; font-weight: bold;">View in Dashboard</a>
               </div>
             </td>
           </tr>
@@ -889,7 +889,7 @@ const newsletterEmailHtml = (article: ArticleData, subscriber: SubscriberData) =
           <tr>
             <td bgcolor="#1a1a2e" style="padding: 25px; text-align: center; font-size: 13px; color: #cccccc;">
               <p style="margin: 0 0 10px 0;">&copy; ${new Date().getFullYear()} Abolish Abortion Michigan. All rights reserved.</p>
-              <p style="margin: 0;"><a href="https://abolishabortionmichigan.com" style="color: #d4af37; text-decoration: none;">abolishabortionmichigan.com</a></p>
+              <p style="margin: 0;"><a href="https://www.abolishabortionmichigan.com" style="color: #d4af37; text-decoration: none;">abolishabortionmichigan.com</a></p>
             </td>
           </tr>
           ${unsubscribeFooterHtml(subscriber.email)}
@@ -1043,7 +1043,7 @@ function officialContactEmailHtml(subject: string, body: string, audience: 'lawm
         </td></tr>
         <tr><td bgcolor="#1a1a2e" style="padding: 25px; text-align: center; font-size: 13px; color: #cccccc;">
           <p style="margin: 0 0 10px 0;">Abolish Abortion Michigan · Est. 2024</p>
-          <p style="margin: 0;"><a href="https://abolishabortionmichigan.com" style="color: #d4af37; text-decoration: none;">abolishabortionmichigan.com</a></p>
+          <p style="margin: 0;"><a href="https://www.abolishabortionmichigan.com" style="color: #d4af37; text-decoration: none;">abolishabortionmichigan.com</a></p>
         </td></tr>
       </table>
     </td></tr>
@@ -1242,7 +1242,7 @@ const broadcastEmailHtml = (subject: string, body: string, subscriber: Subscribe
           <tr>
             <td bgcolor="#1a1a2e" style="padding: 25px; text-align: center; font-size: 13px; color: #cccccc;">
               <p style="margin: 0 0 10px 0;">&copy; ${new Date().getFullYear()} Abolish Abortion Michigan. All rights reserved.</p>
-              <p style="margin: 0;"><a href="https://abolishabortionmichigan.com" style="color: #d4af37; text-decoration: none;">abolishabortionmichigan.com</a></p>
+              <p style="margin: 0;"><a href="https://www.abolishabortionmichigan.com" style="color: #d4af37; text-decoration: none;">abolishabortionmichigan.com</a></p>
             </td>
           </tr>
           ${unsubscribeFooterHtml(subscriber.email)}

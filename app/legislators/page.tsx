@@ -7,7 +7,7 @@ import LegislatorTable from './legislator-table';
 import { getLegislators, grade } from '@/lib/data/legislators';
 import { DATA_REFRESHED_ON } from '@/lib/data/data-freshness';
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://abolishabortionmichigan.com';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.abolishabortionmichigan.com';
 
 export const metadata: Metadata = {
   title: 'Michigan Legislator Scorecard on Abortion',

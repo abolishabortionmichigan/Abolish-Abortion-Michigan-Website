@@ -5,7 +5,7 @@ import CTABanner from '@/components/CTABanner';
 import MillsMap from '@/components/mills/MillsMap';
 import { getAllMills } from '@/lib/data/abortion-mills';
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://abolishabortionmichigan.com';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.abolishabortionmichigan.com';
 
 export const metadata: Metadata = {
   title: 'Every Abortion Facility in Michigan — Statewide Map',

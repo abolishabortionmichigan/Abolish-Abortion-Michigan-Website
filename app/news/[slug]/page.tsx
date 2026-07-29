@@ -23,7 +23,7 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://abolishabortionmichigan.com';
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.abolishabortionmichigan.com';
 
 // ISR: revalidate every hour (individual articles change less frequently)
 export const revalidate = 3600;
