@@ -517,16 +517,6 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
                     <p className="text-sm text-gray-600">Pastor: {c.pastor}</p>
                   )}
                   <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm mt-2">
-                    {c.website && (
-                      <a
-                        href={c.website}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-red-700 underline hover:no-underline font-semibold"
-                      >
-                        Website &rarr;
-                      </a>
-                    )}
                     {c.phone && (
                       <a
                         href={`tel:${c.phone.replace(/[^0-9+]/g, '')}`}
@@ -544,6 +534,18 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
                       </a>
                     )}
                   </div>
+                  {c.website && (
+                    <div className="mt-1 text-sm">
+                      <a
+                        href={c.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-red-700 underline hover:no-underline font-semibold"
+                      >
+                        Church Website &rarr;
+                      </a>
+                    </div>
+                  )}
                   {c.ministries && c.ministries.length > 0 && (
                     <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm">
                       {c.ministries.map((m) => (
