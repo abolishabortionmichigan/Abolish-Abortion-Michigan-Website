@@ -10,7 +10,10 @@ import raw from '@/data/abolition-partners.json';
 
 export interface Partner {
   name: string;
-  url: string;
+  /** null when the org's website is down / gone and we haven't
+   * substituted a working alternative. The card renders name+blurb
+   * only in that case. Also drops the row from the ItemList schema. */
+  url: string | null;
   blurb: string;
   state?: string;
   /**

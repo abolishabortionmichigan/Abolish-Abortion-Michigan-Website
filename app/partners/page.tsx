@@ -24,11 +24,14 @@ export default function PartnersPage() {
 
   // ItemList schema — one page listing many organizations = eligible for
   // list-style SERP treatments + gives Google clear entity data.
+  // Partners without a live URL are dropped from this schema (no point
+  // giving Google a broken entity reference).
+  const linkable = [...national, ...states].filter((p) => Boolean(p.url));
   const itemListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    numberOfItems: national.length + states.length,
-    itemListElement: [...national, ...states].map((p, i) => ({
+    numberOfItems: linkable.length,
+    itemListElement: linkable.map((p, i) => ({
       '@type': 'ListItem',
       position: i + 1,
       url: p.url,
@@ -78,7 +81,7 @@ export default function PartnersPage() {
           </p>
           <div className="grid md:grid-cols-2 gap-6">
             {national.map((p) => (
-              <PartnerCard key={p.url} partner={p} />
+              <PartnerCard key={p.name} partner={p} />
             ))}
           </div>
         </div>
@@ -95,7 +98,7 @@ export default function PartnersPage() {
           <div className="space-y-6">
             {states.map((p) => (
               <div
-                key={p.url}
+                key={p.state}
                 id={slugify(p.state)}
                 // Fallback for browsers without smooth scrollIntoView JS —
                 // the CSS scroll-margin-top gives ~30vh of headroom so the
@@ -150,10 +153,12 @@ function PartnerCard({
   partner,
   showState = false,
 }: {
-  partner: { name: string; url: string; blurb: string; state?: string };
+  partner: { name: string; url: string | null; blurb: string; state?: string };
   showState?: boolean;
 }) {
-  const host = partner.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+  const host = partner.url
+    ? partner.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')
+    : null;
   return (
     <div className="border border-gray-200 rounded-lg p-5 bg-white hover:border-red-600 transition-colors">
       {showState && partner.state && (
@@ -162,16 +167,23 @@ function PartnerCard({
         </p>
       )}
       <h3 className="font-bold text-lg text-gray-900 mb-1">
-        <a
-          href={partner.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:text-red-700 transition-colors"
-        >
-          {partner.name}
-        </a>
+        {partner.url ? (
+          <a
+            href={partner.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-red-700 transition-colors"
+          >
+            {partner.name}
+          </a>
+        ) : (
+          partner.name
+        )}
       </h3>
-      <p className="text-xs text-gray-500 mb-3 font-mono">{host}</p>
+      {host && <p className="text-xs text-gray-500 mb-3 font-mono">{host}</p>}
+      {!host && (
+        <p className="text-xs text-gray-500 mb-3 italic">Website currently unavailable</p>
+      )}
       <p className="text-gray-700 text-sm">{partner.blurb}</p>
     </div>
   );

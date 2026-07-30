@@ -103,11 +103,12 @@
     {
       "state": "Virginia",
       "name": "Abolish Abortion Virginia",
-      "url": "https://abolishabortionvirginia.com/",
+      "url": null,
       "email": null,
       "blurb": "Virginia coalition advocating for abolition legislation in the Commonwealth.",
       "siteStatus": "unreachable_as_of_2026-07-29",
-      "outreachSkipped": "site_dead"
+      "outreachSkipped": "site_dead",
+      "notes": "Website (abolishabortionvirginia.com) is unreachable as of 2026-07-29. Group appears active only on Facebook (facebook.com/AbolishAbortionVirginia). Listing kept without a live link."
     },
     {
       "state": "Utah",
@@ -142,12 +143,13 @@
       "url": "https://abolishabortionky.org/",
       "email": null,
       "blurb": "Kentucky coalition working with lawmakers on abolition legislation.",
-      "linkRequestedOn": "2026-07-29",
+      "linkRequestedOn": null,
       "linkAddedOn": null,
       "linkVerifiedUrl": null,
       "outreachChannel": "facebook_dm",
       "contactUrl": "https://www.facebook.com/154524478440690",
-      "notes": "No contact form on abolishabortionky.org — reached via Facebook DM."
+      "notes": "No web contact form on abolishabortionky.org. Facebook DM is the only channel — deferred until AAM Facebook access is set up.",
+      "outreachSkipped": "user_skipped_2026-07-29_no_facebook_login"
     },
     {
       "state": "Tennessee",
