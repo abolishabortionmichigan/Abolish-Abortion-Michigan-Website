@@ -105,7 +105,9 @@
       "name": "Abolish Abortion Virginia",
       "url": "https://abolishabortionvirginia.com/",
       "email": null,
-      "blurb": "Virginia coalition advocating for abolition legislation in the Commonwealth."
+      "blurb": "Virginia coalition advocating for abolition legislation in the Commonwealth.",
+      "siteStatus": "unreachable_as_of_2026-07-29",
+      "outreachSkipped": "site_dead"
     },
     {
       "state": "Utah",
@@ -139,7 +141,13 @@
       "name": "Abolish Abortion Kentucky",
       "url": "https://abolishabortionky.org/",
       "email": null,
-      "blurb": "Kentucky coalition working with lawmakers on abolition legislation."
+      "blurb": "Kentucky coalition working with lawmakers on abolition legislation.",
+      "linkRequestedOn": "2026-07-29",
+      "linkAddedOn": null,
+      "linkVerifiedUrl": null,
+      "outreachChannel": "facebook_dm",
+      "contactUrl": "https://www.facebook.com/154524478440690",
+      "notes": "No contact form on abolishabortionky.org — reached via Facebook DM."
     },
     {
       "state": "Tennessee",
@@ -211,14 +219,16 @@
       "name": "Golden State Abolitionists",
       "url": "https://www.instagram.com/goldenstateabolitionists/",
       "email": null,
-      "blurb": "California abolitionist coalition organizing at the State Capitol for equal-protection legislation. Social-only presence (Instagram) — currently active."
+      "blurb": "California abolitionist coalition organizing at the State Capitol for equal-protection legislation. Social-only presence (Instagram) — currently active.",
+      "outreachSkipped": "user_skipped_social_only_2026-07-29"
     },
     {
       "state": "New Hampshire",
       "name": "Abolish Abortion New Hampshire",
       "url": "https://www.facebook.com/profile.php?id=61558515857624",
       "email": null,
-      "blurb": "New Hampshire abolitionist group organizing statewide. Social-only presence (Facebook) — currently active."
+      "blurb": "New Hampshire abolitionist group organizing statewide. Social-only presence (Facebook) — currently active.",
+      "outreachSkipped": "user_skipped_social_only_2026-07-29"
     },
     {
       "state": "Florida",
