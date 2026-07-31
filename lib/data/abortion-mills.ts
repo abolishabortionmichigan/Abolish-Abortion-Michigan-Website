@@ -33,6 +33,15 @@ export interface AbortionMill {
    * a canonical CID URL, so the click count feeds the profile's
    * engagement stats directly. */
   googleBusinessUrl?: string | null;
+  /** True when the facility has permanently closed. We keep the
+   * listing (historical record + inbound-link preservation) but
+   * render it visually distinct and exclude from "active" counts. */
+  closed?: boolean;
+  /** ISO YYYY-MM-DD of the closure date, when known. */
+  closedOn?: string;
+  /** Public-facing single sentence explaining the closure — rendered
+   * on the card so a visitor sees why the address is here. */
+  closureReason?: string;
 }
 
 interface RawData {
@@ -44,6 +53,13 @@ const DATA = raw as RawData;
 
 export function getAllMills(): AbortionMill[] {
   return DATA.mills;
+}
+
+/** Only the still-serving facilities. Used for "total active" counts
+ * on /abortion-mills and city pages so a closure doesn't silently
+ * overstate the abortion infrastructure in Michigan. */
+export function getActiveMills(): AbortionMill[] {
+  return DATA.mills.filter((m) => !m.closed);
 }
 
 export function getMillsByCity(cityName: string): AbortionMill[] {

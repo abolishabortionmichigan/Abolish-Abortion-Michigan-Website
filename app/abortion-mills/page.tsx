@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Breadcrumbs from '@/components/Breadcrumbs';
 import CTABanner from '@/components/CTABanner';
 import MillsMap from '@/components/mills/MillsMap';
-import { getAllMills } from '@/lib/data/abortion-mills';
+import { getAllMills, getActiveMills } from '@/lib/data/abortion-mills';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.abolishabortionmichigan.com';
 
@@ -22,6 +22,8 @@ export const metadata: Metadata = {
 
 export default function AbortionMillsPage() {
   const all = getAllMills();
+  const active = getActiveMills();
+  const closed = all.filter((m) => m.closed);
 
   // Group by operator so the list reads as "these five networks account
   // for every provider in Michigan," not as an undifferentiated list of
@@ -58,9 +60,9 @@ export default function AbortionMillsPage() {
     if (ms.length > 0) groups.push({ label, blurb: groupBlurbs[label] ?? '', mills: ms });
   }
 
-  // Also compute the per-county coverage — used in the summary strip
-  // to communicate concentration ("all 20 sit in just 12 counties").
-  const cityCount = new Set(all.map((m) => m.city)).size;
+  // Cities served counts only ACTIVE facilities — a shuttered clinic in
+  // a city we no longer serve shouldn't inflate the number.
+  const cityCount = new Set(active.map((m) => m.city)).size;
 
   // Schema.org: WebPage + BreadcrumbList (via <Breadcrumbs/>) + ItemList
   // of every mill as a HealthAndBeautyBusiness so search results treat
@@ -72,11 +74,14 @@ export default function AbortionMillsPage() {
     url: `${BASE_URL}/abortion-mills`,
     about: { '@type': 'Place', name: 'Michigan' },
   };
+  // ItemList schema — only ACTIVE facilities. Closed clinics are still
+  // rendered in the visible list (with a Closed badge) but shouldn't be
+  // fed to Google as a live business entity.
   const itemListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    numberOfItems: all.length,
-    itemListElement: all.map((m, i) => ({
+    numberOfItems: active.length,
+    itemListElement: active.map((m, i) => ({
       '@type': 'ListItem',
       position: i + 1,
       item: {
@@ -123,9 +128,15 @@ export default function AbortionMillsPage() {
           </h1>
           <div className="w-12 h-[3px] bg-red-600 mx-auto mb-6" />
           <p className="text-base md:text-lg text-gray-300 max-w-2xl mx-auto">
-            {all.length} currently-operating abortion facilities across {cityCount}{' '}
+            {active.length} currently-operating abortion facilities across {cityCount}{' '}
             Michigan cities. For prayer, education, and lawful, peaceful presence.
           </p>
+          {closed.length > 0 && (
+            <p className="text-sm text-gray-400 max-w-2xl mx-auto mt-3">
+              {closed.length} additional location{closed.length === 1 ? '' : 's'} recently closed —
+              still listed below for the historical record.
+            </p>
+          )}
         </div>
       </section>
 
@@ -134,10 +145,16 @@ export default function AbortionMillsPage() {
       <section className="bg-white pt-8 pb-4">
         <div className="max-w-4xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <StatBox label="Total facilities" value={all.length} />
+            <StatBox label="Active facilities" value={active.length} />
             <StatBox label="Cities served" value={cityCount} />
-            <StatBox label="PPMI locations" value={buckets['Planned Parenthood of Michigan'].length} />
-            <StatBox label="Non-PP providers" value={all.length - buckets['Planned Parenthood of Michigan'].length} />
+            <StatBox
+              label="PPMI locations"
+              value={buckets['Planned Parenthood of Michigan'].filter((m) => !m.closed).length}
+            />
+            <StatBox
+              label="Non-PP providers"
+              value={active.length - buckets['Planned Parenthood of Michigan'].filter((m) => !m.closed).length}
+            />
           </div>
         </div>
       </section>
@@ -190,13 +207,29 @@ export default function AbortionMillsPage() {
                     return (
                       <li
                         key={m.id}
-                        className="border border-gray-200 rounded-lg p-4 bg-white"
+                        className={`border rounded-lg p-4 bg-white ${
+                          m.closed ? 'border-gray-300 opacity-75' : 'border-gray-200'
+                        }`}
                       >
-                        <p className="font-semibold text-gray-900">{m.name}</p>
+                        <p className="font-semibold text-gray-900 flex flex-wrap items-center gap-2">
+                          <span className={m.closed ? 'line-through decoration-2 decoration-gray-500' : ''}>
+                            {m.name}
+                          </span>
+                          {m.closed && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-gray-800 text-white">
+                              Closed{m.closedOn ? ' ' + m.closedOn : ''}
+                            </span>
+                          )}
+                        </p>
                         <p className="text-sm text-gray-600 font-mono break-words mt-1">
                           {m.address}
                         </p>
-                        {m.notes && (
+                        {m.closureReason && (
+                          <p className="text-xs text-gray-700 italic mt-2 border-l-2 border-gray-500 pl-2">
+                            {m.closureReason}
+                          </p>
+                        )}
+                        {m.notes && !m.closed && (
                           <p className="text-xs text-gray-500 italic mt-2">
                             {m.notes}
                           </p>

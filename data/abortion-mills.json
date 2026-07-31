@@ -65,7 +65,10 @@
       "email": null,
       "latitude": 42.514095,
       "longitude": -83.00735,
-      "notes": null
+      "notes": null,
+      "closed": true,
+      "closedOn": "2026-07-30",
+      "closureReason": "Closed 2026-07-30 by Planned Parenthood of Michigan, citing a $4.2M decline in federal patient-care reimbursement and family-planning funding. Location did not provide surgical abortion; PP referrals now route to nearest surviving MI PP facilities."
     },
     {
       "id": "northland-family-planning-sterling-heights",
@@ -109,7 +112,10 @@
       "email": null,
       "latitude": 42.736098,
       "longitude": -84.508256,
-      "notes": null
+      "notes": null,
+      "closed": true,
+      "closedOn": "2026-07-30",
+      "closureReason": "Closed 2026-07-30 by Planned Parenthood of Michigan, citing a $4.2M decline in federal patient-care reimbursement and family-planning funding. Location did not provide surgical abortion; PP referrals now route to nearest surviving MI PP facilities."
     },
     {
       "id": "planned-parenthood-livonia",
@@ -120,7 +126,10 @@
       "email": null,
       "latitude": 42.401308,
       "longitude": -83.373853,
-      "notes": null
+      "notes": null,
+      "closed": true,
+      "closedOn": "2026-07-30",
+      "closureReason": "Closed 2026-07-30 by Planned Parenthood of Michigan, citing a $4.2M decline in federal patient-care reimbursement and family-planning funding. Location did not provide surgical abortion; PP referrals now route to nearest surviving MI PP facilities."
     },
     {
       "id": "northland-family-planning-westland",

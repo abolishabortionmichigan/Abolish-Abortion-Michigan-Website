@@ -150,17 +150,20 @@ export default function MillsMap({ mills }: { mills: AbortionMill[] }) {
             const { x, y } = project(m.latitude, m.longitude);
             const zoomFactor = view.w / DEFAULT_VIEW.w;
             const r = Math.max(2.6, 4.2 * Math.min(1, zoomFactor));
+            // Closed facilities: hollow gray pin, no fill. Still shown so
+            // the historical footprint stays visible.
             return (
               <g key={m.id}>
                 <circle
                   cx={x}
                   cy={y}
                   r={r}
-                  fill="#dc2626"
-                  stroke="#ffffff"
-                  strokeWidth={Math.max(0.35, 1 * Math.min(1, zoomFactor))}
+                  fill={m.closed ? '#ffffff' : '#dc2626'}
+                  stroke={m.closed ? '#6b7280' : '#ffffff'}
+                  strokeWidth={Math.max(0.35, (m.closed ? 1.2 : 1) * Math.min(1, zoomFactor))}
+                  strokeDasharray={m.closed ? '1 1' : undefined}
                 >
-                  <title>{`${m.name} — ${m.address}`}</title>
+                  <title>{`${m.name}${m.closed ? ' (CLOSED)' : ''} — ${m.address}`}</title>
                 </circle>
               </g>
             );

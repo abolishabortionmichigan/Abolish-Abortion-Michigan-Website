@@ -370,11 +370,22 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
                   return (
                     <li
                       key={m.id}
-                      className="flex gap-3 items-start bg-white border border-gray-200 rounded p-3"
+                      className={`flex gap-3 items-start bg-white border rounded p-3 ${
+                        m.closed ? 'border-gray-300 opacity-75' : 'border-gray-200'
+                      }`}
                     >
                       <span className="text-red-600 font-bold tabular-nums pt-0.5">{i + 1}.</span>
                       <div className="flex-1 min-w-0">
-                        <p className="font-semibold text-gray-900">{m.name}</p>
+                        <p className="font-semibold text-gray-900 flex flex-wrap items-center gap-2">
+                          <span className={m.closed ? 'line-through decoration-2 decoration-gray-500' : ''}>
+                            {m.name}
+                          </span>
+                          {m.closed && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide bg-gray-800 text-white">
+                              Closed{m.closedOn ? ' ' + m.closedOn : ''}
+                            </span>
+                          )}
+                        </p>
                         <p className="text-sm text-gray-600 font-mono break-words">{m.address}</p>
                         <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-sm">
                           {m.phone && (
@@ -402,7 +413,12 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
                             Google Business &rarr;
                           </a>
                         </div>
-                        {m.notes && (
+                        {m.closureReason && (
+                          <p className="text-xs text-gray-700 italic mt-1 border-l-2 border-gray-500 pl-2">
+                            {m.closureReason}
+                          </p>
+                        )}
+                        {m.notes && !m.closed && (
                           <p className="text-xs text-gray-500 italic mt-1">{m.notes}</p>
                         )}
                       </div>
