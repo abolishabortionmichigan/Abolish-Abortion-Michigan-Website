@@ -30,7 +30,7 @@
       "city": "Detroit",
       "phone": "(313) 526-3600",
       "email": "womenscenterofmi@gmail.com",
-      "latitude": 42.449930,
+      "latitude": 42.44993,
       "longitude": -82.960039,
       "notes": null
     },
@@ -220,6 +220,17 @@
       "latitude": 42.537758,
       "longitude": -83.360429,
       "notes": null
+    },
+    {
+      "id": "planned-parenthood-traverse-city",
+      "name": "Planned Parenthood of Michigan — Traverse City Health Center",
+      "address": "1135 E Eighth St, Traverse City, MI 49686",
+      "city": "Traverse City",
+      "phone": null,
+      "email": null,
+      "latitude": 44.758706,
+      "longitude": -85.593185,
+      "notes": "Northern Michigan PPMI location. URL slug on plannedparenthood.org still references the parent Walker (Grand Rapids) region administratively, which is why the site indexes as centro-de-salud-walker under the Traverse City address."
     }
   ]
 }
