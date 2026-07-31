@@ -12,6 +12,24 @@
       "url": "https://freethestates.org/",
       "email": null,
       "blurb": "Educates state legislators on the legal and moral case for equal-protection abolition bills, and tracks abolition bills nationwide."
+    },
+    {
+      "name": "Foundation to Abolish Abortion",
+      "url": "https://faa.life/",
+      "email": null,
+      "blurb": "National legislative organization that drafts and promotes equal-protection abolition bills, grounding its case in the 14th Amendment. Founded by Bradley Pierce; central to the equal-protection legislative movement across state legislatures."
+    },
+    {
+      "name": "End Abortion Now",
+      "url": "https://endabortionnow.com/",
+      "email": null,
+      "blurb": "National mobilization ministry equipping the Christian church to end abortion now through biblically-grounded, locally-driven advocacy. Partner of Apologia Studios and long-time supporter of state-level equal-protection legislation."
+    },
+    {
+      "name": "Rescue Those",
+      "url": "https://www.rescuethose.com/",
+      "email": null,
+      "blurb": "Abolitionist media and mobilization ministry named for the command of Proverbs 24:11 to rescue those being led away to death. Focused on public education, street outreach, and the total abolition of abortion."
     }
   ],
   "states": [
@@ -248,6 +266,13 @@
       "url": "https://www.ahactx.com/",
       "email": null,
       "blurb": "Central Texas coalition seeking, in their own words, to glorify God by demanding the immediate and total abolition of abortion in Texas and throughout the US. Complements the statewide Abolish Abortion Texas coalition with local focus."
+    },
+    {
+      "state": "Iowa",
+      "name": "End Abortion Iowa",
+      "url": "https://endabortioniowa.com/",
+      "email": null,
+      "blurb": "Iowa coalition explicitly pushing equal protection for every Iowan from fertilization. Complements Iowa Abolitionists with an equal-protection-legislation focus."
     }
   ]
 }
