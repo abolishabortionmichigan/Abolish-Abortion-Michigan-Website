@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import {
   getAllNewsArticles,
   createNewsArticle,
@@ -72,6 +73,14 @@ export async function POST(request: NextRequest) {
       // social post". Only meaningful when published=true.
       auto_post_to_social: data.auto_post_to_social !== false,
     });
+
+    // Kick the cached pages that surface this article so it appears
+    // immediately without waiting for the next 24hr ISR window.
+    if (newArticle.published) {
+      revalidatePath('/');
+      revalidatePath('/news');
+      revalidatePath(`/news/${newArticle.slug}`);
+    }
 
     // Ping IndexNow (Bing/Yandex/DuckDuckGo) if the article shipped public.
     // Fire-and-forget: doesn't block the response and swallows failures.

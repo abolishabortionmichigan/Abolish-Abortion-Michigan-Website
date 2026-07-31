@@ -12,7 +12,11 @@ export const metadata: Metadata = {
   alternates: { canonical: '/' },
 };
 
-export const revalidate = 300; // ISR: revalidate every 5 minutes
+// ISR: revalidate once a day. On-demand revalidation is triggered by the
+// news POST/PATCH/DELETE routes via revalidatePath('/'), so fresh news
+// appears immediately after admin publish without the 24hr wait.
+// (Bumped from 300s to save Neon compute — see project_aam_neon_compute.)
+export const revalidate = 86400;
 
 export default async function HomePage() {
   let latestNews: Awaited<ReturnType<typeof getAllNewsArticles>> = [];

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import {
   getNewsArticleBySlug,
   updateNewsArticle,
@@ -105,6 +106,16 @@ export async function PATCH(
       return NextResponse.json({ error: 'Article not found' }, { status: 404 });
     }
 
+    // Kick the cached pages that surface this article so edits appear
+    // immediately without waiting for the next 24hr ISR window. Also
+    // invalidate the OLD slug when the article was renamed.
+    revalidatePath('/');
+    revalidatePath('/news');
+    revalidatePath(`/news/${updated.slug}`);
+    if (updated.slug !== existingArticle.slug) {
+      revalidatePath(`/news/${existingArticle.slug}`);
+    }
+
     // Fire IndexNow when EITHER a draft goes public OR a public article is
     // edited. Uses the new slug if the article was renamed.
     const nowPublic = updated.published;
@@ -161,6 +172,11 @@ export async function DELETE(
     if (!deleted) {
       return NextResponse.json({ error: 'Article not found' }, { status: 404 });
     }
+
+    // Kick the cached pages so the deleted article disappears immediately.
+    revalidatePath('/');
+    revalidatePath('/news');
+    revalidatePath(`/news/${slug}`);
 
     return NextResponse.json({ success: true });
   } catch {

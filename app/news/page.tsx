@@ -13,7 +13,8 @@ export const metadata: Metadata = {
 };
 
 // ISR: revalidate every 5 minutes
-export const revalidate = 300;
+// 24hr ISR + on-demand rebuild from news mutations. See app/page.tsx note.
+export const revalidate = 86400;
 
 const HTML_TAG_REGEX = /<[^>]*>/g;
 const WHITESPACE_REGEX = /\s+/;

@@ -10,7 +10,9 @@ export const metadata: Metadata = {
   alternates: { canonical: '/media' },
 };
 
-export const revalidate = 300; // ISR: revalidate every 5 minutes
+// Media page has no admin edit surface — no on-demand rebuild wired.
+// 24hr revalidate is plenty; content is largely static.
+export const revalidate = 86400;
 
 export default async function MediaPage() {
   const photos = await getAllGalleryPhotos();
