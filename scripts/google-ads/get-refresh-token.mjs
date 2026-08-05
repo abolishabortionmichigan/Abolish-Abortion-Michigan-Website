@@ -37,7 +37,14 @@ const REPO_ROOT = path.resolve(SCRIPT_DIR, '..', '..');
 const ENV_PATH = path.join(REPO_ROOT, '.env.local');
 const PORT = 3737;
 const REDIRECT_URI = `http://127.0.0.1:${PORT}/callback`;
-const SCOPES = ['https://www.googleapis.com/auth/adwords'];
+// Ask for both scopes so the single refresh token covers Ads AND
+// Search Console. Regenerating the token replaces the earlier
+// adwords-only one; Ads keeps working because the new token
+// includes adwords in its scope set.
+const SCOPES = [
+  'https://www.googleapis.com/auth/adwords',
+  'https://www.googleapis.com/auth/webmasters.readonly',
+];
 
 // Load .env.local into process.env (no dotenv dep needed)
 function loadEnvFile(p) {
