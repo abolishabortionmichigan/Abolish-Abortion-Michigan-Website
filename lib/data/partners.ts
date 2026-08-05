@@ -8,6 +8,13 @@
 
 import raw from '@/data/abolition-partners.json';
 
+export type PartnerSocialPlatform = 'instagram' | 'twitter' | 'facebook' | 'youtube' | 'tiktok';
+
+export interface PartnerSocial {
+  platform: PartnerSocialPlatform;
+  url: string;
+}
+
 export interface Partner {
   name: string;
   /** null when the org's website is down / gone and we haven't
@@ -23,6 +30,14 @@ export interface Partner {
    * filtered out during curation). Broadcasts skip null-email rows.
    */
   email?: string | null;
+  /**
+   * Public social channels for the org — rendered as small labeled
+   * links on the partner card. Especially useful for new orgs that
+   * don't have a website yet (Garden State Abolitionists) or for
+   * orgs whose website has gone down (VA) where the socials are the
+   * only remaining way to reach them.
+   */
+  socials?: PartnerSocial[];
 }
 
 interface RawData {

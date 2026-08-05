@@ -149,16 +149,31 @@ export default function PartnersPage() {
   );
 }
 
+const SOCIAL_LABEL: Record<string, string> = {
+  instagram: 'Instagram',
+  twitter: 'X',
+  facebook: 'Facebook',
+  youtube: 'YouTube',
+  tiktok: 'TikTok',
+};
+
 function PartnerCard({
   partner,
   showState = false,
 }: {
-  partner: { name: string; url: string | null; blurb: string; state?: string };
+  partner: {
+    name: string;
+    url: string | null;
+    blurb: string;
+    state?: string;
+    socials?: { platform: string; url: string }[];
+  };
   showState?: boolean;
 }) {
   const host = partner.url
     ? partner.url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')
     : null;
+  const socials = partner.socials || [];
   return (
     <div className="border border-gray-200 rounded-lg p-5 bg-white hover:border-red-600 transition-colors">
       {showState && partner.state && (
@@ -181,10 +196,25 @@ function PartnerCard({
         )}
       </h3>
       {host && <p className="text-xs text-gray-500 mb-3 font-mono">{host}</p>}
-      {!host && (
+      {!host && socials.length === 0 && (
         <p className="text-xs text-gray-500 mb-3 italic">Website currently unavailable</p>
       )}
       <p className="text-gray-700 text-sm">{partner.blurb}</p>
+      {socials.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {socials.map((s) => (
+            <a
+              key={s.url}
+              href={s.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-red-700 border border-red-200 rounded px-2 py-1 hover:bg-red-50 hover:no-underline"
+            >
+              {SOCIAL_LABEL[s.platform] || s.platform} &rarr;
+            </a>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
