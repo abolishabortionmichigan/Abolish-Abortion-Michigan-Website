@@ -126,7 +126,13 @@
       "blurb": "Virginia coalition advocating for abolition legislation in the Commonwealth.",
       "siteStatus": "unreachable_as_of_2026-07-29",
       "outreachSkipped": "site_dead",
-      "notes": "Website (abolishabortionvirginia.com) is unreachable as of 2026-07-29. Group appears active only on Facebook (facebook.com/AbolishAbortionVirginia). Listing kept without a live link."
+      "notes": "Website (abolishabortionvirginia.com) is unreachable as of 2026-07-29. Group appears active only on Facebook (facebook.com/AbolishAbortionVirginia). Listing kept without a live link.",
+      "socials": [
+        {
+          "platform": "facebook",
+          "url": "https://www.facebook.com/AbolishAbortionVirginia"
+        }
+      ]
     },
     {
       "state": "Utah",
@@ -167,7 +173,13 @@
       "outreachChannel": "facebook_dm",
       "contactUrl": "https://www.facebook.com/154524478440690",
       "notes": "No web contact form on abolishabortionky.org. Facebook DM is the only channel — deferred until AAM Facebook access is set up.",
-      "outreachSkipped": "user_skipped_2026-07-29_no_facebook_login"
+      "outreachSkipped": "user_skipped_2026-07-29_no_facebook_login",
+      "socials": [
+        {
+          "platform": "facebook",
+          "url": "https://www.facebook.com/154524478440690"
+        }
+      ]
     },
     {
       "state": "Tennessee",
@@ -240,7 +252,13 @@
       "url": "https://www.instagram.com/goldenstateabolitionists/",
       "email": null,
       "blurb": "California abolitionist coalition organizing at the State Capitol for equal-protection legislation. Social-only presence (Instagram) — currently active.",
-      "outreachSkipped": "user_skipped_social_only_2026-07-29"
+      "outreachSkipped": "user_skipped_social_only_2026-07-29",
+      "socials": [
+        {
+          "platform": "instagram",
+          "url": "https://www.instagram.com/goldenstateabolitionists"
+        }
+      ]
     },
     {
       "state": "New Hampshire",
@@ -248,7 +266,13 @@
       "url": "https://www.facebook.com/profile.php?id=61558515857624",
       "email": null,
       "blurb": "New Hampshire abolitionist group organizing statewide. Social-only presence (Facebook) — currently active.",
-      "outreachSkipped": "user_skipped_social_only_2026-07-29"
+      "outreachSkipped": "user_skipped_social_only_2026-07-29",
+      "socials": [
+        {
+          "platform": "facebook",
+          "url": "https://www.facebook.com/profile.php?id=61558515857624"
+        }
+      ]
     },
     {
       "state": "Florida",
