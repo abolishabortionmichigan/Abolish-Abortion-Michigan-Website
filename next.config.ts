@@ -41,6 +41,20 @@ const nextConfig: NextConfig = {
     }));
 
     return [
+      // Canonical hostname: apex → www with a PERMANENT (308) redirect.
+      // Vercel's default apex→www redirect is 307 (temporary), which was
+      // causing Google to keep the non-www URL as its canonical even
+      // though our rel="canonical" tags say www. 7 pages had Google-
+      // canonical = non-www vs our canonical = www when this was
+      // diagnosed on 2026-08-06. `permanent: true` emits 308 (Next.js's
+      // method-preserving equivalent of 301); Google treats 308 and 301
+      // identically for canonicalization.
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'abolishabortionmichigan.com' }],
+        destination: 'https://www.abolishabortionmichigan.com/:path*',
+        permanent: true,
+      },
       { source: '/petition', destination: '/the-petition', permanent: true },
       ...districtRedirects,
     ];
