@@ -49,7 +49,11 @@ export default function FooterNewsletter() {
         'error-callback': () => setToken(''),
         'expired-callback': () => setToken(''),
         'timeout-callback': () => setToken(''),
-        appearance: 'interaction-only', // invisible unless a challenge is needed
+        // Visible on purpose. 'interaction-only' keeps the widget hidden
+        // unless Turnstile decides to challenge — which pairs badly with the
+        // error below telling the visitor to complete a verification: if no
+        // token is issued, they are asked to act on something that was never
+        // rendered, and have no way to proceed.
         theme: 'dark', // footer is #1a1a1a
       });
     };
@@ -99,7 +103,7 @@ export default function FooterNewsletter() {
     if (SITE_KEY && !token) {
       setShowWidget(true);
       setStatus('error');
-      setErrorMsg('Please complete the quick verification below, then submit again.');
+      setErrorMsg('Verification is still running. Give it a moment and press Subscribe again.');
       return;
     }
 
