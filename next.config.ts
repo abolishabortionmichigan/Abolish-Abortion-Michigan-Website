@@ -13,7 +13,13 @@ const securityHeaders = [
     key: 'Content-Security-Policy',
     // connect-src includes both self (for the PostHog /ingest rewrite) and
     // Sentry's ingest hosts. script/img/font retain their previous scope.
-    value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self' data:; connect-src 'self' https: https://*.ingest.sentry.io https://*.ingest.us.sentry.io https://www.google-analytics.com https://www.googleadservices.com https://googleads.g.doubleclick.net; frame-src 'self' https://www.youtube.com https://www.zeffy.com https://td.doubleclick.net; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+    //
+    // challenges.cloudflare.com is required for Turnstile — loads the
+    // widget script (script-src) and renders the challenge iframe
+    // (frame-src). Missing this silently rejects every newsletter signup
+    // and petition submission because verifyTurnstile() fails when the
+    // widget can't produce a token. Same CSP fix MRA needed.
+    value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self' data:; connect-src 'self' https: https://*.ingest.sentry.io https://*.ingest.us.sentry.io https://www.google-analytics.com https://www.googleadservices.com https://googleads.g.doubleclick.net; frame-src 'self' https://www.youtube.com https://www.zeffy.com https://td.doubleclick.net https://challenges.cloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
   },
   { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
   { key: 'Cross-Origin-Resource-Policy', value: 'same-origin' },
