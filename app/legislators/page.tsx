@@ -4,7 +4,14 @@ import Link from 'next/link';
 import InfoTip from '@/components/legislators/InfoTip';
 import LegislatorFinder from '@/components/legislators/LegislatorFinder';
 import LegislatorTable from './legislator-table';
-import { getLegislators, grade } from '@/lib/data/legislators';
+import {
+  getLegislators,
+  grade,
+  gradeBadgeClass,
+  partyLabel,
+  chamberLabel,
+  type Legislator,
+} from '@/lib/data/legislators';
 import { DATA_REFRESHED_ON } from '@/lib/data/data-freshness';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.abolishabortionmichigan.com';
@@ -82,7 +89,14 @@ export default function LegislatorsHubPage() {
       <section className="bg-white py-10">
         <div className="max-w-6xl mx-auto px-4 space-y-8">
           <LegislatorFinder />
-          <Suspense fallback={<p className="text-gray-500">Loading legislators...</p>}>
+          {/*
+            Suspense fallback = server-rendered table with a real <a href>
+            per legislator. LegislatorTable uses useSearchParams, which forces
+            an SSR bailout; without a link-bearing fallback, Google sees zero
+            /legislators/{slug} links in the initial HTML. This fallback IS
+            the SSR pass — the client table swaps in on hydration.
+          */}
+          <Suspense fallback={<LegislatorTableFallback legislators={legislators} />}>
             <LegislatorTable legislators={legislators} />
           </Suspense>
           <p className="text-xs text-gray-500 text-right">
@@ -167,6 +181,49 @@ export default function LegislatorsHubPage() {
         </div>
       </section>
     </>
+  );
+}
+
+function LegislatorTableFallback({ legislators }: { legislators: Legislator[] }) {
+  const sorted = [...legislators].sort((a, b) => a.name.localeCompare(b.name));
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full text-sm border-collapse">
+        <thead className="bg-gray-100">
+          <tr>
+            <th scope="col" className="px-3 py-2 text-left font-semibold text-gray-700">Name</th>
+            <th scope="col" className="px-3 py-2 text-left font-semibold text-gray-700">Chamber</th>
+            <th scope="col" className="px-3 py-2 text-left font-semibold text-gray-700">District</th>
+            <th scope="col" className="px-3 py-2 text-left font-semibold text-gray-700">Party</th>
+            <th scope="col" className="px-3 py-2 text-left font-semibold text-gray-700">Grade</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sorted.map((l) => {
+            const g = grade(l);
+            return (
+              <tr key={l.slug} className="border-t border-gray-200">
+                <td className="px-3 py-2 font-semibold">
+                  <Link href={`/legislators/${l.slug}`} className="text-red-700 hover:underline">
+                    {l.name}
+                  </Link>
+                </td>
+                <td className="px-3 py-2 text-gray-700">{chamberLabel(l.chamber)}</td>
+                <td className="px-3 py-2 text-gray-700">{l.district}</td>
+                <td className="px-3 py-2 text-gray-700">{partyLabel(l.party)}</td>
+                <td className="px-3 py-2">
+                  <span
+                    className={`inline-block px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wide ${gradeBadgeClass(g)}`}
+                  >
+                    {g}
+                  </span>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
