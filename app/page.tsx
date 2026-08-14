@@ -269,80 +269,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Scorecard CTA — sits between "What is Abolition" and Latest News
-          so visitors who just learned the definition can immediately see
-          how it plays out in the current MI Legislature. Named-legislator
-          links below give Google direct home→profile edges (fixes the
-          "no home→legislator link" crawl-budget starvation). */}
-      <section className="bg-white py-10 border-t border-b border-gray-200">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-3 text-gray-900">
-            See where your legislators stand
-          </h2>
-          <p className="text-gray-700 mb-6 max-w-2xl mx-auto">
-            Every Michigan legislator&apos;s record on abortion — voting, sponsorships,
-            endorsements, and campaign finance. Look up your representative and senator.
-          </p>
-          <Link
-            href="/legislators"
-            className="inline-block px-8 py-3 bg-[#1a1a1a] text-white font-bold hover:bg-black transition-colors"
-          >
-            OPEN THE LEGISLATOR SCORECARD &rarr;
-          </Link>
-          <div className="mt-8 pt-6 border-t border-gray-200">
-            <p className="text-xs uppercase tracking-[0.2em] font-bold text-gray-500 mb-4">
-              Legislators to watch
-            </p>
-            <ul className="flex flex-wrap justify-center gap-2 text-sm">
-              {FEATURED_LEGISLATORS.map((l) => (
-                <li key={l.slug}>
-                  <Link
-                    href={`/legislators/${l.slug}`}
-                    className="inline-block px-3 py-1.5 border border-gray-300 rounded-full text-gray-800 hover:border-red-600 hover:text-red-700 transition-colors"
-                  >
-                    {l.name} <span className="text-gray-500">· {l.role}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* Local Michigan cities — direct home→city links so PageRank flows
-          without having to pass through the 150-link /cities index. Each
-          city page has its own scorecard, mill list, church directory,
-          and county context. */}
-      <section className="bg-gray-50 py-12 border-b border-gray-200">
-        <div className="max-w-5xl mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-3 text-gray-900">
-            Local abolition in your Michigan city
-          </h2>
-          <p className="text-gray-700 mb-6 max-w-2xl mx-auto">
-            Every city page has your specific legislators, local abortion facilities,
-            county Prop 3 vote, and abolitionist churches we know of nearby.
-          </p>
-          <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-w-3xl mx-auto mb-6">
-            {FEATURED_CITIES.map((c) => (
-              <li key={c.slug}>
-                <Link
-                  href={`/cities/${c.slug}`}
-                  className="block px-4 py-3 bg-white border border-gray-200 rounded-lg font-semibold text-gray-900 hover:border-red-600 hover:text-red-700 transition-colors"
-                >
-                  {c.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <Link
-            href="/cities"
-            className="inline-block text-red-700 font-semibold hover:text-red-800 hover:underline"
-          >
-            See all 150 Michigan cities we cover &rarr;
-          </Link>
-        </div>
-      </section>
-
       {/* Latest News */}
       <section className="bg-gray-100 py-16">
         <div className="max-w-7xl mx-auto px-4">
@@ -419,6 +345,78 @@ export default async function HomePage() {
               </Link>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Scorecard CTA with "Legislators to watch" chips — named-legislator
+          links give Google direct home→profile edges (fixes the "no
+          home→legislator link" crawl-budget starvation for 148 profiles). */}
+      <section className="bg-white py-10 border-t border-b border-gray-200">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold mb-3 text-gray-900">
+            See where your legislators stand
+          </h2>
+          <p className="text-gray-700 mb-6 max-w-2xl mx-auto">
+            Every Michigan legislator&apos;s record on abortion — voting, sponsorships,
+            endorsements, and campaign finance. Look up your representative and senator.
+          </p>
+          <Link
+            href="/legislators"
+            className="inline-block px-8 py-3 bg-[#1a1a1a] text-white font-bold hover:bg-black transition-colors"
+          >
+            OPEN THE LEGISLATOR SCORECARD &rarr;
+          </Link>
+          <div className="mt-8 pt-6 border-t border-gray-200">
+            <p className="text-xs uppercase tracking-[0.2em] font-bold text-gray-500 mb-4">
+              Legislators to watch
+            </p>
+            <ul className="flex flex-wrap justify-center gap-2 text-sm">
+              {FEATURED_LEGISLATORS.map((l) => (
+                <li key={l.slug}>
+                  <Link
+                    href={`/legislators/${l.slug}`}
+                    className="inline-block px-3 py-1.5 border border-gray-300 rounded-full text-gray-800 hover:border-red-600 hover:text-red-700 transition-colors"
+                  >
+                    {l.name} <span className="text-gray-500">· {l.role}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Local Michigan cities — direct home→city links so PageRank flows
+          without having to pass through the 150-link /cities index. Each
+          city page has its own scorecard, mill list, church directory,
+          and county context. */}
+      <section className="bg-gray-50 py-12 border-b border-gray-200">
+        <div className="max-w-5xl mx-auto px-4 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold mb-3 text-gray-900">
+            Local abolition in your Michigan city
+          </h2>
+          <p className="text-gray-700 mb-6 max-w-2xl mx-auto">
+            Every city page has your specific legislators, local abortion facilities,
+            county Prop 3 vote, and abolitionist churches we know of nearby.
+          </p>
+          <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-w-3xl mx-auto mb-6">
+            {FEATURED_CITIES.map((c) => (
+              <li key={c.slug}>
+                <Link
+                  href={`/cities/${c.slug}`}
+                  className="block px-4 py-3 bg-white border border-gray-200 rounded-lg font-semibold text-gray-900 hover:border-red-600 hover:text-red-700 transition-colors"
+                >
+                  {c.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <Link
+            href="/cities"
+            className="inline-block text-red-700 font-semibold hover:text-red-800 hover:underline"
+          >
+            See all 150 Michigan cities we cover &rarr;
+          </Link>
         </div>
       </section>
 
