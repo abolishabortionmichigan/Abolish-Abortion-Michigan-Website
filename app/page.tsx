@@ -9,7 +9,14 @@ import { getAllNewsArticles } from '@/lib/data/news-store';
 export const metadata: Metadata = {
   title: 'Equal Protection for the Preborn',
   description: 'Abolitionists in Michigan devoted to establishing justice and equal protection for our preborn neighbors. Join the movement to abolish abortion.',
-  alternates: { canonical: '/' },
+  // NOTE: canonical is emitted as a raw <link> in the JSX below, not via
+  // alternates.canonical. Next.js's Metadata API strips trailing slashes
+  // from resolved URLs (even absolute ones), which forced `.com` (no
+  // slash). Google auto-normalizes bare-domain canonicals to `.com/` when
+  // inspecting the with-slash URL and then flags the no-slash form as
+  // "Duplicate, Google chose different canonical". Emitting the link
+  // directly keeps the trailing slash intact so both URL forms report the
+  // same Google canonical.
 };
 
 // ISR: revalidate once a day. On-demand revalidation is triggered by the
@@ -131,6 +138,9 @@ export default async function HomePage() {
 
   return (
     <>
+      {/* Raw canonical link — see metadata comment above for why this isn't
+          set via alternates.canonical. */}
+      <link rel="canonical" href="https://www.abolishabortionmichigan.com/" />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
