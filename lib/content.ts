@@ -30,6 +30,12 @@ export const socialLinks = {
   facebook: 'https://facebook.com/abolishabortionmichigan',
   x: 'https://x.com/AbolitionMI',
   instagram: 'https://instagram.com/abolishabortionmichigan',
+  // Two YouTube channels: the main teaching/announcement channel and the
+  // "Action" channel that hosts rally + on-the-ground footage. Footer +
+  // Contact link to the main channel; both go into the homepage JSON-LD
+  // sameAs so Google associates both entities with the same nonprofit.
+  youtube: 'https://www.youtube.com/channel/UCDP23JqEyeJ91dAW-MKRkGQ',
+  youtubeAction: 'https://www.youtube.com/@AbolishAbortionMichiganAction',
   signalGroup: 'https://signal.group/#CjQKIJKnCRVq5FifD0RNYPlovNABQHbeXnUqGWGciHeg16WYEhDJ8AInsNGnXU7dpn1B-M7X',
 };
 

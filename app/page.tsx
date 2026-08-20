@@ -101,6 +101,8 @@ export default async function HomePage() {
       socialLinks.facebook,
       socialLinks.x,
       socialLinks.instagram,
+      socialLinks.youtube,
+      socialLinks.youtubeAction,
     ],
     knowsAbout: [
       'abortion abolition',
