@@ -36,6 +36,10 @@ export const socialLinks = {
   // sameAs so Google associates both entities with the same nonprofit.
   youtube: 'https://www.youtube.com/channel/UCDP23JqEyeJ91dAW-MKRkGQ',
   youtubeAction: 'https://www.youtube.com/@AbolishAbortionMichiganAction',
+  // Substack pulls /feed.xml automatically once RSS import is enabled in
+  // Substack Dashboard -> Settings -> Import. Drafts appear ~hourly; Jmark
+  // publishes them one-click. See project_aam_substack memory for details.
+  substack: 'https://abolishabortion.substack.com/',
   signalGroup: 'https://signal.group/#CjQKIJKnCRVq5FifD0RNYPlovNABQHbeXnUqGWGciHeg16WYEhDJ8AInsNGnXU7dpn1B-M7X',
 };
 

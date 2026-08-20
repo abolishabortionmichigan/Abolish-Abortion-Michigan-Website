@@ -24,17 +24,34 @@ export async function GET() {
       ? new Date(article.created_at).toUTCString()
       : new Date().toUTCString();
 
+    // Substack's RSS importer pulls <content:encoded> (full HTML body)
+    // when creating drafts — without it, drafts only contain the excerpt
+    // and Jmark has to paste the body in manually. <enclosure> gives
+    // Substack the cover image; <dc:creator> populates the byline.
+    const contentEncoded = article.content
+      ? `<content:encoded><![CDATA[${article.content}]]></content:encoded>`
+      : '';
+    const enclosure = article.image
+      ? `<enclosure url="${escapeXml(article.image)}" type="image/jpeg" length="0" />`
+      : '';
+
     return `    <item>
       <title>${escapeXml(article.title)}</title>
       <link>${BASE_URL}/news/${escapeXml(article.slug)}</link>
       <guid isPermaLink="true">${BASE_URL}/news/${escapeXml(article.slug)}</guid>
       <description>${escapeXml(article.excerpt)}</description>
+      ${contentEncoded}
+      ${enclosure}
+      <dc:creator>Abolish Abortion Michigan</dc:creator>
       <pubDate>${pubDate}</pubDate>
     </item>`;
   });
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
     <title>Abolish Abortion Michigan - News</title>
     <link>${BASE_URL}/news</link>
