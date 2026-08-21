@@ -74,18 +74,6 @@ export default function NoExceptionsPage() {
               Regarding situations where the life of the mother is in jeopardy, there is no circumstance where the baby must be intentionally murdered. There are cases where the child must be delivered early, and in those cases, the child may have a lower probability of survival than a child born at full-term, but intentional murder must not be allowed as an option. Doctors must be healers, not killers.
             </p>
 
-            <p>
-              To be precise: when we say &ldquo;no exceptions,&rdquo; we mean no <em>intentional</em> abortion &mdash; no procedure whose object is the death of the preborn child. We do <em>not</em> mean that medical treatment aimed at saving the mother&apos;s life is forbidden, even in the rare cases where such treatment has the foreseen but unintended consequence of the child&apos;s death. Ectopic pregnancy, hysterectomy for uterine cancer during pregnancy, and early delivery in cases like severe preeclampsia are not abortion in this sense; the intent of the procedure is to save the mother or treat a diseased organ, not to kill the child.
-            </p>
-
-            <p>
-              Actual equal-protection legislation carries this distinction explicitly. Oklahoma SB1729 &mdash; a widely-referenced model equal-protection bill &mdash; reads: <em>&ldquo;This chapter shall not apply to&hellip; the undertaking of life-saving procedures to save the life of the mother when accompanied by reasonable steps to save the life of the unborn child.&rdquo;</em> Every serious abolition bill preserves the physician&apos;s responsibility to save both lives where possible, and to save the mother&apos;s life where saving both is not medically possible.
-            </p>
-
-            <p>
-              A word on self-defense doctrine, which is sometimes offered as a warrant for abortion in life-of-the-mother cases. The biblical and legal doctrine of self-defense presumes an <em>unjust aggressor</em>. A preborn child, even in a pregnancy that threatens the mother&apos;s life, is not an aggressor. She is an innocent party whose presence in the womb is not itself a moral wrong. Framing her death as self-defense, rather than as an unintended consequence of legitimate medical treatment, opens a door that historically has been used to justify abortions abolitionists reject. Abolitionists Rising has addressed this at length in their essay &ldquo;<a href="https://abolitionistsrising.com/a-mother-is-a-magistrate-why-duress-is-no-defense-for-abortion/" target="_blank" rel="noopener noreferrer" className="text-red-600 hover:underline">A Mother Is a Magistrate: Why Duress Is No Defense for Abortion</a>.&rdquo;
-            </p>
-
             <div className="bg-gray-100 p-6 rounded-lg my-8">
               <p>
                 Never compromise on dehumanization. Demand equal justice and protection for all human beings, meaning abortion&apos;s total and immediate abolition. To have a spirit of compromise, or accommodation and conciliation as Heyrick put it, is to fight against abortion without the power of truth and justice. God forbid we ever do so.
