@@ -240,6 +240,17 @@
       "latitude": 44.758706,
       "longitude": -85.593185,
       "notes": "Northern Michigan PPMI location. URL slug on plannedparenthood.org still references the parent Walker (Grand Rapids) region administratively, which is why the site indexes as centro-de-salud-walker under the Traverse City address."
+    },
+    {
+      "id": "marquette-medical",
+      "name": "Marquette Medical",
+      "address": "1025 W Washington St, Suite A, Marquette, MI 49855",
+      "city": "Marquette",
+      "phone": "(906) 239-5050",
+      "email": null,
+      "latitude": 46.5462,
+      "longitude": -87.4062,
+      "notes": "Medication abortion only, up to 11 weeks and 6 days. Opened to fill the gap after Planned Parenthood's Marquette location closed. Open 8am to 6pm, 7 days a week. Also operates a 24/7 sexual-assault forensic response in partnership with The Women's Center of Marquette."
     }
   ]
 }
