@@ -435,7 +435,7 @@ export default function NewsModal({ open, onClose, article, isCreating, onSave }
               <div className="px-6 py-6">
                 {formData.content ? (
                   <article
-                    className="prose prose-sm max-w-none prose-headings:text-[#1a1a1a] prose-a:text-red-700 prose-a:font-semibold prose-a:underline prose-a:decoration-2 prose-a:underline-offset-2 hover:prose-a:text-red-900 hover:prose-a:decoration-red-900 prose-img:max-w-full prose-img:h-auto prose-img:rounded-lg"
+                    className="article-body max-w-none"
                     dangerouslySetInnerHTML={{ __html: sanitizeHtml(formData.content) }}
                   />
                 ) : (
