@@ -1,8 +1,7 @@
 'use server';
 
 import { getAuthToken, verifyToken } from './auth-actions';
-import { getSubscribedEmails } from '@/lib/data/petition-store';
-import { getActiveSubscriberEmails } from '@/lib/data/subscriber-store';
+import { getBulkEmailAudience, applyDailyCap } from '@/lib/data/audience';
 import { sendBroadcastToAll, sendBroadcastNotification } from '@/lib/email';
 import { sanitizeHtml } from '@/lib/sanitize';
 
@@ -32,41 +31,33 @@ export async function sendBroadcast(data: {
       return { error: 'Subject must be 200 characters or less' };
     }
 
-    // Query both tables and deduplicate by email
-    const [petitionSubs, newsletterSubs] = await Promise.all([
-      getSubscribedEmails(),
-      getActiveSubscriberEmails(),
-    ]);
+    // Shared audience resolver: deduplicated union of petition opt-ins and
+    // footer newsletter subscribers. Previously duplicated here and in
+    // news-actions.ts, where the two implementations had drifted apart.
+    const audience = await getBulkEmailAudience();
 
-    const seen = new Set<string>();
-    const subscribers: typeof petitionSubs = [];
-    for (const sub of petitionSubs) {
-      const key = sub.email.toLowerCase();
-      if (!seen.has(key)) {
-        seen.add(key);
-        subscribers.push(sub);
-      }
-    }
-    for (const sub of newsletterSubs) {
-      const key = sub.email.toLowerCase();
-      if (!seen.has(key)) {
-        seen.add(key);
-        // Wrap in the shape expected by sendBroadcastToAll
-        subscribers.push({ id: '', name: '', email: sub.email, subscribed: true, created_at: '' } as typeof petitionSubs[0]);
-      }
-    }
-
-    if (subscribers.length === 0) {
+    if (audience.length === 0) {
       return { error: 'No subscribers to send to' };
     }
+
+    // Resend's free plan caps sending at 100/day and transactional mail draws
+    // from the same quota, so a full-list blast can silently break petition
+    // and contact confirmations for the rest of the day.
+    const { batch, deferred, capped, cap, total } = applyDailyCap(audience);
+    if (capped) {
+      console.warn(`[broadcast] Daily cap reached: sending to ${batch.length} of ${total}; ${deferred.length} deferred (cap=${cap}).`);
+    }
+    const subscribers = batch.map((m) => ({ name: m.name, email: m.email }));
+
 
     // Sanitize the HTML body
     const sanitizedBody = sanitizeHtml(data.body);
 
     const result = await sendBroadcastToAll(data.subject, sanitizedBody, subscribers);
-    await sendBroadcastNotification(data.subject, result.sent, result.failed);
+    const failed = result.failed + deferred.length;
+    await sendBroadcastNotification(data.subject, result.sent, failed);
 
-    return result;
+    return { sent: result.sent, failed };
   } catch (error) {
     console.error('Error sending broadcast:', error instanceof Error ? error.message : 'Unknown error');
     return { error: 'Failed to send broadcast' };

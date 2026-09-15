@@ -10,7 +10,7 @@ import {
   deleteNewsArticle as deleteArticle,
   slugExists,
 } from '@/lib/data/news-store';
-import { getSubscribedEmails } from '@/lib/data/petition-store';
+import { getBulkEmailAudience, applyDailyCap } from '@/lib/data/audience';
 import { sendNewsletterToAll, sendNewsletterNotification } from '@/lib/email';
 import { sanitizeHtml } from '@/lib/sanitize';
 
@@ -105,11 +105,19 @@ export async function createNewsArticle(data: Omit<NewsArticle, 'id' | 'created_
 
     // Send newsletter to subscribers if article is published
     if (data.published) {
-      const subscribers = await getSubscribedEmails();
-      if (subscribers.length > 0) {
+      // Union of petition opt-ins AND footer newsletter subscribers. This
+      // previously read only the petition table, so footer-only subscribers
+      // never received a newsletter. Capped to protect the shared daily
+      // Resend quota that transactional mail also draws from.
+      const audience = await getBulkEmailAudience();
+      const { batch, deferred, capped, cap, total } = applyDailyCap(audience);
+      if (batch.length > 0) {
         const articleData = { title: data.title, slug: data.slug, excerpt: data.excerpt, image: data.image };
-        const result = await sendNewsletterToAll(articleData, subscribers);
-        await sendNewsletterNotification(articleData, result.sent, result.failed);
+        const result = await sendNewsletterToAll(articleData, batch);
+        if (capped) {
+          console.warn(`[newsletter] Daily cap reached: sent to ${batch.length} of ${total}; ${deferred.length} deferred (cap=${cap}).`);
+        }
+        await sendNewsletterNotification(articleData, result.sent, result.failed + deferred.length);
       }
       // Notify search engines of new content
       pingSitemapToSearchEngines();
@@ -156,11 +164,16 @@ export async function updateNewsArticle(id: string, data: Partial<NewsArticle>) 
 
     // Send newsletter when article transitions from draft to published
     if (data.published === true && !wasPublished) {
-      const subscribers = await getSubscribedEmails();
-      if (subscribers.length > 0) {
+      // Same union + daily cap as the create path (see note above).
+      const audience = await getBulkEmailAudience();
+      const { batch, deferred, capped, cap, total } = applyDailyCap(audience);
+      if (batch.length > 0) {
         const articleData = { title: updated.title, slug: updated.slug, excerpt: updated.excerpt, image: updated.image };
-        const result = await sendNewsletterToAll(articleData, subscribers);
-        await sendNewsletterNotification(articleData, result.sent, result.failed);
+        const result = await sendNewsletterToAll(articleData, batch);
+        if (capped) {
+          console.warn(`[newsletter] Daily cap reached: sent to ${batch.length} of ${total}; ${deferred.length} deferred (cap=${cap}).`);
+        }
+        await sendNewsletterNotification(articleData, result.sent, result.failed + deferred.length);
       }
       // Notify search engines of new content
       pingSitemapToSearchEngines();
