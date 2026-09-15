@@ -55,3 +55,8 @@ next-env.d.ts
 # Sentry Config File
 .env.sentry-build-plugin
 .env.local
+
+# One-off bulk-send logs (contain subscriber emails)
+scripts/*-send-log.csv
+scripts/*-outreach-log.csv
+scripts/org-update-preview.html
