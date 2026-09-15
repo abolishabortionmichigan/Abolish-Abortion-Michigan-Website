@@ -59,13 +59,16 @@ export async function getBulkEmailAudience(): Promise<AudienceMember[]> {
  * enough to exhaust the quota therefore silently breaks signup confirmations
  * for the rest of the day.
  *
- * DAILY_BULK_CAP is the most recipients a single bulk send may target,
- * deliberately set below 100 to leave headroom for transactional mail.
- * Override with RESEND_DAILY_BULK_CAP once on a paid plan (Pro removes the
- * daily limit entirely, at which point this can be raised well past the
- * list size).
+ * DAILY_BULK_CAP is the most recipients a single bulk send may target.
+ * It is DISABLED by default (0 = no cap): Dustin opted to send to the full
+ * list and monitor the quota manually rather than have sends silently
+ * truncated. The splitting logic below is left in place so the guard can be
+ * re-enabled without a code change by setting RESEND_DAILY_BULK_CAP in
+ * Vercel (85 leaves headroom for transactional mail on the free plan).
+ *
+ * On Resend Pro the daily limit disappears entirely and this stays at 0.
  */
-export const DAILY_BULK_CAP = Number(process.env.RESEND_DAILY_BULK_CAP || 85);
+export const DAILY_BULK_CAP = Number(process.env.RESEND_DAILY_BULK_CAP || 0);
 
 export interface CappedAudience {
   /** Recipients to send to now. */
