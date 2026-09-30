@@ -58,6 +58,7 @@ const navItems = [
       { label: 'Abortion Facilities', href: '/abortion-mills' },
     ],
   },
+  { label: 'STORE', href: '/store' },
   { label: 'CONTACT US', href: '/contact' },
 ];
 
