@@ -26,12 +26,47 @@ import {
   markOrderShipped,
   orderCounts,
   printifyTokenStatus,
+  salesYearToDate,
   saveOrderNote,
   sendOrderToPrintify,
   setOrderStatus,
   type AdminOrder,
 } from '@/lib/actions/admin/store-admin';
+import { MI_EXEMPT_CENTS, MI_CLIFF_CENTS, type MiTaxBand } from '@/lib/mi-sales-tax';
 import { formatMoney, formatOrderDate, ORDER_STATUS_LABEL } from '@/lib/format';
+
+/*
+ * What each Michigan sales-tax band means, in words that say what to DO.
+ * The $25,000 cliff is retroactive across the whole year, so the warning has
+ * to arrive before it is crossed, not after.
+ */
+const MI_BAND: Record<MiTaxBand, { tone: string; title: string; body: string }> = {
+  exempt: {
+    tone: 'border-gray-200 bg-gray-50 text-gray-700',
+    title: 'Exempt so far this year',
+    body: `The first ${formatMoney(MI_EXEMPT_CENTS)} of sales in a calendar year is exempt under MCL 205.54o. Nothing to do yet.`,
+  },
+  approaching: {
+    tone: 'border-yellow-300 bg-yellow-50 text-yellow-900',
+    title: `Approaching the ${formatMoney(MI_EXEMPT_CENTS)} point`,
+    body: `Above ${formatMoney(MI_EXEMPT_CENTS)} you must collect 6% Michigan sales tax on the excess. Get a sales tax licence now (free, about 48 hours at mto.treasury.michigan.gov), then add the registration in Stripe — no code change needed.`,
+  },
+  collecting: {
+    tone: 'border-orange-300 bg-orange-50 text-orange-900',
+    title: 'Past the exempt amount — tax is due on the excess',
+    body: `Sales above ${formatMoney(MI_EXEMPT_CENTS)} are taxable. If Stripe has no Michigan registration it is charging 0%, and the shortfall comes out of AAM's own funds. Fix this now.`,
+  },
+  'near-cliff': {
+    tone: 'border-red-300 bg-red-50 text-red-900',
+    title: `Close to the ${formatMoney(MI_CLIFF_CENTS)} cliff`,
+    body: `At ${formatMoney(MI_CLIFF_CENTS)} the exemption is lost for the ENTIRE year, including the first ${formatMoney(MI_EXEMPT_CENTS)}. Make sure you are registered and collecting before you cross it.`,
+  },
+  'over-cliff': {
+    tone: 'border-red-500 bg-red-100 text-red-900',
+    title: `Over ${formatMoney(MI_CLIFF_CENTS)} — the exemption is gone for this year`,
+    body: `Every sale this calendar year is taxable, including the first ${formatMoney(MI_EXEMPT_CENTS)}. Speak to the accountant about what has already been collected versus what is owed.`,
+  },
+};
 
 const TABS = [
   { key: 'all', label: 'All orders' },
@@ -100,6 +135,15 @@ export default function OrdersAdminPage() {
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [tokenWarning, setTokenWarning] = useState<string | null>(null);
+  const [ytd, setYtd] = useState<{
+    year: number;
+    orders: number;
+    goodsCents: number;
+    shippingCents: number;
+    retailCents: number;
+    taxCollectedCents: number;
+    band: MiTaxBand;
+  } | null>(null);
 
   // Detail dialog
   const [open, setOpen] = useState<AdminOrder | null>(null);
@@ -125,18 +169,21 @@ export default function OrdersAdminPage() {
 
   useEffect(() => {
     let alive = true;
-    Promise.all([listOrders(tab), orderCounts()]).then(([res, countRes]) => {
-      if (!alive) return;
-      if ('error' in res) {
-        setError(res.error ?? 'Something went wrong.');
-        setOrders([]);
-      } else {
-        setError(null);
-        setOrders(res.orders);
+    Promise.all([listOrders(tab), orderCounts(), salesYearToDate()]).then(
+      ([res, countRes, ytdRes]) => {
+        if (!alive) return;
+        if ('error' in res) {
+          setError(res.error ?? 'Something went wrong.');
+          setOrders([]);
+        } else {
+          setError(null);
+          setOrders(res.orders);
+        }
+        if (!('error' in countRes)) setCounts(countRes.counts);
+        if (!('error' in ytdRes)) setYtd(ytdRes);
+        setLoading(false);
       }
-      if (!('error' in countRes)) setCounts(countRes.counts);
-      setLoading(false);
-    });
+    );
     return () => {
       alive = false;
     };
@@ -267,6 +314,55 @@ export default function OrdersAdminPage() {
         <div className="flex items-start gap-3 rounded-md border border-yellow-300 bg-yellow-50 px-4 py-3 text-sm text-yellow-900">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
           <p>{tokenWarning}</p>
+        </div>
+      )}
+
+      {ytd && (
+        <div className={`rounded-lg border px-5 py-4 ${MI_BAND[ytd.band].tone}`}>
+          <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+            <div>
+              {/* Built as one string: JSX drops the space around {expr} when a
+                  line wraps, which silently produced "2026SALES" here. */}
+              <p className="text-xs uppercase tracking-wide opacity-80">
+                {`${ytd.year} sales — Michigan sales tax`}
+              </p>
+              <p className="text-2xl font-black">
+                {formatMoney(ytd.retailCents)}
+                <span className="ml-2 text-sm font-medium opacity-75">
+                  of {formatMoney(MI_CLIFF_CENTS)}
+                </span>
+              </p>
+              <p className="mt-0.5 text-xs opacity-75">
+                {`${ytd.orders} order${ytd.orders === 1 ? '' : 's'} · ` +
+                  `${formatMoney(ytd.goodsCents)} goods + ${formatMoney(ytd.shippingCents)} shipping · ` +
+                  `${formatMoney(ytd.taxCollectedCents)} tax collected`}
+              </p>
+            </div>
+            <div className="max-w-md">
+              <p className="font-bold">{MI_BAND[ytd.band].title}</p>
+              <p className="mt-1 text-sm">{MI_BAND[ytd.band].body}</p>
+            </div>
+          </div>
+
+          {/* Progress toward the two thresholds. */}
+          <div className="relative mt-3 h-2 w-full overflow-hidden rounded-full bg-black/10">
+            <div
+              className="h-full rounded-full bg-current opacity-60"
+              style={{ width: `${Math.min(100, (ytd.retailCents / MI_CLIFF_CENTS) * 100)}%` }}
+            />
+            {/* the $10,000 mark, where collection starts */}
+            <div
+              className="absolute inset-y-0 w-px bg-current opacity-70"
+              style={{ left: `${(MI_EXEMPT_CENTS / MI_CLIFF_CENTS) * 100}%` }}
+            />
+          </div>
+          <div className="mt-1 flex justify-between text-[11px] opacity-70">
+            <span>$0</span>
+            <span style={{ marginLeft: `${(MI_EXEMPT_CENTS / MI_CLIFF_CENTS) * 100 - 14}%` }}>
+              {formatMoney(MI_EXEMPT_CENTS)} &mdash; collection starts
+            </span>
+            <span>{formatMoney(MI_CLIFF_CENTS)} cliff</span>
+          </div>
         </div>
       )}
 

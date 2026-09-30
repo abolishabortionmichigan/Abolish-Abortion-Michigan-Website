@@ -17,6 +17,7 @@ import prisma from '@/lib/prisma';
 import { sendOrderShippedEmail, type OrderEmailData } from '@/lib/email';
 import { retryPrintifyOrder } from '@/lib/printify-fulfillment';
 import { printifyTokenExpiry, daysUntil, isPrintifyConfigured } from '@/lib/printify';
+import { miTaxBand } from '@/lib/mi-sales-tax';
 
 async function isAdmin(): Promise<boolean> {
   const token = await getAuthToken();
@@ -100,6 +101,55 @@ export async function orderCounts() {
     return { counts };
   } catch {
     return { error: 'Failed to load counts' };
+  }
+}
+
+/*
+ * Michigan sales-tax exposure for the current calendar year.
+ *
+ * Thresholds and bands live in lib/mi-sales-tax.ts.
+ *
+ * The point of this is that the crossing is otherwise invisible. Nothing else
+ * in the app would tell anyone it had happened until a return was due.
+ *
+ * Counted: goods + shipping on orders that actually sold (paid or shipped).
+ * Shipping is included because Michigan taxes delivery charges on a taxable
+ * sale, so including it is the conservative read -- it can only make the
+ * figure early, never late. Tax already collected is excluded, and cancelled
+ * and refunded orders do not count as sales.
+ *
+ * These are thresholds to watch, not tax advice; the filing decision is AAM's
+ * accountant's.
+ */
+export async function salesYearToDate() {
+  try {
+    if (!(await isAdmin())) return { error: 'Authentication required' };
+
+    const year = new Date().getUTCFullYear();
+    const rows = await prisma.order.aggregate({
+      where: {
+        status: { in: ['paid', 'shipped'] },
+        created_at: { gte: new Date(Date.UTC(year, 0, 1)), lt: new Date(Date.UTC(year + 1, 0, 1)) },
+      },
+      _sum: { subtotal_cents: true, shipping_cents: true, tax_cents: true },
+      _count: { _all: true },
+    });
+
+    const goods = rows._sum.subtotal_cents ?? 0;
+    const shipping = rows._sum.shipping_cents ?? 0;
+    const retail = goods + shipping;
+
+    return {
+      year,
+      orders: rows._count._all,
+      goodsCents: goods,
+      shippingCents: shipping,
+      retailCents: retail,
+      taxCollectedCents: rows._sum.tax_cents ?? 0,
+      band: miTaxBand(retail),
+    };
+  } catch {
+    return { error: 'Failed to total this year’s sales' };
   }
 }
 
