@@ -21,6 +21,15 @@ export async function getProductBySlug(slug: string) {
   return prisma.product.findFirst({ where: { slug, active: true }, include: productInclude });
 }
 
+/** Slugs of every live product, for the sitemap. */
+export async function getActiveProducts() {
+  return prisma.product.findMany({
+    where: { active: true },
+    select: { slug: true, updated_at: true },
+    orderBy: { created_at: 'desc' },
+  });
+}
+
 /** First image of the most prominent product in each category, for the /store cards. */
 export async function getCategoryCovers(): Promise<Record<string, { image: string; count: number }>> {
   const products = await prisma.product.findMany({
