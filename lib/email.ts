@@ -1453,3 +1453,38 @@ export const sendPrintifyTokenReminder = (d: { daysLeft: number; expiresOn: Date
     ),
   });
 };
+
+/**
+ * Michigan sales tax licences run to 31 December of the year they are issued
+ * for and must be renewed annually. Selling without a current one, while
+ * still charging the 6%, is a far worse position than simply not collecting.
+ */
+export const sendSalesTaxLicenseReminder = (d: { daysLeft: number; expiresOn: Date }) => {
+  const when = d.expiresOn.toLocaleDateString('en-US', { dateStyle: 'long', timeZone: 'America/New_York' });
+  const expired = d.daysLeft <= 0;
+  return send({
+    from: FROM_NOTIFICATIONS,
+    to: process.env.SALES_TAX_REMINDER_EMAIL || NOTIFICATION_EMAIL,
+    subject: sanitizeSubject(
+      expired
+        ? 'Michigan sales tax licence has EXPIRED - the store is collecting tax without one'
+        : `Michigan sales tax licence expires in ${d.daysLeft} day${d.daysLeft === 1 ? '' : 's'}`
+    ),
+    html: storeLayout(
+      `<h1 style="color:#1a1a1a;font-size:22px;margin-top:0;">Sales tax licence ${expired ? 'has expired' : 'is expiring'}</h1>
+       <p>The Michigan sales tax licence ${
+         expired
+           ? `<strong>expired on ${escapeHtml(when)}</strong>. The store is still charging 6% at checkout, which means tax is being collected without a current licence`
+           : `expires on <strong>${escapeHtml(when)}</strong>`
+       }.</p>
+       <p>Michigan licences always run to 31 December of the year they are issued for, so this is an annual job:</p>
+       <ol>
+         <li>Sign in to <strong>Michigan Treasury Online</strong> (mto.treasury.michigan.gov).</li>
+         <li>Renew the sales tax licence for the coming year and file any return that is due.</li>
+         <li>Download the new licence from <strong>Letters and Licenses</strong> and keep it on file.</li>
+         <li>Update <strong>SALES_TAX_LICENSE_EXPIRES</strong> in Vercel to the new expiry date.</li>
+       </ol>
+       <p style="color:#6b7280;font-size:13px;">Account number 99-4483710 (the organisation's FEIN). Treasury registration line: 517-636-6925.</p>`
+    ),
+  });
+};

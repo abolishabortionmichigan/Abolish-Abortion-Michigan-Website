@@ -113,10 +113,18 @@ export async function orderCounts() {
  * in the app would tell anyone it had happened until a return was due.
  *
  * Counted: goods + shipping on orders that actually sold (paid or shipped).
- * Shipping is included because Michigan taxes delivery charges on a taxable
- * sale, so including it is the conservative read -- it can only make the
- * figure early, never late. Tax already collected is excluded, and cancelled
- * and refunded orders do not count as sales.
+ *
+ * Shipping is included here deliberately, NOT because it is taxable -- it is
+ * not. Michigan PA 20 and 21 of 2023 exclude separately stated delivery
+ * charges from the tax base, and this store states shipping separately
+ * everywhere (cart, Stripe, order page, emails), so Stripe correctly charges
+ * 0% on it. It is counted toward the threshold anyway because overstating can
+ * only make the warning fire early, and firing late is the failure that costs
+ * money.
+ *
+ * Tax already collected is excluded, and cancelled and refunded orders are
+ * not sales. The card shows goods and shipping separately so the split is
+ * visible.
  *
  * These are thresholds to watch, not tax advice; the filing decision is AAM's
  * accountant's.
