@@ -33,7 +33,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const article = await getNewsArticleBySlug(slug);
 
   if (!article || !article.published) {
-    notFound();
+    // Do NOT call notFound() here. Thrown from generateMetadata it renders the
+    // 404 page with a 200 status - a soft 404 that Google indexes as a real
+    // page. The page component below throws it where the status still applies.
+    return { title: 'Page Not Found', robots: { index: false, follow: false } };
   }
 
   return {
