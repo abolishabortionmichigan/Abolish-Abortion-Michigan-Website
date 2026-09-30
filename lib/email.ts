@@ -1254,3 +1254,202 @@ const broadcastEmailHtml = (subject: string, body: string, subscriber: Subscribe
 </html>
   `;
 };
+
+// ===== STORE / ORDER EMAILS =====
+//
+// Ported from the Made Alive Abolitionists store, rewritten in this file's
+// house style (inline table layout, #1a1a1a header with the #d4af37 wordmark,
+// Georgia body) so store mail matches the rest of AAM's email rather than
+// looking like a second system bolted on.
+
+export interface OrderEmailData {
+  order_number: string;
+  email: string;
+  name: string | null;
+  subtotal_cents: number;
+  shipping_cents: number;
+  tax_cents: number;
+  total_cents: number;
+  shipping_name: string | null;
+  shipping_address: {
+    line1?: string | null;
+    line2?: string | null;
+    city?: string | null;
+    state?: string | null;
+    postal_code?: string | null;
+  } | null;
+  carrier?: string | null;
+  tracking_number?: string | null;
+  items: { name: string; variant_label: string | null; quantity: number; unit_price_cents: number }[];
+}
+
+const money = (cents: number) =>
+  (cents / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+
+/** Shared chrome so every store email matches the existing AAM templates. */
+function storeLayout(innerHtml: string, preheader = ''): string {
+  return `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="font-family: Georgia, 'Times New Roman', serif; line-height: 1.6; color: #333333; background-color: #f5f5f5; margin: 0; padding: 0;">
+  ${preheader ? `<div style="display:none;max-height:0;overflow:hidden;opacity:0;">${escapeHtml(preheader)}</div>` : ''}
+  <table cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#f5f5f5">
+    <tr><td align="center" style="padding: 20px 0;">
+      <table cellpadding="0" cellspacing="0" border="0" width="600" style="border-radius: 8px; overflow: hidden; background-color: #fff; max-width: 600px;">
+        <tr><td bgcolor="#1a1a1a" style="padding: 30px 20px; text-align: center;">
+          <div style="font-size: 24px; font-weight: bold; color: #d4af37; letter-spacing: 1px;">Abolish Abortion Michigan</div>
+        </td></tr>
+        <tr><td style="padding: 35px 40px;">${innerHtml}</td></tr>
+        <tr><td bgcolor="#1a1a1a" style="padding: 25px; text-align: center; font-size: 13px; color: #cccccc;">
+          <p style="margin: 0 0 10px 0;">&copy; ${new Date().getFullYear()} Abolish Abortion Michigan. All rights reserved.</p>
+          <p style="margin: 0;"><a href="${BASE_URL}" style="color: #d4af37; text-decoration: none;">abolishabortionmichigan.com</a></p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+}
+
+function orderButton(href: string, label: string): string {
+  return `<div style="text-align:center;margin-top:25px;">
+    <a href="${href}" style="display:inline-block;background-color:#1a1a1a;color:#ffffff !important;text-decoration:none;padding:12px 25px;border-radius:4px;font-weight:bold;">${escapeHtml(label)}</a>
+  </div>`;
+}
+
+function orderTable(o: OrderEmailData): string {
+  const rows = o.items
+    .map(
+      (i) => `<tr>
+        <td style="padding:8px 0;border-bottom:1px solid #eeeeea;">${escapeHtml(i.name)}${i.variant_label ? ` <span style="color:#6b7078;">(${escapeHtml(i.variant_label)})</span>` : ''} &times; ${i.quantity}</td>
+        <td style="padding:8px 0;border-bottom:1px solid #eeeeea;text-align:right;">${money(i.unit_price_cents * i.quantity)}</td>
+      </tr>`
+    )
+    .join('');
+  const line = (label: string, cents: number, bold = false) =>
+    `<tr><td style="padding:4px 0;${bold ? 'font-weight:bold;' : ''}">${label}</td><td style="padding:4px 0;text-align:right;${bold ? 'font-weight:bold;' : ''}">${money(cents)}</td></tr>`;
+  return `<table width="100%" cellpadding="0" cellspacing="0" style="margin:16px 0;font-size:15px;">${rows}
+    ${line('Subtotal', o.subtotal_cents)}${line('Shipping', o.shipping_cents)}${o.tax_cents ? line('Tax', o.tax_cents) : ''}${line('Total', o.total_cents, true)}
+  </table>`;
+}
+
+function addressBlock(o: OrderEmailData): string {
+  const a = o.shipping_address;
+  if (!a) return '';
+  const parts = [o.shipping_name, a.line1, a.line2, [a.city, a.state, a.postal_code].filter(Boolean).join(', ')].filter(Boolean);
+  return `<p style="margin:0;color:#474b55;">${parts.map((p) => escapeHtml(String(p))).join('<br>')}</p>`;
+}
+
+export const sendOrderConfirmationEmail = (o: OrderEmailData) =>
+  send({
+    from: FROM_EMAIL,
+    to: o.email,
+    replyTo: NOTIFICATION_EMAIL,
+    subject: sanitizeSubject(`Order ${o.order_number} confirmed`),
+    html: storeLayout(
+      `<h1 style="color:#1a1a1a;font-size:24px;margin-top:0;margin-bottom:25px;">Thank you for your order</h1>
+       <p>${o.name ? `Dear <strong style="color:#8b0000;">${escapeHtml(o.name)}</strong>,` : 'Hello,'}</p>
+       <p>Thank you for your order. Every purchase supports the work of abolishing abortion in Michigan. We will email you again when it ships.</p>
+       <p style="margin-bottom:0;"><strong>Order ${escapeHtml(o.order_number)}</strong></p>
+       ${orderTable(o)}
+       <p style="margin-bottom:4px;"><strong>Shipping to</strong></p>
+       ${addressBlock(o)}
+       <p style="margin-top:25px;">In Christ,<br><strong>Abolish Abortion Michigan</strong></p>`,
+      `Thank you, order ${o.order_number} is confirmed.`
+    ),
+  });
+
+export const sendOrderShippedEmail = (o: OrderEmailData) =>
+  send({
+    from: FROM_EMAIL,
+    to: o.email,
+    replyTo: NOTIFICATION_EMAIL,
+    subject: sanitizeSubject(`Order ${o.order_number} has shipped`),
+    html: storeLayout(
+      `<h1 style="color:#1a1a1a;font-size:24px;margin-top:0;margin-bottom:25px;">Your order is on its way</h1>
+       <p>${o.name ? `Dear <strong style="color:#8b0000;">${escapeHtml(o.name)}</strong>,` : 'Hello,'}</p>
+       <p>Your order <strong>${escapeHtml(o.order_number)}</strong> has shipped.</p>
+       ${o.tracking_number ? `<p>${o.carrier ? `${escapeHtml(o.carrier)} tracking` : 'Tracking'} number: <strong>${escapeHtml(o.tracking_number)}</strong></p>` : ''}
+       ${orderTable(o)}
+       <p style="margin-top:25px;">In Christ,<br><strong>Abolish Abortion Michigan</strong></p>`,
+      `Order ${o.order_number} is on its way.`
+    ),
+  });
+
+export const sendNewOrderNotification = (o: OrderEmailData) =>
+  send({
+    from: FROM_NOTIFICATIONS,
+    to: NOTIFICATION_EMAIL,
+    subject: sanitizeSubject(`New order ${o.order_number} - ${money(o.total_cents)}`),
+    html: storeLayout(
+      `<h1 style="color:#1a1a1a;font-size:22px;margin-top:0;">New paid order</h1>
+       <p>From ${escapeHtml(o.name || o.email)} &lt;${escapeHtml(o.email)}&gt;.</p>
+       ${orderTable(o)}${addressBlock(o)}
+       ${orderButton(`${BASE_URL}/admin/dashboard/orders`, 'Open orders')}`
+    ),
+  });
+
+export const sendPrintifyProblemNotification = (d: { order_number: string; problem: string }) =>
+  send({
+    from: FROM_NOTIFICATIONS,
+    to: NOTIFICATION_EMAIL,
+    subject: sanitizeSubject(`Order ${d.order_number} needs attention (Printify)`),
+    html: storeLayout(
+      `<h1 style="color:#1a1a1a;font-size:22px;margin-top:0;">Order needs attention</h1>
+       <p>Order <strong>${escapeHtml(d.order_number)}</strong> could not be handled automatically by Printify. <strong>The customer has already paid</strong>, so this one needs a person.</p>
+       <div style="margin:20px 0;padding:15px;background:#f9f9f9;border-left:4px solid #8b0000;border-radius:4px;">${escapeHtml(d.problem)}</div>
+       ${orderButton(`${BASE_URL}/admin/dashboard/orders`, 'Open orders')}`
+    ),
+  });
+
+export const sendPrintifyShipmentNotification = (d: {
+  order_number: string;
+  carrier: string | null;
+  tracking: string | null;
+  manual: string[];
+}) =>
+  send({
+    from: FROM_NOTIFICATIONS,
+    to: NOTIFICATION_EMAIL,
+    subject: sanitizeSubject(`Order ${d.order_number}: Printify shipped its items, ship the rest`),
+    html: storeLayout(
+      `<h1 style="color:#1a1a1a;font-size:22px;margin-top:0;">Printify shipped part of an order</h1>
+       <p>Printify shipped the print-on-demand items in order <strong>${escapeHtml(d.order_number)}</strong>${d.tracking ? ` (${escapeHtml([d.carrier, d.tracking].filter(Boolean).join(' '))})` : ''}.</p>
+       <p>These items are yours to ship:</p>
+       <ul>${d.manual.map((m) => `<li>${escapeHtml(m)}</li>`).join('')}</ul>
+       <p>When they go out, mark the order shipped in the admin. That is what emails the customer.</p>
+       ${orderButton(`${BASE_URL}/admin/dashboard/orders`, 'Open orders')}`
+    ),
+  });
+
+// Printify personal tokens are fixed at one year with no never-expire option,
+// so renewal is a once-a-year job. This goes to PRINTIFY_REMINDER_EMAIL
+// (whoever owns the Printify account) rather than a developer inbox, because
+// only the account owner can mint a replacement.
+export const sendPrintifyTokenReminder = (d: { daysLeft: number; expiresOn: Date }) => {
+  const when = d.expiresOn.toLocaleDateString('en-US', { dateStyle: 'long', timeZone: 'America/New_York' });
+  const expired = d.daysLeft <= 0;
+  return send({
+    from: FROM_NOTIFICATIONS,
+    to: process.env.PRINTIFY_REMINDER_EMAIL || NOTIFICATION_EMAIL,
+    subject: sanitizeSubject(
+      expired
+        ? 'Printify connection has EXPIRED: store orders are not being sent to print'
+        : `Printify connection expires in ${d.daysLeft} day${d.daysLeft === 1 ? '' : 's'}: renew the API token`
+    ),
+    html: storeLayout(
+      `<h1 style="color:#1a1a1a;font-size:22px;margin-top:0;">Printify token ${expired ? 'has expired' : 'is expiring'}</h1>
+       <p>The website connection to Printify ${
+         expired
+           ? `<strong>expired on ${escapeHtml(when)}</strong>. Until it is renewed, paid orders for print-on-demand items are <strong>not</strong> being sent to Printify`
+           : `expires on <strong>${escapeHtml(when)}</strong>. After that, paid orders for print-on-demand items will not be sent to Printify automatically`
+       }.</p>
+       <p>Printify tokens always last one year, so this is a once-a-year job of about five minutes:</p>
+       <ol>
+         <li>In Printify: Account &rarr; Connections &rarr; <strong>Generate</strong> a new token (all scopes).</li>
+         <li>In Vercel, project settings &rarr; Environment Variables: replace <strong>PRINTIFY_API_TOKEN</strong> for Production with the new token.</li>
+         <li>Redeploy the latest production deployment.</li>
+       </ol>`
+    ),
+  });
+};
