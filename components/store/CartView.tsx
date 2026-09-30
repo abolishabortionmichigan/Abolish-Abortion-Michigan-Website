@@ -2,11 +2,11 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ImageOff, Lock, Trash2 } from 'lucide-react';
 import { useCart, cartSubtotal, lineKey, MAX_LINE_QTY } from '@/store/cart';
 import { useHydrated } from '@/lib/use-hydrated';
-import { startCheckout } from '@/lib/actions/checkout-actions';
+import { startCheckout, quoteCartShipping } from '@/lib/actions/checkout-actions';
 import { formatMoney } from '@/lib/format';
 import { capture } from '@/lib/analytics';
 
@@ -34,6 +34,44 @@ export default function CartView({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  /*
+   * Shipping is quoted by Printify, not guessed here. Their rate is per item
+   * and differs per variant, so the old flat figure was wrong the moment a
+   * cart held more than one thing -- and the buyer would only have found out
+   * on the Stripe page. This asks the server for the real number.
+   *
+   * Keyed on a serialised cart so it re-quotes when quantities change, and
+   * every state write happens inside the promise callback so nothing is set
+   * synchronously during the effect.
+   */
+  const [quoted, setQuoted] = useState<{ cents: number; exact: boolean } | null>(null);
+  const cartKey = lines
+    .map((l) => `${l.productId}:${l.variantId ?? ''}:${l.quantity}`)
+    .sort()
+    .join('|');
+
+  useEffect(() => {
+    if (!hydrated || lines.length === 0) return;
+    let alive = true;
+    quoteCartShipping({
+      lines: lines.map((l) => ({
+        productId: l.productId,
+        variantId: l.variantId,
+        quantity: l.quantity,
+      })),
+    })
+      .then((r) => {
+        if (alive) setQuoted({ cents: r.shippingCents, exact: r.exact });
+      })
+      .catch(() => {
+        /* keep the local estimate */
+      });
+    return () => {
+      alive = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cartKey, hydrated]);
+
   // The cart lives in localStorage, so the server render has no idea what is
   // in it. Render a placeholder until hydration to avoid a mismatch.
   if (!hydrated) {
@@ -58,7 +96,10 @@ export default function CartView({
   }
 
   const subtotal = cartSubtotal(lines);
-  const shipping = freeOverCents > 0 && subtotal >= freeOverCents ? 0 : shippingFlatCents;
+  // The local figure is only a placeholder until the server quote lands.
+  const localEstimate = freeOverCents > 0 && subtotal >= freeOverCents ? 0 : shippingFlatCents;
+  const shipping = quoted?.cents ?? localEstimate;
+  const shippingIsExact = quoted?.exact ?? false;
 
   const checkout = async () => {
     setBusy(true);
@@ -138,7 +179,12 @@ export default function CartView({
             <dd className="text-gray-900">{formatMoney(subtotal)}</dd>
           </div>
           <div className="flex justify-between">
-            <dt className="text-gray-600">Shipping</dt>
+            <dt className="text-gray-600">
+              Shipping
+              {!shippingIsExact && shipping > 0 && (
+                <span className="ml-1 text-xs text-gray-500">(estimated)</span>
+              )}
+            </dt>
             <dd className="text-gray-900">{shipping === 0 ? 'Free' : formatMoney(shipping)}</dd>
           </div>
           <div className="flex justify-between border-t border-gray-200 pt-2 font-bold">

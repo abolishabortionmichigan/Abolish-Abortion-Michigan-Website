@@ -33,7 +33,10 @@ export class PrintifyError extends Error {
   }
 }
 
-async function api<T>(path: string, init: { method?: 'GET' | 'POST'; body?: unknown } = {}): Promise<T> {
+async function api<T>(
+  path: string,
+  init: { method?: 'GET' | 'POST'; body?: unknown; timeoutMs?: number } = {},
+): Promise<T> {
   const token = process.env.PRINTIFY_API_TOKEN;
   if (!token) throw new PrintifyError('Printify is not connected (PRINTIFY_API_TOKEN is not set).', 0);
   const res = await fetch(`${API_BASE}/${path}`, {
@@ -45,7 +48,7 @@ async function api<T>(path: string, init: { method?: 'GET' | 'POST'; body?: unkn
     },
     body: init.body !== undefined ? JSON.stringify(init.body) : undefined,
     cache: 'no-store',
-    signal: AbortSignal.timeout(20_000),
+    signal: AbortSignal.timeout(init.timeoutMs ?? 20_000),
   });
   const text = await res.text();
   if (!res.ok) {
@@ -60,6 +63,12 @@ async function api<T>(path: string, init: { method?: 'GET' | 'POST'; body?: unkn
   }
   return (text ? JSON.parse(text) : {}) as T;
 }
+
+/**
+ * Exposed for lib/printify-shipping.ts, which quotes shipping on the checkout
+ * path and so needs a much shorter timeout than the default.
+ */
+export const printifyApi = api;
 
 const shop = () => process.env.PRINTIFY_SHOP_ID;
 

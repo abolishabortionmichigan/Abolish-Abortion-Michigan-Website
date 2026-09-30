@@ -2,7 +2,8 @@
 
 import { headers } from 'next/headers';
 import prisma from '@/lib/prisma';
-import { getStripe, shippingFor, AUTOMATIC_TAX } from '@/lib/stripe';
+import { getStripe, AUTOMATIC_TAX } from '@/lib/stripe';
+import { quoteShipping, type QuoteLine } from '@/lib/printify-shipping';
 import { checkRateLimit } from '@/lib/rate-limit';
 import { getClientIpFromHeaders } from '@/lib/client-ip';
 import { newOrderNumber } from '@/lib/store';
@@ -54,6 +55,7 @@ export async function startCheckout(input: {
     quantity: number;
     image: string | null;
   }[] = [];
+  const quoteLines: QuoteLine[] = [];
 
   for (const line of lines) {
     const p = products.find((x) => x.id === line.productId);
@@ -86,10 +88,21 @@ export async function startCheckout(input: {
       quantity,
       image: p.images[0] ?? null,
     });
+    quoteLines.push({
+      printify_product_id: p.printify_product_id,
+      printify_variant_id: variant?.printify_variant_id ?? null,
+      quantity,
+    });
   }
 
   const subtotal = priced.reduce((n, l) => n + l.unit_price_cents * l.quantity, 0);
-  const shipping = shippingFor(subtotal);
+  // Real rate from Printify rather than a flat guess; falls back to the flat
+  // rate if Printify is unreachable, so a quote failure never blocks a sale.
+  const quote = await quoteShipping(quoteLines, subtotal);
+  const shipping = quote.cents;
+  if (quote.source === 'flat' && quote.reason && !quote.reason.startsWith('free shipping')) {
+    console.warn(`Shipping fell back to the flat rate: ${quote.reason}`);
+  }
 
   // Order number is unique; retry on the (very unlikely) collision.
   let order = null;
@@ -168,4 +181,50 @@ export async function startCheckout(input: {
     });
     return { ok: false, error: 'We could not open checkout just now. Please try again in a moment.' };
   }
+}
+
+/**
+ * Real shipping for the cart preview, so the figure on /store/cart matches
+ * what Stripe will charge. Prices from our own tables, exactly as
+ * startCheckout() does -- the browser sends only ids and quantities.
+ *
+ * Safe to expose: it reveals nothing the product pages do not already show,
+ * and it takes no payment.
+ */
+export async function quoteCartShipping(input: {
+  lines: { productId: string; variantId: string | null; quantity: number }[];
+}): Promise<{ shippingCents: number; subtotalCents: number; exact: boolean }> {
+  const lines = (input.lines ?? [])
+    .slice(0, MAX_LINES)
+    .filter((l) => Number.isInteger(l.quantity) && l.quantity > 0);
+  if (lines.length === 0) return { shippingCents: 0, subtotalCents: 0, exact: true };
+
+  const products = await prisma.product.findMany({
+    where: { id: { in: [...new Set(lines.map((l) => l.productId))] }, active: true },
+    include: { variants: true },
+  });
+
+  let subtotal = 0;
+  const quoteLines: QuoteLine[] = [];
+  for (const line of lines) {
+    const p = products.find((x) => x.id === line.productId);
+    if (!p) continue;
+    const variant = p.variants.find((v) => v.id === line.variantId && v.active) ?? null;
+    const quantity = Math.min(MAX_QTY, line.quantity);
+    subtotal += (variant?.price_cents ?? p.price_cents) * quantity;
+    quoteLines.push({
+      printify_product_id: p.printify_product_id,
+      printify_variant_id: variant?.printify_variant_id ?? null,
+      quantity,
+    });
+  }
+
+  const quote = await quoteShipping(quoteLines, subtotal);
+  return {
+    shippingCents: quote.cents,
+    subtotalCents: subtotal,
+    // false when we fell back, so the cart can say "estimated" instead of
+    // showing a number it cannot stand behind.
+    exact: quote.source === 'printify' || quote.cents === 0,
+  };
 }
