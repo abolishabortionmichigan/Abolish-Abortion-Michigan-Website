@@ -2,6 +2,7 @@ import { MetadataRoute } from 'next';
 import { getAllNewsArticles } from '@/lib/data/news-store';
 import { getLegislators } from '@/lib/data/legislators';
 import { CITIES } from '@/lib/data/cities';
+import { STORE_CATEGORIES, getActiveProducts } from '@/lib/store';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.abolishabortionmichigan.com';
 
@@ -93,5 +94,42 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // If news fetch fails, just skip dynamic pages
   }
 
-  return [...staticPages, ...legislatorPages, ...cityPages, ...newsPages];
+  /*
+   * Store. The index and the four category pages are always listed; product
+   * URLs are pulled from the database so a new product is discoverable without
+   * a code change. Cart and order pages are deliberately absent -- both are
+   * noindex, and an order URL is private to the buyer who holds its session id.
+   */
+  const storePages: MetadataRoute.Sitemap = [
+    { url: `${BASE_URL}/store`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.6 },
+    ...STORE_CATEGORIES.map((c) => ({
+      url: `${BASE_URL}/store/${c.slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.5,
+    })),
+    { url: `${BASE_URL}/shipping-returns`, lastModified: new Date(), changeFrequency: 'yearly' as const, priority: 0.3 },
+  ];
+
+  let productPages: MetadataRoute.Sitemap = [];
+  try {
+    const products = await getActiveProducts();
+    productPages = products.map((p) => ({
+      url: `${BASE_URL}/store/product/${p.slug}`,
+      lastModified: p.updated_at ?? new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.5,
+    }));
+  } catch {
+    // Store unreachable: list the fixed pages and skip the products.
+  }
+
+  return [
+    ...staticPages,
+    ...legislatorPages,
+    ...cityPages,
+    ...newsPages,
+    ...storePages,
+    ...productPages,
+  ];
 }

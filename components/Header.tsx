@@ -58,6 +58,7 @@ const navItems = [
       { label: 'Abortion Facilities', href: '/abortion-mills' },
     ],
   },
+  { label: 'STORE', href: '/store' },
   { label: 'CONTACT US', href: '/contact' },
 ];
 
@@ -154,10 +155,10 @@ export default function Header() {
 
   return (
     <header className="bg-[#1a1a1a] text-white sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="max-w-7xl 2xl:max-w-[1600px] mx-auto px-4">
         <div className="flex items-center justify-between h-14">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/" className="flex shrink-0 items-center gap-2">
             <Image
               src="/images/aa-logo.webp"
               alt="Abolish Abortion Michigan logo"
@@ -179,7 +180,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center" aria-label="Main navigation">
+          <nav className="hidden xl:flex items-center" aria-label="Main navigation">
             {navItems.map((item) => (
               <div
                 key={item.label}
@@ -189,7 +190,7 @@ export default function Header() {
               >
                 <Link
                   href={item.href}
-                  className="px-3 py-4 text-[11px] font-semibold hover:text-red-500 transition-colors flex items-center tracking-wide whitespace-nowrap"
+                  className="px-1.5 2xl:px-3 py-4 text-[10px] 2xl:text-[11px] font-semibold hover:text-red-500 transition-colors flex items-center tracking-wide whitespace-nowrap"
                   aria-haspopup={item.dropdown ? 'true' : undefined}
                   aria-expanded={item.dropdown ? activeDropdown === item.label : undefined}
                   aria-current={isCurrentPage(pathname, item.href) ? 'page' : undefined}
@@ -228,7 +229,7 @@ export default function Header() {
             ))}
             <Link
               href="/donate"
-              className="ml-2 px-6 py-4 bg-red-700 text-white text-xs font-bold hover:bg-red-800 transition-colors tracking-wide"
+              className="ml-1 2xl:ml-2 px-3 2xl:px-6 py-4 bg-red-700 text-white text-[11px] 2xl:text-xs font-bold hover:bg-red-800 transition-colors tracking-wide whitespace-nowrap"
               aria-current={pathname === '/donate' ? 'page' : undefined}
             >
               DONATE
@@ -237,7 +238,7 @@ export default function Header() {
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden p-2 ml-auto"
+            className="xl:hidden p-2 ml-auto"
             onClick={() => setMobileMenuOpen(true)}
             aria-label="Open menu"
             aria-expanded={mobileMenuOpen}

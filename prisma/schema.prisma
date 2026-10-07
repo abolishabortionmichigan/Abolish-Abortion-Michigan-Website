@@ -76,3 +76,114 @@ model Subscriber {
   subscribed Boolean  @default(true)
   created_at DateTime @default(now())
 }
+
+// ---------------------------------------------------------------------------
+// Store. Ported from the Made Alive Abolitionists build (same lineage as this
+// repo), minus its Donation model: AAM takes gifts through Zeffy, which is 0%
+// for nonprofits, so donations deliberately do NOT run through Stripe here.
+//
+// Orders are GUEST orders. This repo's User table is the admin bootstrap only
+// (see its comment) and has no member sign-up flow, so an order carries the
+// buyer's email/name directly rather than a user relation.
+// ---------------------------------------------------------------------------
+
+model Product {
+  id            String   @id @default(uuid())
+  slug          String   @unique
+  name          String
+  // clothing | stickers | signs | materials
+  category      String
+  description   String
+  price_cents   Int
+  images        String[]
+  // Label for the variant picker, e.g. "Size". Null = no variants.
+  options_label String?
+  active        Boolean  @default(true)
+  featured      Boolean  @default(false)
+  sort          Int      @default(0)
+  // Set when imported from Printify (print-on-demand); paid orders for it are
+  // sent to Printify automatically. See lib/printify.ts.
+  printify_product_id String? @unique
+  created_at    DateTime @default(now())
+  updated_at    DateTime @default(now()) @updatedAt
+
+  variants ProductVariant[]
+  items    OrderItem[]
+
+  @@index([category, active, sort])
+}
+
+model ProductVariant {
+  id          String  @id @default(uuid())
+  product_id  String
+  label       String
+  // Overrides the product price when set.
+  price_cents Int?
+  // Null = stock not tracked (print-on-demand, made to order).
+  stock       Int?
+  active      Boolean @default(true)
+  sort        Int     @default(0)
+  // Printify's variant id (with the product's printify_product_id). Null for
+  // anything AAM ships itself.
+  printify_variant_id Int?
+
+  product Product     @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  items   OrderItem[]
+
+  @@index([product_id])
+}
+
+model Order {
+  id                    String    @id @default(uuid())
+  // Human-readable, e.g. AAM-7K2Q9D. Shown to the buyer and in emails.
+  order_number          String    @unique
+  email                 String
+  name                  String?
+  // pending (checkout started) | paid | shipped | cancelled | refunded
+  status                String    @default("pending")
+  subtotal_cents        Int
+  shipping_cents        Int
+  tax_cents             Int       @default(0)
+  total_cents           Int
+  // Dedup key: one Checkout Session can only ever settle one order.
+  stripe_session_id     String?   @unique
+  stripe_payment_intent String?
+  shipping_name         String?
+  shipping_address      Json?
+  carrier               String?
+  tracking_number       String?
+  admin_note            String?
+  // Print-on-demand fulfilment (lib/printify-fulfillment.ts). printify_status
+  // is ours while submitting (submitting | sent | on-hold | failed) and then
+  // Printify's production status from its webhooks.
+  printify_order_id     String?   @unique
+  printify_status       String?
+  fulfillment_error     String?
+  paid_at               DateTime?
+  shipped_at            DateTime?
+  created_at            DateTime  @default(now())
+  updated_at            DateTime  @default(now()) @updatedAt
+
+  items OrderItem[]
+
+  @@index([status, created_at])
+}
+
+model OrderItem {
+  id               String  @id @default(uuid())
+  order_id         String
+  product_id       String?
+  variant_id       String?
+  // Snapshots, so an order still reads correctly after the product changes.
+  name             String
+  variant_label    String?
+  unit_price_cents Int
+  quantity         Int
+  image            String?
+
+  order   Order           @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  product Product?        @relation(fields: [product_id], references: [id], onDelete: SetNull)
+  variant ProductVariant? @relation(fields: [variant_id], references: [id], onDelete: SetNull)
+
+  @@index([order_id])
+}

@@ -5,6 +5,20 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "regions": ["iad1"],
+  "crons": [
+    {
+      "path": "/api/cron/printify-token",
+      "schedule": "0 13 * * *"
+    },
+    {
+      "path": "/api/cron/sales-tax-license",
+      "schedule": "15 13 * * *"
+    },
+    {
+      "path": "/api/cron/printify-sync",
+      "schedule": "30 13 * * *"
+    }
+  ],
   "redirects": [
     {
       "source": "/:path*",

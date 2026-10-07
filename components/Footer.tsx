@@ -130,6 +130,10 @@ export default function Footer() {
                 Privacy Policy
               </Link>
               {' '}&bull;{' '}
+              <Link href="/shipping-returns" className="text-red-500 hover:text-red-400 transition-colors">
+                Shipping &amp; Returns
+              </Link>
+              {' '}&bull;{' '}
               <Link href="/delete-my-data" className="text-red-500 hover:text-red-400 transition-colors">
                 Delete My Data
               </Link>
