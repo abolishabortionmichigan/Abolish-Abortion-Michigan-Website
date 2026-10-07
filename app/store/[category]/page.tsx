@@ -6,7 +6,7 @@ import CTABanner from '@/components/CTABanner';
 import ProductCard from '@/components/store/ProductCard';
 import {
   STORE_CATEGORIES,
-  getProductsByCategory,
+  getGroupsByCategory,
   isStoreCategory,
   priceRange,
   storeCategory,
@@ -41,7 +41,7 @@ export default async function StoreCategoryPage({
   const { category } = await params;
   if (!isStoreCategory(category)) notFound();
   const c = storeCategory(category)!;
-  const products = await getProductsByCategory(category);
+  const groups = await getGroupsByCategory(category);
 
   return (
     <>
@@ -59,7 +59,7 @@ export default async function StoreCategoryPage({
         <div className="max-w-6xl mx-auto px-4">
           <p className="mb-10 max-w-3xl text-lg text-gray-700">{c.body}</p>
 
-          {products.length === 0 ? (
+          {groups.length === 0 ? (
             <div className="rounded-lg border border-gray-200 px-6 py-12 text-center">
               <h2 className="text-xl font-bold text-gray-900">Nothing here yet</h2>
               <p className="mt-2 text-gray-600">
@@ -72,21 +72,23 @@ export default async function StoreCategoryPage({
             </div>
           ) : (
             <ul className="grid grid-cols-2 gap-5 lg:grid-cols-4">
-              {products.map((p) => {
+              {groups.map((g) => {
+                const p = g.lead;
                 const [from, to] = priceRange(p);
                 // Only a variant with tracked stock can be sold out. Untracked
                 // (null) stock means print-on-demand, which never runs out.
                 const soldOut =
                   p.variants.length > 0 && p.variants.every((v) => v.stock !== null && v.stock <= 0);
                 return (
-                  <li key={p.id}>
+                  <li key={g.key}>
                     <ProductCard
                       slug={p.slug}
-                      name={p.name}
+                      name={g.type}
                       image={p.images[0] ?? null}
                       priceFrom={from}
                       priceTo={to}
                       soldOut={soldOut}
+                      designCount={g.count}
                     />
                   </li>
                 );

@@ -120,6 +120,16 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'i.ytimg.com',
       },
+      // Printify product mockups (PRINTIFY_IMAGE_HOSTS in lib/printify.ts).
+      // Without these, every store photo 400s through next/image.
+      {
+        protocol: 'https',
+        hostname: 'images.printify.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images-api.printify.com',
+      },
     ],
   },
   experimental: {

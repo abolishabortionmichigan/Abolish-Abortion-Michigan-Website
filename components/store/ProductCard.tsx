@@ -21,6 +21,7 @@ export default function ProductCard({
   priceFrom,
   priceTo,
   soldOut,
+  designCount,
 }: {
   slug: string;
   name: string;
@@ -28,6 +29,8 @@ export default function ProductCard({
   priceFrom: number;
   priceTo: number;
   soldOut: boolean;
+  /** How many designs this tile stands for, when it represents a group. */
+  designCount?: number;
 }) {
   const [imageError, setImageError] = useState(false);
   const hasImage = Boolean(image) && !imageError;
@@ -60,7 +63,10 @@ export default function ProductCard({
       </div>
       <div className="p-4">
         <h3 className="mb-1 line-clamp-2 text-lg font-bold text-white group-hover:text-red-500">{name}</h3>
-        <p className="text-sm text-gray-400">{formatPriceRange(priceFrom, priceTo)}</p>
+        <p className="text-sm text-gray-400">{formatPriceRange(priceFrom, priceTo)}
+          {designCount && designCount > 1 ? (
+            <span className="ml-2 text-xs font-normal text-gray-400">{designCount} designs</span>
+          ) : null}</p>
       </div>
     </Link>
   );

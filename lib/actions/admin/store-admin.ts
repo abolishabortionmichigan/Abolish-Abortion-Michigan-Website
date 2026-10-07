@@ -17,6 +17,8 @@ import prisma from '@/lib/prisma';
 import { sendOrderShippedEmail, type OrderEmailData } from '@/lib/email';
 import { retryPrintifyOrder } from '@/lib/printify-fulfillment';
 import { printifyTokenExpiry, daysUntil, isPrintifyConfigured } from '@/lib/printify';
+import { syncPrintifyCatalogue } from '@/lib/printify-import';
+import { revalidateStore } from '@/lib/store-revalidate';
 import { miTaxBand } from '@/lib/mi-sales-tax';
 
 async function isAdmin(): Promise<boolean> {
@@ -325,5 +327,25 @@ export async function printifyTokenStatus() {
     return { configured: true as const, expiresOn, daysLeft: daysUntil(expiresOn) };
   } catch {
     return { error: 'Failed to read the Printify token status' };
+  }
+}
+
+/**
+ * Pull the Printify catalogue into Product / ProductVariant on demand. The same
+ * code runs nightly on cron; this is the button for when a new design should
+ * appear on the site now. `dryRun` reports what would change and writes nothing.
+ */
+export async function syncPrintifyProducts(dryRun = false) {
+  try {
+    if (!(await isAdmin())) return { error: 'Authentication required' };
+    const report = await syncPrintifyCatalogue({ dryRun });
+    if (!report.ok) return { error: report.error ?? 'The Printify sync failed.' };
+    if (!dryRun && report.created + report.updated + report.deactivated > 0) {
+      revalidateStore(report.products.map((p) => p.slug));
+    }
+    return { report };
+  } catch (e) {
+    console.error('syncPrintifyProducts', e);
+    return { error: 'Failed to sync the Printify catalogue' };
   }
 }

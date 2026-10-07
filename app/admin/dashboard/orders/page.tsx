@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/dialog';
 import {
   AlertTriangle,
+  DownloadCloud,
   Loader2,
   Package,
   RefreshCw,
@@ -28,6 +29,7 @@ import {
   printifyTokenStatus,
   salesYearToDate,
   saveOrderNote,
+  syncPrintifyProducts,
   sendOrderToPrintify,
   setOrderStatus,
   type AdminOrder,
@@ -135,6 +137,8 @@ export default function OrdersAdminPage() {
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [tokenWarning, setTokenWarning] = useState<string | null>(null);
+  const [syncing, setSyncing] = useState(false);
+  const [syncNotice, setSyncNotice] = useState<{ ok: boolean; text: string } | null>(null);
   const [ytd, setYtd] = useState<{
     year: number;
     orders: number;
@@ -199,6 +203,35 @@ export default function OrdersAdminPage() {
       }
     });
   }, []);
+
+  /*
+   * Pulls the Printify catalogue into the store tables. Cron does this nightly;
+   * the button is for when a new design should go live right away.
+   */
+  const doSync = async () => {
+    setSyncing(true);
+    setSyncNotice(null);
+    const r = await syncPrintifyProducts();
+    if ('error' in r) {
+      setSyncNotice({ ok: false, text: r.error ?? 'The Printify sync failed.' });
+    } else {
+      const { created, updated, unchanged, deactivated, skipped, warnings } = r.report;
+      const parts = [
+        created ? `${created} added` : null,
+        updated ? `${updated} updated` : null,
+        deactivated ? `${deactivated} taken down` : null,
+        skipped ? `${skipped} skipped` : null,
+        unchanged ? `${unchanged} already current` : null,
+      ].filter(Boolean);
+      setSyncNotice({
+        ok: true,
+        text: `${parts.length ? parts.join(', ') : 'Nothing to change'}.${
+          warnings.length ? ` ${warnings.length} warning${warnings.length === 1 ? '' : 's'}: ${warnings.join('; ')}` : ''
+        }`,
+      });
+    }
+    setSyncing(false);
+  };
 
   const openOrder = (o: AdminOrder) => {
     setOpen(o);
@@ -304,11 +337,33 @@ export default function OrdersAdminPage() {
             Store orders, fulfilment status, and shipping notifications.
           </p>
         </div>
-        <Button variant="outline" size="sm" onClick={reload} disabled={loading}>
-          <RefreshCw className={`mr-2 h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-          Refresh
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={doSync} disabled={syncing}>
+            {syncing ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <DownloadCloud className="mr-2 h-4 w-4" />
+            )}
+            Sync from Printify
+          </Button>
+          <Button variant="outline" size="sm" onClick={reload} disabled={loading}>
+            <RefreshCw className={`mr-2 h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+            Refresh
+          </Button>
+        </div>
       </div>
+
+      {syncNotice && (
+        <div
+          className={`rounded-md border px-4 py-3 text-sm ${
+            syncNotice.ok
+              ? 'border-green-300 bg-green-50 text-green-900'
+              : 'border-red-300 bg-red-50 text-red-900'
+          }`}
+        >
+          {syncNotice.text}
+        </div>
+      )}
 
       {tokenWarning && (
         <div className="flex items-start gap-3 rounded-md border border-yellow-300 bg-yellow-50 px-4 py-3 text-sm text-yellow-900">

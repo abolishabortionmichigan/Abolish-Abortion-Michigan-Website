@@ -1,4 +1,12 @@
-/** Store departments, in the order the mockup shows them. Safe to import from client code. */
+/*
+ * Store departments, in the order the store shows them. Safe to import from
+ * client code.
+ *
+ * "Materials, Pamphlets & More" was removed before launch: Printify prints no
+ * tract or pamphlet, so that shelf would have greeted shoppers with "Nothing
+ * here yet". Put it back the day AAM has literature to sell, along with the
+ * matching rule in CATEGORY_RULES (lib/printify.ts).
+ */
 export const STORE_CATEGORIES = [
   {
     slug: 'clothing',
@@ -8,6 +16,13 @@ export const STORE_CATEGORIES = [
     cta: 'Shop Clothing',
   },
   {
+    slug: 'drinkware',
+    title: 'Mugs & Drinkware',
+    tagline: 'A conversation every morning.',
+    body: 'Ceramic mugs printed to order. Put it on your desk, in the church kitchen, or in the hands of someone who needs to hear it.',
+    cta: 'Shop Drinkware',
+  },
+  {
     slug: 'stickers',
     title: 'Stickers, Pins & More',
     tagline: 'Small items. Big conversations.',
@@ -15,18 +30,18 @@ export const STORE_CATEGORIES = [
     cta: 'Shop Stickers & More',
   },
   {
+    slug: 'accessories',
+    title: 'Accessories & More',
+    tagline: 'Carry it with you.',
+    body: 'Phone cases, Bible covers, bookmarks and other everyday things that put the message where people will see it.',
+    cta: 'Shop Accessories',
+  },
+  {
     slug: 'signs',
     title: 'Signs & Activism Gear',
     tagline: 'Be prepared. Be equipped.',
     body: 'Yard signs, handheld signs, banners, buttons and other gear to help you engage your community with clarity and boldness.',
     cta: 'Shop Signs & Gear',
-  },
-  {
-    slug: 'materials',
-    title: 'Materials, Pamphlets & More',
-    tagline: 'Share truth. Change hearts.',
-    body: 'Gospel resources, abolitionist literature, pamphlets, and educational materials to help you have meaningful conversations and point people to Christ.',
-    cta: 'Shop Materials',
   },
 ] as const;
 
