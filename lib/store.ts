@@ -65,8 +65,28 @@ const DASH = '—';
 /** The design every grouped listing leads with. */
 const HOUSE_DESIGN = 'Abolish Abortion Michigan';
 
-/** Parentheticals that describe decoration rather than which artwork. */
-const EXTRA_LABEL = /^sleeve prints$/i;
+/**
+ * Parentheticals that describe decoration rather than which artwork.
+ *
+ * Any combination of the three, joined with " + " in a fixed order:
+ * "(left sleeve + neck)", "(right sleeve)", "(left sleeve + right sleeve +
+ * neck)". Eight products per design and front, one per combination.
+ */
+export const DECORATIONS = ['left sleeve', 'right sleeve', 'neck'] as const;
+export type Decoration = (typeof DECORATIONS)[number];
+
+/** Is this parenthetical a decoration list rather than a front design? */
+function isExtra(label: string): boolean {
+  const parts = label.toLowerCase().split('+').map((x) => x.trim());
+  return parts.length > 0 && parts.every((x) => (DECORATIONS as readonly string[]).includes(x));
+}
+
+/** The decorations named in an extra, e.g. "left sleeve + neck" -> both. */
+export function decorationsOf(extra: string | null): Decoration[] {
+  if (!extra) return [];
+  const want = extra.toLowerCase().split('+').map((x) => x.trim());
+  return DECORATIONS.filter((d) => want.includes(d));
+}
 
 /**
  * Which of a group's products should be its face.
@@ -124,7 +144,7 @@ export function splitName(name: string): {
   // The last parenthetical is the decoration level when it names one. Without
   // this, a hoodie - which has no front choice - reads "Hoodie (sleeve prints)"
   // as a FRONT called "sleeve prints" and offers it in the wrong picker.
-  const extra = parts.length && EXTRA_LABEL.test(parts[parts.length - 1]) ? parts.pop()! : null;
+  const extra = parts.length && isExtra(parts[parts.length - 1]) ? parts.pop()! : null;
   return {
     design: name.slice(0, i).trim(),
     type,
@@ -253,7 +273,7 @@ export async function getExtras(product: { name: string; category: string }) {
   return mine.map((r) => ({
     id: r.id,
     slug: r.slug,
-    extra: r.parts.extra ?? 'None',
+    decorations: decorationsOf(r.parts.extra) as string[],
     price_cents: r.price_cents,
   }));
 }

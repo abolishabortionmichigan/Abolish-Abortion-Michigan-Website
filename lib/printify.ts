@@ -130,7 +130,15 @@ export async function listPrintifyProducts(): Promise<PrintifyProduct[]> {
     all.push(...(r.data ?? []));
     if (!r.last_page || r.current_page >= r.last_page) break;
   }
-  return all;
+
+  // Printify pages by offset, so a product created or renamed mid-read shifts
+  // the window and the same id comes back on two pages. The importer then
+  // tries to create it twice and hits the unique constraint on
+  // printify_product_id, failing the whole sync. Last one wins: later pages
+  // are the fresher read.
+  const byId = new Map<string, PrintifyProduct>();
+  for (const p of all) byId.set(p.id, p);
+  return [...byId.values()];
 }
 
 /** Printify descriptions are HTML; the store shows plain paragraphs. */
