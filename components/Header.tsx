@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useState, useRef, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
 import MobileNav from './MobileNav';
+import CartLink from './store/CartLink';
 
 const navItems = [
   { label: 'HOME', href: '/' },
@@ -227,6 +228,7 @@ export default function Header() {
                 )}
               </div>
             ))}
+            <CartLink className="ml-1" />
             <Link
               href="/donate"
               className="ml-1 2xl:ml-2 px-3 2xl:px-6 py-4 bg-red-700 text-white text-[11px] 2xl:text-xs font-bold hover:bg-red-800 transition-colors tracking-wide whitespace-nowrap"
@@ -237,8 +239,10 @@ export default function Header() {
           </nav>
 
           {/* Mobile Menu Button */}
+          <div className="xl:hidden ml-auto flex items-center">
+            <CartLink />
           <button
-            className="xl:hidden p-2 ml-auto"
+            className="xl:hidden p-2"
             onClick={() => setMobileMenuOpen(true)}
             aria-label="Open menu"
             aria-expanded={mobileMenuOpen}
@@ -248,6 +252,7 @@ export default function Header() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
+          </div>
         </div>
       </div>
 

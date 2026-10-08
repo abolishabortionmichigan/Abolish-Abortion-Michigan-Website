@@ -221,7 +221,16 @@ function orderViews(p: PrintifyProduct, imgs: Mockup[], caps: [number, number, n
     const extra = hasArtAt(p, ['left_sleeve', 'right_sleeve', 'neck'])
       ? [...cap(sleeves, 2), ...cap(by(/collar/), 1)]
       : [];
-    return [...cap(first, caps[0]), ...cap(second, caps[1]), ...extra, ...cap(sides, caps[2])];
+    // Alternate sides rather than grouping them. Two back shots in a row read
+    // as "same design on both sides" - a buyer told us exactly that, because
+    // the second back shot has the hood UP and looks like a front. Leading
+    // back, front, back, front makes the difference obvious at a glance.
+    const alternate: Mockup[] = [];
+    for (let i = 0; i < Math.max(caps[0], caps[1]); i++) {
+      if (i < caps[0] && first[i]) alternate.push(first[i]);
+      if (i < caps[1] && second[i]) alternate.push(second[i]);
+    }
+    return [...alternate, ...extra, ...cap(sides, caps[2])];
   }
   // Anything else - a phone case, a magnet - has its own camera names
   // (front-and-side, close-up, context-1), and Printify already lists them
