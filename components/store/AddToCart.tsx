@@ -1,11 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useCart, MAX_LINE_QTY } from '@/store/cart';
 import { formatMoney } from '@/lib/format';
 import { capture } from '@/lib/analytics';
 import { isPhoneList, phoneBrand, splitAxes } from '@/lib/store-variants';
+
+// Carried across products: toggling an add-on loads a different product, and
+// being sent back to "Choose a size" every time makes comparing them tedious.
+const SIZE_KEY = 'aam-store-size';
 
 interface Variant {
   id: string;
@@ -51,6 +55,20 @@ export default function AddToCart({
   // A sticker is two sizes in one colour. Preselect an axis that has only one
   // value so the shopper is not asked to choose from a list of one.
   const [ownSize, setOwnSize] = useState<string>(axes && axes.sizes.length === 1 ? axes.sizes[0] : '');
+
+  // Restore the last size on a product that offers it. Read after mount, so
+  // the server render and the first client render still agree.
+  const sizeList = (axes?.sizes ?? []).join('');
+  useEffect(() => {
+    if (!sizeList) return;
+    let saved: string | null = null;
+    try {
+      saved = sessionStorage.getItem(SIZE_KEY);
+    } catch {
+      saved = null;
+    }
+    if (saved && sizeList.split('').includes(saved)) setOwnSize(saved);
+  }, [sizeList]);
   const [ownVariantId, setOwnVariantId] = useState<string>(
     product.variants.length === 1 ? product.variants[0].id : ''
   );
@@ -72,6 +90,11 @@ export default function AddToCart({
   };
   const chooseSize = (z: string) => {
     setOwnSize(z);
+    try {
+      sessionStorage.setItem(SIZE_KEY, z);
+    } catch {
+      /* private browsing; the size just will not carry over */
+    }
     onImageKey?.(z);
     setAdded(false);
     setError(null);
