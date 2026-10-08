@@ -97,6 +97,13 @@ const HIDDEN_TYPES = new Map<string, string>([
   ['Kids Cotton Tee', 'sample, not public yet'],
 ]);
 
+// One design on one product, where the rest of that design is fine. The phone
+// case is the whole wordmark printed over a case that already carries it, so
+// it reads as the same words twice.
+const HIDDEN_COMBOS = new Map<string, string>([
+  ['Abolish Abortion Michigan|Tough Phone Case', 'wordmark repeats on this case'],
+]);
+
 const EXCLUDE = new Map<string, string>([
   // Printify's own sample product, never priced (still at the $8.38 default).
   ['6abc886f10f7e77d320e26df', 'Printify sample product, not ours'],
@@ -256,6 +263,7 @@ export async function syncPrintifyCatalogue({ dryRun = false } = {}): Promise<Im
     const excluded =
       EXCLUDE.get(p.id) ??
       HIDDEN_DESIGNS.get(parts.design) ??
+      (parts.baseType ? HIDDEN_COMBOS.get(`${parts.design}|${parts.baseType}`) : undefined) ??
       (parts.baseType ? HIDDEN_TYPES.get(parts.baseType) : undefined);
     const enabled = p.variants.filter((v) => v.is_enabled && v.is_available);
     const current = byPrintifyId.get(p.id);
