@@ -101,9 +101,12 @@ function beatsAsLead(
   b: { name: string },
   common?: Map<string, number>,
 ): boolean {
+  // House design first, then UNDECORATED, then the plain front. Landing on a
+  // product with add-ons already ticked would quietly show everyone the dearest
+  // version of the item; the add-ons should be something you choose.
   const rank = (n: string) => {
-    const { design, style } = splitName(n);
-    return (design === HOUSE_DESIGN ? 2 : 0) + (style ? 0 : 1);
+    const { design, style, extra } = splitName(n);
+    return (design === HOUSE_DESIGN ? 4 : 0) + (extra ? 0 : 2) + (style ? 0 : 1);
   };
   const ra = rank(a.name);
   const rb = rank(b.name);
