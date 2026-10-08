@@ -43,6 +43,18 @@ export async function hasAlreadySigned(email: string): Promise<boolean> {
   return memoryStore.some((s) => s.email.toLowerCase() === email.toLowerCase());
 }
 
+/** Whether a petition signer is already on the newsletter. */
+export async function isSubscribedViaPetition(email: string): Promise<boolean> {
+  if (isDatabaseConnected) {
+    const sig = await prisma.petitionSignature.findUnique({
+      where: { email: email.toLowerCase() },
+      select: { subscribed: true },
+    });
+    return !!sig?.subscribed;
+  }
+  return memoryStore.some((s) => s.email.toLowerCase() === email.toLowerCase() && s.subscribed);
+}
+
 export async function createSignature(data: Omit<PetitionSignature, 'id' | 'created_at'>): Promise<PetitionSignature> {
   if (isDatabaseConnected) {
     const sig = await prisma.petitionSignature.create({

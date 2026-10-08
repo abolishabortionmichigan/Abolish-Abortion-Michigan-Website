@@ -6,6 +6,7 @@ import {
   getSignatureCount,
   createSignature,
   hasAlreadySigned,
+  isSubscribedViaPetition,
   deleteSignature as deleteSignatureData,
   updateSubscriptionStatus,
 } from '@/lib/data/petition-store';
@@ -224,9 +225,23 @@ export async function subscribeToNewsletter(data: {
       return { success: true };
     }
 
-    // Check PetitionSignature table
+    // Check PetitionSignature table.
+    //
+    // A petition signer already has a row here, so subscribing only flips a
+    // flag. This used to return success without sending anything, which from
+    // the outside is indistinguishable from a broken signup - a buyer
+    // reported exactly that ("I couldn't verify my email"). Petition signers
+    // are a large share of the list, so this was quietly affecting many
+    // people. Welcome them like any other new subscriber.
     if (await hasAlreadySigned(data.email)) {
+      const alreadyOnList = await isSubscribedViaPetition(data.email);
       await updateSubscriptionStatus(data.email, true);
+      if (!alreadyOnList) {
+        await Promise.all([
+          sendSubscriberWelcomeEmail(data.email),
+          sendNewSubscriberNotification(data.email),
+        ]);
+      }
       return { success: true };
     }
 
