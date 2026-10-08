@@ -76,7 +76,19 @@ export async function listOrders(status = 'all') {
   try {
     if (!(await isAdmin())) return { error: 'Authentication required' };
 
-    const where = status === 'all' ? { status: { not: 'pending' } } : { status };
+    // A checkout that was started and never paid expires into "cancelled", so
+    // abandoned baskets were piling into the Cancelled tab next to real
+    // cancellations - five of them looked alarming and buried the one that
+    // mattered. Never-paid means abandoned, so they belong with unpaid carts.
+    const abandoned = { status: 'cancelled', paid_at: null } as const;
+    const where =
+      status === 'all'
+        ? { AND: [{ status: { not: 'pending' } }, { NOT: abandoned }] }
+        : status === 'cancelled'
+          ? { status: 'cancelled', paid_at: { not: null } }
+          : status === 'pending'
+            ? { OR: [{ status: 'pending' }, abandoned] }
+            : { status };
 
     const orders = await prisma.order.findMany({
       where,
@@ -94,9 +106,15 @@ export async function listOrders(status = 'all') {
 export async function orderCounts() {
   try {
     if (!(await isAdmin())) return { error: 'Authentication required' };
-    const rows = await prisma.order.groupBy({ by: ['status'], _count: { _all: true } });
+    const [rows, abandoned] = await Promise.all([
+      prisma.order.groupBy({ by: ['status'], _count: { _all: true } }),
+      prisma.order.count({ where: { status: 'cancelled', paid_at: null } }),
+    ]);
     const counts: Record<string, number> = {};
     for (const r of rows) counts[r.status] = r._count._all;
+    // Same split as listOrders: an unpaid cancellation is an abandoned basket.
+    counts.cancelled = Math.max(0, (counts.cancelled ?? 0) - abandoned);
+    counts.pending = (counts.pending ?? 0) + abandoned;
     counts.all = Object.entries(counts)
       .filter(([s]) => s !== 'pending')
       .reduce((n, [, c]) => n + c, 0);
