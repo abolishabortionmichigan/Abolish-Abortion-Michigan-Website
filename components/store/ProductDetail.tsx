@@ -29,11 +29,13 @@ export default function ProductDetail({
   images,
   imagesByColour,
   product,
+  groupKey,
   header,
   footer,
 }: {
   images: string[];
   imagesByColour: Record<string, string[]>;
+  groupKey?: string;
   product: {
     id: string;
     slug: string;
@@ -91,6 +93,7 @@ export default function ProductDetail({
         {header}
         <AddToCart
           product={product}
+          groupKey={groupKey}
           imageKey={axis ? key : undefined}
           onImageKey={axis ? choose : undefined}
         />

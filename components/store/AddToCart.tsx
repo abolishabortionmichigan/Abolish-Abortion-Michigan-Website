@@ -10,6 +10,9 @@ import { isPhoneList, phoneBrand, splitAxes } from '@/lib/store-variants';
 // Carried across products: toggling an add-on loads a different product, and
 // being sent back to "Choose a size" every time makes comparing them tedious.
 const SIZE_KEY = 'aam-store-size';
+// Quantity is scoped to the item being configured: carrying "5" from a tee
+// over to a sticker you have only just opened would be wrong.
+const QTY_KEY = 'aam-store-qty';
 
 interface Variant {
   id: string;
@@ -27,9 +30,12 @@ interface Variant {
  */
 export default function AddToCart({
   product,
+  groupKey,
   imageKey,
   onImageKey,
 }: {
+  /** Identifies the item, so quantity survives add-on changes but not browsing. */
+  groupKey?: string;
   // Whatever decides how the product LOOKS - the shirt colour, the phone
   // model. The parent holds it so the gallery can follow it AND so it survives
   // moving to another slogan or front, which is a different page.
@@ -107,6 +113,27 @@ export default function AddToCart({
     setError(null);
   };
   const [qty, setQty] = useState(1);
+
+  useEffect(() => {
+    if (!groupKey) return;
+    try {
+      const saved = JSON.parse(sessionStorage.getItem(QTY_KEY) || 'null');
+      if (saved && saved.k === groupKey && Number.isInteger(saved.q)) {
+        setQty(Math.min(Math.max(saved.q, 1), MAX_LINE_QTY));
+      }
+    } catch {
+      /* nothing worth recovering */
+    }
+  }, [groupKey]);
+
+  const chooseQty = (n: number) => {
+    setQty(n);
+    try {
+      sessionStorage.setItem(QTY_KEY, JSON.stringify({ k: groupKey, q: n }));
+    } catch {
+      /* private browsing; the quantity just will not carry over */
+    }
+  };
   const [added, setAdded] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -273,7 +300,7 @@ export default function AddToCart({
             id="qty"
             className="w-24 rounded border border-gray-300 px-3 py-2.5 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-red-500"
             value={qty}
-            onChange={(e) => setQty(Number(e.target.value))}
+            onChange={(e) => chooseQty(Number(e.target.value))}
           >
             {Array.from({ length: Math.min(MAX_LINE_QTY, 10) }, (_, i) => i + 1).map((n) => (
               <option key={n} value={n}>

@@ -108,6 +108,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         <ProductDetail
           images={product.images}
           imagesByColour={imagesByColour(product)}
+          groupKey={baseType ?? product.slug}
           product={{
             id: product.id,
             slug: product.slug,
