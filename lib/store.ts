@@ -65,6 +65,9 @@ const DASH = '—';
 /** The design every grouped listing leads with. */
 const HOUSE_DESIGN = 'Abolish Abortion Michigan';
 
+/** Parentheticals that describe decoration rather than which artwork. */
+const EXTRA_LABEL = /^sleeve prints$/i;
+
 /**
  * Which of a group's products should be its face.
  *
@@ -101,18 +104,33 @@ export function splitName(name: string): {
   type: string | null;
   baseType: string | null;
   style: string | null;
+  extra: string | null;
 } {
   const i = name.lastIndexOf(` ${DASH} `);
-  if (i < 0) return { design: name, type: null, baseType: null, style: null };
+  if (i < 0) return { design: name, type: null, baseType: null, style: null, extra: null };
   const type = name.slice(i + 3).trim();
-  // A trailing parenthetical is a front-design choice, not a different
-  // product: "Tee (chest mark)" and "Tee (AHA front)" are one Tee.
-  const m = /^(.*?)\s*\(([^)]+)\)$/.exec(type);
+
+  // Trailing parentheticals, outermost last: "Tee (chest mark) (sleeve prints)"
+  // is the chest-mark front with the sleeve and neck decoration added. One
+  // parenthetical is just the front; none is a plain product.
+  let rest = type;
+  const parts: string[] = [];
+  for (;;) {
+    const m = /^(.*?)\s*\(([^()]+)\)$/.exec(rest);
+    if (!m) break;
+    parts.unshift(m[2].trim());
+    rest = m[1].trim();
+  }
+  // The last parenthetical is the decoration level when it names one. Without
+  // this, a hoodie - which has no front choice - reads "Hoodie (sleeve prints)"
+  // as a FRONT called "sleeve prints" and offers it in the wrong picker.
+  const extra = parts.length && EXTRA_LABEL.test(parts[parts.length - 1]) ? parts.pop()! : null;
   return {
     design: name.slice(0, i).trim(),
     type,
-    baseType: m ? m[1].trim() : type,
-    style: m ? m[2].trim() : null,
+    baseType: rest || type,
+    style: parts[0] ?? null,
+    extra,
   };
 }
 
@@ -184,14 +202,13 @@ export function imagesByColour(product: {
 
 /**
  * The fronts this same slogan is available on - chest mark vs AHA, the map mug
- * vs the layered one.
+ * vs the layered one. The decoration level is held steady.
  *
  * A title with no parenthetical is the plain version of the item, so it is
- * offered as "Standard" rather than being left out of the picker: the mug
- * range is one plain mug plus four variations of it.
+ * offered as "Standard" rather than being left out of the picker.
  */
 export async function getStyles(product: { name: string; category: string }) {
-  const { design, baseType } = splitName(product.name);
+  const { design, baseType, extra } = splitName(product.name);
   if (!baseType) return [];
   const rows = await prisma.product.findMany({
     where: { active: true, category: product.category, name: { startsWith: `${design} ${DASH} ${baseType}` } },
@@ -202,7 +219,43 @@ export async function getStyles(product: { name: string; category: string }) {
     .map((r) => ({ ...r, parts: splitName(r.name) }))
     .filter((r) => r.parts.baseType === baseType);
   if (!mine.some((r) => r.parts.style)) return [];
-  return mine.map((r) => ({ id: r.id, slug: r.slug, style: r.parts.style ?? 'Standard' }));
+
+  // One entry per front, preferring the one at the decoration level we are
+  // already looking at so switching front does not silently drop the sleeves.
+  const byStyle = new Map<string, { id: string; slug: string; style: string }>();
+  for (const r of mine) {
+    const style = r.parts.style ?? 'Standard';
+    if (!byStyle.has(style) || r.parts.extra === extra) {
+      byStyle.set(style, { id: r.id, slug: r.slug, style });
+    }
+  }
+  return [...byStyle.values()];
+}
+
+/**
+ * The decoration levels this exact design and front comes in - plain, or with
+ * the sleeve prints and neck label. Printify prices per print placement, so
+ * these are separate products with genuinely different prices.
+ */
+export async function getExtras(product: { name: string; category: string }) {
+  const { design, baseType, style } = splitName(product.name);
+  if (!baseType) return [];
+  const prefix = style ? `${design} ${DASH} ${baseType} (${style})` : `${design} ${DASH} ${baseType}`;
+  const rows = await prisma.product.findMany({
+    where: { active: true, category: product.category, name: { startsWith: prefix } },
+    select: { id: true, slug: true, name: true, price_cents: true },
+    orderBy: { name: 'asc' },
+  });
+  const mine = rows
+    .map((r) => ({ ...r, parts: splitName(r.name) }))
+    .filter((r) => r.parts.baseType === baseType && (r.parts.style ?? null) === (style ?? null));
+  if (mine.length < 2) return [];
+  return mine.map((r) => ({
+    id: r.id,
+    slug: r.slug,
+    extra: r.parts.extra ?? 'None',
+    price_cents: r.price_cents,
+  }));
 }
 
 /**

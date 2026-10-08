@@ -8,6 +8,7 @@ import ProductDetail from '@/components/store/ProductDetail';
 import {
   getProductBySlug,
   getSiblings,
+  getExtras,
   getStyles,
   imagesByColour,
   priceRange,
@@ -16,6 +17,7 @@ import {
 } from '@/lib/store';
 import DesignPicker from '@/components/store/DesignPicker';
 import StylePicker from '@/components/store/StylePicker';
+import ExtrasPicker from '@/components/store/ExtrasPicker';
 import { SITE_URL } from '@/lib/site';
 
 export const revalidate = 3600;
@@ -48,7 +50,11 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   if (!product) notFound();
 
   const category = storeCategory(product.category);
-  const [siblings, styles] = await Promise.all([getSiblings(product), getStyles(product)]);
+  const [siblings, styles, extras] = await Promise.all([
+    getSiblings(product),
+    getStyles(product),
+    getExtras(product),
+  ]);
   const { design, baseType, type } = splitName(product.name);
   const [from, to] = priceRange(product);
   const inStock =
@@ -125,10 +131,11 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 {baseType ?? product.name}
               </h1>
 
-              {(siblings.length > 1 || styles.length > 1) && (
+              {(siblings.length > 1 || styles.length > 1 || extras.length > 1) && (
                 <div className="mb-6 grid gap-4 sm:grid-cols-2">
                   {siblings.length > 1 && <DesignPicker current={product.slug} options={siblings} />}
                   {styles.length > 1 && <StylePicker current={product.slug} options={styles} />}
+                  {extras.length > 1 && <ExtrasPicker current={product.slug} options={extras} />}
                 </div>
               )}
             </>
