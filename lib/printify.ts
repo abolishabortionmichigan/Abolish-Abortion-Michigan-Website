@@ -1,7 +1,7 @@
 import 'server-only';
 import { variantIdOfImage } from './store-variants';
 import type { StoreCategory } from './store-categories';
-import { createHmac, timingSafeEqual } from 'crypto';
+import { createHash, createHmac, timingSafeEqual } from 'crypto';
 
 /*
  * Printify (print-on-demand), server side only.
@@ -193,6 +193,31 @@ function hasBackArt(p: PrintifyProduct): boolean {
 
 type Mockup = PrintifyProduct['images'][number];
 
+/**
+ * A short fingerprint of the artwork currently on a product.
+ *
+ * Printify re-renders a mockup IN PLACE when the artwork changes - same URL,
+ * different picture - so Vercel's image cache happily serves the old render
+ * for ages. Stripping the sleeve prints left shoppers looking at sleeve marks
+ * on a garment that no longer had them, and no amount of clearing their own
+ * browser cache could fix it, because the staleness was at the edge.
+ *
+ * Appending this to each URL means the artwork changing changes the URL, so
+ * the cache simply misses. Printify ignores the extra parameter.
+ */
+function artworkVersion(p: PrintifyProduct): string {
+  const parts: string[] = [];
+  for (const g of p.print_areas ?? []) {
+    for (const ph of g.placeholders ?? []) {
+      for (const img of ph.images ?? []) {
+        const i = img as { id?: string; scale?: number; x?: number; y?: number; angle?: number };
+        parts.push(`${ph.position}:${i.id}:${i.scale}:${i.x}:${i.y}:${i.angle}`);
+      }
+    }
+  }
+  return createHash('sha1').update(parts.sort().join('|')).digest('hex').slice(0, 8);
+}
+
 /** Order one set of mockups so the view that shows the art comes first. */
 function orderViews(p: PrintifyProduct, imgs: Mockup[], caps: [number, number, number]): Mockup[] {
   const by = (re: RegExp) => imgs.filter((i) => re.test(cameraLabel(i.src)));
@@ -254,6 +279,8 @@ export function pickImages(
   colourOf?: Map<number, string>,
   max = 8,
 ): string[] {
+  const version = artworkVersion(p);
+  const stamp = (src: string) => `${src}${src.includes('?') ? '&' : '?'}v=${version}`;
   const usable = p.images.filter(
     (i) => isPrintifyImage(i.src) && (i.variant_ids ?? []).some((id) => enabledIds.has(id)),
   );
@@ -262,7 +289,7 @@ export function pickImages(
     const lead = orderViews(p, usable, [4, 3, 1]);
     const seen = new Set(lead.map((i) => i.src));
     const rest = usable.filter((i) => !seen.has(i.src));
-    return [...new Set([...lead, ...rest].map((i) => i.src))].slice(0, max);
+    return [...new Set([...lead, ...rest].map((i) => i.src))].slice(0, max).map(stamp);
   }
 
   // Seed the groups in VARIANT order, so the gallery opens on the same colour
@@ -290,7 +317,7 @@ export function pickImages(
   for (const i of spare) out.push(i.src);
   // Four views x six colours. Anything past that is filler nobody scrolls to,
   // and every URL is a row in Product.images.
-  return [...new Set(out)].slice(0, Math.max(max, filled * 6));
+  return [...new Set(out)].slice(0, Math.max(max, filled * 6)).map(stamp);
 }
 
 export function isPrintifyImage(url: string): boolean {
