@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ImageOff } from 'lucide-react';
 import Breadcrumbs from '@/components/Breadcrumbs';
+import ViewCartBar from '@/components/store/ViewCartBar';
 import CTABanner from '@/components/CTABanner';
 import { STORE_CATEGORIES, getCategoryCovers } from '@/lib/store';
 import { isStripeConfigured } from '@/lib/stripe';
@@ -37,6 +38,7 @@ export default async function StorePage() {
       </section>
 
       <Breadcrumbs items={[{ label: 'Store' }]} />
+      <ViewCartBar />
 
       <section className="bg-white py-12">
         <div className="max-w-5xl mx-auto px-4">

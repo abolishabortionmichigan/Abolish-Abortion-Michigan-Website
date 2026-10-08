@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Breadcrumbs from '@/components/Breadcrumbs';
+import ViewCartBar from '@/components/store/ViewCartBar';
 import CTABanner from '@/components/CTABanner';
 import ProductDetail from '@/components/store/ProductDetail';
 import {
@@ -95,6 +96,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           { label: product.name },
         ]}
       />
+      <ViewCartBar />
 
       <section className="bg-white py-10 md:py-14">
         <ProductDetail

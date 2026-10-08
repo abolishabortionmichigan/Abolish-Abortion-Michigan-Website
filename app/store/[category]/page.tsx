@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Breadcrumbs from '@/components/Breadcrumbs';
+import ViewCartBar from '@/components/store/ViewCartBar';
 import CTABanner from '@/components/CTABanner';
 import ProductCard from '@/components/store/ProductCard';
 import {
@@ -54,6 +55,7 @@ export default async function StoreCategoryPage({
       </section>
 
       <Breadcrumbs items={[{ label: 'Store', href: '/store' }, { label: c.title }]} />
+      <ViewCartBar />
 
       <section className="bg-white py-12">
         <div className="max-w-6xl mx-auto px-4">
