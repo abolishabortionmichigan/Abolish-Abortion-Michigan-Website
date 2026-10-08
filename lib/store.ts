@@ -291,21 +291,33 @@ export async function getExtras(product: { name: string; category: string }) {
  * that slogan is available in.
  */
 export async function getSiblings(product: { id: string; name: string; category: string }) {
-  const { baseType, style } = splitName(product.name);
+  const { baseType, style, extra } = splitName(product.name);
   if (!baseType) return [];
   const rows = await prisma.product.findMany({
     where: { active: true, category: product.category, name: { contains: `${DASH} ${baseType}` } },
     select: { id: true, slug: true, name: true },
     orderBy: { name: 'asc' },
   });
-  const byDesign = new Map<string, { id: string; slug: string; design: string }>();
+
+  // One entry per design, carrying the current front and add-ons across where
+  // the design has them. Add-ons weigh heaviest: changing slogan must never
+  // silently switch on a paid extra, which it did - every hoodie has a null
+  // front, so "same front" matched everything and the last name alphabetically
+  // won, which is the one with the right sleeve printed.
+  const score = (p: ReturnType<typeof splitName>) =>
+    ((p.extra ?? null) === (extra ?? null) ? 4 : 0) + (p.style === style ? 2 : 0);
+
+  const byDesign = new Map<string, { id: string; slug: string; design: string; score: number }>();
   for (const r of rows) {
     const parts = splitName(r.name);
     if (parts.baseType !== baseType) continue;
-    const entry = { id: r.id, slug: r.slug, design: parts.design };
-    if (!byDesign.has(parts.design) || parts.style === style) byDesign.set(parts.design, entry);
+    const s = score(parts);
+    const held = byDesign.get(parts.design);
+    if (!held || s > held.score) {
+      byDesign.set(parts.design, { id: r.id, slug: r.slug, design: parts.design, score: s });
+    }
   }
-  return [...byDesign.values()];
+  return [...byDesign.values()].map(({ score: _s, ...rest }) => rest);
 }
 
 export function priceRange(p: { price_cents: number; variants: { price_cents: number | null }[] }): [number, number] {
