@@ -48,6 +48,10 @@ Everything downstream is derived from this at query time — listing groups, the
 
 Strip anything ending `.svg` from placeholders you copy through.
 
+**Keep `decoration_method` when you copy a placeholder through.** It is how Printify knows a print is dtg, dtf, dye-sublimation, uv or digital-printing — one product can mix several, and the sleeve prints, mugs and phone cases all differ from the shirts. Reducing each image to `{id,x,y,scale,angle}` and dropping the rest looks tidy and silently changes how the item prints. The same goes for `background` and the `font_*` fields on the print area. Send back everything you were given; only rewrite the image ids you mean to change.
+
+**You cannot enumerate your own uploads.** `uploads.json` returns only the 50 most recent — `total: 50`, `last_page: 1`, no matter how many you have. To find the id of an image already on a product, read it off the *product*: every placeholder image carries its original `name`. Uploads are also immutable, so replacing artwork means a new id under a new name; after a few passes the same design exists as `tee-back`, `col-tee-back`, `w2-tee-back`. Keep an alias map or you will conclude the art is missing.
+
 **The paged listing returns duplicates while the catalogue is being written.** It pages by offset, so a product created or renamed mid-read appears on two pages. We saw **827 rows for 818 products**. The importer tried to create one twice, hit the unique constraint on `printify_product_id`, and **failed the entire sync**. Always dedupe by id after fetching.
 
 **A `limit` above the maximum returns an empty list, not an error.**
@@ -59,6 +63,8 @@ Strip anything ending `.svg` from placeholders you copy through.
 **Rate limits bite on bulk work.** Expect 429s on a few hundred sequential reads. Back off exponentially and cap concurrency at about three.
 
 ### Mockups
+
+**Re-rendering is asynchronous and in place.** Change the artwork and the mockup URLs do not change — Printify regenerates the images behind the same URLs over the following minutes, camera angle by camera angle. So a mockup pulled straight after the write can still show the old print. If your image URLs carry a cache-busting fingerprint, that is exactly when a CDN will fetch and cache a *stale* render under the *new* fingerprint. Give it a few minutes before judging a change, and before warming any cache.
 
 The URL structure is useful:
 
