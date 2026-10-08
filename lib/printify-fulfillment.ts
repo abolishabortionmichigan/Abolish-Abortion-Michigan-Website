@@ -120,7 +120,21 @@ async function sendToProduction(orderId: string): Promise<Result> {
   const order = await loadOrder(orderId);
   if (!order?.printify_order_id) return { ok: false, error: 'This order is not in Printify yet.' };
   try {
-    await sendPrintifyOrderToProduction(order.printify_order_id);
+    // Printify creates an order as "pending" and refuses production until it
+    // has finished validating, which takes a few seconds - so submitting
+    // straight after creating fails every time (code 8502). Give it a couple
+    // of short retries. Bounded on purpose: this runs inside the Stripe
+    // webhook, which must still answer quickly.
+    for (let attempt = 1; ; attempt++) {
+      try {
+        await sendPrintifyOrderToProduction(order.printify_order_id);
+        break;
+      } catch (e) {
+        const stillPending = /8502|with status pending/i.test(message(e));
+        if (!stillPending || attempt >= 3) throw e;
+        await new Promise((r) => setTimeout(r, attempt * 2500));
+      }
+    }
     await prisma.order.update({ where: { id: order.id }, data: { printify_status: 'sent', fulfillment_error: null } });
     return { ok: true, note: 'Sent to Printify for printing.' };
   } catch (e) {
@@ -171,6 +185,21 @@ export async function handlePrintifyEvent(event: PrintifyEvent): Promise<string>
   switch (event.type) {
     case 'order:updated': {
       const status = typeof data.status === 'string' ? data.status : '';
+
+      // Safety net if the retries above still lost the race: Printify is
+      // telling us the order has left "pending", so push it now. This has to
+      // come before the no-change return - our record already says on-hold,
+      // and that early exit is why a stuck order never healed itself.
+      if (
+        status === 'on-hold' &&
+        order.fulfillment_error &&
+        process.env.PRINTIFY_HOLD_ORDERS !== 'true' &&
+        !IN_PRODUCTION.has(order.printify_status ?? '')
+      ) {
+        const retried = await sendToProduction(order.id);
+        if (retried.ok) return 'sent to production on retry';
+      }
+
       if (!status || status === order.printify_status) return 'no change';
       await prisma.order.update({ where: { id: order.id }, data: { printify_status: status } });
       if (PROBLEM.has(status) || (status === 'on-hold' && IN_PRODUCTION.has(order.printify_status ?? ''))) {
