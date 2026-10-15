@@ -18,6 +18,7 @@ import {
 import DesignPicker from '@/components/store/DesignPicker';
 import StylePicker from '@/components/store/StylePicker';
 import ExtrasPicker from '@/components/store/ExtrasPicker';
+import RangeLinks from '@/components/store/RangeLinks';
 import { SITE_URL } from '@/lib/site';
 
 export const revalidate = 3600;
@@ -147,6 +148,14 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 <h2 className="mb-2 text-lg font-bold text-gray-900">About this item</h2>
                 <p className="whitespace-pre-line text-gray-700">{product.description}</p>
               </div>
+
+              <RangeLinks
+                baseType={baseType ?? product.name}
+                current={product.slug}
+                siblings={siblings}
+                styles={styles}
+                extras={extras}
+              />
 
               <p className="mt-6 text-sm text-gray-500">
                 Most items are printed to order and ship directly from the printer.{' '}

@@ -61,3 +61,46 @@ node scripts/google-ads/build-campaigns.mjs
 - Every keyword ≥ 2 words (no single-word or overly-generic terms)
 
 If Google Ads later rejects any keyword for Grants-specific reasons, edit `plan.mjs` and re-run — the builder is idempotent on already-created campaigns and will only add what's missing.
+
+## The refresh token keeps dying — publish the consent screen
+
+Both the Ads scripts and `scripts/search-console/` fail with
+`invalid_grant` / `"Bad Request"` every week or so. That is not a bug in
+the scripts: the OAuth consent screen is in **Testing**, and Google
+expires refresh tokens for Testing apps after **seven days**
+([publishing status docs](https://support.google.com/cloud/answer/10311615)).
+
+**Recover access** (needs a browser, so it has to be the user):
+
+```bash
+node scripts/google-ads/get-refresh-token.mjs
+```
+
+It prints a consent URL and listens on `127.0.0.1:3737`. Open the URL,
+click through the "Google hasn't verified this app" warning, approve, and
+it rewrites `GOOGLE_ADS_REFRESH_TOKEN` in `.env.local` itself.
+
+**Stop it recurring** — console only; there is no gcloud command or API
+for this:
+
+1. Open the Google Auth Platform **Audience** page for the project that
+   owns the OAuth client (project number `89448349439`):
+   https://console.cloud.google.com/auth/audience?project=89448349439
+2. Click **Publish app** and confirm, so Publishing status reads
+   **In production** instead of **Testing**.
+
+Refresh tokens then stop expiring on a timer. The app stays *unverified*,
+so the "unverified app" warning still appears on the consent screen —
+that is cosmetic and does not block anything, because `adwords` and
+`webmasters.readonly` are *sensitive* scopes, not *restricted* ones.
+Verification is only needed to remove the warning or to go past 100
+users. If the owning Google account is ever moved onto Google Workspace,
+switching User Type to **Internal** removes both the expiry and the
+warning.
+
+### Developer token is at Explorer access
+
+`KeywordPlanIdeaService` (search-volume research) returns
+`authorization_error: 10 — "not allowed for use with explorer access"`.
+Everything else in these scripts works. Apply for **Basic** access in the
+Ads API Center on the manager account to unblock keyword research.
