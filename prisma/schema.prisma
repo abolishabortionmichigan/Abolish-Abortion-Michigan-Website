@@ -187,3 +187,42 @@ model OrderItem {
 
   @@index([order_id])
 }
+
+/*
+ * Topping up the Stripe balance from the admin with a debit card.
+ *
+ * NOT a donation and not store revenue: this is the operator putting working
+ * capital into the account (it backs the card Printify charges for print-on-
+ * demand). Kept in its own table precisely so it never lands in Order and
+ * inflates sales figures. Public gifts still go through Zeffy at 0% -- see
+ * lib/stripe.ts.
+ *
+ * No card details are stored here or anywhere else in this schema. Stripe's
+ * hosted Checkout page collects the card; this row holds amounts, the session
+ * and PaymentIntent ids, and nothing else.
+ */
+model Funding {
+  id                    String    @id @default(uuid())
+  // Human-readable, e.g. FUND-7K2Q9D.
+  reference             String    @unique
+  // pending (checkout started) | paid | cancelled
+  status                String    @default("pending")
+  // What the card was charged.
+  amount_cents          Int
+  // Stripe's cut and what actually reached the balance, read from the balance
+  // transaction once the charge settles. Null until paid, and null if that
+  // lookup fails -- a missing fee must never block recording the money.
+  fee_cents             Int?
+  net_cents             Int?
+  note                  String?
+  // Dedup key: one Checkout Session can only ever settle one funding row.
+  stripe_session_id     String?   @unique
+  stripe_payment_intent String?
+  // Admin email off the JWT, so the ledger records who added the funds.
+  created_by            String?
+  paid_at               DateTime?
+  created_at            DateTime  @default(now())
+  updated_at            DateTime  @default(now()) @updatedAt
+
+  @@index([status, created_at])
+}

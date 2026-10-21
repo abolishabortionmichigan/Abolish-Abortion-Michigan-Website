@@ -18,6 +18,10 @@ import { settleSession } from '@/lib/settlement';
  *   checkout.session.expired
  * and put the signing secret in STRIPE_WEBHOOK_SECRET.
  *
+ * Also settles admin debit-card top-ups of the Stripe balance, which are
+ * Checkout sessions tagged kind=funding and go through the same
+ * settleSession() dispatch.
+ *
  * No donation events are handled: AAM takes gifts through Zeffy, not Stripe.
  */
 
@@ -58,6 +62,13 @@ export async function POST(req: NextRequest) {
           await prisma.order.updateMany({
             where: { id: session.metadata.order_id, status: 'pending' },
             data: { status: 'cancelled', admin_note: note },
+          });
+        }
+        if (session.metadata?.kind === 'funding' && session.metadata.funding_id) {
+          // Leaves the admin's own note alone; the status is the signal.
+          await prisma.funding.updateMany({
+            where: { id: session.metadata.funding_id, status: 'pending' },
+            data: { status: 'cancelled' },
           });
         }
         break;
