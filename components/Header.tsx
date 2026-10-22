@@ -6,6 +6,7 @@ import { useState, useRef, useCallback } from 'react';
 import { usePathname } from 'next/navigation';
 import MobileNav from './MobileNav';
 import CartLink from './store/CartLink';
+import { STORE_HIDDEN } from '@/lib/store-visibility';
 
 const navItems = [
   { label: 'HOME', href: '/' },
@@ -62,6 +63,16 @@ const navItems = [
   { label: 'STORE', href: '/store' },
   { label: 'CONTACT US', href: '/contact' },
 ];
+
+/*
+ * Store entry comes out of the nav while the storefront is hidden. The pages
+ * behind it are gated in proxy.ts, so leaving the link up would just walk
+ * people into the holding page. The array above is left whole so reopening is
+ * one env var, not an edit.
+ */
+const visibleNavItems = STORE_HIDDEN
+  ? navItems.filter((item) => item.href !== '/store')
+  : navItems;
 
 function isCurrentPage(pathname: string, href: string): boolean {
   if (href === '/') return pathname === '/';
@@ -182,7 +193,7 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden xl:flex items-center" aria-label="Main navigation">
-            {navItems.map((item) => (
+            {visibleNavItems.map((item) => (
               <div
                 key={item.label}
                 className="relative"
@@ -228,7 +239,7 @@ export default function Header() {
                 )}
               </div>
             ))}
-            <CartLink className="ml-1" />
+            {!STORE_HIDDEN && <CartLink className="ml-1" />}
             <Link
               href="/donate"
               className="ml-1 2xl:ml-2 px-3 2xl:px-6 py-4 bg-red-700 text-white text-[11px] 2xl:text-xs font-bold hover:bg-red-800 transition-colors tracking-wide whitespace-nowrap"
@@ -240,7 +251,7 @@ export default function Header() {
 
           {/* Mobile Menu Button */}
           <div className="xl:hidden ml-auto flex items-center">
-            <CartLink />
+            {!STORE_HIDDEN && <CartLink />}
           <button
             className="xl:hidden p-2"
             onClick={() => setMobileMenuOpen(true)}
@@ -260,7 +271,7 @@ export default function Header() {
       <MobileNav
         isOpen={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
-        navItems={navItems}
+        navItems={visibleNavItems}
       />
     </header>
   );

@@ -3,6 +3,7 @@ import { getAllNewsArticles } from '@/lib/data/news-store';
 import { getLegislators } from '@/lib/data/legislators';
 import { CITIES } from '@/lib/data/cities';
 import { STORE_CATEGORIES, getActiveProducts } from '@/lib/store';
+import { STORE_HIDDEN } from '@/lib/store-visibility';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.abolishabortionmichigan.com';
 
@@ -174,26 +175,40 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const storeUpdated = productStamps.length ? new Date(Math.max(...productStamps)) : undefined;
   const dated = storeUpdated ? { lastModified: storeUpdated } : {};
 
+  /*
+   * The storefront itself drops out while STORE_HIDDEN is set -- listing URLs
+   * that answer with a holding page only invites Google to crawl ~700 of them
+   * and record the result. The two policy pages stay: they are real, public
+   * and unaffected by whether the shop is taking orders.
+   */
+  const storefront: MetadataRoute.Sitemap = STORE_HIDDEN
+    ? []
+    : [
+        { url: `${BASE_URL}/store`, ...dated, changeFrequency: 'weekly', priority: 0.6 },
+        ...STORE_CATEGORIES.map((c) => ({
+          url: `${BASE_URL}/store/${c.slug}`,
+          ...dated,
+          changeFrequency: 'weekly' as const,
+          priority: 0.5,
+        })),
+      ];
+
   const storePages: MetadataRoute.Sitemap = [
-    { url: `${BASE_URL}/store`, ...dated, changeFrequency: 'weekly', priority: 0.6 },
-    ...STORE_CATEGORIES.map((c) => ({
-      url: `${BASE_URL}/store/${c.slug}`,
-      ...dated,
-      changeFrequency: 'weekly' as const,
-      priority: 0.5,
-    })),
+    ...storefront,
     { url: `${BASE_URL}/shipping-returns`, changeFrequency: 'yearly' as const, priority: 0.3 },
     // Terms of sale. Linked from every product page but, like /abortion-mills,
     // was never listed here.
     { url: `${BASE_URL}/terms`, changeFrequency: 'yearly' as const, priority: 0.3 },
   ];
 
-  const productPages: MetadataRoute.Sitemap = products.map((p) => ({
-    url: `${BASE_URL}/store/product/${p.slug}`,
-    ...(p.updated_at ? { lastModified: p.updated_at } : {}),
-    changeFrequency: 'weekly' as const,
-    priority: 0.5,
-  }));
+  const productPages: MetadataRoute.Sitemap = STORE_HIDDEN
+    ? []
+    : products.map((p) => ({
+        url: `${BASE_URL}/store/product/${p.slug}`,
+        ...(p.updated_at ? { lastModified: p.updated_at } : {}),
+        changeFrequency: 'weekly' as const,
+        priority: 0.5,
+      }));
 
   return [
     ...staticPages,

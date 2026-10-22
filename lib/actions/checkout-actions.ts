@@ -8,8 +8,18 @@ import { checkRateLimit } from '@/lib/rate-limit';
 import { getClientIpFromHeaders } from '@/lib/client-ip';
 import { newOrderNumber } from '@/lib/store';
 import { SITE_URL, ORG_NAME } from '@/lib/site';
+import { STORE_HIDDEN } from '@/lib/store-visibility';
+import { getAuthToken, verifyToken } from './auth-actions';
 
 type Result = { ok: true; url: string } | { ok: false; error: string };
+
+/** Same admin check the dashboard uses. Fails closed. */
+async function isAdmin(): Promise<boolean> {
+  const token = await getAuthToken();
+  if (!token) return false;
+  const result = await verifyToken(token);
+  return result.authorized && result.user?.role === 'admin';
+}
 
 const MAX_LINES = 30;
 const MAX_QTY = 25;
@@ -29,6 +39,16 @@ const MAX_QTY = 25;
 export async function startCheckout(input: {
   lines: { productId: string; variantId: string | null; quantity: number }[];
 }): Promise<Result> {
+  /*
+   * Belt and braces while the store is hidden. A server action POSTs to the
+   * route it was rendered from, so proxy.ts already turns these away at the
+   * edge -- but this is the call that takes money and creates an order, so it
+   * refuses on its own rather than trusting a matcher to stay correct.
+   */
+  if (STORE_HIDDEN && !(await isAdmin())) {
+    return { ok: false, error: 'The store is not open yet. Please check back soon.' };
+  }
+
   const stripe = getStripe();
   if (!stripe) return { ok: false, error: 'The store is not open yet. Please check back soon.' };
 
